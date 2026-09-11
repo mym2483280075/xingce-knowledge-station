@@ -1,0 +1,1572 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>政治理论 · 行测知识工作站</title>
+<style>
+:root{
+  --primary:#0d6e8a; --primary2:#14919b; --accent:#2ca58d; --bg:#eef5f4;
+  --fill-bg:#fff7d6; --fill-ink:#8a5a00; --fill-line:#e8b931;
+}
+html[data-theme="red"]{
+  --primary:#b91c1c; --primary2:#dc2626; --accent:#f59e0b; --bg:#faf5f2;
+  --fill-bg:#fef3c7; --fill-ink:#92400e; --fill-line:#f59e0b;
+}
+html[data-theme="teal"]{
+  --primary:#0d6e8a; --primary2:#14919b; --accent:#2ca58d; --bg:#eef5f4;
+  --fill-bg:#fef9c3; --fill-ink:#854d0e; --fill-line:#eab308;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:"PingFang SC","Microsoft YaHei","Noto Sans CJK SC","Hiragino Sans GB",sans-serif;color:#1f2937;background:var(--bg);line-height:1.8;font-size:15px}
+header{background:linear-gradient(135deg,var(--primary) 0%,var(--primary2) 65%,var(--accent) 130%);color:#fff;padding:30px 26px 24px;text-align:center}
+header h1{margin:0;font-size:27px;letter-spacing:1px}
+header .en{margin-top:3px;font-size:11.5px;letter-spacing:.22em;opacity:.8}
+header .intro{margin:12px auto 0;max-width:820px;font-size:13px;opacity:.93;line-height:1.7}
+header .meta{margin-top:12px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;font-size:12px}
+header .meta span{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:2px 12px}
+.toolbar{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);border-bottom:1px solid #e5e7eb;padding:9px 16px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.toolbar input{flex:1;min-width:180px;max-width:460px;padding:8px 14px;border:1px solid #d1d5db;border-radius:999px;font-size:13.5px;outline:none}
+.toolbar input:focus{border-color:var(--primary)}
+.btn{border:1px solid #d1d5db;background:#fff;border-radius:999px;padding:7px 14px;font-size:12.5px;cursor:pointer;color:#374151;white-space:nowrap}
+.btn:hover{border-color:var(--primary);color:var(--primary)}
+.btn.on{background:var(--primary);border-color:var(--primary);color:#fff}
+.hitcount{font-size:12px;color:#6b7280;white-space:nowrap}
+.layout{display:flex;max-width:1240px;margin:0 auto;padding:20px 18px 70px;gap:22px;align-items:flex-start}
+nav.toc{position:sticky;top:64px;flex:0 0 264px;max-height:calc(100vh - 84px);overflow:auto;background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:14px 12px;font-size:12.5px}
+nav.toc .t-pian{font-weight:800;color:var(--primary);margin:12px 4px 4px;font-size:13px;border-top:2px solid var(--accent);padding-top:8px}
+nav.toc .t-pian:first-child{border-top:0;margin-top:0;padding-top:0}
+nav.toc .t-zhang{font-weight:600;color:#4b5563;margin:6px 4px 2px;padding-left:6px}
+nav.toc a.t-item{display:block;padding:3px 6px 3px 16px;border-radius:6px;color:#6b7280;text-decoration:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+nav.toc a.t-item:hover{background:#f3f4f6;color:var(--primary)}
+nav.toc a.t-item.active{background:color-mix(in srgb,var(--primary) 10%,#fff);color:var(--primary);font-weight:600}
+main{flex:1;min-width:0}
+.kp{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:18px 22px 14px;margin-bottom:18px;box-shadow:0 1px 6px rgba(0,0,0,.04);scroll-margin-top:70px}
+.kp-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-left:4px solid var(--primary);padding-left:12px}
+.kp-head h3{margin:0;font-size:17.5px;color:var(--primary);flex:1;min-width:200px}
+.chips{display:flex;gap:6px}
+.chip{font-size:11px;border-radius:999px;padding:1px 9px;font-weight:600}
+.chip.b{background:var(--fill-bg);color:var(--fill-ink);border:1px solid var(--fill-line)}
+.chip.k{background:#eff6ff;color:#1d4ed8;border:1px solid #93c5fd}
+.chip.m{background:#f0fdf4;color:#15803d;border:1px solid #86efac}
+.kp-crumb{font-size:11.5px;color:#9ca3af;margin:4px 0 8px;padding-left:16px}
+.kp-body p{margin:4px 0;text-align:justify}
+.kp-body h4.sub1{margin:14px 0 4px;font-size:15.5px;color:var(--primary)}
+.kp-body h5.sub2{margin:10px 0 2px;font-size:14.5px;color:#374151}
+.kp-body h5.sub3{margin:8px 0 2px;font-size:14px;color:#4b5563;font-weight:600}
+.ext-tag{display:inline-block;margin:10px 0 2px;font-size:12px;font-weight:700;color:#7c3aed;background:#f5f3ff;border:1px solid #ddd6fe;border-radius:6px;padding:1px 10px}
+mark.fill{background:var(--fill-bg);color:var(--fill-ink);font-weight:700;padding:0 4px;border-radius:4px;border-bottom:2px solid var(--fill-line)}
+span.blank{color:#cbd5e1;letter-spacing:2px;border-bottom:1px dashed #94a3b8}
+body.selftest mark.fill{color:transparent;text-shadow:0 0 9px rgba(0,0,0,.28);background:#e5e7eb;border-bottom-color:#9ca3af;cursor:pointer;transition:.15s}
+body.selftest mark.fill:hover,body.selftest mark.fill.show{color:var(--fill-ink);text-shadow:none;background:var(--fill-bg);border-bottom-color:var(--fill-line)}
+.qblock{margin:14px 0 6px;border-radius:10px;padding:10px 14px;font-size:14px}
+.qblock p{margin:3px 0}
+.kcq{background:#f8fafc;border:1px solid #dbe3ee}
+.mtq{background:#fbfefc;border:1px solid #d3ead9}
+.qtag{display:inline-block;font-size:11.5px;font-weight:700;border-radius:6px;padding:1px 10px;margin-bottom:4px}
+.kcq .qtag{background:#e0ecff;color:#1d4ed8}
+.mtq .qtag{background:#dcf5e3;color:#15803d}
+.opt{padding-left:18px;color:#374151}
+details.ans{margin-top:8px}
+details.ans summary{cursor:pointer;font-size:12.5px;font-weight:700;color:var(--primary);user-select:none}
+details.ans .ans-body{margin-top:4px;background:#fff;border:1px dashed var(--accent);border-radius:8px;padding:6px 12px;font-size:13.5px}
+mark.shl{background:#fde047;color:#111;padding:0 1px;border-radius:3px}
+.kp.hidden{display:none}
+.backtop{position:fixed;right:18px;bottom:18px;z-index:60;border:0;border-radius:50%;width:44px;height:44px;background:var(--primary);color:#fff;font-size:18px;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.22);display:none}
+.backtop.show{display:block}
+@media(max-width:900px){
+  .layout{flex-direction:column}
+  nav.toc{position:static;width:100%;flex:none;max-height:300px}
+}
+/* ===== 表格（依据《消化清单》正文表格补充） ===== */
+.kp-body table.tbl{width:100%;border-collapse:collapse;margin:10px 0 14px;font-size:13.5px;line-height:1.75}
+.kp-body table.tbl th,.kp-body table.tbl td{border:1px solid #dbe3ee;padding:6px 10px;vertical-align:top;text-align:left}
+.kp-body table.tbl th{background:#f2f7fd;color:var(--primary);font-weight:700;white-space:nowrap}
+.kp-body table.tbl td{color:#374151}
+.kp-body table.tbl tr:nth-child(even) td{background:#fbfcfe}
+@media print{
+  nav.toc,.toolbar,.backtop{display:none}
+  .kp{break-inside:avoid;border:1px solid #ddd;box-shadow:none}
+  body{background:#fff}
+  details.ans .ans-body{display:block}
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>政治理论</h1>
+  <div class="en">POLITICAL THEORY</div>
+  <div class="intro">依据《消化清单》归纳整理，空白处已用《理论讲练》考点精析原文填入并高亮标记；附考场传真真题与母题特训自测（答案附后）。</div>
+  <div class="meta">
+    <span>知识点 39 个</span>
+    <span>重点填空 598/598</span>
+    <span>考场传真 39 组</span>
+  </div>
+</header>
+<div class="toolbar">
+  <input id="q" placeholder="搜索本板块知识点 / 关键词，回车定位…">
+  <span class="hitcount" id="hitcount"></span>
+  <button class="btn" id="selftest">自测模式：关</button>
+  <button class="btn" id="openans">展开全部答案</button>
+  <button class="btn" id="closeall">收起卡片</button>
+</div>
+<div class="layout">
+  <nav class="toc" id="toc"><div class="t-pian">第一篇《习近平新时代中国特色社会主义思想》</div>
+<div class="t-zhang">第一章总论</div>
+<a class="t-item" href="#kp-0" data-t="知识点1 习近平新时代中国特色社会主义的核心要义">知识点1 习近平新时代中国特色社会主义的核心要义</a>
+<a class="t-item" href="#kp-1" data-t="知识点2 习近平新时代中国特色社会主义思想是“两个结合”的重大成果">知识点2 习近平新时代中国特色社会主义思想是“两个结合”的重大成果</a>
+<a class="t-item" href="#kp-2" data-t="知识点3 习近平新时代中国特色社会主义思想的科学体系">知识点3 习近平新时代中国特色社会主义思想的科学体系</a>
+<a class="t-item" href="#kp-3" data-t="知识点4 以中国式现代化全面推进中华民族伟大复兴">知识点4 以中国式现代化全面推进中华民族伟大复兴</a>
+<div class="t-zhang">第二章分论</div>
+<a class="t-item" href="#kp-4" data-t="第一节党的全面领导">第一节党的全面领导</a>
+<a class="t-item" href="#kp-5" data-t="第二节以人民为中心">第二节以人民为中心</a>
+<a class="t-item" href="#kp-6" data-t="知识点1 把握新发展阶段贯彻新发展理念构建新发展格局">知识点1 把握新发展阶段贯彻新发展理念构建新发展格局</a>
+<a class="t-item" href="#kp-7" data-t="知识点2 坚持和完善基本经济制度是实现高质量发展的保障">知识点2 坚持和完善基本经济制度是实现高质量发展的保障</a>
+<a class="t-item" href="#kp-8" data-t="知识点3 建设现代化经济体系是推动高质量发展的必然要求">知识点3 建设现代化经济体系是推动高质量发展的必然要求</a>
+<a class="t-item" href="#kp-9" data-t="第四节发展全过程人民民主">第四节发展全过程人民民主</a>
+<a class="t-item" href="#kp-10" data-t="第五节建设社会主义文化强国">第五节建设社会主义文化强国</a>
+<a class="t-item" href="#kp-11" data-t="第六节保障和改善民生">第六节保障和改善民生</a>
+<a class="t-item" href="#kp-12" data-t="第七节社会主义生态文明">第七节社会主义生态文明</a>
+<a class="t-item" href="#kp-13" data-t="第八节全面深化改革">第八节全面深化改革</a>
+<a class="t-item" href="#kp-14" data-t="第九节全面依法治国">第九节全面依法治国</a>
+<a class="t-item" href="#kp-15" data-t="第十节全面从严治党">第十节全面从严治党</a>
+<a class="t-item" href="#kp-16" data-t="第十一节社会主义现代化建设的教育、科技、人才战略">第十一节社会主义现代化建设的教育、科技、人才战略</a>
+<a class="t-item" href="#kp-17" data-t="第十二节总体国家安全观">第十二节总体国家安全观</a>
+<a class="t-item" href="#kp-18" data-t="第十三节巩固国防和强大人民军队">第十三节巩固国防和强大人民军队</a>
+<a class="t-item" href="#kp-19" data-t="第十四节坚持“一国两制”和推进祖国完全统一">第十四节坚持“一国两制”和推进祖国完全统一</a>
+<a class="t-item" href="#kp-20" data-t="第十五节中国特色大国外交">第十五节中国特色大国外交</a>
+<div class="t-pian">第二篇《马克思主义基本原理》</div>
+<a class="t-item" href="#kp-21" data-t="知识点1 马克思主义概述">知识点1 马克思主义概述</a>
+<a class="t-item" href="#kp-22" data-t="知识点2 两大哲学派别">知识点2 两大哲学派别</a>
+<a class="t-item" href="#kp-23" data-t="知识点3 物质与意识">知识点3 物质与意识</a>
+<a class="t-item" href="#kp-24" data-t="知识点4 唯物辩证法的总特征">知识点4 唯物辩证法的总特征</a>
+<a class="t-item" href="#kp-25" data-t="知识点5 对立统一规律">知识点5 对立统一规律</a>
+<a class="t-item" href="#kp-26" data-t="知识点6 量变质变规律">知识点6 量变质变规律</a>
+<a class="t-item" href="#kp-27" data-t="知识点7 否定之否定规律">知识点7 否定之否定规律</a>
+<a class="t-item" href="#kp-28" data-t="知识点8 实践与认识">知识点8 实践与认识</a>
+<a class="t-item" href="#kp-29" data-t="知识点9 认识的辩证过程">知识点9 认识的辩证过程</a>
+<a class="t-item" href="#kp-30" data-t="知识点10 真理">知识点10 真理</a>
+<a class="t-item" href="#kp-31" data-t="知识点11 社会存在与社会意识">知识点11 社会存在与社会意识</a>
+<a class="t-item" href="#kp-32" data-t="知识点12 社会发展的基本规律">知识点12 社会发展的基本规律</a>
+<a class="t-item" href="#kp-33" data-t="知识点13 人民群众在历史发展中的作用">知识点13 人民群众在历史发展中的作用</a>
+<a class="t-item" href="#kp-34" data-t="知识点14 商品及其二因素">知识点14 商品及其二因素</a>
+<a class="t-item" href="#kp-35" data-t="知识点15 劳动二重性">知识点15 劳动二重性</a>
+<a class="t-item" href="#kp-36" data-t="知识点16 商品的价值量">知识点16 商品的价值量</a>
+<a class="t-item" href="#kp-37" data-t="知识点17 货币本质和职能">知识点17 货币本质和职能</a>
+<a class="t-item" href="#kp-38" data-t="知识点18 剩余价值理论">知识点18 剩余价值理论</a></nav>
+  <main id="main"><section class="kp" id="kp-0" data-title="知识点1 习近平新时代中国特色社会主义的核心要义"><div class="kp-head"><h3>知识点1 习近平新时代中国特色社会主义的核心要义</h3><div class="chips"><span class="chip b">填空 13/13</span><span class="chip k">真题</span><span class="chip m">自测</span></div></div><div class="kp-crumb">第一篇《习近平新时代中国特色社会主义思想》 · 第一章总论</div><div class="kp-body"><p><mark class="fill">坚持和发展中国特色社会主义</mark>，是改革开放以来我们党全部理论和实践的鲜明主题，也是习近平新时代中国特色社会主义思想的核心要义。</p>
+<p>1982 年召开的中共<mark class="fill">十二大</mark>，邓小平提出：“走自己的道路，建设有中国特色的社会主义。”改革开放以来我们取得一切成绩和进步的根本原因，归结起来就是：开辟了中国特色社会主义道路，形成了中国特色社会主义理论体系，确立了中国特色社会主义制度，发展了中国特色社会主义文化。</p>
+<p>党的<mark class="fill">十八大</mark>以来，以习近平同志为核心的党中央领导全党全国各族人民开创了中国特色社会主义新时代，实现了具有里程碑意义的伟大变革。党的<mark class="fill">十九大</mark>作出中国特色社会主义进入新时代这个重大政治论断。新时代坚持和发展中国特色社会主义，必须坚定道路自信、理论自信、制度自信、文化自信。<mark class="fill">文化自信</mark>是更基础、更广泛、更深厚的自信，是一个国家、一个民族发展中最基本、最深沉、最持久的力量。</p>
+<h5 class="sub2">1.中国特色社会主义进入新时代的内涵</h5>
+<p>新时代是在新的历史条件下继续夺取中国特色社会主义伟大胜利的时代。</p>
+<p>新时代是决胜全面<mark class="fill">建成小康社会</mark>、进而全面<mark class="fill">建设社会主义现代化强国</mark>的时代。</p>
+<p>新时代是全国各族人民不断创造美好生活、逐步实现全体人民<mark class="fill">共同富裕</mark>的时代。</p>
+<p>新时代是全体中华儿女勠力同心、奋力实现中华民族伟大复兴中国梦的时代。</p>
+<p>新时代是我国不断为人类作出更大贡献的时代。</p>
+<h5 class="sub2">2.中国特色社会主义进入新时代的依据</h5>
+<h5 class="sub3">（1）中国特色社会主义进入新时代，是我国社会主要矛盾发生新变化的反映</h5>
+<p>我国社会主要矛盾的变化是我们党作出中国特色社会主义进入新时代重大政治论断的<mark class="fill">基本依据</mark>。党的十九大报告指出，我国社会主要矛盾已经转化为人民日益增长的美好生活需要和<mark class="fill">不平衡不充分</mark>的发展之间的矛盾。</p>
+<p>新时代我国社会主要矛盾的变化，没有改变对我国社会主义所处历史阶段的判断。我国仍处于并将长期处于<mark class="fill">社会主义初级阶段</mark>的基本国情没有变，我国是世界<mark class="fill">最大发展中国家</mark>的国际地位没有变。</p>
+<h5 class="sub3">（2）中国特色社会主义进入新时代，是党的主要任务发生新变化的反映</h5>
+<p>党的十八大后，党面临的主要任务是，实现<mark class="fill">第一个百年奋斗</mark>目标，开启实现第二个百年奋斗目标新征程。</p>
+<h5 class="sub3">（3）中国特色社会主义进入新时代，是中国和世界关系发生新变化的反映</h5>
+<p>当今时代，世界进入新的动荡变革期，世界百年未有之大变局和中华民族伟大复兴战略全局相互交织、深度互动，中国同国际社会的联系空前紧密，中国对世界的依靠、对国际事务的参与在不断加深，世界对中国的依靠、对中国的影响也在不断加深。</p></div><div class="qblock kcq"><div class="qtag">考场传真 · 真题</div><p>（单选）党的十八大以来，以习近平同志为核心的党中央，紧密结合新的时代条件和实践要求，以全新的视野深化对共产党执政规律、社会主义建设规律、人类社会发展规律的认识，创立了习近平新时代中国特色社会主义思想，其核心要义是：</p>
+<div class="opt">A.中国特色社会主义进入了新时代</div>
+<div class="opt">B.实现社会主义现代化和中华民族伟大复兴</div>
+<div class="opt">C.坚持和发展中国特色社会主义</div>
+<div class="opt">D.坚持以人民为中心的发展思想</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>C</b></div></details></div><div class="qblock mtq"><div class="qtag">母题特训 · 自测</div><p>（单选）关于新时代的内涵，下列表述不正确的是：</p>
+<div class="opt">A.是全国各族人民不断创造美好生活、逐步实现全体人民同等富裕的时代</div>
+<div class="opt">B.是决胜全面建成小康社会、进而全面建设社会主义现代化强国的时代</div>
+<div class="opt">C.是全体中华儿女勠力同心、奋力实现中华民族伟大复兴中国梦的时代</div>
+<div class="opt">D.是我国不断为人类作出更大贡献的时代</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>A</b></div></details></div></section>
+<section class="kp" id="kp-1" data-title="知识点2 习近平新时代中国特色社会主义思想是“两个结合”的重大成果"><div class="kp-head"><h3>知识点2 习近平新时代中国特色社会主义思想是“两个结合”的重大成果</h3><div class="chips"><span class="chip b">填空 13/13</span><span class="chip k">真题</span><span class="chip m">自测</span></div></div><div class="kp-crumb">第一篇《习近平新时代中国特色社会主义思想》 · 第一章总论</div><div class="kp-body"><p>习近平新时代中国特色社会主义思想是坚持“两个结合”的重大成果和光辉典范。“两个结合”是指要把马克思主义基本原理同<mark class="fill">中国具体实际</mark>相结合、同<mark class="fill">中华优秀传统文化</mark>相结合。习近平总书记在强调坚持“第一个结合”的基础上，明确提出把马克思主义基本原理同<mark class="fill">中华优秀传统文化</mark>相结合的重大命题，这是又一次的思想解放。</p>
+<p>习近平新时代中国特色社会主义思想坚持把马克思主义基本原理同中国具体实际相结合，用<mark class="fill">马克思主义</mark>之“矢”去射<mark class="fill">新时代中国</mark>之“的”。</p>
+<p>习近平新时代中国特色社会主义思想使<mark class="fill">马克思主义</mark>这个魂脉和<mark class="fill">中华优秀传统文化</mark>这个根脉内在贯通、相互成就，是中华民族文化主体性最有力的体现，是中华文化和中国精神的时代精华。</p>
+<p>“两个结合”是对坚持和发展马克思主义作出的重大理论贡献，是我们取得成功的<mark class="fill">最大法宝</mark>。</p>
+<div class="ext-tag">知识延伸</div>
+<p>“结合”的<mark class="fill">前提</mark>是彼此契合。</p>
+<p>“结合”的<mark class="fill">结果</mark>是互相成就。“结合”是深刻的“<mark class="fill">化学</mark>反应”，造就了一个有机统一的新的文化生命体。</p>
+<p>“结合”筑牢了道路根基。“第二个结合”让中国特色社会主义道路有了更加宏阔深远的历史纵深，拓展了中国特色社会主义道路的<mark class="fill">文化</mark>根基。</p>
+<p>“结合”打开了创新空间。“结合”本身就是创新，同时又开启了广阔的理论和实践创新空间。</p>
+<p>“结合”巩固了文化<mark class="fill">主体性</mark>。</p></div><div class="qblock kcq"><div class="qtag">考场传真 · 真题</div><p>（单选）习近平新时代中国特色社会主义思想是坚持马克思主义基本原理同中国具体实际相结合、同中华优秀传统文化相结合的重大成果，是坚持“两个结合”的光辉典范，实现了马克思主义中国化时代化新的飞跃。下列对“两个结合”的理解准确的是：</p>
+<div class="opt">①“结合”本身就是创新，同时又开启了广阔的理论和实践创新空间</div>
+<div class="opt">②“结合”是深刻的“化学反应”，造就了一个有机统一的新的文化生命体</div>
+<div class="opt">③“结合”塑造了文化民族性，有了文化民族性，文化自信就有了根本依托</div>
+<div class="opt">④“结合”筑牢了道路根基，使中国特色社会主义道路越走越宽广、越走越坚定</div>
+<div class="opt">⑤“结合”的前提是彼此契合，马克思主义和中华优秀传统文化存在高度的契合性</div>
+<div class="opt">A.①②③④</div>
+<div class="opt">B.①②③⑤</div>
+<div class="opt">C.①②④⑤</div>
+<div class="opt">D.①③④⑤</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>C</b></div></details></div><div class="qblock mtq"><div class="qtag">母题特训 · 自测</div><p>（单选）习近平新时代中国特色社会主义思想是坚持“两个结合”的重大成果和光辉典范。下列说法正确的有几项？</p>
+<div class="opt">①“两个结合”是我们取得成功的最大法宝</div>
+<div class="opt">②“两个结合”拓展了中国特色社会主义道路的文化根基</div>
+<div class="opt">③“两个结合”是用新时代中国之“矢”去射马克思主义之“的”</div>
+<div class="opt">④“两个结合”使马克思主义根脉和中华优秀传统文化魂脉内在贯通</div>
+<div class="opt">⑤“两个结合”是对坚持和发展马克思主义作出的重大理论贡献</div>
+<div class="opt">A.2 项</div>
+<div class="opt">B.3 项</div>
+<div class="opt">C.4 项</div>
+<div class="opt">D.5 项</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>B</b></div></details></div></section>
+<section class="kp" id="kp-2" data-title="知识点3 习近平新时代中国特色社会主义思想的科学体系"><div class="kp-head"><h3>知识点3 习近平新时代中国特色社会主义思想的科学体系</h3><div class="chips"><span class="chip b">填空 31/31</span><span class="chip k">真题</span><span class="chip m">自测</span></div></div><div class="kp-crumb">第一篇《习近平新时代中国特色社会主义思想》 · 第一章总论</div><div class="kp-body"><p>习近平新时代中国特色社会主义思想，科学回答了新时代坚持和发展什么样的中国特色社会主义、怎样坚持和发展中国特色社会主义，建设什么样的<mark class="fill">社会主义现代化强国</mark>、怎样建设<mark class="fill">社会主义现代化强国</mark>，建设什么样的长期执政的马克思主义政党、怎样建设长期执政的马克思主义政党等重大时代课题，形成了完整的科学体系。</p>
+<p>党的十九大、十九届六中全会提出的“十个明确”“十四个坚持”“十三个方面成就”概括了习近平新时代中国特色社会主义思想的<mark class="fill">主要内容</mark>。党的二十大提出的“<mark class="fill">六个必须坚持</mark>”，是习近平新时代中国特色社会主义思想的世界观、方法论。“十个明确”“十四个坚持”“十三个方面成就”“六个必须坚持”内在贯通、有机统一，共同构成了习近平新时代中国特色社会主义思想的<mark class="fill">科学体系</mark>。</p>
+<h5 class="sub2">1.十个明确</h5>
+<p>“十个明确”是习近平新时代中国特色社会主义思想的<mark class="fill">主体内容</mark>，集中体现了这一思想体系的主要观点和基本精神，构成了这一思想体系的四梁八柱，发挥着<mark class="fill">统摄</mark>作用。</p>
+<p>（1）明确中国特色社会主义最本质的特征是<mark class="fill">中国共产党领导</mark>，中国特色社会主义制度的<mark class="fill">最大优势</mark>是中国共产党领导，中国共产党是最高政治领导力量，全党必须增强“四个意识”、坚定“四个自信”、做到“两个维护”。</p>
+<p>（2）明确坚持和发展中国特色社会主义，总任务是实现<mark class="fill">社会主义现代化</mark>和<mark class="fill">中华民族伟大复兴</mark>，在全面建成小康社会的基础上，分两步走在<mark class="fill">本世纪中叶</mark>建成富强民主文明和谐美丽的社会主义现代化强国，以中国式现代化推进中华民族伟大复兴。</p>
+<p>（3）明确新时代我国社会主要矛盾是人民日益增长的<mark class="fill">美好生活</mark>需要和不平衡不充分的发展之间的矛盾，必须坚持以人民为中心的发展思想，发展全过程人民民主，推动人的全面发展、全体人民共同富裕取得更为明显的实质性进展。</p>
+<p>（4）明确中国特色社会主义事业<mark class="fill">总体布局</mark>是经济建设、政治建设、文化建设、社会建设、生态文明建设五位一体，<mark class="fill">战略布局</mark>是全面建设社会主义现代化国家、全面深化改革、全面依法治国、全面从严治党四个全面。</p>
+<p>（5）明确全面深化改革总目标是完善和发展中国特色社会主义制度、推进国家<mark class="fill">治理体系和治理能力</mark>现代化。</p>
+<p>（6）明确全面推进依法治国总目标是建设中国特色社会主义<mark class="fill">法治体系</mark>、建设社会主义法治国家。</p>
+<p>（7）明确必须坚持和完善社会主义基本经济制度，使市场在资源配置中起<mark class="fill">决定性</mark>作用，更好发挥政府作用，把握新发展阶段，贯彻创新、协调、绿色、开放、共享的新发展理念，加快构建以国内大循环为主体、国内国际双循环相互促进的新发展格局，推动高质量发展，统筹发展和安全。</p>
+<p>（8）明确党在新时代的强军目标是建设一支<mark class="fill">听党指挥</mark>、能打胜仗、作风优良的人民军队，把人民军队建设成为世界一流军队。</p>
+<p>（9）明确中国特色大国外交要服务民族复兴、促进人类进步，推动建设新型国际关系，推动构建人类命运共同体。</p>
+<p>（10）明确全面从严治党的战略方针，提出新时代党的建设总要求，全面推进党的政治建设、思想建设、组织建设、作风建设、纪律建设，把<mark class="fill">制度建设</mark>贯穿其中，深入推进反腐败斗争，落实管党治党政治责任，以伟大自我革命引领伟大社会革命。</p>
+<h5 class="sub2">2.十四个坚持</h5>
+<p>“十四个坚持”是在治国理政各方面作出的理论分析和政策指导，构成了新时代坚持和发展中国特色社会主义的<mark class="fill">基本方略</mark>。</p>
+<p>“十四个坚持”就是坚持党对一切工作的领导，坚持以人民为中心，坚持全面深化改革，坚持新发展理念，坚持人民当家作主，坚持全面依法治国，坚持社会主义核心价值体系，坚持在发展中保障和改善民生，坚持人与自然和谐共生，坚持总体国家安全观，坚持党对人民军队的绝对领导，坚持“一国两制”和推进祖国统一，坚持推动构建人类命运共同体，坚持全面从严治党。</p>
+<h5 class="sub2">3.十三个方面成就</h5>
+<p>“十三个方面成就”对新时代伟大实践进行了科学总结，全景式地展示了习近平新时代中国特色社会主义思想的理论与实践成果。</p>
+<h5 class="sub2">4.六个必须坚持</h5>
+<p>“六个必须坚持”，是习近平新时代中国特色社会主义思想的<mark class="fill">世界观</mark>、方法论和贯穿其中的立场观点方法的重要体现。“六个必须坚持”就是必须坚持<mark class="fill">人民</mark>至上、必须坚持自信自立、必须坚持守正创新、必须坚持<mark class="fill">问题</mark>导向、必须坚持<mark class="fill">系统</mark>观念、必须坚持胸怀天下。</p>
+<p>坚持人民至上是根本<mark class="fill">价值立场</mark>，体现了历史唯物主义群众史观；坚持自信自立是内在精神特质，体现了<mark class="fill">客观规律性</mark>和主观能动性的有机结合；坚持<mark class="fill">守正创新</mark>是鲜明理论品格，体现了变与不变、继承与发展的内在联系；坚持问题导向是重要实践要求，体现了<mark class="fill">矛盾</mark>的普遍性和客观性；坚持系统观念是基本思想和工作方法，体现了辩证唯物主义<mark class="fill">普遍联系</mark>的原理；坚持<mark class="fill">胸怀天下</mark>是中国共产党人的境界格局，体现了马克思主义追求人类进步和解放的崇高理想。</p></div><div class="qblock kcq"><div class="qtag">考场传真 · 真题</div><p>（单选）下列关于习近平新时代中国特色社会主义思想的说法错误的是：</p>
+<div class="opt">A.中国特色社会主义最本质的特征是中国共产党领导</div>
+<div class="opt">B.全面深化改革总目标是实现社会主义现代化和中华民族伟大复兴</div>
+<div class="opt">C.全面推进依法治国总目标是建设中国特色社会主义法治体系、建设社会主义法治国家</div>
+<div class="opt">D.新时代我国社会主要矛盾是人民日益增长的美好生活需要和不平衡不充分的发展之间的矛盾</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>B</b></div></details></div><div class="qblock mtq"><div class="qtag">母题特训 · 自测</div><p>（单选）“十个明确”是习近平新时代中国特色社会主义思想的主体内容，集中体现了这一思想体系的主要观点和基本精神。下列相关说法，错误的是：</p>
+<div class="opt">A.明确中国特色社会主义事业总体布局是“五位一体”，战略布局是“四个全面”</div>
+<div class="opt">B.明确全面推进依法治国总目标是建设中国特色社会主义法治体系、建设社会主义法治国家</div>
+<div class="opt">C.明确必须坚持和完善社会主义基本经济制度，使政府在资源配置中起决定性作用，更好发挥市场作用</div>
+<div class="opt">D.明确坚持和发展中国特色社会主义，总任务是实现社会主义现代化和中华民族伟大复兴</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>C</b></div></details></div></section>
+<section class="kp" id="kp-3" data-title="知识点4 以中国式现代化全面推进中华民族伟大复兴"><div class="kp-head"><h3>知识点4 以中国式现代化全面推进中华民族伟大复兴</h3><div class="chips"><span class="chip b">填空 32/32</span><span class="chip k">真题</span><span class="chip m">自测</span></div></div><div class="kp-crumb">第一篇《习近平新时代中国特色社会主义思想》 · 第一章总论</div><div class="kp-body"><p>党的二十大报告指出，中国共产党的中心任务是团结带领全国各族人民全面建成<mark class="fill">社会主义现代化强国</mark>、实现第二个百年奋斗目标，以中国式现代化全面推进<mark class="fill">中华民族伟大复兴</mark>。</p>
+<h4 class="sub1">一、实现中华民族伟大复兴的中国梦</h4>
+<p>1.2012 年，习近平总书记在参观《复兴之路》展览时指出：实现中华民族伟大复兴，就是中华民族<mark class="fill">近代</mark>以来最伟大的梦想。</p>
+<p>2.中国共产党一经成立，就把实现<mark class="fill">共产主义</mark>作为党的最高理想和最终目标。义无反顾肩负起实现中华民族伟大复兴的历史使命。一百年来，中国共产党团结带领中国人民进行的一切奋斗、一切牺牲、一切创造，归结起来就是一个主题：实现<mark class="fill">中华民族伟大复兴</mark>。</p>
+<p>3.中国梦的内涵本质——国家富强、民族振兴、<mark class="fill">人民幸福</mark>。</p>
+<p>4.中国梦的实现途径——走中国道路、弘扬中国精神、凝聚中国力量。</p>
+<p>（1）中国道路，即<mark class="fill">中国特色社会主义</mark>道路。</p>
+<p>（2）中国精神，即以<mark class="fill">爱国主义</mark>为核心的民族精神和以<mark class="fill">改革创新</mark>为核心的时代精神。</p>
+<p>（3）中国力量，即全国各族人民大团结的力量。</p>
+<h4 class="sub1">二、全面建成社会主义现代化强国战略安排</h4>
+<p>党的二十大明确，全面建成社会主义现代化强国总的战略安排是分两步走：从2020 年到2035 年<mark class="fill">基本实现</mark>社会主义现代化；从2035 年到<mark class="fill">本世纪中叶</mark>把我国建成富强民主文明和谐美丽的社会主义现代化强国。</p>
+<p>第一步，基本实现社会主义现代化。到2035 年，我国发展的总体目标是：人均国内生产总值迈上新的大台阶，达到<mark class="fill">中等发达国家</mark>水平；实现高水平科技自立自强，进入创新型国家<mark class="fill">前列</mark>；建成现代化经济体系，形成新发展格局；建成教育强国、科技强国、人才强国、文化强国、体育强国、健康中国，国家文化软实力显著增强；<mark class="fill">基本实现</mark>新型工业化、信息化、城镇化、农业现代化；<mark class="fill">基本实现</mark>国家治理体系和治理能力现代化，全过程人民民主制度更加健全，<mark class="fill">基本建成</mark>法治国家、法治政府、法治社会；碳排放<mark class="fill">达峰</mark>后稳中有降，生态环境根本好转，美丽中国目标<mark class="fill">基本实现</mark>；国家安全体系和能力全面加强，基本实现国防和军队现代化。人民生活更加幸福美好，人的全面发展、全体人民共同富裕取得更为明显的<mark class="fill">实质性</mark>进展。</p>
+<p>第二步，在基本实现社会主义现代化的基础上，到本世纪中叶，把我国建设成为富强民主文明和谐美丽的社会主义现代化强国。到那时，我国物质文明、政治文明、精神文明、社会文明、生态文明将<mark class="fill">全面提升</mark>，实现国家治理体系和治理能力现代化，成为综合国力和国际影响力领先的国家，全体人民共同富裕<mark class="fill">基本实现</mark>，我国人民将享有更加幸福安康的生活，中华民族将以更加昂扬的姿态屹立于世界民族之林。</p>
+<h4 class="sub1">三、中国式现代化</h4>
+<h5 class="sub2">（一）中国式现代化的中国特色</h5>
+<p>1.中国式现代化是<mark class="fill">人口规模巨大</mark>的现代化。</p>
+<p>2.中国式现代化是全体人民<mark class="fill">共同富裕</mark>的现代化。</p>
+<p>3.中国式现代化是物质文明和<mark class="fill">精神文明</mark>相协调的现代化。</p>
+<p>4.中国式现代化是<mark class="fill">人与自然</mark>和谐共生的现代化。</p>
+<p>5.中国式现代化是走<mark class="fill">和平发展</mark>道路的现代化。</p>
+<h5 class="sub2">（二）中国式现代化的本质要求</h5>
+<p>坚持中国共产党领导，坚持<mark class="fill">中国特色社会主义</mark>，实现高质量发展，发展<mark class="fill">全过程人民民主</mark>，丰富人民精神世界，实现全体人民共同富裕，促进人与自然和谐共生，推动构建<mark class="fill">人类命运共同体</mark>，创造人类文明新形态。</p>
+<p><mark class="fill">党的领导</mark>直接关系中国式现代化的根本方向、前途命运、最终成败。</p>
+<h5 class="sub2">（三）推进中国式现代化的重大原则</h5>
+<p>1.坚持和加强党的全面领导。</p>
+<p>2.坚持中国特色社会主义道路。</p>
+<p>3.坚持以<mark class="fill">人民</mark>为中心的发展思想。</p>
+<p>4.坚持深化改革开放。</p>
+<p>5.坚持发扬<mark class="fill">斗争</mark>精神。</p></div><div class="qblock kcq"><div class="qtag">考场传真 · 真题</div><p>（单选）党的二十大报告指出，从现在起，中国共产党的中心任务就是团结带领全国各族人民全面建成社会主义现代化强国、实现第二个百年奋斗目标，以中国式现代化全面推进中华民族伟大复兴。下列对中国式现代化的理解，正确的有几项？</p>
+<div class="opt">①坚持把实现人民对美好生活的向往作为现代化建设的出发点和落脚点</div>
+<div class="opt">②共同富裕是社会主义的本质要求，是中国式现代化的重要特征</div>
+<div class="opt">③在物质文明方面超越西方发达国家，是中国式现代化的主要目标</div>
+<div class="opt">④遵循世界各国现代化的共同模式，是中国式现代化道路的基本经验</div>
+<div class="opt">⑤中国式现代化新道路，创造了人类文明新形态</div>
+<div class="opt">A.2 项</div>
+<div class="opt">B.3 项</div>
+<div class="opt">C.4 项</div>
+<div class="opt">D.5 项</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>B</b></div></details></div><div class="qblock mtq"><div class="qtag">母题特训 · 自测</div><p>（单选）关于中国式现代化，下列说法正确的有几项？</p>
+<div class="opt">①中国式现代化的本质要求包括促进人与自然和谐共生</div>
+<div class="opt">②中国式现代化是人口规模巨大的现代化</div>
+<div class="opt">③中国特色社会主义道路关系中国式现代化的根本方向、前途命运、最终成败</div>
+<div class="opt">④坚持推动构建人类命运共同体属于中国式现代化的重大原则</div>
+<div class="opt">A.1 项</div>
+<div class="opt">B.2 项</div>
+<div class="opt">C.3 项</div>
+<div class="opt">D.4 项</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>B</b></div></details></div></section>
+<section class="kp" id="kp-4" data-title="第一节党的全面领导"><div class="kp-head"><h3>第一节党的全面领导</h3><div class="chips"><span class="chip b">填空 12/12</span><span class="chip k">真题</span><span class="chip m">自测</span></div></div><div class="kp-crumb">第一篇《习近平新时代中国特色社会主义思想》 · 第二章分论 · 第一节党的全面领导</div><div class="kp-body"><h4 class="sub1">一、中国共产党领导是中国特色社会主义最本质的特征</h4>
+<p>1.中国共产党领导是中国<mark class="fill">最大</mark>国情。</p>
+<p>2.中国共产党领导是中国特色社会主义制度的<mark class="fill">最大优势</mark>。</p>
+<p>3.中国共产党领导是实现中华民族伟大复兴的<mark class="fill">根本保证</mark>。</p>
+<p>4.中国共产党领导是党和国家的<mark class="fill">根本所在</mark>、命脉所在，是全国各族人民的利益所系、命运所系。</p>
+<h4 class="sub1">二、坚持党对一切工作的领导</h4>
+<p>1.中国共产党是我国最高政治领导力量。</p>
+<p>2.党中央集中统一领导是党的领导的<mark class="fill">最高原则</mark>。维护党中央权威和集中统一领导，最关键的是坚决维护<mark class="fill">习近平同志</mark>党中央的核心、全党的核心地位。</p>
+<h4 class="sub1">三、健全和完善党的领导制度体系</h4>
+<p>1.党的领导制度是我国的<mark class="fill">根本</mark>领导制度。</p>
+<p>2.党的领导制度在中国特色社会主义制度体系中居于<mark class="fill">统领</mark>地位。</p>
+<p>3.党的领导制度是中国特色社会主义制度体系的<mark class="fill">核心</mark>，是中国特色社会主义制度建设的关键，也是国家治理体系和治理能力现代化的关键。</p>
+<div class="ext-tag">知识延伸</div>
+<p>党的领导制度体系</p>
+<p>不忘初心、牢记使命的制度</p>
+<p>坚定维护<mark class="fill">党中央</mark>权威和集中统一领导的各项制度</p>
+<p><mark class="fill">党的全面领导</mark>制度（主体内容）</p>
+<p>为人民执政、靠人民执政各项制度</p>
+<p>提高党的<mark class="fill">执政能力</mark>和领导水平制度</p>
+<p>全面从严治党制度</p></div><div class="qblock kcq"><div class="qtag">考场传真 · 真题</div><p>（单选）坚持党对一切工作的领导。作为新时代坚持和发展中国特色社会主义的第一条基本方略，强调“党政军民学，东西南北中，党是领导一切的”。关于“一切”，下列说法错误的是：</p>
+<div class="opt">A.是指党和国家各个方面、各个领域工作的全方位和全过程</div>
+<div class="opt">B.党领导一切不等于包揽一切，并非党要取代国家和政府的职能</div>
+<div class="opt">C.强调党领导一切在于突出党的核心地位，发挥好党的领导核心作用</div>
+<div class="opt">D.领导一切包括大政方针的领导，也包括具体事务上的领导</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>D</b></div></details></div><div class="qblock mtq"><div class="qtag">母题特训 · 自测</div><p>（单选）中国共产党领导是中国特色社会主义最本质的特征。下列相关说法，正确的有几项？</p>
+<div class="opt">①中国共产党领导是中国最大的国情，是实现中华民族伟大复兴的根本保证</div>
+<div class="opt">②中国共产党领导是党和国家的根本所在、命脉所在，是全国各族人民的利益所系</div>
+<div class="opt">③中国共产党领导是中国特色社会主义制度的最大优势，决定了我国社会制度的根本性质</div>
+<div class="opt">④中国共产党领导是国家治理体系和治理能力现代化的关键，在制度体系中居于统领地位</div>
+<div class="opt">A.4 项</div>
+<div class="opt">B.3 项</div>
+<div class="opt">C.2 项</div>
+<div class="opt">D.1 项</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>A</b></div></details></div></section>
+<section class="kp" id="kp-5" data-title="第二节以人民为中心"><div class="kp-head"><h3>第二节以人民为中心</h3><div class="chips"><span class="chip b">填空 23/23</span><span class="chip k">真题</span><span class="chip m">自测</span></div></div><div class="kp-crumb">第一篇《习近平新时代中国特色社会主义思想》 · 第二章分论 · 第二节以人民为中心</div><div class="kp-body"><h4 class="sub1">一、坚持人民至上</h4>
+<p>1.<mark class="fill">人民性</mark>是马克思主义的本质属性和鲜明品格。</p>
+<p>2.人民立场是中国共产党的<mark class="fill">根本政治立场</mark>，是我们党区别于其他政党的显著标志。</p>
+<p>3.党的<mark class="fill">最大政治优势</mark>是密切联系群众，党执政后的<mark class="fill">最大危险</mark>是脱离群众。</p>
+<p>4.坚持人民至上，是新时代党治国理政的根本<mark class="fill">价值取向</mark>。</p>
+<p>5.<mark class="fill">让群众满意</mark>是我们党做好一切工作的价值取向和根本标准。</p>
+<p>6.要把增进民生福祉作为发展的<mark class="fill">根本目的</mark>。</p>
+<p>7.全心全意为人民服务是中国共产党的宗旨。</p>
+<p>8.<mark class="fill">群众路线</mark>是我们党的生命线和根本工作路线。</p>
+<div class="ext-tag">知识延伸</div>
+<p>群众路线</p>
+<p><mark class="fill">一切为了群众</mark>，一切依靠群众，从群众中来，到群众中去，把党的正确主张变为群众的自觉行动。</p>
+<h4 class="sub1">二、扎实推进共同富裕</h4>
+<p>1.社会主义<mark class="fill">最大的优越性</mark>是共同富裕。</p>
+<p>2.共同富裕是全体人民共同富裕，是人民群众物质生活和<mark class="fill">精神生活</mark>都富裕，不是少数人的富裕，也不是整齐划一的<mark class="fill">平均主义</mark>，不是所有人都同时富裕，也不是所有地区同时达到一个富裕水准。</p>
+<p>3.全体人民共同富裕是一个<mark class="fill">总体</mark>概念，是对全社会而言的，不要各提各的指标。</p>
+<p>4.2035 年，共同富裕取得明显的<mark class="fill">实质性</mark>进展。<mark class="fill">本世纪中叶</mark>，基本实现共同富裕。</p>
+<p>5.实现共同富裕，首先要把“蛋糕”<mark class="fill">做大做好</mark>，然后把“蛋糕”<mark class="fill">切好分好</mark>。</p>
+<p>6.正确处理效率和公平的关系，构建初次分配、再分配、三次分配协调配套的基础性制度安排，加大税收、社保、转移支付等调节力度并提高精准性，扩大<mark class="fill">中等收入</mark>群体比重，增加低收入群体收入，合理调节高收入，取缔非法收入，形成中间大、两头小的<mark class="fill">橄榄型</mark>分配结构。</p>
+<div class="ext-tag">知识延伸</div>
+<p>收入分配政策</p>
+<p>初次分配：收入分配体系的<mark class="fill">基础</mark>，核心是发挥<mark class="fill">市场</mark>的决定性作用。如职工薪酬、最低工资保障等。</p>
+<p>再分配：在初次分配的基础上，由<mark class="fill">政府</mark>主导进行的调节性分配。如个人所得税、社会保障、转移支付等。</p>
+<p>第三次分配：<mark class="fill">社会力量</mark>自愿参与，通过慈善、公益、捐赠、志愿服务等方式，对社会资源和财富进行分配。</p></div><div class="qblock kcq"><div class="qtag">考场传真 · 真题</div><p>（单选）共同富裕是社会主义的本质要求，是中国现代化的重要特征。下列对共同富裕的理解，正确的有几项?</p>
+<div class="opt">①共同富裕是全体人民共同富裕，是人民群众物质生活和精神生活都富裕</div>
+<div class="opt">②鼓励各地因地制宜探索有效路径，按照城市、农村以及东部、中部、西部，确定各自指标，分阶段促进共同富裕</div>
+<div class="opt">③要处理好效率和公平关系，构建初次分配、再分配、三次分配协调配套的基础性制度安排</div>
+<div class="opt">④实现共同富裕的目标，首先要通过全国人民共同奋斗把“蛋糕”做大做好，然后通过合理的制度安排正确处理增长和分配关系，把“蛋糕”切好分好</div>
+<div class="opt">A.1 项</div>
+<div class="opt">B.2 项</div>
+<div class="opt">C.3 项</div>
+<div class="opt">D.4 项</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>C</b></div></details></div><div class="qblock mtq"><div class="qtag">母题特训 · 自测</div><p>（单选）关于党的群众路线和人民立场，下列相关说法，正确的有几项？</p>
+<div class="opt">①人民性是马克思主义的本质属性和鲜明品格</div>
+<div class="opt">②群众路线是党的生命线和根本工作路线，其核心是“到群众中去”</div>
+<div class="opt">③党的最大政治优势是密切联系群众，党执政后的最大危险是脱离群众</div>
+<div class="opt">④让群众满意是我们党做好一切工作的价值取向和根本标准</div>
+<div class="opt">A.1 项</div>
+<div class="opt">B.2 项</div>
+<div class="opt">C.3 项</div>
+<div class="opt">D.4 项</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>C</b></div></details></div></section>
+<section class="kp" id="kp-6" data-title="知识点1 把握新发展阶段贯彻新发展理念构建新发展格局"><div class="kp-head"><h3>知识点1 把握新发展阶段贯彻新发展理念构建新发展格局</h3><div class="chips"><span class="chip b">填空 19/19</span><span class="chip k">真题</span><span class="chip m">自测</span></div></div><div class="kp-crumb">第一篇《习近平新时代中国特色社会主义思想》 · 第二章分论 · 第三节推动高质量发展</div><div class="kp-body"><p>高质量发展是全面建设社会主义现代化国家的<mark class="fill">首要任务</mark>，是我国经济社会发展的<mark class="fill">主题</mark>。</p>
+<p>高质量发展，是能够很好满足人民日益增长的美好生活需要的发展，是体现新发展理念的发展，是<mark class="fill">创新</mark>成为第一动力、协调成为内生特点、绿色成为普遍形态、开放成为必由之路、<mark class="fill">共享</mark>成为根本目的的发展。高质量发展，就是从“<mark class="fill">有没有</mark>”转向“<mark class="fill">好不好</mark>”。</p>
+<h4 class="sub1">一、进入新发展阶段</h4>
+<p>1.新发展阶段是全面建成小康社会、实现第一个百年奋斗目标之后，全面建设<mark class="fill">社会主义现代化国家</mark>、向第二个百年奋斗目标进军的重要阶段。</p>
+<p>2.新发展阶段是我们迎来从站起来、富起来到<mark class="fill">强起来</mark>历史性跨越的新阶段。</p>
+<p>3.新发展阶段是我国社会主义<mark class="fill">初级阶段</mark>历史进程中的一个重要阶段。</p>
+<h4 class="sub1">二、贯彻新发展理念</h4>
+<p>1.创新是引领发展的<mark class="fill">第一动力</mark>——解决发展动力问题。</p>
+<p>2.<mark class="fill">协调</mark>是持续健康发展的内在要求——解决发展不平衡问题。</p>
+<p>3.<mark class="fill">绿色</mark>是永续发展的必要条件——解决人与自然和谐共生问题。</p>
+<p>4.开放是国家繁荣发展的<mark class="fill">必由之路</mark>——解决发展内外联动问题。</p>
+<p>5.共享是中国特色社会主义的<mark class="fill">本质要求</mark>——解决社会公平正义问题。</p>
+<h4 class="sub1">三、构建新发展格局</h4>
+<p>1.构建以<mark class="fill">国内大循环</mark>为主体、国内国际双循环相互促进的新发展格局。</p>
+<p>2.构建新发展格局是把握发展主动权的<mark class="fill">先手棋</mark>，不是被迫之举和权宜之计。</p>
+<p>3.构建新发展格局要以<mark class="fill">全国统一大市场</mark>为基础，不是各地都搞自我小循环。</p>
+<p>建设全国统一大市场是构建新发展格局的基础支撑和内在要求。</p>
+<p>4.构建新发展格局的关键在于<mark class="fill">经济循环</mark>的畅通无阻。</p>
+<p>5.构建新发展格局最本质特征是实现高水平的<mark class="fill">自立自强</mark>。</p></div><div class="qblock kcq"><div class="qtag">考场传真 · 真题</div><p>（单选）习近平总书记指出，发展必须是科学发展，必须坚定不移贯彻创新、协调、绿色、开放、共享的发展理念。下列说法正确的有几项？</p>
+<div class="opt">①创新发展注重的是解决发展动力问题</div>
+<div class="opt">②协调发展注重的是解决社会公平正义问题</div>
+<div class="opt">③绿色发展注重的是解决人与自然和谐共生问题</div>
+<div class="opt">④开放发展注重的是解决发展内外联动问题</div>
+<div class="opt">⑤共享发展注重的是解决发展不平衡问题</div>
+<div class="opt">A.2 项</div>
+<div class="opt">B.3 项</div>
+<div class="opt">C.4 项</div>
+<div class="opt">D.5 项</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>B</b></div></details></div><div class="qblock mtq"><div class="qtag">母题特训 · 自测</div><p>（单选）高质量发展是全面建设社会主义现代化国家的首要任务。下列关于高质量发展的说法，正确的有几项？</p>
+<div class="opt">①高质量发展是从“好不好”转向“有没有”的发展</div>
+<div class="opt">②高质量发展是能够很好满足人民日益增长的美好生活需要的发展</div>
+<div class="opt">③高质量发展是创新成为第一动力、协调成为内生特点、绿色成为普遍形态、开放成为必由之路、共享成为根本目的的发展</div>
+<div class="opt">④高质量发展只是对经济发达地区的要求，经济欠发达地区应先解决量的问题</div>
+<div class="opt">A.1 项</div>
+<div class="opt">B.2 项</div>
+<div class="opt">C.3 项</div>
+<div class="opt">D.4 项</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>B</b></div></details></div></section>
+<section class="kp" id="kp-7" data-title="知识点2 坚持和完善基本经济制度是实现高质量发展的保障"><div class="kp-head"><h3>知识点2 坚持和完善基本经济制度是实现高质量发展的保障</h3><div class="chips"><span class="chip b">填空 27/27</span><span class="chip k">真题</span><span class="chip m">自测</span></div></div><div class="kp-crumb">第一篇《习近平新时代中国特色社会主义思想》 · 第二章分论 · 第三节推动高质量发展</div><div class="kp-body"><p>中国特色社会主义基本经济制度是“<mark class="fill">公有制</mark>主体、多种所有制经济共同发展，<mark class="fill">按劳分配</mark>为主体、多种分配方式并存，社会主义市场经济体制”。</p>
+<h4 class="sub1">一、公有制为主体、多种所有制经济共同发展</h4>
+<p>公有制经济和非公有制经济都是社会主义市场经济的<mark class="fill">重要组成部分</mark>，都是我国经济社会发展的重要基础。要毫不动摇<mark class="fill">巩固和发展</mark>公有制经济，毫不动摇<mark class="fill">鼓励、支持、引导</mark>非公有制经济发展。</p>
+<h5 class="sub2">1.公有制经济</h5>
+<p>（1）内容：<mark class="fill">国有经济</mark>、集体经济、混合所有制经济中的国有成分和集体成分。</p>
+<p>（2）地位：公有制<mark class="fill">主体</mark>地位不能动摇，国有经济<mark class="fill">主导</mark>作用不能动摇，这是巩固党的执政地位、坚持我国社会主义制度的重要保证。</p>
+<p>【知识延伸】</p>
+<p>公有制经济的主体地位</p>
+<p>公有制经济的主体地位主要体现在两个方面：<mark class="fill">公有资产</mark>在社会总资产中占优势；<mark class="fill">国有经济</mark>控制国民经济的命脉，对经济发展起主导作用。国有经济起主导作用，集中体现在其对国民经济的<mark class="fill">控制力</mark>上。</p>
+<p>（3）代表：<mark class="fill">国有企业</mark>是中国特色社会主义的重要物质基础和政治基础，是我们党执政兴国的重要支柱和依靠力量。</p>
+<h5 class="sub2">2.非公有制经济</h5>
+<p>（1）内容：包括个体经济、<mark class="fill">私营经济</mark>、港澳台投资经济、外商投资经济以及混合所有制经济中的非公有制成分。</p>
+<p>（2）地位：非公有制经济是社会主义市场经济的重要组成部分，是<mark class="fill">国家税收</mark>的重要来源，是稳定经济的重要基础，是技术创新的<mark class="fill">重要主体</mark>，是就业创业的重要领域，是<mark class="fill">金融发展</mark>的重要依托，是经济持续健康发展的重要力量。</p>
+<p>（3）代表：<mark class="fill">民营经济</mark>是非公有制经济的主要形式，是推进中国式现代化的生力军。</p>
+<h4 class="sub1">二、坚持按劳分配为主体、多种分配方式并存</h4>
+<p>在社会主义初级阶段，我国实行的是公有制为主体、多种所有制经济共同发展的所有制，这种所有制决定了我国在分配制度上要坚持按劳分配为主体、多种分配方式并存。</p>
+<p>【知识延伸】</p>
+<p>按生产要素分配</p>
+<p><mark class="fill">劳动</mark>作为生产要素：主要包括个体劳动者和被雇于非公有制经济的雇佣劳动者的劳动。</p>
+<p>资本类的生产要素：主要包括资本所有者在生产经营活动中凭借资本所取得的<mark class="fill">利润</mark>；生产要素所有者将自有的货币或资本借给他人经营或存入金融机构所取得的<mark class="fill">利息</mark>；以实物形态资本租借给他人经营或使用而取得的<mark class="fill">租金</mark>等。</p>
+<p>管理和知识产权类的生产要素：主要包括科技发明、创造、信息、专利、数据等参与分配。</p>
+<h4 class="sub1">三、构建高水平社会主义市场经济体制</h4>
+<p>1.1992 年，党的<mark class="fill">十四大</mark>明确经济体制改革的目标是建立社会主义市场经济体制。</p>
+<p>2.党的十八届三中全会指出，<mark class="fill">经济体制</mark>改革是全面深化改革的重点，核心问题是处理好<mark class="fill">政府和市场</mark>的关系，使<mark class="fill">市场</mark>在资源配置中起决定性作用和更好发挥政府作用。</p>
+<p>3.要用好“看不见的手”和“看得见的手”，推动<mark class="fill">有效</mark>市场和<mark class="fill">有为</mark>政府更好结合。</p></div><div class="qblock kcq"><div class="qtag">考场传真 · 真题</div><p>（单选）习近平总书记主持召开民营企业座谈会，强调民营经济只能壮大，不能弱化。民营经济只能壮大，不能弱化是基于：</p>
+<div class="opt">①民营经济也是我国经济社会发展的重要基础</div>
+<div class="opt">②大力发展民营经济是决定当代中国命运的关键一招</div>
+<div class="opt">③民营经济在促进创新扩大就业、增加税收等方面具有独特作用</div>
+<div class="opt">④民营经济已经成为我国国民经济的重要支柱</div>
+<div class="opt">A.①②</div>
+<div class="opt">B.①③</div>
+<div class="opt">C.②④</div>
+<div class="opt">D.③④</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>B</b></div></details></div><div class="qblock mtq"><div class="qtag">母题特训 · 自测</div><p>（单选）公有制为主体、多种所有制经济共同发展是我国基本经济制度的重要组成部分。下列关于公有制经济和非公有制经济的说法，正确的是：</p>
+<div class="opt">①公有制经济包括国有经济、集体经济以及混合所有制经济中的国有成分和集体成分</div>
+<div class="opt">②公有制经济的主体地位主要体现在公有资产在社会总资产中占优势，国有经济控制国民经济命脉</div>
+<div class="opt">③公有制经济和非公有制经济都是社会主义市场经济的重要组成部分</div>
+<div class="opt">④民营经济是推进中国式现代化的生力军</div>
+<div class="opt">A.①②③④</div>
+<div class="opt">B.②③④</div>
+<div class="opt">C.①③④</div>
+<div class="opt">D.②④</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>A</b></div></details></div></section>
+<section class="kp" id="kp-8" data-title="知识点3 建设现代化经济体系是推动高质量发展的必然要求"><div class="kp-head"><h3>知识点3 建设现代化经济体系是推动高质量发展的必然要求</h3><div class="chips"><span class="chip b">填空 17/17</span><span class="chip k">真题</span><span class="chip m">自测</span></div></div><div class="kp-crumb">第一篇《习近平新时代中国特色社会主义思想》 · 第二章分论 · 第三节推动高质量发展</div><div class="kp-body"><h4 class="sub1">一、全面推进乡村振兴</h4>
+<p>1.始终把解决好“<mark class="fill">三农</mark>”问题作为全党工作的重中之重。</p>
+<p>2.农业强国是社会主义现代化强国的根基，是新时代“三农”工作的<mark class="fill">总纲</mark>。</p>
+<p>3.实施<mark class="fill">乡村振兴战略</mark>，是新时代做好“三农”工作的总抓手。</p>
+<p>4.乡村振兴的内容包括<mark class="fill">产业</mark>振兴、人才振兴、文化振兴、<mark class="fill">生态</mark>振兴、组织振兴。</p>
+<p>5.实施乡村振兴战略，农业农村现代化是<mark class="fill">总目标</mark>，坚持农业农村优先发展是<mark class="fill">总方针</mark>，产业兴旺、生态宜居、乡风文明、治理有效、生活富裕是<mark class="fill">总要求</mark>，建立健全城乡融合发展体制机制和政策体系是制度保障。</p>
+<p>6.实施乡村振兴战略，必须把确保重要农产品特别是粮食供给作为<mark class="fill">首要任务</mark>。</p>
+<p>7.<mark class="fill">保障粮食和重要农产品稳定安全供给</mark>是建设农业强国的头等大事。</p>
+<h4 class="sub1">二、促进区域协调发展</h4>
+<p>1.区域协调发展战略：推动西部大开发形成新格局，推动<mark class="fill">东北</mark>全面振兴取得新突破，促进中部地区加快崛起，鼓励<mark class="fill">东部</mark>地区加快推进现代化。</p>
+<p>2.区域重大战略：推进<mark class="fill">京津冀</mark>协同发展、长江经济带发展、<mark class="fill">粤港澳大湾区</mark>建设、长三角一体化发展，推动黄河流域生态保护和高质量发展。高标准、高质量建设雄安新区，推动成渝地区双城经济圈建设。</p>
+<p>3.主体功能区战略：逐步形成城市化地区、<mark class="fill">农产品主产区</mark>、生态功能区三大空间格局。</p>
+<p>4.推进以人为核心的新型城镇化：把推进农业转移人口<mark class="fill">市民化</mark>作为新型城镇化首要任务。推进以<mark class="fill">县城</mark>为重要载体的城镇化建设。</p></div><div class="qblock kcq"><div class="qtag">考场传真 · 真题</div><p>（单选）习近平总书记强调全面建设社会主义现代化国家，扎实推进共同富裕，最艰难最繁重的任务仍然在农村，必须逐步缩小城乡差距。下列符合党和国家政策精神的是：</p>
+<div class="opt">①积极推进以建制镇为重要载体的新型城镇化建设</div>
+<div class="opt">②不断增强脱贫地区内生发展动力，坚决守住不发生规模性返贫底线</div>
+<div class="opt">③因地制宜大力发展特色产业，推进农村一、二、三产业融合发展</div>
+<div class="opt">④持续深化农村人居环境整治，加强传统村落和乡村特色风貌保护</div>
+<div class="opt">A.①②③</div>
+<div class="opt">B.①②④</div>
+<div class="opt">C.②③④</div>
+<div class="opt">D.①③④</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>C</b></div></details></div><div class="qblock mtq"><div class="qtag">母题特训 · 自测</div><p>（单选）全面推进乡村振兴是新时代做好“三农”工作的总抓手。下列关于乡村振兴的说法，正确的有几项？</p>
+<div class="opt">①农业强国是社会主义现代化强国的根基，是新时代“三农”工作的总纲</div>
+<div class="opt">②实施乡村振兴战略的总目标是建立健全城乡融合发展体制机制和政策体系</div>
+<div class="opt">③乡村振兴的内容包括产业振兴、人才振兴、文化振兴、生态振兴、组织振兴</div>
+<div class="opt">④实施乡村振兴战略的总要求是产业兴旺、生态宜居、乡风文明、治理有效、生活富裕</div>
+<div class="opt">A.①②④</div>
+<div class="opt">B.①③④</div>
+<div class="opt">C.①②③</div>
+<div class="opt">D.②③④</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>B</b></div></details></div></section>
+<section class="kp" id="kp-9" data-title="第四节发展全过程人民民主"><div class="kp-head"><h3>第四节发展全过程人民民主</h3><div class="chips"><span class="chip b">填空 32/32</span><span class="chip k">真题</span><span class="chip m">自测</span></div></div><div class="kp-crumb">第一篇《习近平新时代中国特色社会主义思想》 · 第二章分论 · 第四节发展全过程人民民主</div><div class="kp-body"><h4 class="sub1">一、健全人民当家作主的制度体系</h4>
+<h5 class="sub2">（一）根本政治制度</h5>
+<p><mark class="fill">人民代表大会</mark>制度是坚持党的领导、人民当家作主、依法治国有机统一的根本政治制度安排。其实质是<mark class="fill">人民当家作主</mark>，一切权力属于人民。</p>
+<h5 class="sub2">（二）基本政治制度</h5>
+<h5 class="sub2">1.中国共产党领导的多党合作和政治协商制度</h5>
+<p>（1）核心内涵：共产党领导、多党派合作，共产党<mark class="fill">执政</mark>、多党派<mark class="fill">参政</mark>。</p>
+<p>（2）首要前提：坚持<mark class="fill">中国共产党的领导</mark>和坚持四项基本原则。</p>
+<p>（3）<mark class="fill">基本方针</mark>：长期共存、互相监督、肝胆相照、荣辱与共。</p>
+<p>（4）重要形式：中国人民政治协商会议。</p>
+<p>①性质：爱国统一战线组织，协商民主的专门协商机构。</p>
+<p>②主题：<mark class="fill">团结</mark>和<mark class="fill">民主</mark>。</p>
+<p>③职能：政治协商、民主监督、<mark class="fill">参政议政</mark>。</p>
+<h5 class="sub2">2.民族区域自治制度</h5>
+<p>（1）核心：保障<mark class="fill">少数民族</mark>当家作主，管理本民族、本地方事务的权利。</p>
+<p>（2）民族自治地方：自治区、自治州、<mark class="fill">自治县</mark>。</p>
+<p>（3）民族自治机关：民族自治地方的<mark class="fill">人民代表大会</mark>和人民政府。</p>
+<p>（4）民族工作的主线：铸牢<mark class="fill">中华民族共同体意识</mark>。</p>
+<h5 class="sub2">3.基层群众自治制度</h5>
+<p>（1）地位：社会主义民主政治建设的<mark class="fill">基础</mark>，社会主义民主最广泛的实践。</p>
+<p>（2）形式：<mark class="fill">村民委员会</mark>、居民委员会。</p>
+<p>（3）内容：民主选举、民主协商、民主决策、民主管理、民主监督。</p>
+<h4 class="sub1">二、全过程人民民主</h4>
+<p>1.全过程人民民主是社会主义民主政治的<mark class="fill">本质属性</mark>。</p>
+<p>2.全过程人民民主实现了<mark class="fill">过程民主</mark>和成果民主、程序民主和<mark class="fill">实质民主</mark>、直接民主和间接民主、人民民主和国家意志相统一。</p>
+<p>3.全过程人民民主始终将实现最广大人民根本利益作为民主政治建设的<mark class="fill">出发点和落脚点</mark>。</p>
+<p>4.全过程人民民主是<mark class="fill">全链条</mark>、全方位、全覆盖的民主，是最广泛、最真实、<mark class="fill">最管用</mark>的社会主义民主。</p>
+<p>5.<mark class="fill">人民代表大会</mark>制度是实现我国全过程人民民主的重要制度载体。</p>
+<p>6.协商民主是实践全过程人民民主的<mark class="fill">重要形式</mark>。</p>
+<p>7.<mark class="fill">基层民主</mark>是全过程人民民主的重要体现。</p>
+<h4 class="sub1">三、巩固和发展新时代爱国统一战线</h4>
+<p>1.<mark class="fill">统一战线</mark>是中国共产党夺取革命、建设、改革事业胜利的重要法宝，也是实现中华民族伟大复兴的重要法宝。</p>
+<p>2.统战工作的本质要求是<mark class="fill">大团结大联合</mark>，解决的就是人心和力量问题。</p>
+<p>3.统战工作的关键是要坚持<mark class="fill">求同存异</mark>，发扬“团结一批评一团结”的优良传统，在尊重<mark class="fill">多样性</mark>中寻求<mark class="fill">一致性</mark>，找到最大公约数、画出最大同心圆。</p>
+<p>4.<mark class="fill">党的领导</mark>是统一战线最鲜明的特征，<mark class="fill">坚持党的领导</mark>是统一战线最核心最根本的问题。党对统一战线的领导主要是<mark class="fill">政治</mark>领导，即政治原则、政治方向、重大方针政策的领导，主要体现为党委领导而不是部门领导、集体领导而不是个人领导。</p></div><div class="qblock kcq"><div class="qtag">考场传真 · 真题</div><p>（单选）全过程人民民主是中国共产党领导人民发展社会主义民主政治的伟大创造，是党领导人民在民主理论、民主制度创新、实践创新的经验总结。关于全过程人民民主，下列理解不准确的是：</p>
+<div class="opt">A.全过程人民民主是协商民主和基层民主的统一</div>
+<div class="opt">B.全过程人民民主是程序民主和实质民主的统一</div>
+<div class="opt">C.全过程人民民主是直接民主和间接民主的统一</div>
+<div class="opt">D.全过程人民民主是过程民主和成果民主的统一</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>A</b></div></details></div><div class="qblock mtq"><div class="qtag">母题特训 · 自测</div><p>（单选）全过程人民民主是社会主义民主政治的本质属性，是新时代我国民主政治建设的重大创新。下列相关说法，正确的有几项？</p>
+<div class="opt">①全过程人民民主实现了过程民主和成果民主、程序民主和实质民主的统一</div>
+<div class="opt">②全过程人民民主是全链条、全方位、全覆盖的民主</div>
+<div class="opt">③人民代表大会制度是实现我国全过程人民民主的重要制度载体</div>
+<div class="opt">④基层民主是全过程人民民主的唯一体现</div>
+<div class="opt">A.1 项</div>
+<div class="opt">B.2 项</div>
+<div class="opt">C.3 项</div>
+<div class="opt">D.4 项</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>C</b></div></details></div></section>
+<section class="kp" id="kp-10" data-title="第五节建设社会主义文化强国"><div class="kp-head"><h3>第五节建设社会主义文化强国</h3><div class="chips"><span class="chip b">填空 16/16</span><span class="chip k">真题</span><span class="chip m">自测</span></div></div><div class="kp-crumb">第一篇《习近平新时代中国特色社会主义思想》 · 第二章分论 · 第五节建设社会主义文化强国</div><div class="kp-body"><p>1.中国具有百万年的人类史、一万年的<mark class="fill">文化史</mark>、五千多年的<mark class="fill">文明史</mark>。中华文明是世界上<mark class="fill">唯一</mark>绵延不断且以国家形态发展至今的伟大文明。中华文明有连续性、<mark class="fill">创新性</mark>、统一性、包容性、和平性的突出特性。</p>
+<p>2.中国特色社会主义文化发展道路最本质的特征是<mark class="fill">坚持党的领导</mark>。</p>
+<p>3.建设社会主义文化强国、推动社会主义文化繁荣兴盛，关键在于坚定中国特色社会主义<mark class="fill">文化自信</mark>。</p>
+<p>4.要坚持发展<mark class="fill">社会主义先进文化</mark>，弘扬革命文化，传承中华优秀传统文化。</p>
+<p>5.<mark class="fill">马克思主义</mark>是我们立党立国、兴党兴国的根本指导思想，要坚持马克思主义在意识形态领域指导地位的根本制度。</p>
+<p>6.要坚持创造性转化、创新性发展，用<mark class="fill">马克思主义</mark>激活中华传统文化中的优秀因子并赋予其新的时代内涵。</p>
+<p>7.坚持<mark class="fill">保护</mark>第一、合理利用和<mark class="fill">最小</mark>干预原则，推动文化遗产系统性保护和统一监管。</p>
+<p>8.弘扬以<mark class="fill">伟大建党精神</mark>为源头的中国共产党人精神谱系。</p>
+<p>9.坚持以人民为中心的创作导向，坚持把<mark class="fill">社会效益</mark>放在首位、社会效益和经济效益相统一，把<mark class="fill">激发创新创造活力</mark>作为深化文化体制机制改革的中心环节。</p>
+<p>10.宣传思想文化工作的<mark class="fill">首要政治任务</mark>是用党的创新理论武装全党、教育人民。</p>
+<p>11.文化强国之“强”最终要体现在<mark class="fill">人民</mark>的思想境界、精神状态、文化修养上。</p></div><div class="qblock kcq"><div class="qtag">考场传真 · 真题</div><p>（单选）习近平总书记强调，要锚定2035 年建成文化强国的战略目标，不断增强人民精神力量，筑牢强国建设、民族复兴的文化根基。下列做法有利于文化强国建设的是：</p>
+<div class="opt">①坚持用马克思主义激活中华传统文化中的优秀因子并赋予其新的时代内涵</div>
+<div class="opt">②坚持在文化建设中把经济效益放在首位、经济效益与社会效益相统一</div>
+<div class="opt">③坚持把激发创新创造活力作为深化文化体制机制改革的中心环节</div>
+<div class="opt">④坚持利用第一、合理发掘和积极干预原则，推动文化遗产系统性保护和利用</div>
+<div class="opt">A.①③</div>
+<div class="opt">B.①④</div>
+<div class="opt">C.②③</div>
+<div class="opt">D.②④</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>A</b></div></details></div><div class="qblock mtq"><div class="qtag">母题特训 · 自测</div><p>（单选）文化是一个国家、一个民族的灵魂。建设社会主义文化强国，是实现中华民族伟大复兴的必然要求。下列相关说法，正确的是：</p>
+<div class="opt">①要坚持发展社会主义先进文化，弘扬革命文化，传承中华优秀传统文化</div>
+<div class="opt">②建设社会主义文化强国、推动社会主义文化繁荣兴盛，关键在于坚定中国特色社会主义文化自信</div>
+<div class="opt">③马克思主义是我们立党立国、兴党兴国的根本指导思想</div>
+<div class="opt">④文化强国之“强”最终要体现在国家文化产业的规模和经济贡献上</div>
+<div class="opt">A.①②③</div>
+<div class="opt">B.②③④</div>
+<div class="opt">C.①③④</div>
+<div class="opt">D.①②④</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>A</b></div></details></div></section>
+<section class="kp" id="kp-11" data-title="第六节保障和改善民生"><div class="kp-head"><h3>第六节保障和改善民生</h3><div class="chips"><span class="chip b">填空 22/22</span><span class="chip k">真题</span><span class="chip m">自测</span></div></div><div class="kp-crumb">第一篇《习近平新时代中国特色社会主义思想》 · 第二章分论 · 第六节保障和改善民生</div><div class="kp-body"><p>为民造福是立党为公、执政为民的本质要求，要把<mark class="fill">增进民生福祉</mark>作为发展的根本目的。</p>
+<h4 class="sub1">一、实施就业优先战略</h4>
+<p>1.就业是<mark class="fill">民生之本</mark>，是<mark class="fill">最基本</mark>的民生，是最大的民生工程、民心工程、根基工程。</p>
+<p>2.促进<mark class="fill">高质量充分就业</mark>，是新时代新征程就业工作的新定位、新使命。</p>
+<p>3.促进高质量充分就业以破解<mark class="fill">结构性</mark>就业矛盾为着力点。</p>
+<p>4.全面贯彻劳动者自主就业、<mark class="fill">市场</mark>调节就业、<mark class="fill">政府</mark>促进就业和鼓励创业的方针，以推动<mark class="fill">高质量发展</mark>为基础，以实施就业优先战略为<mark class="fill">引领</mark>，以强化就业优先政策为抓手，以深化就业体制机制改革为<mark class="fill">动力</mark>，持续促进就业质的有效提升和量的合理增长。</p>
+<h4 class="sub1">二、完善分配制度</h4>
+<p>1.收入分配是<mark class="fill">民生之源</mark>。分配制度是促进共同富裕的<mark class="fill">基础性</mark>制度。</p>
+<p>2.构建初次分配、再分配、第三次分配协调配套的制度体系，提高居民收入在国民收入分配中的比重，提高劳动报酬在<mark class="fill">初次分配</mark>中的比重。</p>
+<p>3.健全各类要素由<mark class="fill">市场</mark>评价贡献、按贡献决定报酬的初次分配机制，促进多劳者多得、技高者多得、创新者多得。</p>
+<p>4.加强税收、社会保障、转移支付等<mark class="fill">再分配</mark>调节，优化收入分配格局。</p>
+<p>5.多渠道增加城乡居民<mark class="fill">财产性</mark>收入，形成有效增加低收入群体收入、稳步扩大中等收入群体规模、合理调节过高收入的制度体系。</p>
+<h4 class="sub1">三、健全社会保障体系</h4>
+<p>1.<mark class="fill">社会保障</mark>体系是人民生活的安全网和社会运行的稳定器。</p>
+<p>2.社会保障制度包括：社会保险、社会福利、社会救济、社会优抚与安置。</p>
+<p>（1）<mark class="fill">社会保险</mark>是社会保障制度的核心内容，是社会保障体系中的基本纲领。</p>
+<p>（2）社会福利属于<mark class="fill">最高</mark>层次的社会保障措施。</p>
+<p>（3）<mark class="fill">社会救济</mark>属于最低层次的社会保障措施。</p>
+<p>（4）社会优抚是国家和社会对法定的对象给予抚恤和优待的保障制度。</p>
+<h4 class="sub1">四、推进健康中国建设</h4>
+<p>1.<mark class="fill">人民健康</mark>是社会文明进步的基础，是民族昌盛和国家富强的重要标志。</p>
+<p>2.坚持<mark class="fill">预防</mark>为主的方针，深入实施健康中国行动。</p></div><div class="qblock kcq"><div class="qtag">考场传真 · 真题</div><p>（单选）以人民为中心的发展思想不是一个抽象的玄奥的概念，不能只停留在口头上，止步于思想环节，而要体现在经济社会发展各个环节，下列体现这一思想的有几项？</p>
+<div class="opt">①深化收入分配制度改革，优化收入分配结构</div>
+<div class="opt">②全面贯彻党的教育方针，努力办好人民满意的教育</div>
+<div class="opt">③实施就业优先战略，把就业摆在经济社会发展优先位置</div>
+<div class="opt">④把保障人民健康放在优先发展的战略地位，全面推进健康中国建设</div>
+<div class="opt">⑤完善基本养老保险全国统筹制度，发展多层次多支柱养老保险体系</div>
+<div class="opt">A.2 项</div>
+<div class="opt">B.3 项</div>
+<div class="opt">C.4 项</div>
+<div class="opt">D.5 项</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>D</b></div></details></div><div class="qblock mtq"><div class="qtag">母题特训 · 自测</div><p>（单选）就业是民生之本，是经济发展的基本支撑。下列相关说法，正确的是：</p>
+<div class="opt">①促进高质量充分就业，是新时代新征程就业工作的新定位、新使命</div>
+<div class="opt">②促进高质量充分就业以破解周期性就业矛盾为着力点</div>
+<div class="opt">③全面贯彻劳动者自主就业、市场调节就业、政府促进就业和鼓励创业的方针</div>
+<div class="opt">④实施就业优先战略以推动高质量发展为引领，以强化就业优先政策为基础</div>
+<div class="opt">A.①②③</div>
+<div class="opt">B.②③④</div>
+<div class="opt">C.①③</div>
+<div class="opt">D.②④</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>C</b></div></details></div></section>
+<section class="kp" id="kp-12" data-title="第七节社会主义生态文明"><div class="kp-head"><h3>第七节社会主义生态文明</h3><div class="chips"><span class="chip b">填空 10/10</span><span class="chip k">真题</span><span class="chip m">自测</span></div></div><div class="kp-crumb">第一篇《习近平新时代中国特色社会主义思想》 · 第二章分论 · 第七节社会主义生态文明</div><div class="kp-body"><p>1.<mark class="fill">生态文明建设</mark>是关系中华民族永续发展的根本大计/千年大计。</p>
+<p>2.推动经济社会发展绿色化、低碳化是实现高质量发展的<mark class="fill">关键环节</mark>。</p>
+<p>3.尊重自然、<mark class="fill">顺应自然</mark>、保护自然是全面建设社会主义现代化国家的内在要求。</p>
+<p>4.<mark class="fill">绿水青山</mark>就是金山银山，是重要的发展理念。</p>
+<p>5.坚持节约优先、保护优先、<mark class="fill">自然恢复</mark>为主的方针。</p>
+<p>6.生态环境问题归根到底是经济发展方式和生活方式问题。</p>
+<p>7.坚持把<mark class="fill">绿色低碳</mark>发展作为解决生态环境问题的治本之策。</p>
+<p>8.我国碳达峰碳中和的目标是<mark class="fill">2030</mark>年前实现碳达峰、<mark class="fill">2060</mark>年前实现碳中和。</p>
+<p>9.落实生态保护红线、<mark class="fill">永久基本农田</mark>、城镇开发边界三条控制线。</p>
+<p>10.构建以<mark class="fill">国家公园</mark>为主体、自然保护区为基础，各类自然公园为补充的自然保护地体系。</p></div><div class="qblock kcq"><div class="qtag">考场传真 · 真题</div><p>（单选）建设美丽中国是全面建设社会主义现代化国家的重要目标。关于在推进中国式现代化过程中建设美丽中国，下列说法正确的是：</p>
+<div class="opt">A.全面推进以国家公园为主体的自然保护地体系建设</div>
+<div class="opt">B.健全绿色低碳发展机制，推动碳排放双控向能耗双控转型</div>
+<div class="opt">C.健全横向生态保护补偿机制，突出重要流域上游生态环境的治理责任</div>
+<div class="opt">D.坚持生态环境管理全国一盘棋，强化全国范围内一致性的生态环境管理制度</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>A</b></div></details></div><div class="qblock mtq"><div class="qtag">母题特训 · 自测</div><p>（单选）生态文明建设是关系中华民族永续发展的根本大计。下列相关说法，正确的有几项？</p>
+<div class="opt">①推动经济社会发展绿色化、低碳化是实现高质量发展的关键环节</div>
+<div class="opt">②生态环境问题归根到底是经济发展方式和生活方式问题</div>
+<div class="opt">③坚持把绿色低碳发展作为解决生态环境问题的治本之策</div>
+<div class="opt">④尊重自然、顺应自然、保护自然是全面建设社会主义现代化国家的内在要求</div>
+<div class="opt">A.4 项</div>
+<div class="opt">B.3 项</div>
+<div class="opt">C.2 项</div>
+<div class="opt">D.1 项</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>A</b></div></details></div></section>
+<section class="kp" id="kp-13" data-title="第八节全面深化改革"><div class="kp-head"><h3>第八节全面深化改革</h3><div class="chips"><span class="chip b">填空 14/14</span><span class="chip k">真题</span><span class="chip m">自测</span></div></div><div class="kp-crumb">第一篇《习近平新时代中国特色社会主义思想》 · 第二章分论 · 第八节全面深化改革</div><div class="kp-body"><h4 class="sub1">一、改革开放</h4>
+<p>1.党的<mark class="fill">十一届三中全会</mark>是划时代的，开启了改革开放和社会主义现代化建设新时期。</p>
+<p>2.改革开放的性质是社会主义制度的<mark class="fill">自我完善和发展</mark>，而不是改弦易张。</p>
+<p>3.改革开放的地位：重要法宝、<mark class="fill">关键一招</mark>、根本动力、必由之路。</p>
+<h4 class="sub1">二、全面深化改革</h4>
+<p>1.党的<mark class="fill">十八届三中全会</mark>是划时代，开创了新时代全面深化改革新局面。</p>
+<p>2.全面深化改革<mark class="fill">总目标</mark>是完善和发展中国特色社会主义制度、推进国家治理体系和治理能力现代化。</p>
+<p>3.全面深化改革开放必须以是否有利于坚持和改善党的全面领导、是否有利于坚持和完善<mark class="fill">中国特色社会主义制度</mark>为根本标准。</p>
+<p>4.改革发展稳定是我国社会主义现代化建设的三个重要支点。改革是经济社会发展的强大动力，<mark class="fill">发展</mark>是解决一切经济社会问题的关键，稳定是改革发展的<mark class="fill">前提</mark>。把<mark class="fill">改善人民生活</mark>作为正确处理改革发展稳定关系的结合点。</p>
+<p>5.改革和<mark class="fill">法治</mark>如鸟之两翼、车之两轮，相辅相成、相伴而生。</p>
+<h4 class="sub1">三、进一步全面深化改革</h4>
+<p>1.进一步全面深化改革以<mark class="fill">经济体制</mark>改革为牵引，以促进社会公平正义、增进人民福祉为<mark class="fill">出发点和落脚点</mark>。</p>
+<p>2.进一步全面深化改革要贯彻坚持党的全面领导、坚持以人民为中心、坚持守正创新、坚持以<mark class="fill">制度建设</mark>为主线、坚持全面依法治国、坚持<mark class="fill">系统观念</mark>等原则。</p></div><div class="qblock kcq"><div class="qtag">考场传真 · 真题</div><p>（单选）改革开放是决定当代中国命运的关键一招。下列说法正确的有几项？</p>
+<div class="opt">①党的十一届三中全会是划时代的，开创了新时代全面深化改革新局面</div>
+<div class="opt">②全面深化改革必须以是否有利于坚持和改善党的全面领导、坚持和完善中国特色社会主义制度为根本标准</div>
+<div class="opt">③完善和发展中国特色社会主义制度、推进国家治理体系和治理能力现代化是全面深化改革的总目标</div>
+<div class="opt">④统筹推进各领域各方面改革开放，必须以政治体制改革为重点</div>
+<div class="opt">A.1 项</div>
+<div class="opt">B.2 项</div>
+<div class="opt">C.3 项</div>
+<div class="opt">D.4 项</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>B</b></div></details></div><div class="qblock mtq"><div class="qtag">母题特训 · 自测</div><p>（单选）改革开放是决定当代中国命运的关键一招。下列相关说法，正确的有：</p>
+<div class="opt">①党的十一届三中全会是划时代的，开启了改革开放和社会主义现代化建设新时期</div>
+<div class="opt">②党的十八届三中全会也是划时代的，开创了新时代全面深化改革、系统整体设计推进改革的新局面</div>
+<div class="opt">③改革开放的性质是社会主义制度的自我完善和发展，而不是改弦易张</div>
+<div class="opt">④改革、发展、稳定是我国社会主义现代化建设的三个重要支点，其中稳定是改革和发展的前提</div>
+<div class="opt">A.①②</div>
+<div class="opt">B.①②③</div>
+<div class="opt">C.③④</div>
+<div class="opt">D.①②③④</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>D</b></div></details></div></section>
+<section class="kp" id="kp-14" data-title="第九节全面依法治国"><div class="kp-head"><h3>第九节全面依法治国</h3><div class="chips"><span class="chip b">填空 19/19</span><span class="chip k">真题</span><span class="chip m">自测</span></div></div><div class="kp-crumb">第一篇《习近平新时代中国特色社会主义思想》 · 第二章分论 · 第九节全面依法治国</div><div class="kp-body"><p>全面依法治国是国家治理的一场深刻革命，是中国特色社会主义的<mark class="fill">本质要求</mark>和重要保障。</p>
+<h4 class="sub1">一、坚持中国特色社会主义法治道路</h4>
+<p>1.中国特色社会主义法治道路的核心要义，就是要坚持党的领导，坚持中国特色社会主义制度，贯彻<mark class="fill">中国特色社会主义法治理论</mark>。</p>
+<p>2.<mark class="fill">党的领导</mark>是社会主义法治最根本的保证，是中国特色社会主义法治之魂，是我们的法治同西方资本主义国家的法治最大的区别。</p>
+<p>3.<mark class="fill">中国特色社会主义制度</mark>是中国特色社会主义法治体系的根本制度基础，是全面推进依法治国的根本制度保障。</p>
+<p>4.中国特色社会主义法治理论是中国特色社会主义法治体系的理论指导和学理支撑，是全面推进依法治国的<mark class="fill">行动指南</mark>。</p>
+<h4 class="sub1">二、建设中国特色社会主义法治体系</h4>
+<p>1.全面依法治国的<mark class="fill">总目标</mark>是建设中国特色社会主义法治体系、建设社会主义法治国家。</p>
+<p>2.全面依法治国的<mark class="fill">总抓手</mark>是建设中国特色社会主义法治体系。中国特色社会主义法治体系包括完备的<mark class="fill">法律规范</mark>体系、高效的法治实施体系、严密的法治监督体系、有力的法治保障体系，形成完善的<mark class="fill">党内法规</mark>体系。</p>
+<p>3.坚持依法治国首先要坚持<mark class="fill">依宪</mark>治国，坚持依法执政首先要坚持依宪执政，坚持依宪治国、依宪执政，把全面贯彻实施宪法作为<mark class="fill">首要任务</mark>。</p>
+<p>4.坚持依宪治国、依宪执政，就必须坚持宪法确定的中国共产党领导地位不动摇，坚持宪法确定的人民民主专政的<mark class="fill">国体</mark>和人民代表大会制度的<mark class="fill">政体</mark>不动摇。</p>
+<h4 class="sub1">三、加快建设法治中国</h4>
+<p>1.加快建设法治中国，必须围绕保障和促进社会公平正义，坚持依法治国、<mark class="fill">依法执政</mark>、依法行政共同推进，坚持法治国家、法治政府、<mark class="fill">法治社会</mark>一体建设。</p>
+<p>2.依法治国是党领导人民治理国家的基本方式。</p>
+<p>3.法治国家是法治建设的<mark class="fill">目标</mark>。</p>
+<p>4.<mark class="fill">法治政府</mark>建设是全面依法治国的重点任务和主体工程。</p>
+<p>5.<mark class="fill">法治社会</mark>是构筑法治国家的基础。</p>
+<p>6.全面推进科学立法、严格执法、公正司法、全民守法。<mark class="fill">公正司法</mark>是维护社会公平正义的最后一道防线。</p></div><div class="qblock kcq"><div class="qtag">考场传真 · 真题</div><p>（单选）习近平总书记指出，全面依法治国是国家治理的一场深刻革命，关系党执政兴国，关系人民幸福安康，关系党和国家长治久安。关于全面依法治国，下列说法正确的是：</p>
+<div class="opt">①全面依法治国是中国特色社会主义的本质要求和重要保障</div>
+<div class="opt">②全面依法治国要坚持依法治国、依法执政、依法行政共同推进</div>
+<div class="opt">③全面依法治国要坚持法治国家、法治政府、法治社会一体建设</div>
+<div class="opt">④全面依法治国要坚持依法治国和依规治党有机统一</div>
+<div class="opt">A.①②③</div>
+<div class="opt">B.①②④</div>
+<div class="opt">C.②③④</div>
+<div class="opt">D.①②③④</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>D</b></div></details></div><div class="qblock mtq"><div class="qtag">母题特训 · 自测</div><p>（单选）全面依法治国是国家治理的一场深刻革命。下列相关说法，正确的有几项？</p>
+<div class="opt">①保障人民当家作主是中国特色社会主义法治之魂</div>
+<div class="opt">②中国特色社会主义制度是中国特色社会主义法治体系的根本制度基础</div>
+<div class="opt">③中国特色社会主义法治理论是全面推进依法治国的行动指南</div>
+<div class="opt">④坚持依法治国首先要坚持依宪治国，坚持依法执政首先要坚持依宪执政</div>
+<div class="opt">A.1 项</div>
+<div class="opt">B.2 项</div>
+<div class="opt">C.3 项</div>
+<div class="opt">D.4 项</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>C</b></div></details></div></section>
+<section class="kp" id="kp-15" data-title="第十节全面从严治党"><div class="kp-head"><h3>第十节全面从严治党</h3><div class="chips"><span class="chip b">填空 36/36</span><span class="chip k">真题</span><span class="chip m">自测</span></div></div><div class="kp-crumb">第一篇《习近平新时代中国特色社会主义思想》 · 第二章分论 · 第十节全面从严治党</div><div class="kp-body"><p>全面从严治党是党永葆生机活力、走好新的赶考之路的<mark class="fill">必由之路</mark>，是新时代党的建设的<mark class="fill">鲜明主题</mark>。</p>
+<h4 class="sub1">一、新时代党的建设总要求</h4>
+<p>坚持和加强党的全面领导，坚持党要管党、全面从严治党，以加强党的长期执政能力建设、先进性和纯洁性建设为<mark class="fill">主线</mark>，以党的<mark class="fill">政治建设</mark>为统领，以坚定理想信念宗旨为<mark class="fill">根基</mark>，以调动全党积极性、主动性、创造性为着力点，全面推进党的政治建设、思想建设、组织建设、作风建设、纪律建设，把<mark class="fill">制度建设</mark>贯穿其中，深入推进反腐败斗争，不断提高党的建设质量，把党建设成为始终走在时代前列、人民衷心拥护、勇于自我革命、经得起各种风浪考验、朝气蓬勃的马克思主义执政党。</p>
+<h4 class="sub1">二、把全面从严治党引向深入</h4>
+<h5 class="sub2">1.政治建设</h5>
+<p>（1）政治建设是党的<mark class="fill">根本性</mark>建设，决定着党的建设方向和效果，要摆在<mark class="fill">首位</mark>。</p>
+<p>（2）政治建设的<mark class="fill">首要任务</mark>是保证全党服从中央，坚持党中央权威和集中统一领导。</p>
+<p>（3）坚决做到“<mark class="fill">两个维护</mark>”是最高政治原则和根本政治规矩。</p>
+<p>（4）加强政治能力训练和政治实践历练，把对党忠诚、为党分忧、为党尽职、为民造福作为<mark class="fill">根本政治担当</mark>。</p>
+<h5 class="sub2">2.思想建设</h5>
+<p>（1）思想建设是党的<mark class="fill">基础性</mark>建设。</p>
+<p>（2）思想建设的首要任务是<mark class="fill">坚定理想信念</mark>。理想信念是中国共产党人的精神支柱和政治灵魂，是共产党人精神上的“钙”。</p>
+<p>（3）思想建设的根本任务是<mark class="fill">用党的创新理论武装全党</mark>。</p>
+<h5 class="sub2">3.组织建设</h5>
+<p>（1）新时代党的组织路线，以<mark class="fill">组织体系</mark>建设为重点，建设忠诚干净担当的高素质干部队伍是<mark class="fill">关键</mark>。</p>
+<p>（2）严密党的组织体系，关键是坚持党中央权威和集中统一领导，根本在做到“<mark class="fill">两个维护</mark>”。</p>
+<p>（3）从严治党，关键是要抓住<mark class="fill">领导干部</mark>这个“关键少数”。</p>
+<h5 class="sub2">4.作风建设</h5>
+<p>（1）作风问题的核心是保持党同<mark class="fill">人民群众</mark>的血肉联系。</p>
+<p>（2）党的最大政治优势是密切联系群众，执政后的最大危险是<mark class="fill">脱离群众</mark>。</p>
+<h5 class="sub2">5.纪律建设</h5>
+<p>加强纪律建设是全面从严治党的治本之策。</p>
+<p>【知识延伸】</p>
+<p>党性、党风、党纪的关系</p>
+<p>党性、党风、党纪是有机整体，<mark class="fill">党性</mark>是根本，<mark class="fill">党风</mark>是表现，<mark class="fill">党纪</mark>是保障。</p>
+<h5 class="sub2">6.制度建设</h5>
+<p>从严治党要靠制度保障，靠制度是长远之策、<mark class="fill">根本之策</mark>。</p>
+<h5 class="sub2">7.反腐倡廉建设</h5>
+<p>（1）腐败是党长期执政面临的<mark class="fill">最大威胁</mark>，反腐败是最彻底的<mark class="fill">自我革命</mark>。</p>
+<p>（2）坚持不敢腐、不能腐、不想腐一体推进。把<mark class="fill">不敢腐</mark>的强大震慑效能、<mark class="fill">不能腐</mark>的刚性制度约束、<mark class="fill">不想腐</mark>的思想教育优势融于一体。</p>
+<h5 class="sub2">8.自我革命</h5>
+<p>（1）党的自我革命是跳出历史周期率的<mark class="fill">第二个</mark>答案。勇于<mark class="fill">自我革命</mark>，是中国共产党区别于其他政党的显著标志，也是我们党最大的优势、最鲜明的品格。</p>
+<h5 class="sub3">（2）深入推进党的自我革命的实践要求</h5>
+<p>①以坚持党中央集中统一领导为根本保证。</p>
+<p>②以<mark class="fill">引领伟大社会革命</mark>为根本目的。</p>
+<p>③以新时代中国特色社会主义思想为根本遵循。</p>
+<p>④以跳出历史周期率为<mark class="fill">战略目标</mark>。</p>
+<p>⑤以<mark class="fill">解决大党独有难题</mark>为主攻方向。</p>
+<p>⑥以健全全面从严治党体系为有效途径。</p>
+<p>⑦以锻造坚强组织、建设过硬队伍为重要着力点。</p>
+<p>⑧以正风肃纪反腐为<mark class="fill">重要抓手</mark>。</p>
+<p>⑨以自我监督和<mark class="fill">人民监督</mark>相结合为强大动力。</p></div><div class="qblock kcq"><div class="qtag">考场传真 · 真题</div><p>（单选）党的十八大以来，以习近平同志为核心的党中央坚定不移推进全面从严治党，取得一系列理论创新、实践创新、制度创新成果，构建起全面从严治党体系，开辟了百年大党自我革命新境界。下列关于全面从严治党的表述准确的是：</p>
+<div class="opt">①严密党的组织体系，关键是坚持党中央权威和集中统一领导，根本在做到“两个维护”</div>
+<div class="opt">②制度建设要与管党治党需要相适应、与党的各项建设相配套，全方位织密制度的笼子</div>
+<div class="opt">③新时代党的建设是以党的组织建设为统领、党的各项建设同向发力综合发力的系统工程</div>
+<div class="opt">④着力抓好政治监督、领导班子特别是“一把手”监督、“三重一大”事项监督以及权力集中、资金密集、资源富集等重点领域的监督</div>
+<div class="opt">A.①②③</div>
+<div class="opt">B.①②④</div>
+<div class="opt">C.②③④</div>
+<div class="opt">D.①②③④</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>B</b></div></details></div><div class="qblock mtq"><div class="qtag">母题特训 · 自测</div><p>（单选）全面从严治党是党永葆生机活力、走好新的赶考之路的必由之路。下列关于新时代党的建设总要求的说法，正确的有几项？</p>
+<div class="opt">①以加强党的长期执政能力建设、先进性和纯洁性建设为主线</div>
+<div class="opt">②以党的制度建设为统领，以坚定理想信念宗旨为根基</div>
+<div class="opt">③以调动全党积极性、主动性、创造性为着力点</div>
+<div class="opt">④总体布局是全面推进党的政治建设、思想建设、组织建设、作风建设、纪律建设，把制度建设贯穿其中，深入推进反腐败斗争</div>
+<div class="opt">A.1 项</div>
+<div class="opt">B.2 项</div>
+<div class="opt">C.3 项</div>
+<div class="opt">D.4 项</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>C</b></div></details></div></section>
+<section class="kp" id="kp-16" data-title="第十一节社会主义现代化建设的教育、科技、人才战略"><div class="kp-head"><h3>第十一节社会主义现代化建设的教育、科技、人才战略</h3><div class="chips"><span class="chip b">填空 25/25</span><span class="chip k">真题</span><span class="chip m">自测</span></div></div><div class="kp-crumb">第一篇《习近平新时代中国特色社会主义思想》 · 第二章分论 · 第十一节社会主义现代化建设的教育、科技、人才战略</div><div class="kp-body"><p>教育、科技、人才是全面建设社会主义现代化国家的<mark class="fill">基础性</mark>、战略性支撑。</p>
+<p>必须坚持<mark class="fill">科技</mark>是第一生产力、人才是<mark class="fill">第一资源</mark>、<mark class="fill">创新</mark>是第一动力，加快教育强国、科技强国、人才强国建设。</p>
+<h4 class="sub1">一、加快建设教育强国</h4>
+<p>1.建设教育强国是全面推进强国建设、民族复兴伟业的<mark class="fill">先导任务</mark>、坚实基础、战略支撑。</p>
+<p>2.培养什么人、为谁培养人、怎样培养人是教育的<mark class="fill">根本问题</mark>，也是建设教育强国的核心课题。习近平总书记指出：“社会主义建设者和接班人，定语就是‘社会主义’，这是我们对培养什么人的本质规定。”</p>
+<p>3.必须以坚持党对教育事业的全面领导为<mark class="fill">根本保证</mark>，以<mark class="fill">立德树人</mark>为根本任务，以为党育人、为国育才为<mark class="fill">根本目标</mark>。</p>
+<p>4.要坚持教育<mark class="fill">公益性</mark>原则，把教育公平作为国家基本教育政策，以教育公平促进社会公平正义。</p>
+<p>5.<mark class="fill">高质量发展</mark>是教育的生命线。要把<mark class="fill">基础教育</mark>作为基点，<mark class="fill">高等教育</mark>作为龙头。</p>
+<p>6.教育大计，教师为本。要把加强教师队伍建设作为建设教育强国最重要的基础工作来抓。公众号机智考公生活，资料免费更新。</p>
+<p>7.<mark class="fill">人民满意</mark>是发展教育的根本尺度。</p>
+<h4 class="sub1">二、加快建设科技强国</h4>
+<p>1.实现高水平科技自立自强是国家强盛和民族复兴的战略基石。</p>
+<p>2.加大研发投入，健全<mark class="fill">政府投入</mark>为主、社会多渠道投入机制，为打赢关键核心技术攻坚战提供有力保障。</p>
+<p>3.抓住了<mark class="fill">自主创新</mark>，就抓住了科学技术发展的战略基点，就抓住了结构调整和增长方式转变的中心环节，就抓住了把握战略机遇期、实现经济长期稳定较快发展的关键。</p>
+<p>4.<mark class="fill">基础研究</mark>是科技创新的源头，<mark class="fill">应用研究</mark>是基础研究转化为实际应用的桥梁。</p>
+<p>5.<mark class="fill">高水平研究型大学</mark>是基础研究的主力军和重大科技突破的生力军。</p>
+<p>6.<mark class="fill">企业</mark>是科技创新的主体。</p>
+<h4 class="sub1">三、加快建设人才强国</h4>
+<p>1.人才是实现民族振兴、赢得国际竞争主动的战略资源。</p>
+<p>2.实施人才强国战略，建设规模宏大、结构合理、<mark class="fill">素质优良</mark>的人才队伍。</p>
+<p>3.坚持<mark class="fill">党对人才工作的全面领导</mark>，是我国人才体系的鲜明政治优势，也是建设人才强国的“纲”和“本”。</p>
+<p>4.破除唯论文、唯职称、唯学历、唯奖项的“四唯”现象。改进人才评价机制，建立健全以<mark class="fill">创新能力</mark>、质量、贡献为导向的评价体系。</p>
+<p>5.以<mark class="fill">国家发展需要</mark>和社会需求为导向，以培养人才创新精神和创新能力为<mark class="fill">重点</mark>，培养造就大批德才兼备的高素质人才。</p></div><div class="qblock kcq"><div class="qtag">考场传真 · 真题</div><p>（单选）习近平总书记指出，纵观人类历史，教育兴则国家兴，教育强则国家强，世界强国无一不是教育强国，教育始终是强国兴起的关键因素。关于建设教育强国，下列表述正确的有几项？</p>
+<div class="opt">①要坚持不懈用新时代中国特色社会主义思想铸魂育人</div>
+<div class="opt">②必须以坚持党对教育事业的全面领导为根本保证</div>
+<div class="opt">③坚持把高速高效发展作为各级各类教育的生命线</div>
+<div class="opt">④建设教育强国，龙头是义务教育</div>
+<div class="opt">A.1 项</div>
+<div class="opt">B.2 项</div>
+<div class="opt">C.3 项</div>
+<div class="opt">D.4 项</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>B</b></div></details></div><div class="qblock mtq"><div class="qtag">母题特训 · 自测</div><p>（单选）教育、科技、人才是全面建设社会主义现代化国家的基础性、战略性支撑。下列相关说法，正确的有几项？</p>
+<div class="opt">①建设教育强国是全面推进强国建设、民族复兴伟业的先导任务</div>
+<div class="opt">②实现高水平科技自立自强是国家强盛和民族复兴的战略基石</div>
+<div class="opt">③人才是实现民族振兴、赢得国际竞争主动的战略资源</div>
+<div class="opt">④必须坚持科技是第一生产力、人才是第一资源、创新是第一动力</div>
+<div class="opt">A.1 项</div>
+<div class="opt">B.2 项</div>
+<div class="opt">C.3 项</div>
+<div class="opt">D.4 项</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>D</b></div></details></div></section>
+<section class="kp" id="kp-17" data-title="第十二节总体国家安全观"><div class="kp-head"><h3>第十二节总体国家安全观</h3><div class="chips"><span class="chip b">填空 14/14</span><span class="chip k">真题</span><span class="chip m">自测</span></div></div><div class="kp-crumb">第一篇《习近平新时代中国特色社会主义思想》 · 第二章分论 · 第十二节总体国家安全观</div><div class="kp-body"><p>1.总体国家安全观是建国以来<mark class="fill">首个</mark>被确立为国家安全工作指导思想的战略思想。</p>
+<p>2.总体国家安全观是总体的、系统的、<mark class="fill">相对的</mark>大安全。以<mark class="fill">国家利益</mark>为准则，以<mark class="fill">政治安全</mark>为根本，以<mark class="fill">经济安全</mark>为基础，以<mark class="fill">人民安全</mark>为宗旨，以军事、科技、文化、社会安全为保障，以促进国际安全为依托。</p>
+<p>3.总体国家安全观的关键和灵魂是“<mark class="fill">总体</mark>”，它突出大安全理念。</p>
+<p>4.坚守维护国家利益准则，这是新时代中国国家安全的<mark class="fill">基本要求</mark>。中国核心利益主要包括：国家政权、主权、统一和领土完整、人民福祉、经济社会可持续发展。</p>
+<p>5.坚持把政治安全摆在<mark class="fill">首位</mark>，这是新时代中国国家安全的生命线。政治安全的核心是<mark class="fill">政权安全</mark>和制度安全，最根本的就是维护中国共产党的领导和执政地位、维护中国特色社会主义制度。</p>
+<p>6.践行人民安全宗旨，这是新时代中国国家安全的<mark class="fill">根本立场</mark>。</p>
+<p>7.防范化解国家安全风险，这是新时代中国国家安全的<mark class="fill">中心任务</mark>。重点是防控那些可能迟滞或中断中华民族伟大复兴进程的全局性风险。</p>
+<p>8.加强党对国家安全工作的绝对领导，这是新时代中国国家安全的<mark class="fill">根本保证</mark>。</p>
+<p>9.要完善公共安全体系，推动公共安全治理模式向<mark class="fill">事前预防</mark>转型。</p>
+<p>10.每年4 月15 日是全民国家安全教育日。</p></div><div class="qblock kcq"><div class="qtag">考场传真 · 真题</div><p>（单选）总体国家安全观是建设更高水平平安中国的重要遵循，必须坚定不移贯彻。关于贯彻总体国家安全观，下列举措不恰当的是：</p>
+<div class="opt">A.进一步健全国家安全体系</div>
+<div class="opt">B.着力完善国家安全力量布局</div>
+<div class="opt">C.推动公共安全治理模式向着重事后整顿转型</div>
+<div class="opt">D.全面加强国家安全教育，筑牢国家安全人民防线</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>C</b></div></details></div><div class="qblock mtq"><div class="qtag">母题特训 · 自测</div><p>（单选）国家安全是民族复兴的根基，社会稳定是国家强盛的前提。下列相关说法，正确的有几项？</p>
+<div class="opt">①总体国家安全观是建国以来首个被确立为国家安全工作指导思想的重大战略思想</div>
+<div class="opt">②总体国家安全观的关键和灵魂是“安全”，它突出大安全理念</div>
+<div class="opt">③总体国家安全观以国家利益为准则，以政治安全为根本，以经济安全为基础</div>
+<div class="opt">④坚持把国土安全摆在首位，这是新时代中国国家安全的生命线</div>
+<div class="opt">A.1 项</div>
+<div class="opt">B.2 项</div>
+<div class="opt">C.3 项</div>
+<div class="opt">D.4 项</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>B</b></div></details></div></section>
+<section class="kp" id="kp-18" data-title="第十三节巩固国防和强大人民军队"><div class="kp-head"><h3>第十三节巩固国防和强大人民军队</h3><div class="chips"><span class="chip b">填空 10/10</span><span class="chip k">真题</span><span class="chip m">自测</span></div></div><div class="kp-crumb">第一篇《习近平新时代中国特色社会主义思想》 · 第二章分论 · 第十三节巩固国防和强大人民军队</div><div class="kp-body"><p>1.党在新时代的强军目标是建设一支听党指挥、<mark class="fill">能打胜仗</mark>、作风优良的人民军队，把人民军队建设成为世界一流军队。</p>
+<h5 class="sub2">2.全面推进国防和军队现代化的战略安排</h5>
+<p>（1）到2027 年实现建军一百年奋斗目标。</p>
+<p>（2）到<mark class="fill">2035</mark>年基本实现国防和军队现代化。</p>
+<p>（3）到<mark class="fill">本世纪中叶</mark>把人民军队全面建成世界一流军队。</p>
+<p>3.坚持政治建军、改革强军、科技强军、人才强军、依法治军。<mark class="fill">政治建军</mark>是人民军队的立军之本。<mark class="fill">依法治军</mark>是我们党建军治军基本方式。</p>
+<p>4.党对人民军队的绝对领导，是<mark class="fill">建军之本</mark>、强军之魂。</p>
+<p>5.党对军队绝对领导的根本原则和制度，发端于<mark class="fill">南昌起义</mark>，奠基于<mark class="fill">三湾改编</mark>，定型于古田会议，是人民军队完全区别于一切旧军队的政治特质和根本优势。</p>
+<p>6.牢固树立<mark class="fill">战斗力</mark>这个唯一的根本的标准。</p>
+<p>7.<mark class="fill">军委主席负责制</mark>是坚持党对人民军队绝对领导的根本制度和根本实现形式，在党领导军队的一整套制度体系中处于最高层次、居于统领地位。</p></div><div class="qblock kcq"><div class="qtag">考场传真 · 真题</div><p>（单选）关于党在新时代的强军目标，下列说法正确的是：</p>
+<div class="opt">A.力争到本世纪中叶基本实现国防和军队现代化</div>
+<div class="opt">B.到2035 年把人民军队全面建成世界一流军队</div>
+<div class="opt">C.确保到2020 年全面实现机械化</div>
+<div class="opt">D.建设一支听党指挥、能打胜仗、作风优良的人民军队</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>D</b></div></details></div><div class="qblock mtq"><div class="qtag">母题特训 · 自测</div><p>（单选）强国必须强军，军强才能国安。党的二十大对开创国防和军队现代化新局面作出战略部署。下列关于新时代强军事业的说法，正确的有几项？</p>
+<div class="opt">①党对军队绝对领导是建军之本、强军之魂</div>
+<div class="opt">②政治建军是我们党建军治军基本方式</div>
+<div class="opt">③党对军队绝对领导的根本原则和制度是人民军队完全区别于一切旧军队的政治特质和根本优势</div>
+<div class="opt">④军委主席负责制是坚持党对人民军队绝对领导的根本制度和根本实现形式</div>
+<div class="opt">A.1 项</div>
+<div class="opt">B.2 项</div>
+<div class="opt">C.3 项</div>
+<div class="opt">D.4 项</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>C</b></div></details></div></section>
+<section class="kp" id="kp-19" data-title="第十四节坚持“一国两制”和推进祖国完全统一"><div class="kp-head"><h3>第十四节坚持“一国两制”和推进祖国完全统一</h3><div class="chips"><span class="chip b">填空 11/11</span><span class="chip k">真题</span><span class="chip m">自测</span></div></div><div class="kp-crumb">第一篇《习近平新时代中国特色社会主义思想》 · 第二章分论 · 第十四节坚持“一国两制”和推进祖国完全统一</div><div class="kp-body"><h4 class="sub1">一、全面准确理解和贯彻“一国两制”方针</h4>
+<p>1.“一国两制”是指在统一的国家之内，国家主体实行<mark class="fill">社会主义</mark>制度，个别地区依法实行<mark class="fill">资本主义</mark>制度。“一国”是实行“两制”的<mark class="fill">前提和基础</mark>。</p>
+<p>2.“一国两制”的<mark class="fill">最高原则</mark>是维护国家主权、安全、发展利益。</p>
+<p>3.“一国两制”的提出是从解决<mark class="fill">台湾问题</mark>开始的。</p>
+<p>4.“一国两制”在实践中首先运用于解决<mark class="fill">香港问题</mark>、澳门问题。</p>
+<p>5.<mark class="fill">全面管治权</mark>是授权特别行政区高度自治的前提和基础。</p>
+<h4 class="sub1">二、全面贯彻新时代党解决台湾问题的总体方略</h4>
+<p>1.坚持党中央对对台工作的集中统一领导，这是统一的根本保证。</p>
+<p>2.坚持“和平统一、<mark class="fill">一国两制</mark>”基本方针，这是统一的大政方针。</p>
+<p>3.坚持一个中国原则和“九二共识”，这是统一的<mark class="fill">政治基础</mark>。</p>
+<p>4.坚持推动两岸关系和平发展、融合发展，这是统一的<mark class="fill">实践途径</mark>。</p>
+<p>5.坚持团结台湾同胞、争取台湾民心，这是统一的根本动力。</p>
+<p>6.坚持决不承诺放弃使用武力，这是统一的<mark class="fill">战略支撑</mark>。</p></div><div class="qblock kcq"><div class="qtag">考场传真 · 真题</div><p>（单选）关于“一国两制”，下列说法错误的是：</p>
+<div class="opt">A.“一国两制”的基础和前提是“一个中国原则”</div>
+<div class="opt">B.“一国两制”构想最初提出来是为了解决台湾回归问题</div>
+<div class="opt">C.“一国两制”的构想成功运用的最早范例是香港回归</div>
+<div class="opt">D.“一国两制”的最高原则是保持香港、澳门长期繁荣稳定</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>D</b></div></details></div><div class="qblock mtq"><div class="qtag">母题特训 · 自测</div><p>（单选）解决台湾问题、实现祖国完全统一，是党矢志不渝的历史任务，是全体中华儿女的共同愿望，是实现中华民族伟大复兴的必然要求。下列与之相关的表述正确的是：</p>
+<div class="opt">①坚持决不承诺放弃使用武力，这是统一的政治基础</div>
+<div class="opt">②坚持团结台湾同胞、争取台湾民心，这是统一的根本动力</div>
+<div class="opt">③坚持推动两岸关系和平发展、融合发展，这是统一的实践途径</div>
+<div class="opt">④坚持一个中国原则和“九二共识”，这是统一的战略支撑</div>
+<div class="opt">A.①②</div>
+<div class="opt">B.②③</div>
+<div class="opt">C.③④</div>
+<div class="opt">D.②④</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>B</b></div></details></div></section>
+<section class="kp" id="kp-20" data-title="第十五节中国特色大国外交"><div class="kp-head"><h3>第十五节中国特色大国外交</h3><div class="chips"><span class="chip b">填空 10/10</span><span class="chip k">真题</span><span class="chip m">自测</span></div></div><div class="kp-crumb">第一篇《习近平新时代中国特色社会主义思想》 · 第二章分论 · 第十五节中国特色大国外交</div><div class="kp-body"><h4 class="sub1">一、推动构建新型国际关系</h4>
+<p>1.推进大国协调合作，构建和平共处、总体稳定、<mark class="fill">均衡发展</mark>的大国关系格局。</p>
+<p>2.坚持<mark class="fill">亲诚惠容</mark>和与邻为善、以邻为伴周边外交方针。要始终将周边置于外交全局的<mark class="fill">首要位置</mark>。</p>
+<p>3.秉持真实亲诚理念和正确义利观，加强同<mark class="fill">发展中国家</mark>团结合作。</p>
+<p>4.秉持<mark class="fill">求同存异</mark>、相互尊重、互学互鉴理念，构建新型政党关系。</p>
+<h4 class="sub1">二、推动构建人类命运共同体</h4>
+<p>1.中国特色大国外交以推动构建<mark class="fill">人类命运共同体</mark>为总目标。</p>
+<p>2.构建人类命运共同体，是以建设持久和平、普遍安全、<mark class="fill">共同繁荣</mark>、开放包容、清洁美丽的世界为努力目标，以推动<mark class="fill">共商共建共享</mark>的全球治理为实现路径，以践行全人类<mark class="fill">共同价值</mark>为普遍遵循，以推动构建新型国际关系为基本支撑，以落实全球发展倡议、全球安全倡议、全球文明倡议为战略引领，以高质量共建“<mark class="fill">一带一路</mark>”为实践平台，推动各国携手应对挑战、实现共同繁荣，推动世界走向和平、安全、繁荣、进步的光明前景。</p></div><div class="qblock kcq"><div class="qtag">考场传真 · 真题</div><p>（单选）“人类命运共同体，顾名思义，就是每个民族、每个国家的前途命运都紧紧联系在一起，应该风雨同舟、荣辱与共，努力把我们生于斯、长于斯的这个星球建成一个和谐的大家庭，把世界各国人民对美好生活的向往变成现实。”下列选项中，符合习近平总书记关于“人类命运共同体”设想的是：</p>
+<div class="opt">A.某政府为本国抗疫不力寻找“替罪羊”</div>
+<div class="opt">B.某国安全部发布通告，表示仅上网课的留学生将无法取得签证或维持当前签证</div>
+<div class="opt">C.某国以危害国家安危为由，要求×外企退出本国市场</div>
+<div class="opt">D.某国出于维护国际航道安全的目的，常年在索马里海域执行维和任务</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>D</b></div></details></div><div class="qblock mtq"><div class="qtag">母题特训 · 自测</div><p>（单选）中国坚持在和平共处五项原则基础上同各国发展友好合作，推动构建新型国际关系。下列有关中国外交方针的说法，正确的是：</p>
+<div class="opt">A.构建和平共处、总体稳定、均衡发展的大国关系格局</div>
+<div class="opt">B.始终将大国关系置于外交全局的首要位置</div>
+<div class="opt">C.秉持真实亲诚理念和正确义利观，构建新型政党关系</div>
+<div class="opt">D.秉持求同存异、相互尊重、互学互鉴理念，加强同发展中国家团结合作</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>A</b></div></details></div></section>
+<section class="kp" id="kp-21" data-title="知识点1 马克思主义概述"><div class="kp-head"><h3>知识点1 马克思主义概述</h3><div class="chips"><span class="chip b">填空 12/12</span><span class="chip k">真题</span><span class="chip m">自测</span></div></div><div class="kp-crumb">第二篇《马克思主义基本原理》</div><div class="kp-body"><p>1.1848 年<mark class="fill">《共产党宣言》</mark>的发表，标志着马克思主义的诞生。</p>
+<p>2. 马克思主义包括<mark class="fill">马克思主义哲学</mark>、马克思主义政治经济学和<mark class="fill">科学社会主义</mark>。</p>
+<p>3.马克思主义的直接理论来源是<mark class="fill">德国</mark>古典哲学（包括黑格尔的辩证法与费尔巴哈的唯物主义）、<mark class="fill">英国</mark>古典政治经济学、英法<mark class="fill">空想社会主义</mark>。</p>
+<p>4.马克思的两大发现：<mark class="fill">唯物史观</mark>和<mark class="fill">剩余价值</mark>学说。</p>
+<p>5.马克思主义的理论特征：以<mark class="fill">实践</mark>为基础的科学性和革命性的统一。</p>
+<p>6.马克思主义的理论品质：<mark class="fill">与时俱进</mark>。</p>
+<p>7.马克思主义的活的灵魂：<mark class="fill">具体问题具体分析</mark>。</p>
+<p>8.学习马克思主义的根本方法：<mark class="fill">理论联系实际</mark>。</p></div><div class="qblock kcq"><div class="qtag">考场传真 · 真题</div><p>（单选）关于科学社会主义，下列说法正确的有几项？</p>
+<div class="opt">①科学社会主义的理论基础是唯物史观和剩余价值学说</div>
+<div class="opt">②科学社会主义的思想来源是工人运动的兴起</div>
+<div class="opt">③科学社会主义在21 世纪的中国焕发出强大的生命力</div>
+<div class="opt">④《共产党宣言》的发表标志着科学社会主义的诞生</div>
+<div class="opt">⑤中国式现代化理论是科学社会主义的最新重大成果</div>
+<div class="opt">A.2 项</div>
+<div class="opt">B.3 项</div>
+<div class="opt">C.4 项</div>
+<div class="opt">D.5 项</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>C</b></div></details></div><div class="qblock mtq"><div class="qtag">母题特训 · 自测</div><p>（单选）马克思主义是我们立党立国、兴党兴国的根本指导思想。下列关于马克思主义的说法，正确的有几项？</p>
+<div class="opt">①《资本论》的发表标志着马克思主义的诞生，为无产阶级提供了强大的思想武器</div>
+<div class="opt">②马克思主义哲学、马克思主义政治经济学和科学社会主义是其不可分割的三个组成部分</div>
+<div class="opt">③马克思主义政治经济学的直接理论来源是德国古典政治经济学</div>
+<div class="opt">④唯物史观和剩余价值学说的发现，揭示了人类社会发展的一般规律和资本主义运行的特殊规律</div>
+<div class="opt">⑤以实践为基础的科学性和革命性的统一，是马克思主义理论区别于其他理论的显著特征</div>
+<div class="opt">A.2 项</div>
+<div class="opt">B.3 项</div>
+<div class="opt">C.4 项</div>
+<div class="opt">D.5 项</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>B</b></div></details></div></section>
+<section class="kp" id="kp-22" data-title="知识点2 两大哲学派别"><div class="kp-head"><h3>知识点2 两大哲学派别</h3><div class="chips"><span class="chip b">填空 10/10</span><span class="chip k">真题</span><span class="chip m">自测</span></div></div><div class="kp-crumb">第二篇《马克思主义基本原理》</div><div class="kp-body"><h5 class="sub2">1.哲学的基本问题</h5>
+<p>哲学的基本问题是<mark class="fill">思维与存在</mark>的关系问题，即意识与物质的关系问题。</p>
+<h5 class="sub3">（1）物质和意识何者为<mark class="fill">第一性</mark>的问题</h5>
+<p>对这一问题的不同回答，是<mark class="fill">唯物主义</mark>和<mark class="fill">唯心主义</mark>的根本分歧所在。</p>
+<p>凡认为物质决定意识的，就是唯物主义；凡认为意识决定物质的，就是唯心主义。</p>
+<h5 class="sub3">（2）物质和意识是否具有<mark class="fill">同一性</mark>的问题</h5>
+<p>对这一问题的不同回答，是<mark class="fill">可知论</mark>和<mark class="fill">不可知论</mark>的根本分歧所在。</p>
+<h5 class="sub2">2.两大哲学派别</h5>
+<h5 class="sub3">（1）唯物主义：认为物质决定意识</h5>
+<p>古代朴素唯物主义：把物质归结为一种或几种<mark class="fill">实物</mark>。</p>
+<p>近代形而上学唯物主义：把物质归结为原子。</p>
+<p>现代唯物主义即辩证唯物主义和历史唯物主义：认为物质的唯一特性是客观实在性。</p>
+<h5 class="sub3">（2）唯心主义：认为意识决定物质</h5>
+<p>主观唯心主义：主张<mark class="fill">人的精神</mark>是世界的本原。</p>
+<p>客观唯心主义：主张<mark class="fill">客观精神</mark>是世界的本原。</p></div><div class="qblock kcq"><div class="qtag">考场传真 · 真题</div><p>（单选）哲学基本问题是思维和存在的关系问题，即意识与物质的关系问题。对思维和存在何者是第一性的不同回答，划分出：</p>
+<div class="opt">A.唯物主义和唯心主义</div>
+<div class="opt">B.可知论和不可知论</div>
+<div class="opt">C.一元论和二元论</div>
+<div class="opt">D.辩证法和形而上学</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>A</b></div></details></div><div class="qblock mtq"><div class="qtag">母题特训 · 自测</div><p>（单选）关于哲学的基本问题，下列说法正确的是：</p>
+<div class="opt">A.哲学的基本问题是物质和存在的关系问题</div>
+<div class="opt">B.哲学基本问题的第一方面划分了哲学的派别，是最重要的方面</div>
+<div class="opt">C.哲学基本问题的第二方面是何者为第一性问题</div>
+<div class="opt">D.根据何者为第一性区分了可知论和不可知论</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>B</b></div></details></div></section>
+<section class="kp" id="kp-23" data-title="知识点3 物质与意识"><div class="kp-head"><h3>知识点3 物质与意识</h3><div class="chips"><span class="chip b">填空 9/9</span><span class="chip k">真题</span><span class="chip m">自测</span></div></div><div class="kp-crumb">第二篇《马克思主义基本原理》</div><div class="kp-body"><h5 class="sub2">1.物质</h5>
+<p>物质是标志客观实在的哲学范畴，<mark class="fill">客观实在性</mark>是物质的唯一特性。</p>
+<p>物质的<mark class="fill">根本属性</mark>和存在方式是运动。<mark class="fill">静止</mark>是运动的一种特殊的状态。</p>
+<p><mark class="fill">运动</mark>是无条件的、永恒的、绝对的。<mark class="fill">静止</mark>是有条件的、暂时的、相对的。</p>
+<p>世界上的事物都是绝对运动和相对静止的统一。</p>
+<h5 class="sub2">2.意识</h5>
+<p>意识的本质是人脑对客观存在的主观映象。<mark class="fill">人脑</mark>是意识的器官。</p>
+<h5 class="sub2">3.物质和意识的辩证关系</h5>
+<p>物质<mark class="fill">决定</mark>意识，要求一切从实际出发。</p>
+<p>意识具有<mark class="fill">主观能动性</mark>，对物质起能动的反作用。正确的意识对事物的发展具有促进作用，错误的意识对事物的发展具有阻碍作用。</p>
+<p><mark class="fill">尊重客观规律</mark>是正确发挥主观能动性的前提。</p>
+<p>【知识延伸】</p>
+<p>人工智能</p>
+<p>1.人工智能是人意识的延伸和补充，是意识具有主观能动性的体现。</p>
+<p>2.人的意识是精神活动过程，人工智能是机械物理过程。</p>
+<p>3.人工智能无法完全取代人的意识。</p>
+<p>4.人工智能不具备意识独有的特点如具有自觉能动性、揭示规律等。</p></div><div class="qblock kcq"><div class="qtag">考场传真 · 真题</div><p>（单选）“一切皆可以变，唯有我们的理想不能变；一切都可以老，唯有我们年轻的心不能老；一切都可以退，唯有我们前进的脚步不能退。”这首诗启示我们：</p>
+<div class="opt">A.运动是物质的唯一特性</div>
+<div class="opt">B.物质是运动的，物质是运动的承担者</div>
+<div class="opt">C.运动是静止的特殊状态</div>
+<div class="opt">D.要正确把握绝对运动和相对静止的辩证关系</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>D</b></div></details></div><div class="qblock mtq"><div class="qtag">母题特训 · 自测</div><p>（单选）马克思主义哲学认为，物质是标志客观实在的哲学范畴。下列关于物质与意识的说法，错误的是：</p>
+<div class="opt">A.物质的唯一特性是客观实在性，它不依赖于人的意识而存在</div>
+<div class="opt">B.运动是物质的根本属性和存在方式，静止是运动的特殊状态</div>
+<div class="opt">C.意识是人脑的机能，其本质是人脑对客观存在的主观映象</div>
+<div class="opt">D.意识对物质具有能动的反作用，因此意识可以直接改变客观事物的形态</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>D</b></div></details></div></section>
+<section class="kp" id="kp-24" data-title="知识点4 唯物辩证法的总特征"><div class="kp-head"><h3>知识点4 唯物辩证法的总特征</h3><div class="chips"><span class="chip b">填空 10/10</span><span class="chip k">真题</span><span class="chip m">自测</span></div></div><div class="kp-crumb">第二篇《马克思主义基本原理》</div><div class="kp-body"><p><mark class="fill">联系</mark>和<mark class="fill">发展</mark>的观点是唯物辩证法的总观点和总特征。</p>
+<h5 class="sub2">1.事物的普遍联系</h5>
+<p>（1）联系的特征：<mark class="fill">客观性</mark>、普遍性、多样性、<mark class="fill">条件性</mark>。</p>
+<h5 class="sub3">①联系的客观性</h5>
+<p>事物的联系是事物本身所固有的，不是<mark class="fill">主观臆想</mark>的。</p>
+<h5 class="sub3">②联系的普遍性</h5>
+<p>任何事物内部的不同部分和要素之间都是相互联系的。任何事物都不能孤立存在，都同其他事物处于一定的联系之中。<mark class="fill">整个世界</mark>是相互联系的统一整体。</p>
+<h5 class="sub3">（2）整体和部分的辩证关系</h5>
+<p>①整体居于主导地位，整体<mark class="fill">统率</mark>着部分，整体具有部分所没有的新功能。</p>
+<p>②部分影响整体，<mark class="fill">关键部分</mark>的功能及其变化甚至决定整体的功能。</p>
+<h5 class="sub2">2.事物的永恒发展</h5>
+<p>发展的<mark class="fill">实质</mark>是新事物的产生和旧事物的灭亡。</p>
+<p>新旧事物区分的根本标志是是否同事物发展的<mark class="fill">必然趋势</mark>相符合。</p></div><div class="qblock kcq"><div class="qtag">考场传真 · 真题</div><p>（单选）经济学家巴莱多认为，一个组织里有20%的人是最好的，70%的人是中间状态，10%的人是最差的，这是一个动态的曲线，企业管理者应主要抓好20%的骨干力量的管理，再以20%的少数带动80%的多数，这样可以提高企业效率。材料中体现的哲理是：</p>
+<div class="opt">A.部分功能常常决定着整体功能</div>
+<div class="opt">B.整体的功能是部分功能之和</div>
+<div class="opt">C.办事情必须立足整体，统筹全局</div>
+<div class="opt">D.办事情要发挥关键部分的作用</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>D</b></div></details></div><div class="qblock mtq"><div class="qtag">母题特训 · 自测</div><p>（单选）唯物辩证法是关于普遍联系和永恒发展的科学。下列关于联系与发展的说法，正确的有几项？</p>
+<div class="opt">①联系具有普遍性，意味着任何两个事物之间都存在着必然的联系</div>
+<div class="opt">②整体居于主导地位，统率着部分，且整体具有部分所不具备的功能</div>
+<div class="opt">③发展的实质是新事物的产生和旧事物的灭亡，体现了事物的前进和上升</div>
+<div class="opt">④新旧事物区分的根本标志在于出现时间的先后顺序</div>
+<div class="opt">A.1 项</div>
+<div class="opt">B.2 项</div>
+<div class="opt">C.3 项</div>
+<div class="opt">D.4 项</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>B</b></div></details></div></section>
+<section class="kp" id="kp-25" data-title="知识点5 对立统一规律"><div class="kp-head"><h3>知识点5 对立统一规律</h3><div class="chips"><span class="chip b">填空 24/24</span><span class="chip k">真题</span><span class="chip m">自测</span></div></div><div class="kp-crumb">第二篇《马克思主义基本原理》</div><div class="kp-body"><p>对立统一规律又称矛盾规律，矛盾是反映客观事物内部或不同事物之间对立统一关系的哲学范畴。对立统一规律揭示了事物发展的<mark class="fill">源泉和动力</mark>，是唯物辩证法的<mark class="fill">实质和核心</mark>。</p>
+<h5 class="sub2">1.矛盾的<mark class="fill">基本属性</mark>：矛盾的同一性和斗争性</h5>
+<p>矛盾的同一性是指矛盾双方<mark class="fill">相互依存</mark>、相互贯通的性质和趋势。</p>
+<p>矛盾的斗争性是指矛盾双方相互排斥、相互分离的性质和趋势。</p>
+<h5 class="sub2">2.矛盾的普遍性和特殊性</h5>
+<h5 class="sub3">（1）矛盾的普遍性</h5>
+<p>①原理：矛盾无处不在、矛盾无时不有。</p>
+<p>②方法论：坚持<mark class="fill">矛盾分析法</mark>，全面的看问题，<mark class="fill">一分为二</mark>的看问题。</p>
+<h5 class="sub3">（2）矛盾的特殊性</h5>
+<p>①原理：具体事物的矛盾及每一矛盾的不同方面各有其特点。矛盾的<mark class="fill">特殊性</mark>规定了一事物区别于其他事物的本质。</p>
+<p>②方法论：做到<mark class="fill">具体问题具体分析</mark>。具体问题具体分析（矛盾的特殊性）是正确认识事物的<mark class="fill">基础</mark>和正确解决矛盾的<mark class="fill">关键</mark>。</p>
+<h5 class="sub3">（3）矛盾的普遍性和特殊性的关系</h5>
+<p>矛盾的普遍性即矛盾的<mark class="fill">共性</mark>，矛盾的特殊性即矛盾的<mark class="fill">个性</mark>。矛盾的<mark class="fill">共性</mark>是无条件的、绝对的，矛盾的<mark class="fill">个性</mark>是有条件的、相对的。</p>
+<p>普遍性<mark class="fill">寓于</mark>特殊性之中，特殊性又都是包含着普遍性的特殊性，二者在一定条件下可以相互转化。</p>
+<h5 class="sub2">3.矛盾发展的不平衡性</h5>
+<h5 class="sub3">（1）主要矛盾和次要矛盾</h5>
+<p>主要矛盾：居于支配地位、对事物的发展过程起着决定作用的矛盾。</p>
+<p>次要矛盾：处于从属地位、对事物的发展过程不起决定作用的矛盾。</p>
+<h5 class="sub3">（2）矛盾主要方面和次要方面</h5>
+<p>主要方面：居于支配地位的方面。<mark class="fill">事物的性质</mark>由主要矛盾的主要方面决定。</p>
+<p>次要方面：处于被支配地位的方面。</p>
+<h5 class="sub3">（3）坚持两点论和重点论的统一</h5>
+<p><mark class="fill">两点论</mark>就是全面论。在研究复杂事物的发展过程时，既要看到主要矛盾，又要看到次要矛盾；在研究某一矛盾时，既要看到矛盾的主要方面，又要看到矛盾的次要方面。</p>
+<p><mark class="fill">重点论</mark>就是分清矛盾主次抓重点。要求在研究复杂事物的发展过程时，要着重地把握它的主要矛盾；在分析某一矛盾时，要着重地把握它的主要方面。</p>
+<h5 class="sub2">4.内部矛盾和外部矛盾（内因和外因）</h5>
+<h5 class="sub3">（1）内因和外因的含义</h5>
+<p>内因：事物的内部矛盾。</p>
+<p>外因：一事物与他事物的相互影响和相互作用，即外部矛盾。</p>
+<h5 class="sub3">（2）内因和外因的辩证关系</h5>
+<p>内因是事物发展变化的<mark class="fill">根据</mark>，是<mark class="fill">第一位</mark>的原因。外因是事物发展变化的<mark class="fill">条件</mark>，是<mark class="fill">第二位</mark>的原因。<mark class="fill">外因</mark>通过<mark class="fill">内因</mark>而起作用。</p></div><div class="qblock kcq"><div class="qtag">考场传真 · 真题</div><p>（单选）新型举国体制是当前我国推动关键核心技术攻关、实现高水平科技自立自强的重要法宝。“十五五”规划建议明确提出，完善新型举国体制，采取超常规措施，全链条推动集成电路、工业母机等重点领域关键核心技术攻关取得决定性突破。上述材料表明：</p>
+<div class="opt">A.主要矛盾对事物发展起决定作用，要集中力量解决主要矛盾</div>
+<div class="opt">B.新事物在本质上优越于旧事物，要把握事物新陈代谢的规律</div>
+<div class="opt">C.内因是事物发展变化的根据，应着重抓住事物发展的内部矛盾</div>
+<div class="opt">D.整体功能大于部分功能之和，部分应服从和服务于整体</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>A</b></div></details></div><div class="qblock mtq"><div class="qtag">母题特训 · 自测</div><p>（单选）当前，我国社会主要矛盾已经转化为人民日益增长的美好生活需要和不平衡不充分的发展之间的矛盾。这一论断体现了唯物辩证法关于矛盾不平衡性的原理。下列关于主要矛盾和次要矛盾、矛盾主要方面和次要方面的说法，正确的是：</p>
+<div class="opt">A.在复杂事物的发展过程中，主要矛盾处于支配地位，决定事物的发展</div>
+<div class="opt">B.次要矛盾处于从属地位，对事物发展不起任何作用，因此可以忽略不计</div>
+<div class="opt">C.事物的性质主要是由主要矛盾决定的，与矛盾的主要方面无关</div>
+<div class="opt">D.坚持两点论就是全面论，要求我们在认识事物时平均用力，不分主次</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>A</b></div></details></div></section>
+<section class="kp" id="kp-26" data-title="知识点6 量变质变规律"><div class="kp-head"><h3>知识点6 量变质变规律</h3><div class="chips"><span class="chip b">填空 6/6</span><span class="chip k">真题</span><span class="chip m">自测</span></div></div><div class="kp-crumb">第二篇《马克思主义基本原理》</div><div class="kp-body"><p>量变质变规律揭示了事物发展的<mark class="fill">形式和状态</mark>。</p>
+<h5 class="sub2">1.量变和质变的区分标志</h5>
+<p>区分量变和质变的根本标志是事物变化是否超出<mark class="fill">度</mark>的范围。</p>
+<p>度就是事物保持其质的存在的量的限度、幅度和范围。</p>
+<h5 class="sub2">2.量变和质变的辩证关系</h5>
+<p>量变是质变的必要<mark class="fill">准备</mark>。</p>
+<p>质变是量变的必然<mark class="fill">结果</mark>，量变<mark class="fill">达到一定程度</mark>必然引起质变。</p>
+<p>量变和质变是相互渗透的。</p>
+<h5 class="sub2">3.方法论</h5>
+<p>（1）重视量的积累；（2）不失时机地促成事物的飞跃；（3）坚持<mark class="fill">适度原则</mark>。</p></div><div class="qblock kcq"><div class="qtag">考场传真 · 真题</div><p>（单选）习近平总书记说：“干事业好比钉钉子，钉钉子往往不是一锤子就能钉好的，而是要一锤一锤接着敲，直到把钉子钉实钉牢，钉牢一颗再钉下一颗，不断钉下去，必然大有成效”。关于这句话说法正确的是：</p>
+<div class="opt">①量变比质变更能推动事物的发展</div>
+<div class="opt">②只有事物数量的不断增加才能引起质变</div>
+<div class="opt">③量的不断积累必然导致质的飞跃</div>
+<div class="opt">④事物的发展是从量变到质变再到新的量变的循环往复的上升过程</div>
+<div class="opt">A.①②</div>
+<div class="opt">B.①③</div>
+<div class="opt">C.②④</div>
+<div class="opt">D.③④</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>D</b></div></details></div><div class="qblock mtq"><div class="qtag">母题特训 · 自测</div><p>（单选）毫不节制地食用高盐、高脂、熏炸、腌制食物会增加患胃癌的几率，遗传和环境因素共同作用于基因组，增加了基因组的不稳定性，在经过长时间后正常细胞就会逐渐变成肿瘤细胞。正常细胞癌变说明：</p>
+<div class="opt">①量变是质变的前提</div>
+<div class="opt">②质变是量变的必然结果</div>
+<div class="opt">③量变是事物数量的增减</div>
+<div class="opt">④量变不明显，可以忽略量变</div>
+<div class="opt">A.①③</div>
+<div class="opt">B.③④</div>
+<div class="opt">C.①②</div>
+<div class="opt">D.①④</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>C</b></div></details></div></section>
+<section class="kp" id="kp-27" data-title="知识点7 否定之否定规律"><div class="kp-head"><h3>知识点7 否定之否定规律</h3><div class="chips"><span class="chip b">填空 9/9</span><span class="chip k">真题</span><span class="chip m">自测</span></div></div><div class="kp-crumb">第二篇《马克思主义基本原理》</div><div class="kp-body"><p>否定之否定规律揭示了事物发展的<mark class="fill">方向和道路</mark>。</p>
+<h5 class="sub2">1.辩证的否定观</h5>
+<p>（1）辩证的否定是事物的<mark class="fill">自我否定</mark>，是事物内部矛盾运动的结果。</p>
+<p>（2）辩证的否定是事物<mark class="fill">发展</mark>的环节。</p>
+<p>（3）辩证的否定是事物<mark class="fill">联系</mark>的环节。</p>
+<p>（4）辩证的否定的实质是“<mark class="fill">扬弃</mark>”，即既克服又保留。</p>
+<h5 class="sub2">2.事物发展的辩证否定的过程——否定之否定</h5>
+<p>（1）事物的发展表现为<mark class="fill">螺旋式</mark>上升和<mark class="fill">波浪式</mark>前进的过程。</p>
+<p>（2）事物的发展过程是<mark class="fill">前进性</mark>和<mark class="fill">曲折性</mark>的统一。</p></div><div class="qblock kcq"><div class="qtag">考场传真 · 真题</div><p>（单选）习近平总书记指出，我们从来都是在风雨洗礼中成长、在历经考验中壮大，大家要充满信心。这体现了哪些哲学道理：</p>
+<div class="opt">①事物发展的道路是曲折的，方向是前进的</div>
+<div class="opt">②实践是检验真理的唯一标准</div>
+<div class="opt">③要坚持两点论和重点论统一</div>
+<div class="opt">④要重视发挥人的主观能动性</div>
+<div class="opt">A.①②</div>
+<div class="opt">B.①③</div>
+<div class="opt">C.①④</div>
+<div class="opt">D.①②③</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>C</b></div></details></div><div class="qblock mtq"><div class="qtag">母题特训 · 自测</div><p>（单选）下列关于辩证否定观的说法，错误的是：</p>
+<div class="opt">A.辩证的否定是事物联系的环节</div>
+<div class="opt">B.辩证的否定是事物发展的环节</div>
+<div class="opt">C.辩证的否定是外力作用的结果，是主观任意的否定</div>
+<div class="opt">D.辩证的否定的实质是“扬弃”，即既克服又保留</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>C</b></div></details></div></section>
+<section class="kp" id="kp-28" data-title="知识点8 实践与认识"><div class="kp-head"><h3>知识点8 实践与认识</h3><div class="chips"><span class="chip b">填空 12/12</span><span class="chip k">真题</span><span class="chip m">自测</span></div></div><div class="kp-crumb">第二篇《马克思主义基本原理》</div><div class="kp-body"><h5 class="sub2">1.实践</h5>
+<h5 class="sub3">（1）含义</h5>
+<p>人类能动地改造世界的社会性的客观物质活动。</p>
+<p>实践是主观见之于客观的活动，是沟通<mark class="fill">主观和客观</mark>的桥梁。</p>
+<h5 class="sub3">（2）基本特征</h5>
+<p><mark class="fill">直接现实性</mark>（客观物质性）、<mark class="fill">自觉能动性</mark>、社会历史性。</p>
+<h5 class="sub3">（3）基本形式</h5>
+<p><mark class="fill">物质生产实践</mark> 、社会政治实践、<mark class="fill">科学文化实践</mark> 。其中，<mark class="fill">物质生产实践</mark>是最基本的、首要的实践活动。</p>
+<h5 class="sub2">2.认识</h5>
+<h5 class="sub3">（1）本质</h5>
+<p>主体在<mark class="fill">实践</mark>基础上对客体的能动的反映。</p>
+<h5 class="sub3">（2）特征</h5>
+<p>认识具有<mark class="fill">主体差异性</mark>。主体在认识活动中自觉地将其自身因素即主体因素投入认识过程，融合或凝结于认识结果而使认识不可避免地带有主体属性。</p>
+<h5 class="sub2">3.实践和认识的辩证关系</h5>
+<h5 class="sub3">（1）实践决定认识</h5>
+<p>①实践是认识的<mark class="fill">来源</mark>。</p>
+<p>②实践是认识发展的<mark class="fill">动力</mark>。</p>
+<p>③实践是认识的<mark class="fill">目的</mark>。</p>
+<p>④实践是检验认识真理的<mark class="fill">唯一标准</mark>。</p>
+<h5 class="sub3">（2）认识反作用于实践</h5>
+<p>正确的认识对实践起着积极的促进作用；错误的认识则对实践起消极的阻碍作用，甚至导致实践的失败。</p>
+<div class="ext-tag">知识延伸</div>
+<h5 class="sub2">典型例句</h5>
+<p>1.实践是认识的来源。例句：近水知鱼性，近山识鸟音。</p>
+<p>2.实践是认识发展的动力。例句：社会一旦有技术上的需要，这种需要就会比十所大学更能把科学推向前进。</p>
+<p>3.实践是认识的目的。例句：精通的目的全在于应用。</p>
+<p>4.实践是检验认识真理性的唯一标准。例句：路遥知马力，日久见人心。</p></div><div class="qblock kcq"><div class="qtag">考场传真 · 真题</div><p>（单选）马克思说：“劳动过程结束时得到的结果，在这个过程开始时就已经在劳动者的表象中存在着，即已经观念地存在着。”这句话表明：</p>
+<div class="opt">A.意识先于物质而存在</div>
+<div class="opt">B.实践是有意识、有目的的能动性活动</div>
+<div class="opt">C.认识对社会发展具有决定作用</div>
+<div class="opt">D.实践是认识的来源</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>B</b></div></details></div><div class="qblock mtq"><div class="qtag">母题特训 · 自测</div><p>（单选）马克思主义哲学认为，实践是人类能动地改造世界的社会性的客观物质活动。下列关于实践基本特征的说法，错误的是：</p>
+<div class="opt">A.实践具有直接现实性，能够把人们头脑中观念的存在变为现实的存在</div>
+<div class="opt">B.实践具有自觉能动性，是有目的、有意识的活动</div>
+<div class="opt">C.实践具有社会历史性，是处在一定社会关系中的人的活动</div>
+<div class="opt">D.实践具有主观随意性，不受客观规律和客观条件的制约</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>D</b></div></details></div></section>
+<section class="kp" id="kp-29" data-title="知识点9 认识的辩证过程"><div class="kp-head"><h3>知识点9 认识的辩证过程</h3><div class="chips"><span class="chip b">填空 8/8</span><span class="chip k">真题</span><span class="chip m">自测</span></div></div><div class="kp-crumb">第二篇《马克思主义基本原理》</div><div class="kp-body"><p>认识的辩证过程就是在实践基础上由感性认识到理性认识（第一次飞跃）、又由理性认识到<mark class="fill">实践</mark>（第二次飞跃）的能动飞跃。<mark class="fill">第二次</mark>飞跃，更为重要、更有意义。</p>
+<h5 class="sub2">1.感性认识</h5>
+<p>感性认识是认识的<mark class="fill">初级</mark>阶段，包括<mark class="fill">感觉、知觉、表象</mark>三种形式。</p>
+<h5 class="sub2">2.理性认识</h5>
+<p>理性认识是认识的<mark class="fill">高级</mark>阶段，包括<mark class="fill">概念、判断、推理</mark>三种形式。</p>
+<h5 class="sub2">3.感性认识和理性认识的关系</h5>
+<p>第一，理性认识<mark class="fill">依赖于</mark>感性认识。第二，<mark class="fill">感性认识</mark>有待于发展和深化为理性认识。第三，感性认识和理性认识相互渗透、相互包含。</p></div><div class="qblock kcq"><div class="qtag">考场传真 · 真题</div><p>（单选）通常我们能感知到某物，但无法立刻理解它，但当我们理解某物时反而会更深刻地感知它，这说明：</p>
+<div class="opt">A.感性认识具有局限性</div>
+<div class="opt">B.感性认识是认识的初级阶段，理性认识是认识的高级阶段</div>
+<div class="opt">C.理性认识是感性认识的前提</div>
+<div class="opt">D.感性认识无法帮助我们认识事物</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>B</b></div></details></div><div class="qblock mtq"><div class="qtag">母题特训 · 自测</div><p>（单选）下列关于感性认识和理性认识的表述正确的是：</p>
+<div class="opt">A.理性认识是认识的高级阶段，反映事物的本质和内部联系</div>
+<div class="opt">B.感性认识是认识的初级阶段，包括概念、判断、推理三种形式</div>
+<div class="opt">C.理性认识有待于发展和深化为感性认识</div>
+<div class="opt">D.感性认识依赖于理性认识</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>B</b></div></details></div></section>
+<section class="kp" id="kp-30" data-title="知识点10 真理"><div class="kp-head"><h3>知识点10 真理</h3><div class="chips"><span class="chip b">填空 4/4</span><span class="chip k">真题</span><span class="chip m">自测</span></div></div><div class="kp-crumb">第二篇《马克思主义基本原理》</div><div class="kp-body"><h5 class="sub2">1.真理的含义</h5>
+<p>真理是标志主观与客观相符合的范畴，是人们对客观事物及其规律的<mark class="fill">正确认识</mark>。</p>
+<h5 class="sub2">2.真理的属性</h5>
+<h5 class="sub3">（1）真理具有客观性</h5>
+<p>真理的<mark class="fill">内容</mark>是客观的；检验真理的<mark class="fill">标准</mark>实践是客观的。</p>
+<h5 class="sub3">（2）真理具有绝对性和相对性</h5>
+<p>真理的绝对性（无条件性）：任何真理都是客观事物及其规律的正确反映。人的认识按其本性是能够正确认识无限发展的客观世界的。</p>
+<p>真理的相对性（条件性）：人们在一定条件下对客观事物及其本质和发展规律的正确认识总是有限度的、不完善的。</p>
+<p>真理的绝对性和相对性是<mark class="fill">同一客观真理</mark>的两种属性，并不是两个真理。</p></div><div class="qblock kcq"><div class="qtag">考场传真 · 真题</div><p>（单选）在地球的地面环境下，乒乓球放入水里，会浮到水面上；在太空空间站微重力环境下，做同样的实验，乒乓球在水中的浮力消失，没有浮到水面。这表明：</p>
+<div class="opt">A.真理标志主观与客观相符合</div>
+<div class="opt">B.真理是对客观事物及其规律的正确反映</div>
+<div class="opt">C.真理包含着不依赖于人和人的意识的客观内容</div>
+<div class="opt">D.真理是对客观对象一定方面、一定层次、一定程度的正确认识</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>D</b></div></details></div><div class="qblock mtq"><div class="qtag">母题特训 · 自测</div><p>（单选）关于真理，下列说法正确的有几项？</p>
+<div class="opt">①真理是人们对客观事物及其规律的正确认识</div>
+<div class="opt">②真理之所以具有客观性是因为真理的内容和检验标准都是客观的</div>
+<div class="opt">③真理具有绝对性和相对性指的是同一认识可以有两个真理</div>
+<div class="opt">④实践之所以是检验真理的唯一标准是因为实践具有自觉能动性</div>
+<div class="opt">A.1 项</div>
+<div class="opt">B.2 项</div>
+<div class="opt">C.3 项</div>
+<div class="opt">D.4 项</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>B</b></div></details></div></section>
+<section class="kp" id="kp-31" data-title="知识点11 社会存在与社会意识"><div class="kp-head"><h3>知识点11 社会存在与社会意识</h3><div class="chips"><span class="chip b">填空 15/15</span><span class="chip k">真题</span><span class="chip m">自测</span></div></div><div class="kp-crumb">第二篇《马克思主义基本原理》</div><div class="kp-body"><h5 class="sub2">1.社会历史观的基本问题</h5>
+<p><mark class="fill">社会存在和社会意识</mark>的关系问题是社会历史观的基本问题，对这一问题的不同回答，是唯物史观和唯心史观的根本分歧所在。</p>
+<p>唯物史观（历史唯物主义）认为社会存在决定社会意识。唯心史观（历史唯心主义）认为社会意识决定社会存在。</p>
+<h5 class="sub2">2.社会存在和社会意识</h5>
+<h5 class="sub3">（1）社会存在</h5>
+<p>社会存在是社会生活的物质方面，主要包括自然地理环境、<mark class="fill">人口因素</mark>和<mark class="fill">物质生产方式</mark>。自然地理环境和人口因素对社会发展起<mark class="fill">促进或延缓</mark>的作用。<mark class="fill">物质生产方式</mark>是社会存在和发展的基础及决定力量。</p>
+<h5 class="sub3">（2）社会意识</h5>
+<p>社会意识是社会生活的精神方面。从社会意识对经济基础的关系划分可分为意识形态和非意识形态。</p>
+<p>①意识形态是指反映并服务于经济基础的社会意识，具体包括政治法律思想、<mark class="fill">道德</mark>、艺术、宗教、<mark class="fill">哲学</mark>和大部分社会科学。<mark class="fill">具有</mark>阶级性。</p>
+<p>②非意识形态是指反映自然现象和不属于特定经济基础的某些社会现象的社会意识形式，主要包括<mark class="fill">自然科学</mark>、一部分社会科学和<mark class="fill">思维科学</mark>，如语言学、逻辑学、心理学等。<mark class="fill">不具有</mark>阶级性。</p>
+<h5 class="sub3">（3）社会存在和社会意识的辩证关系</h5>
+<p>①社会存在决定社会意识。</p>
+<p>②社会意识反作用于社会存在。即先进的或正确的社会意识对社会存在的发展起积极的推动作用，促进社会向前发展。落后的或错误的社会意识对社会存在的发展起消极的阻碍作用，延缓社会的发展进程。</p>
+<p>③社会意识具有<mark class="fill">相对独立性</mark>。主要表现在：社会意识与社会存在变化发展的不完全同步性和<mark class="fill">不平衡性</mark>；社会意识内部各种形式之间的<mark class="fill">相互影响</mark>及各自具有的<mark class="fill">历史继承性</mark>；社会意识对社会存在的能动反作用。</p></div><div class="qblock kcq"><div class="qtag">考场传真 · 真题</div><p>（单选）习近平总书记指出，共和国是红色的，不能淡化这个颜色。一个国家、一个民族不能没有灵魂。作为意识形态重要阵地的文化艺术、社会科学，更需要灵魂。灵魂凝铸于历史。这说明：</p>
+<div class="opt">A.当上层建筑适合经济基础状况时，必然推动社会进步</div>
+<div class="opt">B.社会时代的变化、发展决定社会意识的变化、发展</div>
+<div class="opt">C.先进的社会意识对社会发展起积极的推动作用</div>
+<div class="opt">D.社会意识对社会发展起消极的阻碍作用</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>C</b></div></details></div><div class="qblock mtq"><div class="qtag">母题特训 · 自测</div><p>（单选）下列关于社会存在与社会意识的说法，正确的有几项？</p>
+<div class="opt">①社会存在和社会意识的关系问题是划分唯物史观和唯心史观的根本标准</div>
+<div class="opt">②自然地理环境是社会存在和发展的基础及决定力量</div>
+<div class="opt">③语言学、逻辑学、心理学、社会学均属于非意识形态</div>
+<div class="opt">④唯物史观认为社会存在决定社会意识</div>
+<div class="opt">A.1 项</div>
+<div class="opt">B.2 项</div>
+<div class="opt">C.3 项</div>
+<div class="opt">D.4 项</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>B</b></div></details></div></section>
+<section class="kp" id="kp-32" data-title="知识点12 社会发展的基本规律"><div class="kp-head"><h3>知识点12 社会发展的基本规律</h3><div class="chips"><span class="chip b">填空 18/18</span><span class="chip k">真题</span><span class="chip m">自测</span></div></div><div class="kp-crumb">第二篇《马克思主义基本原理》</div><div class="kp-body"><p>社会历史发展的基本规律指社会的基本矛盾运动，社会基本矛盾包括<mark class="fill">生产力与生产关系</mark>的矛盾、经济基础与上层建筑的矛盾。社会基本矛盾是社会历史发展的根本动力。</p>
+<h5 class="sub2">1.生产力与生产关系的矛盾运动及其规律</h5>
+<h5 class="sub3">（1）生产力</h5>
+<p>生产力指人类在物质生产过程中形成的改造和影响自然以使其适合自身需要的物质力量。生产力表现的是<mark class="fill">人与自然</mark> 的关系。生产力是人类社会的<mark class="fill">最终决定力量</mark>，是衡量社会进步的最高、<mark class="fill">最根本</mark>的标准。</p>
+<p>生产力的基本要素包括<mark class="fill">劳动者</mark>、<mark class="fill">劳动资料</mark>、劳动对象。<mark class="fill">劳动者</mark>起主导作用。<mark class="fill">生产工具</mark>是劳动资料的主要内容，是生产力发展水平的客观标志。科学技术是生产力中的重要因素。</p>
+<h5 class="sub3">（2）生产关系</h5>
+<p>生产关系是指人们在物质生产过程中形成的不以人的意志为转移的经济关系，即<mark class="fill">人与人</mark>之间的关系。生产关系由<mark class="fill">生产资料的所有制形式</mark>、人们在生产中的地位和相互关系、<mark class="fill">产品分配形式</mark>等方面构成。</p>
+<p><mark class="fill">生产资料所有制形式</mark>是生产关系的基础，是区分社会制度的根本标志，是判断各种社会形态性质的客观依据。</p>
+<h5 class="sub3">（3）生产力和生产关系的辩证关系及其矛盾运动</h5>
+<p>生产力决定生产关系；生产关系对生产力具有能动的反作用；生产力与生产关系的矛盾运动推动社会生产发展。</p>
+<h5 class="sub2">2.经济基础与上层建筑的矛盾运动及其规律</h5>
+<h5 class="sub3">（1）经济基础</h5>
+<p>经济基础是指由社会一定发展阶段的生产力所决定的生产关系的总和。经济基础中具有决定意义的是<mark class="fill">生产资料所有制</mark>。</p>
+<h5 class="sub3">（2）上层建筑</h5>
+<p>上层建筑是建立在一定经济基础之上的意识形态以及与之相应的制度、组织和设施。</p>
+<p>它由意识形态以及政治法律制度及设施和政治组织两部分组成。</p>
+<p>①<mark class="fill">观念</mark>上层建筑（意识形态）：包括政治法律思想、道德、艺术、宗教、哲学等思想观点。</p>
+<p>②<mark class="fill">政治上</mark>层建筑（政治法律制度及设施和政治组织）：包括国家政治制度、立法司法制度和行政制度，以及国家政权机构、政党、军队、警察、法庭、监狱等政治组织形态和设施。</p>
+<p>在整个上层建筑中，<mark class="fill">政治</mark>上层建筑居主导地位，<mark class="fill">国家政权</mark>是核心。</p>
+<h5 class="sub3">（3）经济基础和上层建筑的辩证关系及其矛盾运动</h5>
+<p>经济基础决定上层建筑；上层建筑反作用于经济基础；经济基础与上层建筑的矛盾运动推动社会生产发展。</p>
+<h5 class="sub2">3.社会基本矛盾的关系</h5>
+<p>社会基本矛盾中<mark class="fill">生产力和生产关系</mark>的矛盾是更根本的，它决定上层建筑和经济基础的矛盾；而生产力和生产关系矛盾的解决又依赖于经济基础和上层建筑矛盾的解决。</p></div><div class="qblock kcq"><div class="qtag">考场传真 · 真题</div><p>（单选）发展新质生产力，必须进一步全面深化改革，形成与之相适应的新型生产关系。要深化经济体制、科技体制等改革，着力打通束缚新质生产力发展的堵点卡点，建立高标准市场体系，创新生产要素配置方式，让各类先进优质生产要素向发展新质生产力顺畅流动，这最直接体现了马克思主义的哪些基本观点？</p>
+<div class="opt">①生产关系必须与生产力发展要求相适应，才能促进生产力发展</div>
+<div class="opt">②经济基础的变更必然引起上层建筑的变革，并决定其变革方向</div>
+<div class="opt">③生产关系对生产力发展具有决定作用</div>
+<div class="opt">④改革是社会主义社会发展的直接动力</div>
+<div class="opt">A.①②</div>
+<div class="opt">B.①④</div>
+<div class="opt">C.②③</div>
+<div class="opt">D.②④</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>B</b></div></details></div><div class="qblock mtq"><div class="qtag">母题特训 · 自测</div><p>（单选）社会发展的基本规律是生产力与生产关系、经济基础与上层建筑的矛盾运动及其规律。下列说法不正确的有几项？</p>
+<div class="opt">①社会基本矛盾中生产力和生产关系的矛盾是更根本的</div>
+<div class="opt">②生产工具是生产力中的主导因素，是生产力发展水平的主要标志</div>
+<div class="opt">③产品分配方式在生产关系中起基础作用</div>
+<div class="opt">④上层建筑中，思想上层建筑居主导地位</div>
+<div class="opt">A.1 项</div>
+<div class="opt">B.2 项</div>
+<div class="opt">C.3 项</div>
+<div class="opt">D.4 项</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>C</b></div></details></div></section>
+<section class="kp" id="kp-33" data-title="知识点13 人民群众在历史发展中的作用"><div class="kp-head"><h3>知识点13 人民群众在历史发展中的作用</h3><div class="chips"><span class="chip b">填空 7/7</span><span class="chip k">真题</span><span class="chip m">自测</span></div></div><div class="kp-crumb">第二篇《马克思主义基本原理》</div><div class="kp-body"><h5 class="sub2">1.两种历史观的对立</h5>
+<p><mark class="fill">英雄史观</mark>：把历史发展的原因归于少数统治者或社会精英的创造。</p>
+<p><mark class="fill">群众史观</mark>：认为对历史发展起决定作用的是人民群众，但是也承认个人尤其是少数历史人物的作用。</p>
+<h5 class="sub2">2.人民群众在创造历史过程中的决定作用</h5>
+<p>人民群众是社会历史的<mark class="fill">主体</mark>，是历史的创造者，对社会历史发展起<mark class="fill">决定性</mark>作用。</p>
+<p>人民群众历史创造作用的主要表现：人民群众是社会<mark class="fill">物质财富</mark>的创造者；人民群众是社会<mark class="fill">精神财富</mark>的创造者；人民群众是<mark class="fill">社会变革</mark>的决定力量。</p></div><div class="qblock kcq"><div class="qtag">考场传真 · 真题</div><p>（单选）习近平总书记指出，改革是人民群众自己的事业，要全体人民共同参与，团结一致攻坚克难。改革过程中，要坚持以人为本，以实绩实效和人民群众满意度检验改革。上述讲话体现了哪些哲学道理：</p>
+<div class="opt">①人民群众是历史的创造者</div>
+<div class="opt">②人民群众是社会变革的主体</div>
+<div class="opt">③实践是检验真理的唯一标准</div>
+<div class="opt">④要重视人的主观能动性，能决定成败</div>
+<div class="opt">A.①②③</div>
+<div class="opt">B.①②④</div>
+<div class="opt">C.①③④</div>
+<div class="opt">D.①②③④</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>A</b></div></details></div><div class="qblock mtq"><div class="qtag">母题特训 · 自测</div><p>（单选）毛泽东强调，“人民，只有人民，才是创造世界历史的动力。”下列对这一表述的理解，正确的是：</p>
+<div class="opt">①人民群众的实践活动是一切精神财富产生和发展的源泉</div>
+<div class="opt">②人民群众是社会变革的决定力量</div>
+<div class="opt">③人民群众是社会历史的主体，是历史的创造者</div>
+<div class="opt">④人民群众创造历史的活动不受任何社会历史条件的制约</div>
+<div class="opt">A.①②③</div>
+<div class="opt">B.①②④</div>
+<div class="opt">C.①③④</div>
+<div class="opt">D.②③④</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>A</b></div></details></div></section>
+<section class="kp" id="kp-34" data-title="知识点14 商品及其二因素"><div class="kp-head"><h3>知识点14 商品及其二因素</h3><div class="chips"><span class="chip b">填空 12/12</span><span class="chip k">真题</span><span class="chip m">自测</span></div></div><div class="kp-crumb">第二篇《马克思主义基本原理》</div><div class="kp-body"><p>商品是用来交换、能满足人的某种需要的劳动产品。</p>
+<p>商品的二因素是<mark class="fill">使用价值</mark>和<mark class="fill">价值</mark>。</p>
+<h5 class="sub2">1.使用价值</h5>
+<p>（1）使用价值是指商品能够满足人们某种需要的属性，即商品的<mark class="fill">有用性</mark>。</p>
+<p>（2）同一商品可以有不同的使用价值，不同的商品也可以有同一种使用价值。</p>
+<p>（3）使用价值是商品的<mark class="fill">自然属性</mark>。</p>
+<h5 class="sub2">2.价值</h5>
+<p>（1）价值是指凝结在商品中无差别的一般<mark class="fill">人类劳动</mark>。</p>
+<p>（2）使用价值不同的商品之所以能够交换，是因为它们都具有<mark class="fill">价值</mark>，都耗费了人类一定的体力和脑力。</p>
+<p>（3）价值是商品的<mark class="fill">根本属性</mark>，是商品的<mark class="fill">社会属性</mark>，是商品<mark class="fill">最本质</mark>的因素。</p>
+<h5 class="sub2">3.使用价值和价值的辩证关系</h5>
+<p>商品必须同时具有使用价值和价值。<mark class="fill">使用价值</mark>是<mark class="fill">价值</mark>的物质承担者；价值通过使用价值表现出来，没有合格的使用价值，价值不能得到实现。</p>
+<p>对于同一商品所有者来说，在商品交换过程中，不论是买者还是卖者，使用价值和价值二者不可兼得。其对立的外在表现是<mark class="fill">商品和货币</mark>的对立。</p></div><div class="qblock kcq"><div class="qtag">考场传真 · 真题</div><p>（单选）以下关于商品二因素说法正确的是：</p>
+<div class="opt">A.价值是商品的自然属性，使用价值是商品的社会属性</div>
+<div class="opt">B.交换价值是价值的基础，也是价值的表现形式</div>
+<div class="opt">C.商品的生产者无法同时拥有商品的使用价值和价值</div>
+<div class="opt">D.商品二因素决定了劳动二重性</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>C</b></div></details></div><div class="qblock mtq"><div class="qtag">母题特训 · 自测</div><p>（单选）商品是用来交换、能满足人的某种需要的劳动产品。下列选项中，属于商品的是：</p>
+<div class="opt">A.农民自留地里种植、仅供自家食用的蔬菜</div>
+<div class="opt">B.政府免费向市民发放的公园年票</div>
+<div class="opt">C.某视频网站新上线的付费会员服务</div>
+<div class="opt">D.自然流淌、未经人工开发的泉水</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>C</b></div></details></div></section>
+<section class="kp" id="kp-35" data-title="知识点15 劳动二重性"><div class="kp-head"><h3>知识点15 劳动二重性</h3><div class="chips"><span class="chip b">填空 8/8</span><span class="chip k">真题</span><span class="chip m">自测</span></div></div><div class="kp-crumb">第二篇《马克思主义基本原理》</div><div class="kp-body"><p><mark class="fill">劳动二重性</mark>学说是理解马克思政治经济学理论的枢纽。劳动二重性是指生产商品的劳动既是具体劳动，又是<mark class="fill">抽象劳动</mark>。</p>
+<h5 class="sub2">1.具体劳动</h5>
+<p>具体劳动是指人们在一定的具体形式下进行的劳动。</p>
+<h5 class="sub2">2.抽象劳动</h5>
+<p>抽象劳动是指撇开一切具体形式的无差别的人类劳动，即人的体力和脑力的消耗。</p>
+<h5 class="sub2">3.具体劳动和抽象劳动的辩证关系</h5>
+<p>具体劳动和抽象劳动是商品生产者<mark class="fill">同一劳动过程</mark>中不可分割的两个方面，而不是两次或者两种劳动。</p>
+<p>具体劳动反映人与自然的关系，是劳动的<mark class="fill">自然属性</mark>，生产出各种各样的<mark class="fill">使用价值</mark>。抽象劳动体现着人和人的关系，是劳动的<mark class="fill">社会属性</mark>，抽象劳动的凝结形成商品的<mark class="fill">价值</mark>。抽象劳动是形成商品价值的<mark class="fill">唯一源泉</mark>。</p></div><div class="qblock kcq"><div class="qtag">考场传真 · 真题</div><p>（单选）关于马克思主义政治经济学，下列说法正确的是：</p>
+<div class="opt">A.商品的价值量是由生产该商品所需的个别劳动时间决定的</div>
+<div class="opt">B.货币的价值尺度职能是通过实际的物质交换来实现的</div>
+<div class="opt">C.具体劳动和抽象劳动是不同商品生产过程中的不同劳动</div>
+<div class="opt">D.具体劳动创造商品的使用价值，抽象劳动形成商品的价值</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>D</b></div></details></div><div class="qblock mtq"><div class="qtag">母题特训 · 自测</div><p>（单选）关于具体劳动和抽象劳动，下列表述正确的是：</p>
+<div class="opt">A.具体劳动和抽象劳动是同一劳动过程中不可分割的两个方面</div>
+<div class="opt">B.具体劳动体现着人和人的关系，是劳动的社会属性</div>
+<div class="opt">C.具体劳动是指在一定具体形式下进行的劳动，它生产商品的价值</div>
+<div class="opt">D.抽象劳动是人的体力和脑力的消耗，它生产商品的使用价值</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>A</b></div></details></div></section>
+<section class="kp" id="kp-36" data-title="知识点16 商品的价值量"><div class="kp-head"><h3>知识点16 商品的价值量</h3><div class="chips"><span class="chip b">填空 9/9</span><span class="chip k">真题</span><span class="chip m">自测</span></div></div><div class="kp-crumb">第二篇《马克思主义基本原理》</div><div class="kp-body"><h5 class="sub2">1.商品的价值量</h5>
+<h5 class="sub3">（1）商品价值量的含义及决定因素</h5>
+<p>商品的价值量是指商品价值的大小。</p>
+<p>商品的价值是凝结在商品中的无差别的一般人类劳动，价值量是由劳动者生产商品所耗费的劳动量决定的，而劳动量则按照劳动时间计算。决定商品价值量的不是生产商品的个别劳动时间，而是<mark class="fill">社会必要劳动时间</mark>。</p>
+<p>社会必要劳动时间是指在现有的社会正常的生产条件下、在社会<mark class="fill">平均的</mark>劳动熟练程度和劳动强度下生产某种商品所需要的劳动时间。</p>
+<h5 class="sub3">（2）商品的价值量与劳动生产率</h5>
+<p>劳动生产率指的是劳动者生产使用价值的效率。它的高低可以用单位劳动时间内生产商品的数量来测量，也可以用单位商品中所耗费的劳动时间来测量。</p>
+<p>单位商品的价值量与包含在商品中的社会必要劳动时间成<mark class="fill">正比</mark>，与生产该商品的劳动生产率成<mark class="fill">反比</mark>。</p>
+<h5 class="sub2">2.价值规律——商品经济的<mark class="fill">基本规律</mark></h5>
+<h5 class="sub3">（1）价值规律的内容</h5>
+<p>商品的价值量由生产这种商品的<mark class="fill">社会必要劳动时间</mark>决定，商品交换以<mark class="fill">价值量</mark>为基础，按照<mark class="fill">等价交换</mark>的原则进行。</p>
+<h5 class="sub3">（2）价值规律的表现形式</h5>
+<p>价格总是以价值为基础，围绕<mark class="fill">价值</mark>上下波动是价值规律的唯一表现形式。</p>
+<h5 class="sub3">（3）价值规律的积极作用</h5>
+<p>自发调节资源分配；自发刺激社会生产力的发展；自发调节社会收入的分配。</p></div><div class="qblock kcq"><div class="qtag">考场传真 · 真题</div><p>（单选）价值规律是市场经济的基本规律，是调节资源配置的最基本方式，下列属于价值规律基本内容是：</p>
+<div class="opt">A.商品价值是由生产该商品的社会必要劳动时间决定</div>
+<div class="opt">B.商品价值受供求关系影响，围绕价格上下波动</div>
+<div class="opt">C.商品价值以商品量为基础，实行等价交换</div>
+<div class="opt">D.商品的价格总是与价值相符合</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>A</b></div></details></div><div class="qblock mtq"><div class="qtag">母题特训 · 自测</div><p>（单选）在现实生活中，受供求关系影响，商品的价格经常与价值不一致。但经济学认为，价格围绕价值上下波动不仅没有否定价值规律，反而是价值规律发生作用的唯一表现形式。下列对这一观点的理解，错误的是：</p>
+<div class="opt">A.价格的波动总是以价值为基础，不会无限脱离价值</div>
+<div class="opt">B.从较长时间看，商品价格的上涨部分和下跌部分可以相互抵消</div>
+<div class="opt">C.从全社会看，商品的平均价格总额和价值总额是相等的</div>
+<div class="opt">D.价格围绕价值波动说明在商品交换中，等价交换原则从未真正实现</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>D</b></div></details></div></section>
+<section class="kp" id="kp-37" data-title="知识点17 货币本质和职能"><div class="kp-head"><h3>知识点17 货币本质和职能</h3><div class="chips"><span class="chip b">填空 8/8</span><span class="chip k">真题</span><span class="chip m">自测</span></div></div><div class="kp-crumb">第二篇《马克思主义基本原理》</div><div class="kp-body"><h5 class="sub2">1.货币的本质</h5>
+<p>货币是固定地充当一般等价物的商品。货币的本质是<mark class="fill">一般等价物</mark>。</p>
+<h5 class="sub2">2.货币的职能</h5>
+<p>货币具有价值尺度、流通手段、贮藏手段、支付手段以及世界货币等职能。其中，<mark class="fill">价值尺度</mark>和<mark class="fill">流通手段</mark>是货币的两个最基本职能。</p>
+<h5 class="sub2">价值尺度</h5>
+<p>货币表现其他一切商品是否具有价值和衡量其价值量大小的职能。</p>
+<p>只需要在<mark class="fill">观念</mark>上是货币即可，不需要是现实中的货币。</p>
+<h5 class="sub2">流通手段</h5>
+<p>货币在商品流通中充当交换媒介借以实现商品价值的职能。</p>
+<p>必须是<mark class="fill">现实</mark>的货币，不再是观念的货币。</p>
+<h5 class="sub2">贮藏手段</h5>
+<p>货币退出流通领域作为社会财富的一般代表被保存起来的职能。</p>
+<p>必须是足值的金属货币或金属条块。</p>
+<h5 class="sub2">支付手段</h5>
+<p>在发生赊购赊销的情况下，货币用于清偿债务所执行的职能。</p>
+<p>被广泛运用于缴纳<mark class="fill">租金</mark>、<mark class="fill">税金</mark>和发放<mark class="fill">工资</mark>等方面。</p>
+<h5 class="sub2">世界货币</h5>
+<p>在国际商品流通中发挥一般等价物作用的职能。</p></div><div class="qblock kcq"><div class="qtag">考场传真 · 真题</div><p>（单选）下列关于货币的说法正确的是：</p>
+<div class="opt">A.货币的本质是一般等价物，是一种非商品的特殊物品</div>
+<div class="opt">B.货币的基本职能是充当流通手段和支付手段</div>
+<div class="opt">C.货币是在商品交换的过程中产生的</div>
+<div class="opt">D.货币具有使用价值但不具有价值</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>C</b></div></details></div><div class="qblock mtq"><div class="qtag">母题特训 · 自测</div><p>（单选）货币具有多种职能，不同职能对货币形式的要求也有所不同。关于货币职能的特点，下列表述错误的是：</p>
+<div class="opt">A.执行价值尺度职能时，只需要观念上的货币，不需要现实的货币</div>
+<div class="opt">B.执行流通手段职能时，必须是现实的货币，不能是观念上的货币</div>
+<div class="opt">C.执行贮藏手段职能时，必须是足值的金属货币或金属条块</div>
+<div class="opt">D.执行支付手段职能时，货币必须是足值的金属货币，不能是价值符号</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>D</b></div></details></div></section>
+<section class="kp" id="kp-38" data-title="知识点18 剩余价值理论"><div class="kp-head"><h3>知识点18 剩余价值理论</h3><div class="chips"><span class="chip b">填空 11/11</span><span class="chip k">真题</span><span class="chip m">自测</span></div></div><div class="kp-crumb">第二篇《马克思主义基本原理》</div><div class="kp-body"><p>剩余价值学说阐明了资本主义经济制度的本质，剩余价值规律是资本主义的<mark class="fill">基本规律</mark>。剩余价值是<mark class="fill">雇佣工人</mark>所创造的并被<mark class="fill">资本家</mark>无偿占有的超过劳动力价值的那部分价值，它体现了资本家与雇佣工人之间剥削与被剥削的关系。</p>
+<h5 class="sub2">1.剩余价值的生产方法</h5>
+<h5 class="sub3">（1）绝对剩余价值生产</h5>
+<p>在<mark class="fill">必要劳动时间</mark>不变的条件下，由于延长劳动日的长度而生产的剩余价值。</p>
+<h5 class="sub3">（2）相对剩余价值生产</h5>
+<p>在<mark class="fill">工作日</mark>长度不变的条件下，由于缩短必要劳动时间，相应延长剩余劳动时间而生产的剩余价值。缩短必要劳动时间是通过全社会劳动生产率的<mark class="fill">提高</mark>实现的。</p>
+<h5 class="sub2">2.不变资本与可变资本</h5>
+<p>资本在资本主义生产过程中以生产资料和劳动力两种形态存在。根据这两部分资本在<mark class="fill">剩余价值</mark>生产中所起的不同作用，可将资本分为不变资本和可变资本。之所以划分不变资本与可变资本，主要是揭示了剩余价值的来源，以及为确定资本家对雇佣劳动者的剥削程度提供了科学依据。</p>
+<h5 class="sub3">（1）不变资本（C）</h5>
+<p>以<mark class="fill">生产资料</mark>形态存在的那部分资本，其在生产过程中只转变自己的物质形态而不改变自己的价值量，不发生增殖。</p>
+<h5 class="sub3">（2）可变资本（V）</h5>
+<p>以<mark class="fill">劳动力价值</mark>形态存在的那部分资本，其在生产过程中不是被转移到新产品中去，而是由工人的劳动再生产出来。这一部分资本的价值不是不变的，而是一个可变的量。</p>
+<h5 class="sub2">3.资本有机构成</h5>
+<p>资本有机构成这一范畴涉及资本的技术构成、资本的价值构成和资本的有机构成之间的关系。</p>
+<p>资本的技术构成：生产的技术水平所决定的生产资料和劳动力之间的比例。</p>
+<p>资本的价值构成：不变资本和可变资本价值之间的比例。</p>
+<p>资本的有机构成：指由<mark class="fill">资本技术构成</mark>决定并反映技术构成变化的<mark class="fill">资本价值构成</mark>，即C:V。其中C为不变资本，V为可变资本。资本的不断积累和生产规模的不断扩大，会导致劳动生产率和资本有机构成的提高。</p></div><div class="qblock kcq"><div class="qtag">考场传真 · 真题</div><p>（单选）关于剩余价值，下列说法错误的是：</p>
+<div class="opt">A.剩余价值规律是资本主义的基本规律</div>
+<div class="opt">B.榨取绝对剩余价值和相对剩余价值均通过延长剩余劳动时间实现</div>
+<div class="opt">C.榨取绝对剩余价值以提高全社会劳动生产率为前提</div>
+<div class="opt">D.剩余价值体现了资本家与雇佣工人之间剥削与被剥削的关系</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>C</b></div></details></div><div class="qblock mtq"><div class="qtag">母题特训 · 自测</div><p>（单选）关于资本的分类及剩余价值理论，下列说法错误的是：</p>
+<div class="opt">A.不变资本以生产资料形态存在，在生产过程中不发生增殖</div>
+<div class="opt">B.可变资本以劳动力形态存在，其价值由工人的劳动再生产出来并创造剩余价值</div>
+<div class="opt">C.资本的价值构成是指不变资本和可变资本价值之间的比例</div>
+<div class="opt">D.剩余价值既可以在流通过程中产生，也可以在生产过程中产生</div>
+<details class="ans"><summary>查看答案</summary><div class="ans-body">答案：<b>D</b></div></details></div></section></main>
+</div>
+<button class="backtop" id="backtop" title="回到顶部">↑</button>
+<script>
+(function(){
+  var q=document.getElementById('q'),hit=document.getElementById('hitcount');
+  var cards=Array.prototype.slice.call(document.querySelectorAll('.kp'));
+  var tocLinks=Array.prototype.slice.call(document.querySelectorAll('a.t-item'));
+
+  function clearShl(root){
+    var marks=root.querySelectorAll('mark.shl');
+    marks.forEach(function(m){
+      var t=document.createTextNode(m.textContent);
+      m.parentNode.replaceChild(t,m);
+    });
+    root.normalize&&root.normalize();
+  }
+  function shl(root,word){
+    if(!word)return;
+    var walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{
+      acceptNode:function(n){
+        if(!n.nodeValue||n.nodeValue.indexOf(word)===-1)return NodeFilter.FILTER_REJECT;
+        var p=n.parentNode;
+        if(!p||/^(SCRIPT|STYLE|MARK)$/.test(p.tagName))return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    });
+    var nodes=[],n;
+    while(n=walker.nextNode())nodes.push(n);
+    nodes.forEach(function(node){
+      var idx=node.nodeValue.indexOf(word);
+      var after=node.splitText(idx);
+      after.splitText(word.length);
+      var m=document.createElement('mark');
+      m.className='shl';m.textContent=after.textContent;
+      after.parentNode.replaceChild(m,after);
+    });
+  }
+  function doSearch(word){
+    word=(word||'').trim();
+    cards.forEach(function(c){clearShl(c);c.classList.remove('hidden');});
+    if(!word){hit.textContent='';tocLinks.forEach(function(l){l.style.fontWeight='';});return;}
+    var n=0,first=null;
+    cards.forEach(function(c){
+      if(c.textContent.indexOf(word)>-1){shl(c,word);n++;if(!first)first=c;}
+      else{c.classList.add('hidden');}
+    });
+    hit.textContent='命中 '+n+' 个知识点';
+    if(first){first.scrollIntoView({behavior:'smooth',block:'start'});}
+  }
+  q.addEventListener('keydown',function(e){if(e.key==='Enter')doSearch(q.value);});
+  q.addEventListener('input',function(){if(!q.value.trim())doSearch('');});
+
+  // 自测模式
+  var st=document.getElementById('selftest');
+  st.addEventListener('click',function(){
+    document.body.classList.toggle('selftest');
+    var on=document.body.classList.contains('selftest');
+    st.textContent='自测模式：'+(on?'开':'关');
+    st.classList.toggle('on',on);
+  });
+  document.addEventListener('click',function(e){
+    if(document.body.classList.contains('selftest')&&e.target.tagName==='MARK'&&e.target.classList.contains('fill')){
+      e.target.classList.toggle('show');
+    }
+  });
+  // 展开全部答案
+  document.getElementById('openans').addEventListener('click',function(){
+    document.querySelectorAll('details.ans').forEach(function(d){d.open=true;});
+  });
+  // 收起/展开卡片
+  var collapsed=false;
+  document.getElementById('closeall').addEventListener('click',function(){
+    collapsed=!collapsed;
+    document.querySelectorAll('.kp-body,.qblock').forEach(function(b){b.style.display=collapsed?'none':'';});
+    this.textContent=collapsed?'展开卡片':'收起卡片';
+  });
+  // 回到顶部
+  var bt=document.getElementById('backtop');
+  window.addEventListener('scroll',function(){bt.classList.toggle('show',window.scrollY>500);});
+  bt.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});
+  // TOC active
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(en){
+      if(en.isIntersecting){
+        tocLinks.forEach(function(l){l.classList.toggle('active',l.getAttribute('href')==='#'+en.target.id);});
+      }
+    });
+  },{rootMargin:'-20% 0px -70% 0px'});
+  cards.forEach(function(c){io.observe(c);});
+  // 工作站联动
+  window.addEventListener('message',function(e){
+    var d=e.data||{};
+    if(d.type==='ws-search'&&d.q){
+      q.value=d.q;doSearch(d.q);
+    }
+  });
+  /* ===== 增强：关键词多处命中，可选择跳转（2026-09 注入） ===== */
+  function _wsEsc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':"&amp;",'<':"&lt;",'>':"&gt;",'"':"&quot;","'":"&#39;"}[c];}); }
+  function _wsLabel(card){
+    var t='';
+    if(card.getAttribute&&card.getAttribute('data-title')){ t=card.getAttribute('data-title'); }
+    if(!t){ var h=card.querySelector('.unit-head h2,.unit-head,.kp-head h3,h2,h3,h4'); if(h&&h.textContent){ t=h.textContent; } }
+    if(!t){ t=card.id?card.id:'定位'; }
+    return t.replace(/\s+/g,' ').trim().slice(0,26);
+  }
+  function _wsClose(){ var p=document.getElementById('_wsPanel'); if(p&&p.parentNode){ p.parentNode.removeChild(p); } }
+  function _wsGo(o){
+    var h=document.documentElement,b=document.body,hs=h?h.style.scrollBehavior:'',bs=b?b.style.scrollBehavior:'';
+    if(h){ h.style.scrollBehavior='auto'; } if(b){ b.style.scrollBehavior='auto'; }
+    try{ o.mk.scrollIntoView({block:'center'}); }catch(e1){ try{ o.mk.scrollIntoView(); }catch(e2){} }
+    if(h){ h.style.scrollBehavior=hs; } if(b){ b.style.scrollBehavior=bs; }
+    o.mk.classList.add('_cur');
+    setTimeout(function(){ o.mk.classList.remove('_cur'); },1900);
+  }
+  function doSearch(word){
+    word=(word||'').trim();
+    var st=document.getElementById('_wsStyle');
+    if(!st){
+      st=document.createElement('style'); st.id='_wsStyle';
+      st.textContent='#_wsPanel{position:fixed;right:14px;top:70px;width:320px;max-width:88vw;z-index:9999;background:#fff;border:1px solid #dce3f0;border-radius:14px;box-shadow:0 16px 44px -14px rgba(15,23,42,.4);overflow:hidden;font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;font-size:12.5px;color:#0f172a}#_wsPanel ._hd{display:flex;align-items:center;gap:5px;padding:10px 12px;background:#f4f7fd;border-bottom:1px solid #e9eef7;font-weight:700;font-size:13px}#_wsPanel ._hd em{color:#2563eb;font-style:normal;margin:0 2px}#_wsPanel ._x{margin-left:auto;border:0;background:rgba(100,116,139,.14);width:21px;height:21px;line-height:1;border-radius:50%;cursor:pointer;color:#475569;font-size:12px}#_wsPanel ._lst{max-height:320px;overflow:auto}#_wsPanel ._it{display:flex;gap:9px;padding:9px 12px;cursor:pointer;border-bottom:1px solid #f2f5fb;align-items:flex-start}#_wsPanel ._it:last-child{border-bottom:0}#_wsPanel ._it:hover{background:#f2f6ff}#_wsPanel ._no{flex:none;width:20px;height:20px;border-radius:50%;background:#e5eeff;color:#2563eb;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;margin-top:1px}#_wsPanel ._tt{font-weight:600;color:#1e293b}#_wsPanel ._tc{color:#64748b;font-size:11.5px;margin-top:2px;line-height:1.55;word-break:break-all;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}#_wsPanel ._tc mark{background:transparent;color:#dc2626;font-weight:700}mark.shl{background:#ffe066;border-radius:2px}mark.shl._cur{outline:2px solid #f59e0b;outline-offset:1px;animation:_wsb 1.8s ease-out 1}@keyframes _wsb{0%{box-shadow:0 0 0 0 rgba(245,158,11,.55)}70%{box-shadow:0 0 0 13px rgba(245,158,11,0)}100%{box-shadow:0 0 0 0 rgba(245,158,11,0)}}';
+      document.head.appendChild(st);
+    }
+    _wsClose();
+    var marks=document.querySelectorAll('mark.shl');
+    for(var i=0;i<marks.length;i++){ var tt=document.createTextNode(marks[i].textContent); marks[i].parentNode.replaceChild(tt,marks[i]); }
+    var cards=document.querySelectorAll('.kp,.unit');
+    for(var c0=0;c0<cards.length;c0++){ cards[c0].classList.remove('hidden'); }
+    if(!word){ if(hit){ hit.textContent=''; } return; }
+    var occs=[], hitCards=0, LIM=120;
+    for(var k=0;k<cards.length;k++){
+      var card=cards[k];
+      if(occs.length>=LIM){ if(card.textContent.indexOf(word)===-1){ card.classList.add('hidden'); } continue; }
+      if(card.textContent.indexOf(word)===-1){ card.classList.add('hidden'); continue; }
+      hitCards++;
+      var label=_wsLabel(card);
+      var walker=document.createTreeWalker(card,NodeFilter.SHOW_TEXT,{acceptNode:function(n){
+        if(!n.nodeValue||n.nodeValue.indexOf(word)===-1){ return NodeFilter.FILTER_REJECT; }
+        var p=n.parentNode;
+        if(!p||/^(SCRIPT|STYLE|MARK)$/.test(p.tagName)){ return NodeFilter.FILTER_REJECT; }
+        return NodeFilter.FILTER_ACCEPT;
+      }});
+      var tn, tns=[], guard=0;
+      while(tn=walker.nextNode()){ tns.push(tn); if(++guard>=600){ break; } }
+      for(var m=0;m<tns.length&&occs.length<LIM;m++){
+        var txt=tns[m].nodeValue, idxs=[], sp=0, fi, g2=0;
+        while((fi=txt.indexOf(word,sp))!==-1){ idxs.push(fi); sp=fi+word.length; if(++g2>=50){ break; } }
+        for(var s=idxs.length-1;s>=0&&occs.length<LIM;s--){
+          var at=idxs[s];
+          var after=tns[m].splitText(at);
+          after.splitText(word.length);
+          var mk=document.createElement('mark');
+          mk.className='shl'; mk.textContent=after.textContent;
+          after.parentNode.replaceChild(mk,after);
+          occs.push({mk:mk,label:label,a:txt.slice(Math.max(0,at-10),at).replace(/\s+/g,' '),b:txt.slice(at+word.length,at+word.length+14).replace(/\s+/g,' ')});
+        }
+      }
+    }
+    if(!occs.length){ if(hit){ hit.textContent='未命中「'+word+'」'; } return; }
+    if(hit){ hit.textContent='命中 '+occs.length+' 处 · 分布于 '+hitCards+' 个位置'; }
+    if(occs.length===1){ _wsGo(occs[0]); return; }
+    var panel=document.createElement('div'); panel.id='_wsPanel';
+    var rows='';
+    for(var r=0;r<occs.length;r++){
+      rows+='<div class="_it" data-r="'+r+'"><span class="_no">'+(r+1)+'</span><div style="min-width:0"><div class="_tt">'+_wsEsc(occs[r].label)+'</div><div class="_tc">'+_wsEsc(occs[r].a)+'<mark>'+_wsEsc(word)+'</mark>'+_wsEsc(occs[r].b)+'</div></div></div>';
+    }
+    panel.innerHTML='<div class="_hd">「'+_wsEsc(word)+'」命中 <em>'+occs.length+'</em> 处，点击定位<button class="_x" title="关闭">✕</button></div><div class="_lst">'+rows+'</div>';
+    document.body.appendChild(panel);
+    panel.querySelector('._x').addEventListener('click',_wsClose);
+    Array.prototype.forEach.call(panel.querySelectorAll('._it'),function(row){
+      row.addEventListener('click',function(){ _wsGo(occs[parseInt(row.getAttribute('data-r'),10)]); _wsClose(); });
+    });
+  }
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape'){ _wsClose(); } });
+  /* 父壳直达：携带 {q, id} 时定位到具体知识点/单元 */
+  window.addEventListener('message',function(e){
+    var d=e.data||{};
+    var qq=(d.q||'').trim();
+    if(d.type==='ws-search'&&qq&&d.id){
+      q.value=qq; doSearch(qq);
+      var el=document.getElementById(d.id);
+      if(el){
+        _wsClose();
+        var hz=document.documentElement,bz=document.body;
+        var hzs=hz?hz.style.scrollBehavior:'',bzs=bz?bz.style.scrollBehavior:'';
+        if(hz){hz.style.scrollBehavior='auto';} if(bz){bz.style.scrollBehavior='auto';}
+        try{ el.scrollIntoView({block:'start'}); }catch(e1){ try{ el.scrollIntoView(); }catch(e2){} }
+        if(hz){hz.style.scrollBehavior=hzs;} if(bz){bz.style.scrollBehavior=bzs;}
+        try{
+          var mks=el.querySelectorAll('mark.shl');
+          if(mks.length){ mks[0].classList.add('_cur'); setTimeout(function(){ mks[0].classList.remove('_cur'); },1900); }
+        }catch(e3){}
+      }
+    }
+  });
+})();
+</script>
+</body>
+</html>

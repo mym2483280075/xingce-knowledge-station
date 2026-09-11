@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="mock">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>9月7日模考 · 行测错题集合 · 行测知识工作站</title>
+<style>
+:root{
+  --primary:#b91c1c; --primary2:#dc2626; --accent:#f87171; --bg:#fbf3f3;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:"PingFang SC","Microsoft YaHei","Noto Sans CJK SC","Hiragino Sans GB",sans-serif;color:#1f2937;background:var(--bg);line-height:1.8;font-size:15px}
+header{background:linear-gradient(135deg,#7f1d1d 0%,var(--primary2) 62%,var(--accent) 135%);color:#fff;padding:30px 26px 24px;text-align:center}
+header h1{margin:0;font-size:27px;letter-spacing:1px}
+header .en{margin-top:3px;font-size:11.5px;letter-spacing:.22em;opacity:.82}
+header .intro{margin:12px auto 0;max-width:880px;font-size:13px;opacity:.94;line-height:1.75}
+header .meta{margin-top:12px;display:flex;gap:9px;justify-content:center;flex-wrap:wrap;font-size:12px}
+header .meta span{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:2px 13px}
+.subnav{position:sticky;top:0;z-index:60;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-bottom:1px solid #f5dcdc;padding:8px 16px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.subnav a{text-decoration:none;font-size:12.5px;border:1px solid #f0cece;background:#fff;color:#a03030;border-radius:999px;padding:5px 14px;white-space:nowrap}
+.subnav a:hover{border-color:var(--primary2);color:var(--primary2)}
+.subnav a.on{background:linear-gradient(135deg,var(--primary),var(--primary2));border-color:transparent;color:#fff;font-weight:700}
+.subnav .grow{flex:1}
+.toolbar{position:sticky;top:44px;z-index:55;background:rgba(251,243,243,.92);backdrop-filter:blur(8px);padding:9px 16px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;border-bottom:1px solid #f7e4e4}
+.toolbar input{flex:1;min-width:180px;max-width:440px;padding:8px 14px;border:1px solid #f0caca;border-radius:999px;font-size:13.5px;outline:none;background:#fff}
+.toolbar input:focus{border-color:var(--primary2)}
+.btn{border:1px solid #f0cece;background:#fff;border-radius:999px;padding:7px 14px;font-size:12.5px;cursor:pointer;color:#a03030;white-space:nowrap}
+.btn:hover{border-color:var(--primary2);color:var(--primary2)}
+.btn.on{background:var(--primary2);border-color:var(--primary2);color:#fff}
+.hitcount{font-size:12px;color:#a03030;white-space:nowrap}
+.layout{display:flex;max-width:1240px;margin:0 auto;padding:18px 18px 80px;gap:22px;align-items:flex-start}
+nav.toc{position:sticky;top:102px;flex:0 0 250px;max-height:calc(100vh - 118px);overflow:auto;background:#fff;border:1px solid #f5dcdc;border-radius:14px;padding:12px 10px;font-size:12.5px}
+nav.toc .t-cat{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:9px;color:#6b7280;text-decoration:none}
+nav.toc .t-cat:hover{background:#fdf1f1;color:var(--primary)}
+nav.toc .t-cat b{font-weight:700;color:var(--primary)}
+nav.toc .t-cat .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);flex:none}
+nav.toc .t-cat i{font-style:normal;font-size:10.5px;color:#c29292;margin-left:auto;background:#fdeeee;border-radius:999px;padding:0 7px}
+main{flex:1;min-width:0}
+.module{margin-bottom:30px;scroll-margin-top:112px}
+.mod-banner{background:linear-gradient(135deg,var(--primary),var(--primary2));color:#fff;border-radius:14px;padding:14px 20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;box-shadow:0 6px 18px -10px rgba(185,28,28,.7)}
+.mod-banner h2{margin:0;font-size:20px}
+.mod-banner h2 .w{font-size:12px;vertical-align:2px;background:rgba(255,255,255,.2);border-radius:6px;padding:0 7px;margin-left:6px}
+.mod-banner p{margin:0;font-size:12.5px;opacity:.92;flex:1;min-width:180px}
+.mod-banner .num{font-size:11px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);border-radius:999px;padding:1px 11px}
+.mod-body{background:#fff;border:1px solid #f5dcdc;border-radius:0 0 14px 14px;border-top:0;padding:16px 20px 10px;margin-top:-6px}
+.slot{border:2px dashed #f2c6c6;border-radius:12px;background:#fffafa;padding:18px 20px;text-align:center;color:#b96a6a;margin:4px 0 12px}
+.slot .e-t{font-weight:800;font-size:14.5px;color:#a03030}
+.slot .e-s{font-size:12.5px;color:#c29292;margin-top:4px;line-height:1.7}
+.slot .chips{margin-top:10px;display:flex;gap:7px;justify-content:center;flex-wrap:wrap}
+.slot .chips i{font-style:normal;font-size:11px;background:#fdeeee;border:1px solid #f7dada;color:#a53f3f;border-radius:999px;padding:1px 10px}
+/* 错题卡（每题记录：题干题图 / 我的答案 / 正确答案 / 考点 / 错因 / 复盘） */
+.qcard{margin:12px 0;border:1px solid #efd4d4;border-radius:12px;background:#fdfbfb;padding:11px 16px 12px}
+.qhead{display:inline-block;font-size:12.5px;font-weight:800;color:#fff;background:var(--primary2);border-radius:6px;padding:1px 10px;margin:2px 0 6px}
+.qcard p{margin:3px 0}
+.opt{padding-left:20px;color:#374151}
+.mine{margin-top:8px;background:#fef2f2;border:1px solid #fca5a5;border-radius:8px;padding:5px 12px;font-size:14px}
+.mine .ans-tag{background:#dc2626}
+.ansline{margin-top:6px;background:#f0fdf5;border:1px solid #86e3b3;border-radius:8px;padding:5px 12px;font-size:14px}
+.ans-tag{display:inline-block;background:#10b981;color:#fff;font-size:11px;font-weight:700;border-radius:5px;padding:0 8px;margin-right:8px}
+.rtags{margin-top:6px;display:flex;gap:6px;flex-wrap:wrap}
+.rtag{font-size:11px;background:#fef2f2;border:1px solid #fecaca;color:#b91c1c;border-radius:999px;padding:0 10px}
+.kp-tag{font-size:11px;background:#f0f4ff;border:1px solid #d4deff;color:#4c5fd0;border-radius:999px;padding:0 10px}
+.expline{margin-top:6px;background:#fff8eb;border:1px solid #fcd77d;border-radius:8px;padding:5px 12px;font-size:13.5px}
+.exp-tag{display:inline-block;background:#f59e0b;color:#fff;font-size:11px;font-weight:700;border-radius:5px;padding:0 8px;margin-right:8px}
+.note{font-size:12px;color:#a16262;background:#fdf1f1;border-radius:6px;padding:2px 10px;margin:6px 0 2px;display:inline-block}
+.fig{margin:8px 0;text-align:center}
+.fig img{max-width:100%;border:1px solid #ead4d4;border-radius:8px;background:#fff}
+mark.shl{background:#ffe066;color:#111;padding:0 1px;border-radius:3px}
+.module.hidden{display:none}
+details.tmpl{border:1px dashed var(--accent);border-radius:12px;background:#fffafa;margin:2px 0 12px}
+details.tmpl summary{cursor:pointer;padding:9px 16px;font-size:12.5px;color:var(--primary);font-weight:700}
+details.tmpl .bd{padding:0 16px 12px}
+details.tmpl pre{margin:8px 0 4px;font-size:11.5px;line-height:1.55;white-space:pre-wrap;background:#2b0f0f;color:#ffd9d9;border-radius:10px;padding:10px 12px;overflow:auto;font-family:Consolas,Menlo,monospace}
+.backtop{position:fixed;right:18px;bottom:18px;z-index:70;border:0;border-radius:50%;width:44px;height:44px;background:var(--primary2);color:#fff;font-size:18px;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.22);display:none}
+.backtop.show{display:block}
+@media(max-width:960px){
+  .layout{flex-direction:column}
+  nav.toc{position:static;width:100%;flex:none;max-height:none}
+}
+@media print{ nav.toc,.toolbar,.subnav,.backtop,details.tmpl{display:none} body{background:#fff} }
+</style>
+</head>
+<body>
+<header>
+  <h1>9月7日模考 · 行测错题集合</h1>
+  <div class="en">WEEKLY MOCK · 2026-09-07 · WRONG QUESTIONS</div>
+  <div class="intro">9月7日模考行测错题沉淀区：按常识判断、政治理论、言语理解、数量关系、判断推理、资料分析六大板块分类排布，每题以错题卡记录「题干题图 → 我的答案 → 正确答案 → 考点 → 错因 → 复盘」，便于定期回刷巩固。</div>
+  <div class="meta">
+    <span>六分类错题槽就绪</span>
+    <span>错因标签化</span>
+    <span>复盘闭环</span>
+  </div>
+</header>
+<div class="subnav">
+  <a href="../../每周模考.html">← 模考中心</a>
+  <a href="行测.html">行测</a>
+  <a href="申论.html">申论</a>
+  <a class="on" href="行测错题集合.html">行测错题集合</a>
+</div>
+<div class="toolbar">
+  <input id="q" placeholder="搜索本页六分类错题，回车定位…">
+  <span class="hitcount" id="hitcount"></span>
+  <button class="btn" id="hideans">隐藏正确与复盘</button>
+</div>
+<div class="layout">
+  <nav class="toc" id="toc">
+    <a class="t-cat" href="#cat-cs"><span class="dot"></span><b>常识判断</b><i>0 错</i></a>
+    <a class="t-cat" href="#cat-zz"><span class="dot"></span><b>政治理论</b><i>0 错</i></a>
+    <a class="t-cat" href="#cat-yy"><span class="dot"></span><b>言语理解</b><i>0 错</i></a>
+    <a class="t-cat" href="#cat-sl"><span class="dot"></span><b>数量关系</b><i>0 错</i></a>
+    <a class="t-cat" href="#cat-pd"><span class="dot"></span><b>判断推理</b><i>0 错</i></a>
+    <a class="t-cat" href="#cat-zl"><span class="dot"></span><b>资料分析</b><i>0 错</i></a>
+  </nav>
+  <main id="main">
+
+<!-- 错题分类：常识判断 -->
+<div class="module" id="cat-cs">
+  <div class="mod-banner"><h2>常识判断<span class="w">错题</span></h2><p>文史 · 科技 · 经济 · 地理 · 法律</p><span class="num">0 题</span></div>
+  <div class="mod-body">
+    <div class="slot"><div class="e-t">本分类暂无错题</div><div class="e-s">9月7日模考 · 常识判断错题将按错题卡录入于此<br>题图素材放入：9月7日模考/行测错题集合_assets/常识判断/</div><div class="chips"><i>题干 / 题图</i><i>我的答案</i><i>正确答案</i><i>考点</i><i>错因</i><i>复盘</i></div></div>
+    <details class="tmpl"><summary>错题卡录入模板（复制以下结构，粘贴到本分类底部后填写）</summary><div class="bd">
+      <pre>&lt;div class="qcard"&gt;
+  &lt;div class="qhead"&gt;常识判断 · #序号&lt;/div&gt;
+  &lt;p&gt;题干文字…&lt;/p&gt;
+  &lt;figure class="fig"&gt;&lt;img src="行测错题集合_assets/常识判断/题图文件名.png" alt="题干图片" loading="lazy"&gt;&lt;/figure&gt;
+  &lt;div class="opt"&gt;&lt;p&gt;A．…　B．…　C．…　D．…&lt;/p&gt;&lt;/div&gt;
+  &lt;div class="mine"&gt;&lt;span class="ans-tag"&gt;我的答案&lt;/span&gt;C&lt;/div&gt;
+  &lt;div class="ansline"&gt;&lt;span class="ans-tag"&gt;正确答案&lt;/span&gt;B&lt;/div&gt;
+  &lt;div class="rtags"&gt;&lt;span class="kp-tag"&gt;考点：…&lt;/span&gt;&lt;span class="rtag"&gt;错因：知识点没记牢 / 审题偏差 / 时间不够…&lt;/span&gt;&lt;/div&gt;
+  &lt;div class="expline"&gt;&lt;span class="exp-tag"&gt;复盘&lt;/span&gt;…&lt;/div&gt;
+  &lt;div class="note"&gt;来源：9月7日模考 · 行测 · 常识判断 · 第 x 题&lt;/div&gt;
+&lt;/div&gt;</pre>
+    </div></details>
+  </div>
+</div>
+
+<!-- 错题分类：政治理论 -->
+<div class="module" id="cat-zz">
+  <div class="mod-banner"><h2>政治理论<span class="w">错题</span></h2><p>习思想 · 马克思主义基本原理</p><span class="num">0 题</span></div>
+  <div class="mod-body">
+    <div class="slot"><div class="e-t">本分类暂无错题</div><div class="e-s">9月7日模考 · 政治理论错题将按错题卡录入于此<br>题图素材放入：9月7日模考/行测错题集合_assets/政治理论/</div><div class="chips"><i>题干 / 题图</i><i>我的答案</i><i>正确答案</i><i>考点</i><i>错因</i><i>复盘</i></div></div>
+    <details class="tmpl"><summary>错题卡录入模板（复制以下结构，粘贴到本分类底部后填写）</summary><div class="bd">
+      <pre>&lt;div class="qcard"&gt;
+  &lt;div class="qhead"&gt;政治理论 · #序号&lt;/div&gt;
+  &lt;p&gt;题干文字…&lt;/p&gt;
+  &lt;figure class="fig"&gt;&lt;img src="行测错题集合_assets/政治理论/题图文件名.png" alt="题干图片" loading="lazy"&gt;&lt;/figure&gt;
+  &lt;div class="opt"&gt;&lt;p&gt;A．…　B．…　C．…　D．…&lt;/p&gt;&lt;/div&gt;
+  &lt;div class="mine"&gt;&lt;span class="ans-tag"&gt;我的答案&lt;/span&gt;C&lt;/div&gt;
+  &lt;div class="ansline"&gt;&lt;span class="ans-tag"&gt;正确答案&lt;/span&gt;B&lt;/div&gt;
+  &lt;div class="rtags"&gt;&lt;span class="kp-tag"&gt;考点：…&lt;/span&gt;&lt;span class="rtag"&gt;错因：知识点没记牢 / 审题偏差 / 时间不够…&lt;/span&gt;&lt;/div&gt;
+  &lt;div class="expline"&gt;&lt;span class="exp-tag"&gt;复盘&lt;/span&gt;…&lt;/div&gt;
+  &lt;div class="note"&gt;来源：9月7日模考 · 行测 · 政治理论 · 第 x 题&lt;/div&gt;
+&lt;/div&gt;</pre>
+    </div></details>
+  </div>
+</div>
+
+<!-- 错题分类：言语理解 -->
+<div class="module" id="cat-yy">
+  <div class="mod-banner"><h2>言语理解<span class="w">错题</span></h2><p>片段阅读 · 逻辑填空</p><span class="num">0 题</span></div>
+  <div class="mod-body">
+    <div class="slot"><div class="e-t">本分类暂无错题</div><div class="e-s">9月7日模考 · 言语理解错题将按错题卡录入于此<br>题图素材放入：9月7日模考/行测错题集合_assets/言语理解/</div><div class="chips"><i>题干 / 题图</i><i>我的答案</i><i>正确答案</i><i>考点</i><i>错因</i><i>复盘</i></div></div>
+    <details class="tmpl"><summary>错题卡录入模板（复制以下结构，粘贴到本分类底部后填写）</summary><div class="bd">
+      <pre>&lt;div class="qcard"&gt;
+  &lt;div class="qhead"&gt;言语理解 · #序号&lt;/div&gt;
+  &lt;p&gt;题干文字…&lt;/p&gt;
+  &lt;figure class="fig"&gt;&lt;img src="行测错题集合_assets/言语理解/题图文件名.png" alt="题干图片" loading="lazy"&gt;&lt;/figure&gt;
+  &lt;div class="opt"&gt;&lt;p&gt;A．…　B．…　C．…　D．…&lt;/p&gt;&lt;/div&gt;
+  &lt;div class="mine"&gt;&lt;span class="ans-tag"&gt;我的答案&lt;/span&gt;C&lt;/div&gt;
+  &lt;div class="ansline"&gt;&lt;span class="ans-tag"&gt;正确答案&lt;/span&gt;B&lt;/div&gt;
+  &lt;div class="rtags"&gt;&lt;span class="kp-tag"&gt;考点：…&lt;/span&gt;&lt;span class="rtag"&gt;错因：知识点没记牢 / 审题偏差 / 时间不够…&lt;/span&gt;&lt;/div&gt;
+  &lt;div class="expline"&gt;&lt;span class="exp-tag"&gt;复盘&lt;/span&gt;…&lt;/div&gt;
+  &lt;div class="note"&gt;来源：9月7日模考 · 行测 · 言语理解 · 第 x 题&lt;/div&gt;
+&lt;/div&gt;</pre>
+    </div></details>
+  </div>
+</div>
+
+<!-- 错题分类：数量关系 -->
+<div class="module" id="cat-sl">
+  <div class="mod-banner"><h2>数量关系<span class="w">错题</span></h2><p>数学运算 · 速算</p><span class="num">0 题</span></div>
+  <div class="mod-body">
+    <div class="slot"><div class="e-t">本分类暂无错题</div><div class="e-s">9月7日模考 · 数量关系错题将按错题卡录入于此<br>题图素材放入：9月7日模考/行测错题集合_assets/数量关系/</div><div class="chips"><i>题干 / 题图</i><i>我的答案</i><i>正确答案</i><i>考点</i><i>错因</i><i>复盘（含正确算法）</i></div></div>
+    <details class="tmpl"><summary>错题卡录入模板（复制以下结构，粘贴到本分类底部后填写）</summary><div class="bd">
+      <pre>&lt;div class="qcard"&gt;
+  &lt;div class="qhead"&gt;数量关系 · #序号&lt;/div&gt;
+  &lt;p&gt;题干文字…&lt;/p&gt;
+  &lt;figure class="fig"&gt;&lt;img src="行测错题集合_assets/数量关系/题图文件名.png" alt="题干图片" loading="lazy"&gt;&lt;/figure&gt;
+  &lt;div class="opt"&gt;&lt;p&gt;A．…　B．…　C．…　D．…&lt;/p&gt;&lt;/div&gt;
+  &lt;div class="mine"&gt;&lt;span class="ans-tag"&gt;我的答案&lt;/span&gt;C&lt;/div&gt;
+  &lt;div class="ansline"&gt;&lt;span class="ans-tag"&gt;正确答案&lt;/span&gt;B&lt;/div&gt;
+  &lt;div class="rtags"&gt;&lt;span class="kp-tag"&gt;考点：…&lt;/span&gt;&lt;span class="rtag"&gt;错因：计算失误 / 方法用错 / 时间不够…&lt;/span&gt;&lt;/div&gt;
+  &lt;div class="expline"&gt;&lt;span class="exp-tag"&gt;复盘&lt;/span&gt;…&lt;/div&gt;
+  &lt;div class="note"&gt;来源：9月7日模考 · 行测 · 数量关系 · 第 x 题&lt;/div&gt;
+&lt;/div&gt;</pre>
+    </div></details>
+  </div>
+</div>
+
+<!-- 错题分类：判断推理 -->
+<div class="module" id="cat-pd">
+  <div class="mod-banner"><h2>判断推理<span class="w">错题</span></h2><p>图形 · 定义 · 类比 · 逻辑判断</p><span class="num">0 题</span></div>
+  <div class="mod-body">
+    <div class="slot"><div class="e-t">本分类暂无错题</div><div class="e-s">9月7日模考 · 判断推理错题将按错题卡录入于此<br>题图素材放入：9月7日模考/行测错题集合_assets/判断推理/</div><div class="chips"><i>题干 / 题图</i><i>我的答案</i><i>正确答案</i><i>考点</i><i>错因</i><i>复盘</i></div></div>
+    <details class="tmpl"><summary>错题卡录入模板（复制以下结构，粘贴到本分类底部后填写）</summary><div class="bd">
+      <pre>&lt;div class="qcard"&gt;
+  &lt;div class="qhead"&gt;判断推理 · #序号&lt;/div&gt;
+  &lt;p&gt;题干文字…&lt;/p&gt;
+  &lt;figure class="fig"&gt;&lt;img src="行测错题集合_assets/判断推理/题图文件名.png" alt="题干图片" loading="lazy"&gt;&lt;/figure&gt;
+  &lt;div class="opt"&gt;&lt;p&gt;A．…　B．…　C．…　D．…&lt;/p&gt;&lt;/div&gt;
+  &lt;div class="mine"&gt;&lt;span class="ans-tag"&gt;我的答案&lt;/span&gt;C&lt;/div&gt;
+  &lt;div class="ansline"&gt;&lt;span class="ans-tag"&gt;正确答案&lt;/span&gt;B&lt;/div&gt;
+  &lt;div class="rtags"&gt;&lt;span class="kp-tag"&gt;考点：…&lt;/span&gt;&lt;span class="rtag"&gt;错因：规律识别偏差 / 论证关系理解错 / 时间不够…&lt;/span&gt;&lt;/div&gt;
+  &lt;div class="expline"&gt;&lt;span class="exp-tag"&gt;复盘&lt;/span&gt;…&lt;/div&gt;
+  &lt;div class="note"&gt;来源：9月7日模考 · 行测 · 判断推理 · 第 x 题&lt;/div&gt;
+&lt;/div&gt;</pre>
+    </div></details>
+  </div>
+</div>
+
+<!-- 错题分类：资料分析 -->
+<div class="module" id="cat-zl">
+  <div class="mod-banner"><h2>资料分析<span class="w">错题</span></h2><p>统计材料 · 速算体系</p><span class="num">0 题</span></div>
+  <div class="mod-body">
+    <div class="slot"><div class="e-t">本分类暂无错题</div><div class="e-s">9月7日模考 · 资料分析错题将按错题卡录入于此<br>题图素材（含材料表）放入：9月7日模考/行测错题集合_assets/资料分析/</div><div class="chips"><i>材料 / 题图</i><i>我的答案</i><i>正确答案</i><i>考点</i><i>错因</i><i>复盘</i></div></div>
+    <details class="tmpl"><summary>错题卡录入模板（复制以下结构，粘贴到本分类底部后填写）</summary><div class="bd">
+      <pre>&lt;div class="qcard"&gt;
+  &lt;div class="qhead"&gt;资料分析 · #序号&lt;/div&gt;
+  &lt;p&gt;材料文字 / 题目…&lt;/p&gt;
+  &lt;figure class="fig"&gt;&lt;img src="行测错题集合_assets/资料分析/材料表.png" alt="材料图表" loading="lazy"&gt;&lt;/figure&gt;
+  &lt;div class="opt"&gt;&lt;p&gt;A．…　B．…　C．…　D．…&lt;/p&gt;&lt;/div&gt;
+  &lt;div class="mine"&gt;&lt;span class="ans-tag"&gt;我的答案&lt;/span&gt;C&lt;/div&gt;
+  &lt;div class="ansline"&gt;&lt;span class="ans-tag"&gt;正确答案&lt;/span&gt;B&lt;/div&gt;
+  &lt;div class="rtags"&gt;&lt;span class="kp-tag"&gt;考点：…&lt;/span&gt;&lt;span class="rtag"&gt;错因：速算失误 / 找数错位 / 单位陷阱…&lt;/span&gt;&lt;/div&gt;
+  &lt;div class="expline"&gt;&lt;span class="exp-tag"&gt;复盘&lt;/span&gt;…&lt;/div&gt;
+  &lt;div class="note"&gt;来源：9月7日模考 · 行测 · 资料分析 · 第 x 题&lt;/div&gt;
+&lt;/div&gt;</pre>
+    </div></details>
+  </div>
+</div>
+
+  </main>
+</div>
+<button class="backtop" id="backtop" title="回到顶部">↑</button>
+
+<script>
+(function(){
+  var q=document.getElementById('q'),hit=document.getElementById('hitcount');
+  var mods=Array.prototype.slice.call(document.querySelectorAll('.module'));
+  function clearShl(root){
+    root.querySelectorAll('mark.shl').forEach(function(m){
+      var t=document.createTextNode(m.textContent);
+      m.parentNode.replaceChild(t,m);
+    });
+  }
+  function shl(root,word){
+    if(!word)return;
+    var walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{
+      acceptNode:function(n){
+        if(!n.nodeValue||n.nodeValue.indexOf(word)===-1)return NodeFilter.FILTER_REJECT;
+        var p=n.parentNode;
+        if(!p||/^(SCRIPT|STYLE|MARK)$/.test(p.tagName))return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    });
+    var nodes=[],n;
+    while(n=walker.nextNode())nodes.push(n);
+    nodes.forEach(function(node){
+      var idx=node.nodeValue.indexOf(word);
+      var after=node.splitText(idx);
+      after.splitText(word.length);
+      var m=document.createElement('mark');
+      m.className='shl';m.textContent=after.textContent;
+      after.parentNode.replaceChild(m,after);
+    });
+  }
+  function doSearch(word){
+    word=(word||'').trim();
+    document.querySelectorAll('.module').forEach(function(c){clearShl(c);c.classList.remove('hidden');});
+    if(!word){hit.textContent='';return;}
+    var n=0,first=null;
+    mods.forEach(function(c){
+      if(c.textContent.indexOf(word)>-1){shl(c,word);n++;if(!first)first=c;}
+      else{c.classList.add('hidden');}
+    });
+    hit.textContent='命中 '+n+' 个分类';
+    if(first){first.scrollIntoView({behavior:'smooth',block:'start'});}
+  }
+  q.addEventListener('keydown',function(e){if(e.key==='Enter')doSearch(q.value);});
+  q.addEventListener('input',function(){if(!q.value.trim())doSearch('');});
+  var hidden=false;
+  document.getElementById('hideans').addEventListener('click',function(){
+    hidden=!hidden;
+    document.querySelectorAll('.ansline,.expline').forEach(function(b){b.style.display=hidden?'none':'';});
+    this.textContent=hidden?'显示正确与复盘':'隐藏正确与复盘';
+    this.classList.toggle('on',hidden);
+  });
+  var bt=document.getElementById('backtop');
+  window.addEventListener('scroll',function(){bt.classList.toggle('show',window.scrollY>500);});
+  bt.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});
+  /* 顶部全局搜索落点 */
+  window.addEventListener('message',function(e){
+    var d=e.data||{};
+    if(d.type==='ws-search'&&d.q){q.value=d.q;doSearch(d.q);}
+  });
+})();
+</script>
+</body>
+</html>

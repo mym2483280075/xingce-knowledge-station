@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="violet">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>资料分析 · 行测知识工作站</title>
+<style>
+:root{
+  --primary:#4f46e5; --primary2:#6366f1; --accent:#818cf8; --bg:#f2f3fa;
+}
+html[data-theme="indigo"]{--primary:#4f46e5;--primary2:#6366f1;--accent:#818cf8;--bg:#f2f3fa}
+html[data-theme="amber"]{--primary:#b45309;--primary2:#d97706;--accent:#f59e0b;--bg:#faf6ef}
+html[data-theme="sky"]{--primary:#0369a1;--primary2:#0ea5e9;--accent:#38bdf8;--bg:#eff7fb}
+html[data-theme="violet"]{--primary:#6d28d9;--primary2:#8b5cf6;--accent:#a78bfa;--bg:#f6f3fc}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:"PingFang SC","Microsoft YaHei","Noto Sans CJK SC","Hiragino Sans GB",sans-serif;color:#1f2937;background:var(--bg);line-height:1.8;font-size:15px}
+header{background:linear-gradient(135deg,var(--primary) 0%,var(--primary2) 65%,var(--accent) 130%);color:#fff;padding:30px 26px 24px;text-align:center}
+header h1{margin:0;font-size:27px;letter-spacing:1px}
+header .en{margin-top:3px;font-size:11.5px;letter-spacing:.22em;opacity:.8}
+header .intro{margin:12px auto 0;max-width:860px;font-size:13px;opacity:.93;line-height:1.7}
+header .meta{margin-top:12px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;font-size:12px}
+header .meta span{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:2px 12px}
+.toolbar{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);border-bottom:1px solid #e5e7eb;padding:9px 16px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.toolbar input{flex:1;min-width:180px;max-width:460px;padding:8px 14px;border:1px solid #d1d5db;border-radius:999px;font-size:13.5px;outline:none}
+.toolbar input:focus{border-color:var(--primary)}
+.btn{border:1px solid #d1d5db;background:#fff;border-radius:999px;padding:7px 14px;font-size:12.5px;cursor:pointer;color:#374151;white-space:nowrap}
+.btn:hover{border-color:var(--primary);color:var(--primary)}
+.btn.on{background:var(--primary);border-color:var(--primary);color:#fff}
+.hitcount{font-size:12px;color:#6b7280;white-space:nowrap}
+.layout{display:flex;max-width:1240px;margin:0 auto;padding:20px 18px 70px;gap:22px;align-items:flex-start}
+nav.toc{position:sticky;top:64px;flex:0 0 264px;max-height:calc(100vh - 84px);overflow:auto;background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:14px 12px;font-size:12.5px}
+nav.toc .t-pian{font-weight:800;margin:10px 4px 4px;font-size:13.5px;border-top:2px solid var(--accent);padding-top:8px}
+nav.toc .t-pian:first-child{border-top:0;margin-top:0;padding-top:0}
+nav.toc .t-pian a{color:var(--primary);text-decoration:none}
+nav.toc a.t-item{display:block;padding:3px 6px 3px 16px;border-radius:6px;color:#6b7280;text-decoration:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+nav.toc a.t-item:hover{background:#f3f4f6;color:var(--primary)}
+main{flex:1;min-width:0}
+/* 总览 */
+.ov{background:#fff;border:1px solid #e5e7eb;border-radius:16px;padding:20px 24px;margin-bottom:24px;scroll-margin-top:70px}
+.ov-title{margin:0 0 12px;font-size:19px;color:var(--primary)}
+.ov-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.ov-card{border:1px solid #e5e7eb;border-radius:12px;padding:12px 16px;background:linear-gradient(180deg,#fff, color-mix(in srgb,var(--primary) 4%,#fff))}
+.ov-card h3{margin:0 0 6px;font-size:15.5px;color:var(--primary)}
+.ov-card ul{margin:0;padding-left:0;list-style:none}
+.ov-card li{margin:5px 0;font-size:13px;line-height:1.5}
+.ov-card li a{color:#111827;font-weight:700;text-decoration:none;border-bottom:1px dashed var(--accent)}
+.ov-card li a:hover{color:var(--primary)}
+.ov-card li span{display:block;color:#6b7280;font-size:12px;padding-left:2px}
+/* 模块 */
+.module{margin-bottom:34px}
+.mod-banner{background:linear-gradient(135deg,var(--primary),var(--primary2));color:#fff;border-radius:14px;padding:16px 22px;margin-bottom:16px;box-shadow:0 6px 18px -8px color-mix(in srgb,var(--primary) 60%,transparent)}
+.mod-banner h2{margin:0;font-size:21px}
+.mod-banner p{margin:6px 0 0;font-size:13px;opacity:.92}
+.unit{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:18px 22px 14px;margin-bottom:16px;scroll-margin-top:70px}
+.unit-head{display:flex;align-items:center;gap:10px;border-left:4px solid var(--primary);padding-left:12px;flex-wrap:wrap}
+.unit-head h3{margin:0;font-size:17.5px;color:var(--primary);flex:1;min-width:200px}
+.chip{font-size:11px;border-radius:999px;padding:1px 9px;font-weight:600;background:color-mix(in srgb,var(--primary) 10%,#fff);color:var(--primary);border:1px solid color-mix(in srgb,var(--primary) 30%,#fff)}
+.unit-desc{font-size:12.5px;color:#6b7280;margin:4px 0 10px;padding-left:16px}
+.unit h2.chap{margin:16px 0 6px;font-size:18px;color:var(--primary);border-bottom:2px solid var(--accent);padding-bottom:4px}
+.unit h3.sec{margin:14px 0 4px;font-size:16px;color:var(--primary);border-left:3px solid var(--accent);padding-left:8px}
+.unit h4.h1{margin:12px 0 3px;font-size:15px;color:#1f2937}
+.unit h5.h2{margin:10px 0 2px;font-size:14px;color:#4b5563}
+.unit p{margin:4px 0;text-align:justify}
+.zt-banner{margin:16px 0 8px;background:repeating-linear-gradient(45deg,#fff8e6,#fff8e6 12px,#fff3d6 12px,#fff3d6 24px);border:1px solid #f59e0b;color:#92600a;font-weight:700;font-size:13.5px;border-radius:10px;padding:8px 14px}
+/* 题卡 */
+.qcard{margin:14px 0;border:1px solid #dbe3ee;border-radius:12px;background:#fbfcfe;padding:10px 16px 12px}
+.qhead{display:inline-block;font-size:12.5px;font-weight:800;color:#fff;background:var(--primary2);border-radius:6px;padding:1px 10px;margin:2px 0 6px}
+.qcard p{margin:3px 0}
+.opt{padding-left:20px;color:#374151}
+.ansline{margin-top:8px;background:#ecfdf5;border:1px solid #6ee7b7;border-radius:8px;padding:5px 12px;font-size:14px}
+.ans-tag{display:inline-block;background:#10b981;color:#fff;font-size:11px;font-weight:700;border-radius:5px;padding:0 8px;margin-right:8px}
+.expline{margin-top:6px;background:#fffbeb;border:1px solid #fcd34d;border-radius:8px;padding:5px 12px;font-size:13.5px}
+.exp-tag{display:inline-block;background:#f59e0b;color:#fff;font-size:11px;font-weight:700;border-radius:5px;padding:0 8px;margin-right:8px}
+.note{font-size:12px;color:#8b5cf6;background:#f5f3ff;border-radius:6px;padding:2px 10px;margin:3px 0}
+.fig{margin:8px 0;text-align:center}
+.fig img{max-width:100%;border:1px solid #e5e7eb;border-radius:8px;background:#fff}
+mark.shl{background:#fde047;color:#111;padding:0 1px;border-radius:3px}
+.unit.hidden,.module.hidden{display:none}
+.backtop{position:fixed;right:18px;bottom:18px;z-index:60;border:0;border-radius:50%;width:44px;height:44px;background:var(--primary);color:#fff;font-size:18px;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.22);display:none}
+.backtop.show{display:block}
+@media(max-width:900px){
+  .layout{flex-direction:column;align-items:stretch}
+  nav.toc{position:static;width:100%;flex:none;max-height:300px}
+  main{width:100%;min-width:0;max-width:100%}
+}
+@media print{
+  nav.toc,.toolbar,.backtop{display:none}
+  .unit{break-inside:avoid;border:1px solid #ddd;box-shadow:none}
+  body{background:#fff}
+}
+
+/* ===== 资料分析 · 工作台主题适配层 ===== */
+.module{scroll-margin-top:70px}
+mark.key{background:none;color:var(--primary);font-weight:700}
+.tbwrap{overflow-x:auto;border:1px solid #e5e7eb;border-radius:12px;margin:10px 0;background:#fff}
+.tbwrap table{width:100%;border-collapse:collapse;font-size:13.5px;line-height:1.65;min-width:640px;margin:0}
+.tbwrap th{background:linear-gradient(135deg,var(--primary),var(--primary2));color:#fff;font-weight:600;text-align:left;padding:8px 12px;white-space:nowrap;border:0}
+.tbwrap td{border:1px solid #e5e7eb;padding:7px 12px;vertical-align:top;color:#374151}
+.tbwrap tbody tr:nth-child(even) td{background:#f8f9fd}
+.mono{font-family:"Consolas","JetBrainsMono","Courier New",monospace;font-size:12.5px}
+.fx{font-family:"Consolas","JetBrainsMono","Courier New",monospace;font-size:13px;line-height:1.9;background:color-mix(in srgb,var(--primary) 6%,#fff);border:1px solid color-mix(in srgb,var(--primary) 20%,#fff);border-radius:10px;padding:8px 14px;margin:8px 0;overflow-x:auto}
+.fx b{color:var(--primary)}
+.kbox{border:1px solid #e5e7eb;border-left:4px solid var(--accent);background:linear-gradient(180deg,#fff,color-mix(in srgb,var(--accent) 5%,#fff));border-radius:12px;padding:12px 16px;margin:10px 0;font-size:14px}
+.kbox .kl{font-weight:700;color:var(--primary);letter-spacing:.03em;margin-bottom:5px;font-size:13.5px}
+.kbox p,.kbox li{font-size:14px}
+.kbox ul,.kbox ol{margin:6px 0;padding-left:22px}
+.kgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:10px 0}
+.kgrid .kbox{margin:0}
+.warnbox{background:#fffbeb;border:1px solid #fcd34d;border-radius:8px;padding:7px 12px;margin:8px 0;font-size:13.5px;color:#374151}
+.mtr{font-size:13px;color:#6b7280;border-left:3px solid #dbe3ee;padding:3px 0 3px 12px;margin:6px 0;background:#fbfcfe;border-radius:0 6px 6px 0}
+.ask{font-weight:600;margin:6px 0}
+.src{font-size:12px;color:#9ca3af;margin:2px 0 6px}
+.qcard .qhead{white-space:normal}
+.st{font-size:14px;margin:4px 0}
+.dim{color:#6b7280;font-size:12.5px}
+.note{line-height:1.7;padding:6px 12px}
+.mm-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}
+.mm{background:color-mix(in srgb,var(--primary) 4%,#fff);border:1px solid color-mix(in srgb,var(--accent) 30%,#e5e7eb);border-top:3px solid var(--accent);border-radius:12px;padding:11px 15px;margin:10px 0}
+.mm .ml{font-weight:700;color:var(--primary);font-size:13.5px;margin-bottom:6px}
+.mm .mn{font-size:13.5px;color:#374151;line-height:1.9}
+.mm-grid .mm{margin:0}
+.figbox{margin:14px 0 6px;border:1px solid #e5e7eb;border-radius:14px;background:#fff;padding:16px 18px 12px}
+.figcap{font-size:12.5px;color:#6b7280;text-align:center;margin:8px 0 2px;line-height:1.6}
+.bar-row{display:flex;align-items:center;gap:12px;margin:7px 0;font-size:12.5px}
+.bar-row .bn{flex:0 0 150px;color:#374151}
+.bar-row .bt{flex:1;background:color-mix(in srgb,var(--accent) 16%,#f6f3fc);border-radius:7px;height:18px;overflow:hidden}
+.bar-row .bf{height:100%;border-radius:7px;background:linear-gradient(90deg,var(--primary),var(--accent));min-width:6px}
+.bar-row .bv{flex:0 0 42px;text-align:right;color:#4b5563;font-weight:700}
+@media(max-width:820px){.kgrid,.mm-grid{grid-template-columns:1fr}}
+</style>
+<body>
+<header>
+  <h1>资料分析</h1>
+  <div class="en">DATA ANALYSIS</div>
+  <div class="intro">以《行测资料分析理论讲义》为纲，按讲义体系重排：概念术语 → 实用速算 → ABRX 类 → 比重类 → 盐水类 → 比较类 → 平均倍数类。每个知识点附讲义要点、公式与真题精讲，章末附讲义例题全量答案速查，开篇附公式口诀总速查。</div>
+  <div class="meta"><span>七章体系 · 对齐讲义</span><span>公式 · 口诀 · 速算</span><span>精讲例题 46 道</span><span>讲义例题全量答案速查</span></div>
+</header>
+<div class="toolbar">
+  <input id="q" placeholder="搜索本板块考点 / 关键词，回车定位…">
+  <span class="hitcount" id="hitcount"></span>
+  <button class="btn" id="hideans">隐藏答案解析</button>
+  <button class="btn" id="closeall">收起卡片</button>
+</div>
+<div class="layout">
+<nav class="toc" id="toc">
+<a class="t-item" href="#overview" style="font-weight:700;color:var(--primary)">★ 板块总览 · 章节地图</a>
+<div class="t-pian"><a href="#zlmod-0">开篇速查 · 公式与口诀总速查</a></div>
+<a class="t-item" href="#zlu-0-1">速记口诀 · 开篇总览</a>
+<a class="t-item" href="#zlu-0-2">1 · ABRX 与基本概念（第一章）</a>
+<a class="t-item" href="#zlu-0-3">2 · 实用速算技巧（第二章）</a>
+<a class="t-item" href="#zlu-0-4">3 · ABRX 类考点（第三章）</a>
+<a class="t-item" href="#zlu-0-5">4 · 比重类（第四章）</a>
+<a class="t-item" href="#zlu-0-6">5 · 盐水类（第五章）</a>
+<a class="t-item" href="#zlu-0-7">6 · 比较类（第六章）</a>
+<a class="t-item" href="#zlu-0-8">7 · 平均倍数类（第七章）</a>
+<div class="t-pian"><a href="#zlmod-1">第一章 · 概述、术语与 ABRX 体系</a></div>
+<a class="t-item" href="#zlu-1-1">1.1 资料分析概述（讲义 1.1）</a>
+<a class="t-item" href="#zlu-1-2">1.2 核心基础概念（讲义 1.2.1）</a>
+<a class="t-item" href="#zlu-1-3">1.3 常见统计术语解释（讲义 1.2.2）</a>
+<a class="t-item" href="#zlu-1-4">1.4 常用字母表示：ABRX 体系（讲义 1.3）</a>
+<div class="t-pian"><a href="#zlmod-2">第二章 · 实用速算技巧</a></div>
+<a class="t-item" href="#zlu-2-1">2.1 加减法技巧（讲义 2.1）</a>
+<a class="t-item" href="#zlu-2-2">2.2 乘法技巧（讲义 2.2）</a>
+<a class="t-item" href="#zlu-2-3">2.3 除法技巧（讲义 2.3）</a>
+<a class="t-item" href="#zlu-2-4">2.4 除法转换技巧（讲义 2.4）——速算核心</a>
+<a class="t-item" href="#zlu-2-5">2.5 选项极近时的假设思维（讲义 2.5）</a>
+<a class="t-item" href="#zlu-2-6">2.6 第二章答案速查（讲义例题与练习）</a>
+<div class="t-pian"><a href="#zlmod-3">第三章 · ABRX 类</a></div>
+<a class="t-item" href="#zlu-3-1">3.1 ABRX 类之"A"（求基期）</a>
+<a class="t-item" href="#zlu-3-2">3.2 ABRX 类之"B"（求现期 / 求后期）</a>
+<a class="t-item" href="#zlu-3-3">3.3 ABRX 类之"X"（求增长量）</a>
+<a class="t-item" href="#zlu-3-4">3.4 ABRX 类之"R"（求增长率）</a>
+<div class="t-pian"><a href="#zlmod-4">第四章 · 比重类</a></div>
+<a class="t-item" href="#zlu-4-1">4.1 单期比重之现期比重（讲义 4.1）</a>
+<a class="t-item" href="#zlu-4-2">4.2 单期比重之基期比重（讲义 4.2）</a>
+<a class="t-item" href="#zlu-4-3">4.3 单期比重之隔级比重（讲义 4.3）</a>
+<a class="t-item" href="#zlu-4-4">4.4 两期比重变化之比重趋势（讲义 4.4）</a>
+<a class="t-item" href="#zlu-4-5">4.5 两期比重比较之比重差（讲义 4.5）</a>
+<div class="t-pian"><a href="#zlmod-5">第五章 · 盐水类</a></div>
+<a class="t-item" href="#zlu-5-1">5.1 盐水思想（混合思维）介绍（讲义 5.1）</a>
+<a class="t-item" href="#zlu-5-2">5.2 三排序问题（讲义 5.2）</a>
+<a class="t-item" href="#zlu-5-3">5.3 已知三 R 求量之比（讲义 5.3）——十字交叉</a>
+<a class="t-item" href="#zlu-5-4">5.4 已知二 R 和量之比求第三 R（讲义 5.4）</a>
+<div class="t-pian"><a href="#zlmod-6">第六章 · 比较类</a></div>
+<a class="t-item" href="#zlu-6-1">6.1 比值（增速、比重、基期等）大小比较（讲义 6.1）</a>
+<a class="t-item" href="#zlu-6-2">6.2 增量大小比较（讲义 6.2）</a>
+<a class="t-item" href="#zlu-6-3">6.3 替代比较（讲义 6.3）——以易代难</a>
+<div class="t-pian"><a href="#zlmod-7">第七章 · 平均倍数类</a></div>
+<a class="t-item" href="#zlu-7-1">7.1 平均数（讲义 7.1）</a>
+<a class="t-item" href="#zlu-7-2">7.2 倍数（讲义 7.2）</a>
+<a class="t-item" href="#zlu-7-3">7.3 年均增长量（讲义 7.3）</a>
+<a class="t-item" href="#zlu-7-4">7.4 年均增长率（讲义 7.4）</a>
+<div class="t-pian"><a href="#zlmod-8">第八章 · 题型一览与考场策略</a></div>
+<a class="t-item" href="#zlu-8-1">8.1 九大题型识别标志与核心公式一览</a>
+<a class="t-item" href="#zlu-8-2">8.2 高频考点出题频率（单套 20 题 · 国考副省级）</a>
+<a class="t-item" href="#zlu-8-3">8.3 易错点对照表（考前必背）</a>
+<a class="t-item" href="#zlu-8-4">8.4 提速训练路径与考场策略</a>
+<div class="t-pian"><a href="#zlmod-9">附录 · 小数速查 · 公式总表 · 口诀卡</a></div>
+<a class="t-item" href="#zlu-9-1">附录 A　讲义例题分布与常用小数</a>
+<a class="t-item" href="#zlu-9-2">附录 B　七章核心公式总表</a>
+<a class="t-item" href="#zlu-9-3">附录 C　速记口诀卡</a>
+</nav>
+<main id="main">
+<div class="ov" id="overview"><h2 class="ov-title">板块总览 · 七章体系与附录速览</h2><div class="ov-grid"><div class="ov-card"><h3>开篇速查 · 公式与口诀总速查</h3><ul><li><a href="#zlu-0-1"><b>速记口诀 · 开篇总览</b></a></li><li><a href="#zlu-0-2"><b>1 · ABRX 与基本概念（第一章）</b></a></li><li><a href="#zlu-0-3"><b>2 · 实用速算技巧（第二章）</b></a></li><li><a href="#zlu-0-4"><b>3 · ABRX 类考点（第三章）</b></a></li><li><a href="#zlu-0-5"><b>4 · 比重类（第四章）</b></a></li><li><a href="#zlu-0-6"><b>5 · 盐水类（第五章）</b></a></li><li><a href="#zlu-0-7"><b>6 · 比较类（第六章）</b></a></li><li><a href="#zlu-0-8"><b>7 · 平均倍数类（第七章）</b></a></li></ul></div><div class="ov-card"><h3>第一章 · 概述、术语与 ABRX 体系</h3><ul><li><a href="#zlu-1-1"><b>1.1 资料分析概述（讲义 1.1）</b></a></li><li><a href="#zlu-1-2"><b>1.2 核心基础概念（讲义 1.2.1）</b></a></li><li><a href="#zlu-1-3"><b>1.3 常见统计术语解释（讲义 1.2.2）</b></a></li><li><a href="#zlu-1-4"><b>1.4 常用字母表示：ABRX 体系（讲义 1.3）</b></a></li></ul></div><div class="ov-card"><h3>第二章 · 实用速算技巧</h3><ul><li><a href="#zlu-2-1"><b>2.1 加减法技巧（讲义 2.1）</b></a></li><li><a href="#zlu-2-2"><b>2.2 乘法技巧（讲义 2.2）</b></a></li><li><a href="#zlu-2-3"><b>2.3 除法技巧（讲义 2.3）</b></a></li><li><a href="#zlu-2-4"><b>2.4 除法转换技巧（讲义 2.4）——速算核心</b></a></li><li><a href="#zlu-2-5"><b>2.5 选项极近时的假设思维（讲义 2.5）</b></a></li><li><a href="#zlu-2-6"><b>2.6 第二章答案速查（讲义例题与练习）</b></a></li></ul></div><div class="ov-card"><h3>第三章 · ABRX 类</h3><ul><li><a href="#zlu-3-1"><b>3.1 ABRX 类之"A"（求基期）</b></a></li><li><a href="#zlu-3-2"><b>3.2 ABRX 类之"B"（求现期 / 求后期）</b></a></li><li><a href="#zlu-3-3"><b>3.3 ABRX 类之"X"（求增长量）</b></a></li><li><a href="#zlu-3-4"><b>3.4 ABRX 类之"R"（求增长率）</b></a></li></ul></div><div class="ov-card"><h3>第四章 · 比重类</h3><ul><li><a href="#zlu-4-1"><b>4.1 单期比重之现期比重（讲义 4.1）</b></a></li><li><a href="#zlu-4-2"><b>4.2 单期比重之基期比重（讲义 4.2）</b></a></li><li><a href="#zlu-4-3"><b>4.3 单期比重之隔级比重（讲义 4.3）</b></a></li><li><a href="#zlu-4-4"><b>4.4 两期比重变化之比重趋势（讲义 4.4）</b></a></li><li><a href="#zlu-4-5"><b>4.5 两期比重比较之比重差（讲义 4.5）</b></a></li></ul></div><div class="ov-card"><h3>第五章 · 盐水类</h3><ul><li><a href="#zlu-5-1"><b>5.1 盐水思想（混合思维）介绍（讲义 5.1）</b></a></li><li><a href="#zlu-5-2"><b>5.2 三排序问题（讲义 5.2）</b></a></li><li><a href="#zlu-5-3"><b>5.3 已知三 R 求量之比（讲义 5.3）——十字交叉</b></a></li><li><a href="#zlu-5-4"><b>5.4 已知二 R 和量之比求第三 R（讲义 5.4）</b></a></li></ul></div><div class="ov-card"><h3>第六章 · 比较类</h3><ul><li><a href="#zlu-6-1"><b>6.1 比值（增速、比重、基期等）大小比较（讲义 6.1）</b></a></li><li><a href="#zlu-6-2"><b>6.2 增量大小比较（讲义 6.2）</b></a></li><li><a href="#zlu-6-3"><b>6.3 替代比较（讲义 6.3）——以易代难</b></a></li></ul></div><div class="ov-card"><h3>第七章 · 平均倍数类</h3><ul><li><a href="#zlu-7-1"><b>7.1 平均数（讲义 7.1）</b></a></li><li><a href="#zlu-7-2"><b>7.2 倍数（讲义 7.2）</b></a></li><li><a href="#zlu-7-3"><b>7.3 年均增长量（讲义 7.3）</b></a></li><li><a href="#zlu-7-4"><b>7.4 年均增长率（讲义 7.4）</b></a></li></ul></div><div class="ov-card"><h3>第八章 · 题型一览与考场策略</h3><ul><li><a href="#zlu-8-1"><b>8.1 九大题型识别标志与核心公式一览</b></a></li><li><a href="#zlu-8-2"><b>8.2 高频考点出题频率（单套 20 题 · 国考副省级）</b></a></li><li><a href="#zlu-8-3"><b>8.3 易错点对照表（考前必背）</b></a></li><li><a href="#zlu-8-4"><b>8.4 提速训练路径与考场策略</b></a></li></ul></div><div class="ov-card"><h3>附录 · 小数速查 · 公式总表 · 口诀卡</h3><ul><li><a href="#zlu-9-1"><b>附录 A　讲义例题分布与常用小数</b></a></li><li><a href="#zlu-9-2"><b>附录 B　七章核心公式总表</b></a></li><li><a href="#zlu-9-3"><b>附录 C　速记口诀卡</b></a></li></ul></div></div></div>
+<div class="module" id="zlmod-0"><div class="mod-banner"><h2>公式与口诀总速查</h2><p>全部知识点与考点的公式、口诀集中于此，随查随用。符号约定：<b>A＝基期、B＝现期、X＝增长量、R＝增长率</b>（讲义体系）。</p></div><section class="unit" id="zlu-0-1"><div class="unit-head"><h3>速记口诀 · 开篇总览</h3></div><div class="mm-grid"><div class="mm"><div class="ml">◆ ABRX 一句话</div><div class="mn">与谁相比谁基期<br/>知二求二，现期除一加率得基期<br/>增长看 % 为率，看数值为量</div></div><div class="mm"><div class="ml">◆ 速算四宝</div><div class="mn">小分互换乘化除<br/>乘法拆分用 1%<br/>化除为乘限一成<br/>415 份数记分数</div></div><div class="mm"><div class="ml">◆ 比重与盐水</div><div class="mn">基期比重乘修正，分子整体分母部分<br/>比重差看增速差，变化小于增速差<br/>整体浓度夹中间，靠近量大的一边</div></div><div class="mm"><div class="ml">◆ 比较与避坑</div><div class="mn">大大则大判增量，一大一小看倍数<br/>年均比末期除基期<br/>一查时间二查单位三查口径</div></div></div></section><section class="unit" id="zlu-0-2"><div class="unit-head"><h3>1 · ABRX 与基本概念（第一章）</h3></div><div class="tbwrap"><table>
+<thead><tr><th style="width:22%">考点</th><th style="width:46%">公式</th><th>口诀</th></tr></thead>
+<tbody>
+<tr><td><b>ABRX 四要素</b></td><td class="mono">X＝B−A；R＝X/A＝B/A−1；B＝A(1＋R)＝A＋A·R；A＝B/(1＋R)；X＝B·R/(1＋R)；A＝X/R；B＝X/R＋X</td><td>知二求二</td></tr>
+<tr><td>基期 / 现期</td><td>与谁相比，谁为基期（基准值做除数 / 减数）</td><td>去年是基期，今年是现期</td></tr>
+<tr><td>增长量 / 增长率</td><td>量＝B−A（绝对量）；率＝X/A（相对量）；变化幅度看绝对值</td><td>增长看 % 为率，看数值为量；"多少"比量、"快慢"比率</td></tr>
+<tr><td>百分数 / 百分点</td><td>百分点＝两个百分数之差（差值单位）</td><td>差值记百分点</td></tr>
+<tr><td>翻番 / 指数</td><td>翻 n 番＝2ⁿ 倍；指数＝报告期÷基期×100</td><td>翻一番是 2 倍；指数减 100 即增速</td></tr>
+<tr><td>名义 / 实际增长率</td><td>名义 ≈ 实际＋CPI 增长率</td><td>名义大则物价上涨</td></tr>
+<tr><td>贡献率 / 拉动 / 发展速度</td><td class="mono">贡献率＝部分增量÷整体增量；拉动增长率＝部分增量÷整体基期；发展速度＝现期÷基期＝1＋R</td><td>拉动看整体基期，贡献看整体增量</td></tr>
+</tbody>
+</table></div></section><section class="unit" id="zlu-0-3"><div class="unit-head"><h3>2 · 实用速算技巧（第二章）</h3></div><div class="tbwrap"><table>
+<thead><tr><th style="width:22%">考点</th><th style="width:46%">公式 / 方法</th><th>口诀</th></tr></thead>
+<tbody>
+<tr><td>尾数法</td><td>选项末位（或末两位）不同 → 只算尾数</td><td>加减看尾数</td></tr>
+<tr><td>高位叠加</td><td>从高位加起，末尾两位 / 三位凑整估算</td><td>先加高位定范围</td></tr>
+<tr><td>小分互换</td><td class="mono">乘数化分数转除法：25%→÷4、12.5%→÷8、16.7%→÷6</td><td>乘化除、记分数</td></tr>
+<tr><td>乘法拆分</td><td class="mono">45%＝50%−5%、95%＝1−5%、90%＝1−10%，擅用 1%</td><td>擅用 1% 拆简单</td></tr>
+<tr><td>拆分法</td><td>分子在分母 50% 附近先拆 50%；接近 1 先拆 100%；分子小拆 10%/5%/1%</td><td>先拆大头再补尾</td></tr>
+<tr><td>等比放缩</td><td>分子分母同时扩大 / 缩小相同幅度，比值不变</td><td>同缩同放比值不变</td></tr>
+<tr><td>化除为乘（|R|≤10%）</td><td class="mono">负增长：基期≈B×(1＋r＋r²)；正增长：基期≈B×[1−(r−r²)]（r 为 |R|）</td><td>除变乘，加 r² 修正</td></tr>
+<tr><td>假设分配（0%≤R≤25%）</td><td class="mono">X＝A·R；先假设基期 A₀ 再修正：X≈X₀/(1＋R)</td><td>基期设整百，先算再修</td></tr>
+<tr><td>415 份数法</td><td class="mono">R＝1/n → 基期 n 份、增量 1 份、现期 n＋1 份；X＝现期÷(n＋1)</td><td>415 份数记分数</td></tr>
+<tr><td>选项极近</td><td>选项极其相近时反过来用选项校验</td><td>选项近，反推快</td></tr>
+</tbody>
+</table></div></section><section class="unit" id="zlu-0-4"><div class="unit-head"><h3>3 · ABRX 类考点（第三章）</h3></div><div class="tbwrap"><table>
+<thead><tr><th style="width:22%">考点</th><th style="width:46%">公式</th><th>口诀</th></tr></thead>
+<tbody>
+<tr><td>一般基期</td><td class="mono">A＝B÷(1＋R)</td><td>现期除一加率</td></tr>
+<tr><td>间隔基期</td><td class="mono">先求间隔 R 再代入：A＝B÷(1＋间隔R)</td><td>间隔先合成一率</td></tr>
+<tr><td>基期和差</td><td>分别求基期后再加减</td><td>分求再算，勿直接减</td></tr>
+<tr><td>已知变化情况求基期</td><td class="mono">A＝X÷R</td><td>变化量除变化率</td></tr>
+<tr><td>假设增量求后期</td><td class="mono">B＝A＋nX，列不等式求 n</td><td>增量不变列不等式</td></tr>
+<tr><td>假设增速求后期</td><td class="mono">B＝A×(1＋R) 逐年乘</td><td>增速不变逐年乘</td></tr>
+<tr><td>按实际增长率求后期</td><td>名义 → 求基期 → 按实际增长率求后期</td><td>按某年价格用实际率</td></tr>
+<tr><td>一般增长率</td><td class="mono">R＝X÷A</td><td>增量除基期</td></tr>
+<tr><td>间隔增长率（含逆运用）</td><td class="mono">R＝R₁＋R₂＋R₁×R₂；逆用 R₂＝(R间隔−R₁)/(1＋R₁)</td><td>两率相加加乘积</td></tr>
+<tr><td>比值增长率（A＝B÷C 型）</td><td class="mono">R＝(R₁−R₂)÷(1＋R₂)</td><td>率差除一加分母率</td></tr>
+<tr><td>乘积增长率（A＝B×C 型）</td><td class="mono">R＝R₁＋R₂＋R₁×R₂；部分＝整体×占比</td><td>有占比想乘积</td></tr>
+</tbody>
+</table></div></section><section class="unit" id="zlu-0-5"><div class="unit-head"><h3>4 · 比重类（第四章）</h3></div><div class="tbwrap"><table>
+<thead><tr><th style="width:22%">考点</th><th style="width:46%">公式</th><th>口诀</th></tr></thead>
+<tbody>
+<tr><td>现期比重</td><td class="mono">比重＝部分÷整体；部分＝整体×比重；整体＝部分÷比重</td><td>"占"字即比重</td></tr>
+<tr><td>基期比重</td><td class="mono">基期比重＝现期比重×(1＋整体R)÷(1＋部分R)</td><td>分子整体分母部分</td></tr>
+<tr><td>隔级比重</td><td class="mono">小/大＝(小/中)×(中/大)</td><td>两级连乘</td></tr>
+<tr><td>比重趋势（定性）</td><td>分子增速＞分母增速 → 比重上升；反之下降</td><td>分子快，分数大</td></tr>
+<tr><td>比重差（定量）</td><td class="mono">比重差＝(基期部分÷现期整体)×(部分R−整体R)；秒杀：|比重差|＜|增速差|</td><td>今年整体分去年部分乘率差</td></tr>
+<tr><td>比值差</td><td>分别求现期、基期两个比值再相减（不可秒杀）</td><td>比值差不可秒杀</td></tr>
+</tbody>
+</table></div></section><section class="unit" id="zlu-0-6"><div class="unit-head"><h3>5 · 盐水类（第五章）</h3></div><div class="tbwrap"><table>
+<thead><tr><th style="width:22%">考点</th><th style="width:46%">公式 / 方法</th><th>口诀</th></tr></thead>
+<tbody>
+<tr><td>三排序</td><td>整体"浓度"必在两部分之间</td><td>整体夹中间</td></tr>
+<tr><td>已知三 R 求量之比</td><td class="mono">十字交叉：A/B＝(r−b)/(a−r)；增长率混合得基期量之比，平均数混合得人数之比</td><td>求人数想盐水</td></tr>
+<tr><td>已知二 R＋量之比求第三 R（定性）</td><td>混合浓度在两者之间且<b>不在正中间</b>，靠近量（基期）大的一方</td><td>在中间不在正中间</td></tr>
+<tr><td>已知二 R＋量之比求第三 R（定量）</td><td>线段法 / 十字交叉确定第三 R</td><td>画线按量分，中点靠大量</td></tr>
+</tbody>
+</table></div></section><section class="unit" id="zlu-0-7"><div class="unit-head"><h3>6 · 比较类（第六章）</h3></div><div class="tbwrap"><table>
+<thead><tr><th style="width:22%">考点</th><th style="width:46%">方法</th><th>口诀</th></tr></thead>
+<tbody>
+<tr><td>趋势法</td><td>分子增速（倍数）＞分母 → 分数变大</td><td>分子快分数大</td></tr>
+<tr><td>双线法</td><td>折线图直接看两线相对位置 / 斜率</td><td>看图不计算</td></tr>
+<tr><td>王者荣耀法</td><td>用"整体×基准比例"反推是否大于某值</td><td>选基准反推</td></tr>
+<tr><td>增量比较</td><td class="mono">B、R 同向大 → X 大（大大则大）；一正一反看倍数（现期倍数 vs 增速倍数）</td><td>大大则大，一小看倍数</td></tr>
+<tr><td>追及问题</td><td>差值变化＝两量增量之差（出口增量＞进口增量 → 顺差变大）</td><td>谁快谁拉开差距</td></tr>
+<tr><td>替代比较</td><td class="mono">末期/基期替代年均增速（n 相同）；现期/基期替代增速；A/非A替代A/整体；X/B替代X/A；图形高度替代数据</td><td>年均比末期除基期</td></tr>
+</tbody>
+</table></div></section><section class="unit" id="zlu-0-8"><div class="unit-head"><h3>7 · 平均倍数类（第七章）</h3></div><div class="tbwrap"><table>
+<thead><tr><th style="width:22%">考点</th><th style="width:46%">公式</th><th>口诀</th></tr></thead>
+<tbody>
+<tr><td>平均数</td><td class="mono">平均数＝总量÷份数（均前每后做分母）</td><td>均前每后做分母</td></tr>
+<tr><td>两个平均数之比</td><td class="mono">(A/C)÷(B/D)＝AD/BC</td><td>两边除中间</td></tr>
+<tr><td>基期平均数</td><td class="mono">现期平均数×(1＋份数R)÷(1＋总量R)</td><td>同基期比重</td></tr>
+<tr><td>平均数增长率</td><td class="mono">＝比值增长率 (R₁−R₂)/(1＋R₂)</td><td>同比值增长率</td></tr>
+<tr><td>倍数</td><td class="mono">是几倍＝A/B；多几倍＝A/B−1；翻 n 番＝2ⁿ 倍</td><td>多几倍 = 是几倍 − 1</td></tr>
+<tr><td>比值倍数 / 间隔倍数</td><td class="mono">＝对应增长率＋100%（1 倍＝100%）</td><td>率加一百成倍数</td></tr>
+<tr><td>基期倍数</td><td class="mono">现期倍数×(1＋B的R)÷(1＋A的R)</td><td>同基期比重</td></tr>
+<tr><td>年均增长量</td><td class="mono">(末期−基期)÷n；"十四五"、这五年、图表有前一年 → 基期前推</td><td>推不推看问法</td></tr>
+<tr><td>年均增长率</td><td class="mono">(1＋r)ⁿ＝末期÷基期；r 极小：末期/基期≥1＋nr；记忆 1.05⁴≈1.216、1.1⁴≈1.46、1.15⁴≈1.75、1.2⁴≈2.07</td><td>四组 4 次方记牢</td></tr>
+</tbody>
+</table></div></section></div>
+<div class="module" id="zlmod-1"><div class="mod-banner"><h2>概述、统计术语与 ABRX 体系</h2><p>本章解决"看懂材料、听懂题目"的问题：先明确资料分析考什么，再掌握高频统计术语的含义，最后建立 ABRX 四量体系——这是全书所有公式的地基。</p></div><section class="unit" id="zlu-1-1"><div class="unit-head"><h3>1.1 资料分析概述（讲义 1.1）</h3></div><div class="kbox"><div class="kl">◆ 讲义要点</div><p style="margin:4px 0"><strong>资料分析是什么：</strong>测查对各种形式的统计资料（文字、图形、表格）进行理解、分析、计算、比较、处理的能力。</p>
+<ul style="margin:6px 0">
+<li><strong>材料形式：</strong>全部采用真实官方公开数据，涉及经济、社会、人口、贸易等领域。</li>
+<li><strong>题目数量：</strong>1 篇材料对应 5 题；国考 4 篇共 20 题；省考多为 15 或 20 题；事业单位以 10 或 15 题为主。</li>
+<li><strong>核心能力：</strong>快速定位数据 → 识别考点 → 运用公式 → 估算取舍。</li>
+<li><strong>模块定位：</strong>题型少、公式有限、客观性强、复习范围可控，是行测中"必须突破"、提分最快的模块。</li>
+</ul></div></section><section class="unit" id="zlu-1-2"><div class="unit-head"><h3>1.2 核心基础概念（讲义 1.2.1）</h3></div><div class="tbwrap"><table>
+<thead><tr><th>概念</th><th>定义</th><th>关键记忆</th></tr></thead>
+<tbody>
+<tr><td><b>基期</b></td><td>比较两个时期变化时，用作比较值（基准值）的时期，其数值通常作为除数或减数</td><td><b>与谁相比，谁为基期</b></td></tr>
+<tr><td><b>现期</b></td><td>相对于基期而言当前所处的时期，其数值通常作为被除数或被减数</td><td>基期、现期不会直接出现在题干中，需自行判断</td></tr>
+<tr><td><b>增长量</b></td><td>现期与基期的绝对差值，是绝对量</td><td>"增加（长）多少 / 大小" 比的是增长量</td></tr>
+<tr><td><b>增长率</b></td><td>现期与基期的相对差异，是相对量；增长率＝增速＝增幅</td><td>"增加（长）快慢" 比的是增长率；<br/><b>变化幅度</b>看绝对值，<b>增长幅度</b>看实际值</td></tr>
+<tr><td><b>比重</b></td><td>部分 ÷ 整体 × 100%，各部分比重和为 100%</td><td>题干出现"占"字 → 比重问题</td></tr>
+<tr><td><b>比值</b></td><td>两数相比所得的数值</td><td>比值＝比重的广义形式</td></tr>
+<tr><td><b>平均数</b></td><td>总量 ÷ 份数</td><td><b>均前每后做分母</b>（人均消费→人数做分母）</td></tr>
+<tr><td><b>倍数</b></td><td>把对比基数抽象为 1 后计算出的数值</td><td><b>A 比 B 多几倍＝A 是 B 的几倍 − 1</b></td></tr>
+</tbody>
+</table></div><div class="note"><b>◆ 讲义注</b><br/>① 增长了 2.5 倍＝增长率为 250%，1 倍＝100%；② 若整体由 A、B 两部分组成，A 提升的比重等于 B 下降的比重。</div></section><section class="unit" id="zlu-1-3"><div class="unit-head"><h3>1.3 常见统计术语解释（讲义 1.2.2）</h3></div><p>讲义对高频统计术语做了系统归纳，以下按类别整理为速查表。</p><h4 class="h1">（1）时间与变化类</h4><div class="tbwrap"><table>
+<thead><tr><th>术语</th><th>含义 / 公式</th></tr></thead>
+<tbody>
+<tr><td><b>同比</b></td><td>以上年同期为基期：今年第 n 月与去年第 n 月比，如 2023 年 12 月与 2022 年 12 月</td></tr>
+<tr><td><b>环比</b></td><td>与上一个相邻统计周期比：第 n 月与第 n−1 月比，如 2023 年 12 月与 2023 年 11 月</td></tr>
+<tr><td><b>百分数</b></td><td>用 % 表示，通过数值相除得到（比重、增长率）</td></tr>
+<tr><td><b>百分点</b></td><td>通过百分数相减得到（两个增长率 / 比例的差值）</td></tr>
+<tr><td><b>增速变化表述</b></td><td>"增幅扩大（回升）5 个百分点"→ 去年＝今年−5pp；"增幅收窄（回落）5pp"→ 去年＝今年＋5pp；<br/>"降幅扩大 5pp"（今年 −10%）→ 去年＝−5%；"降幅收窄 5pp"→ 去年＝−15%</td></tr>
+<tr><td><b>翻番</b></td><td>翻 n 番＝变成原来的 2ⁿ 倍，公式：现期 ÷ 基期＝2ⁿ</td></tr>
+<tr><td><b>成数</b></td><td>一成为 10%，二成为 20%，以此类推</td></tr>
+<tr><td><b>指数</b></td><td>以基期数值为 100 的相对值；指数＝报告期 ÷ 基期 × 100；<b>同比增长率＝（指数−100）%</b></td></tr>
+</tbody>
+</table></div><h4 class="h1">（2）经济与产业类</h4><div class="tbwrap"><table>
+<thead><tr><th>术语</th><th>含义 / 公式</th></tr></thead>
+<tbody>
+<tr><td><b>产业增加值</b></td><td>某行业在周期内比上个清算周期的增长值，<b>是固有名词、现期量</b>，切忌与增长量混淆</td></tr>
+<tr><td><b>GDP / 地区生产总值</b></td><td>三大产业增加值之和</td></tr>
+<tr><td><b>三大产业</b></td><td>一产：农林牧渔业；二产：采矿、制造、电力燃气水、建筑；三产：其余服务业</td></tr>
+<tr><td><b>资产负债率</b></td><td>总负债 ÷ 总资产 × 100%</td></tr>
+<tr><td><b>总资产利润率</b></td><td>总利润 ÷ 总资产 × 100%</td></tr>
+<tr><td><b>产销率</b></td><td>销售数量 ÷ 生产数量 × 100%</td></tr>
+<tr><td><b>主营业务收入利润率</b></td><td>主营业务利润 ÷ 主营业务收入 × 100%</td></tr>
+<tr><td><b>毛利率</b></td><td>（主营业务收入 − 主营业务成本）÷ 主营业务收入 × 100%</td></tr>
+<tr><td><b>贸易顺差 / 逆差</b></td><td>顺差＝出口−进口（出口＞进口）；逆差＝进口−出口；贸易总额＝进口＋出口</td></tr>
+<tr><td><b>财政总收入</b></td><td>一般公共预算收入＋政府性基金收入＋国有资本经营收入＋社保基金收入；其中一般公共预算收入＝税收＋非税</td></tr>
+<tr><td><b>五年规划</b></td><td>“十四五”2021–2025、“十五五”2026–2030，为常考时间段</td></tr>
+<tr><td><b>名义 / 实际增长率</b></td><td>名义＝未扣除价格因素；实际＝扣除价格因素（按可比价格）。<b>名义 ≈ 实际 ＋ CPI 增长率</b>；若名义＞实际则物价上涨</td></tr>
+</tbody>
+</table></div><h4 class="h1">（3）人口、运输与其他类</h4><div class="tbwrap"><table>
+<thead><tr><th>术语</th><th>含义 / 公式</th></tr></thead>
+<tbody>
+<tr><td><b>人口自然增长率</b></td><td>（出生人数−死亡人数）÷ 年平均人口数 × 1000‰＝出生率−死亡率</td></tr>
+<tr><td><b>抚养比</b></td><td>（0～14 岁人口＋65 岁及以上人口）÷ 15～64 岁劳动年龄人口 × 100%</td></tr>
+<tr><td><b>货物 / 旅客周转量</b></td><td>货物周转量＝货运量 × 运输距离（吨公里）；旅客周转量＝客运量 × 距离（人公里）</td></tr>
+<tr><td><b>增长贡献率</b></td><td>部分增量 ÷ 整体增量 × 100%（衡量对总体增长的贡献程度）</td></tr>
+<tr><td><b>拉动增长率</b></td><td>部分增量 ÷ 整体基期 × 100%（拉动整体增长多少个百分点）</td></tr>
+<tr><td><b>发展速度</b></td><td>现期 ÷ 基期 ＝ 1＋增长率</td></tr>
+<tr><td><b>城镇化率</b></td><td>城镇人口 ÷ 总人口 × 100%</td></tr>
+<tr><td><b>R&amp;D 投入强度</b></td><td>R&amp;D 经费 ÷ 生产总值</td></tr>
+<tr><td><b>恩格尔系数</b></td><td>食品支出总额 ÷ 个人消费支出总额</td></tr>
+<tr><td><b>地区划分</b></td><td>东部（京津冀沪苏浙闽鲁粤琼）、中部（晋皖赣豫鄂湘）、西部（蒙桂渝川黔滇藏陕甘青宁新）、东北（辽吉黑）</td></tr>
+</tbody>
+</table></div><div class="note"><b>◆ 讲义注</b><br/>资料分析中若无特殊强调，利润率均除以<b>收入</b>；数量关系中利润率一般指成本利润率（利润 ÷ 成本）。</div></section><section class="unit" id="zlu-1-4"><div class="unit-head"><h3>1.4 常用字母表示：ABRX 体系（讲义 1.3）</h3><span class="chip">例题 1</span></div><p>讲义以 <b>A、B、X、R</b> 表示资料分析中最基础的四个量，四量之间存在"<mark class="key">知二求二</mark>"的关系。</p><div class="tbwrap"><table>
+<thead><tr><th>符号</th><th>含义</th><th>角色</th></tr></thead>
+<tbody>
+<tr><td class="mono"><b>A</b></td><td>基期</td><td>基准值，通常为除数或减数</td></tr>
+<tr><td class="mono"><b>B</b></td><td>现期</td><td>当前值，通常为被除数或被减数</td></tr>
+<tr><td class="mono"><b>X</b></td><td>增长量</td><td>X＝B−A（绝对量）</td></tr>
+<tr><td class="mono"><b>R</b></td><td>增长率</td><td>R＝X/A（相对量）</td></tr>
+</tbody>
+</table></div><h4 class="h1">ABRX 知二求二 · 全公式表（讲义原表）</h4><div class="tbwrap"><table>
+<thead><tr><th>已知</th><th>求 X（增长量）</th><th>求 B（现期）</th><th>求 A（基期）</th><th>求 R（增长率）</th></tr></thead>
+<tbody>
+<tr><td class="mono">A、B</td><td class="mono">X＝B−A</td><td class="mono">—</td><td class="mono">—</td><td class="mono">R＝(B−A)/A＝B/A−1</td></tr>
+<tr><td class="mono">A、X</td><td class="mono">—</td><td class="mono">B＝A＋X</td><td class="mono">—</td><td class="mono">R＝X/A</td></tr>
+<tr><td class="mono">B、X</td><td class="mono">—</td><td class="mono">—</td><td class="mono">A＝B−X</td><td class="mono">R＝X/(B−X)</td></tr>
+<tr><td class="mono">B、R</td><td class="mono">X＝B·R/(1＋R)</td><td class="mono">—</td><td class="mono">A＝B/(1＋R)</td><td class="mono">—</td></tr>
+<tr><td class="mono">A、R</td><td class="mono">X＝A·R</td><td class="mono">B＝A(1＋R)＝A＋A·R</td><td class="mono">—</td><td class="mono">—</td></tr>
+<tr><td class="mono">X、R</td><td class="mono">—</td><td class="mono">B＝X/R＋X</td><td class="mono">A＝X/R</td><td class="mono">—</td></tr>
+</tbody>
+</table></div>
+<div class="figbox"><svg viewBox="0 0 760 330" width="100%" role="img" aria-label="ABRX 知二求二关系图" xmlns="http://www.w3.org/2000/svg" style="display:block">
+<defs>
+<marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#7c5cd6"/></marker>
+</defs>
+<g font-family="PingFang SC,Microsoft YaHei,sans-serif">
+<rect x="40" y="16" width="150" height="70" rx="16" fill="#ffffff" stroke="#cbbdf0" stroke-width="1.5"/>
+<text x="115" y="44" text-anchor="middle" font-size="21" font-weight="800" fill="#6d28d9">A</text>
+<text x="115" y="68" text-anchor="middle" font-size="12" fill="#6b7280">基期 · 基准值</text>
+<rect x="570" y="16" width="150" height="70" rx="16" fill="#ffffff" stroke="#cbbdf0" stroke-width="1.5"/>
+<text x="645" y="44" text-anchor="middle" font-size="21" font-weight="800" fill="#6d28d9">B</text>
+<text x="645" y="68" text-anchor="middle" font-size="12" fill="#6b7280">现期 · 当前值</text>
+<rect x="40" y="210" width="150" height="70" rx="16" fill="#ffffff" stroke="#cbbdf0" stroke-width="1.5"/>
+<text x="115" y="238" text-anchor="middle" font-size="21" font-weight="800" fill="#6d28d9">X</text>
+<text x="115" y="262" text-anchor="middle" font-size="12" fill="#6b7280">增长量</text>
+<rect x="570" y="210" width="150" height="70" rx="16" fill="#ffffff" stroke="#cbbdf0" stroke-width="1.5"/>
+<text x="645" y="238" text-anchor="middle" font-size="21" font-weight="800" fill="#6d28d9">R</text>
+<text x="645" y="262" text-anchor="middle" font-size="12" fill="#6b7280">增长率</text>
+<g stroke="#8b5cf6" stroke-width="1.8" fill="none">
+<path d="M195 34 H556" marker-end="url(#ah)"/>
+<path d="M565 62 H200" marker-end="url(#ah)"/>
+<path d="M95 88 V198" marker-end="url(#ah)"/>
+<path d="M135 202 V92" marker-end="url(#ah)"/>
+<path d="M588 88 L200 202" marker-end="url(#ah)"/>
+<path d="M190 248 H556" marker-end="url(#ah)"/>
+</g>
+<g font-size="12.5" fill="#5b21b6" font-weight="700">
+<text x="376" y="26" text-anchor="middle">× (1＋R)</text>
+<text x="376" y="82" text-anchor="middle">÷ (1＋R)</text>
+<text x="212" y="146" text-anchor="start">× R</text>
+<text x="212" y="182" text-anchor="start">÷ R</text>
+<text x="400" y="152" text-anchor="middle">− A</text>
+<text x="376" y="240" text-anchor="middle">÷ A</text>
+</g>
+</g>
+</svg><div class="figcap">图 1-1　ABRX 知二求二关系（讲义符号体系）</div></div><div class="qcard"><div class="qhead">例题 1-1 · ABRX 入门（讲义原例）</div><p class="ask">我去年的体重是 80 千克，今年吃胖了，涨到了 90 千克。相较于去年，我的体重增长量和增长率分别为多少？</p><div class="ansline"><span class="ans-tag">答案</span><b>增长量 10 千克，增长率 12.5%</b></div><div class="expline"><span class="exp-tag">解析</span><b>思路分析：</b><p class="st">① <span>定基期与现期：与去年相比，去年为基期 A＝80，今年为现期 B＝90。</span></p><p class="st">② <span>增长量 X＝B−A＝90−80＝<b>10 千克</b>。</span></p><p class="st">③ <span>增长率 R＝X÷A＝10÷80＝<b>12.5%</b>。</span></p></div><div class="warnbox"><b>易错警示：</b><br/>增长率的分母永远是<b>基期 A</b>（与谁相比，谁为基期）；"涨到 90"是现期量，"涨了 10"才是增长量。</div></div></section></div>
+<div class="module" id="zlmod-2"><div class="mod-banner"><h2>实用速算技巧（讲义第二章）</h2><p>讲义把速算拆成四类：加减法（尾数法、高位叠加）、乘法（小分互换、乘法拆分）、除法（拆分法、等比放缩）、除法转换（化除为乘、假设分配、415 份数法），并强调"选项极近时反过来利用选项"。速算的关键是<b>先看选项再动笔</b>。</p></div><section class="unit" id="zlu-2-1"><div class="unit-head"><h3>2.1 加减法技巧（讲义 2.1）</h3><span class="chip">例题 2</span></div><div class="kgrid"><div class="kbox"><div class="kl">◆ 尾数法</div><p style="margin:4px 0;font-size:.92rem">精确求和或求差时，若四个选项的最后一位或两位不同，可只关注尾数。</p>
+<div class="fx" style="margin:8px 0 0">只看末位（或末两位）相加 / 相减</div></div><div class="kbox"><div class="kl">◆ 高位叠加</div><p style="margin:4px 0;font-size:.92rem">与竖式加法相反，<b>从高位加起</b>，抓住主要矛盾，末尾两位或三位可"凑整"估算，适合多位数求和、选项为区间。</p>
+<div class="fx" style="margin:8px 0 0">先加高位定范围，低位凑整补误差</div></div></div><div class="qcard"><div class="qhead">例题 2-1 · 尾数法</div><p class="src">讲义例题 1 · 2019 安徽事业单位</p><p class="mtr">2011 年外国来华商标申请量排名前 10 位的国家或地区申请量分别为：26060、19715、6318、5588、3796、3461、3243、2865、2124、2085 件。</p><p class="ask">问：2011 年，外国来华商标申请量排名前 10 位的国家或地区的申请量之和为：</p><div class="opt">A. 75255</div><div class="opt">B. 75525</div><div class="opt">C. 76215</div><div class="opt">D. 79585</div><div class="ansline"><span class="ans-tag">答案</span><b>A</b></div><div class="expline"><span class="exp-tag">解析</span><b>思路分析：</b><p class="st">① <span>观察选项：四个选项末位分别为 5、5、5、5（相同），但<b>末两位不同</b>（55 / 25 / 15 / 85）→ 可只算末两位。</span></p><p class="st">② <span>末两位求和：60＋15＋18＋88＋96＋61＋43＋65＋24＋85，先算个位 0+5+8+8+6+1+3+5+4+5＝45 进位 4，十位 6+1+1+8+9+6+4+6+2+8＋4＝55 → 末两位 <b>55</b>。</span></p><p class="st">③ <span>末两位为 55 的选项只有 <b>A（75255）</b>。</span></p></div><div class="warnbox"><b>易错警示：</b><br/>尾数法<b>只适用于精确求和 / 差</b>，且必须确认选项对应位不同；若选项末位完全相同，则看末两位或末三位。</div></div><div class="qcard"><div class="qhead">例题 2-2 · 高位叠加</div><p class="src">讲义例题 3 · 2025 国考</p><p class="mtr">2019～2023 年我国厨房小家电全品类零售量分别为：26748、27444、23744、22049、26543 万台。</p><p class="ask">问：2019～2023 年我国厨房小家电全品类零售总量在以下哪个范围：</p><div class="opt">A. 12 亿台～13 亿台之间</div><div class="opt">B. 13 亿台～14 亿台之间</div><div class="opt">C. 不到 12 亿台</div><div class="opt">D. 超过 14 亿台</div><div class="ansline"><span class="ans-tag">答案</span><b>A</b></div><div class="expline"><span class="exp-tag">解析</span><b>思路分析：</b><p class="st">① <span>从高位（万位）加起：2.6＋2.7＋2.4＋2.2＋2.7＝12.6（万台），加上千位尾数，总量约 <b>12.65 万台</b>。</span></p><p class="st">② <span>单位换算：126528 万台＝12.65 亿台。</span></p><p class="st">③ <span>落位：<b>12 亿～13 亿台之间</b>。</span></p></div><div class="warnbox"><b>易错警示：</b><br/>高位叠加适合选项为<b>区间</b>的求和题，先估高位锁定区间，无需精算；注意单位换算（万台→亿台）。</div></div></section><section class="unit" id="zlu-2-2"><div class="unit-head"><h3>2.2 乘法技巧（讲义 2.2）</h3><span class="chip">例题 1</span></div><div class="kgrid"><div class="kbox"><div class="kl">◆ 小分互换</div><p style="margin:4px 0;font-size:.92rem">乘数近似为常见分数时，把乘法转化为<b>简单除法</b>。</p>
+<div class="fx" style="margin:8px 0 0">784×25%＝784÷4＝196；632×12.5%＝632÷8＝79</div></div><div class="kbox"><div class="kl">◆ 乘法拆分</div><p style="margin:4px 0;font-size:.92rem">把百分数拆成 50%、10%、5%、1% 等简单部分，擅用"1%"。<br/>常用：45%＝50%−5%、55%＝50%＋5%、95%＝1−5%、90%＝1−10%、22.5%＝25%−2.5% 等。</p>
+<div class="fx" style="margin:8px 0 0">488×55%＝488×50%＋488×5%＝244＋24.4＝268.4</div></div></div><div class="qcard"><div class="qhead">例题 2-3 · 乘法拆分</div><p class="src">讲义例题 6 · 2019 四川省考</p><p class="mtr">2016 年 4 月，所接收的 2980 件保险公司投诉中，财产险公司的投诉为 1510 件。其中，投诉量位居前 10 的财产险公司的投诉总和占投诉所有公司投诉总量的 78.68%。</p><p class="ask">问：2016 年 4 月，针对投诉量位居前 10 的财产险公司的投诉共有多少件：</p><div class="opt">A. 1188</div><div class="opt">B. 1255</div><div class="opt">C. 1281</div><div class="opt">D. 1510</div><div class="ansline"><span class="ans-tag">答案</span><b>A</b></div><div class="expline"><span class="exp-tag">解析</span><b>思路分析：</b><p class="st">① <span>列式：1510 × 78.68%。78.68% 接近 80%＝<b>100% − 20%</b>。</span></p><p class="st">② <span>拆分：1510×80%＝1208，其中 78.68% 比 80% 少 1.32%，1510×1.32%≈19.9。</span></p><p class="st">③ <span>结果＝1208 − 19.9 ≈ <b>1188 件</b>。</span></p></div><div class="warnbox"><b>易错警示：</b><br/>注意题目主语是"前 10 的<b>财产险</b>公司投诉总和占<b>投诉所有公司</b>投诉总量"，占比分母是 2980 还是 1510 需看准：本题占比对象是"投诉所有公司"，故用 1510×78.68% 计算前 10 财产险公司投诉量。</div></div></section><section class="unit" id="zlu-2-3"><div class="unit-head"><h3>2.3 除法技巧（讲义 2.3）</h3></div><div class="kgrid"><div class="kbox"><div class="kl">◆ 拆分法（直除的简化）</div><p style="margin:4px 0;font-size:.92rem">适合分子位数 ≤ 分母位数（3 位÷3 位、3 位÷4 位等）。<br/>① 分子在分母 50% 附近 → 先拆 50%；② 分数接近 1 → 先拆 100%；③ 分子很小 → 拆 10%、5% 或 1%。</p>
+<div class="fx" style="margin:8px 0 0">423÷866＝50%−1%＝49%−…≈48.8%</div></div><div class="kbox"><div class="kl">◆ 等比放缩</div><p style="margin:4px 0;font-size:.92rem">分子分母同时扩大或缩小相同幅度，比值不变。适用：① 分母接近整百的除法；② 两分数的加减乘除运算。</p>
+<div class="fx" style="margin:8px 0 0">885÷992≈885÷990≈89.4%；154÷508≈154÷500≈30.8%</div></div></div><div class="kbox"><div class="kl">◆ 拆分法速算演示</div><br/>336÷2682：分母约 2700，336 是 2700 的 12.5% 附近 → 2682×12.5%＝335.25 → 336÷2682 ≈ <b>12.5%</b>（讲义练习 3 答案）。先估算再拆，比直除快得多。</div></section><section class="unit" id="zlu-2-4"><div class="unit-head"><h3>2.4 除法转换技巧（讲义 2.4）——速算核心</h3><span class="chip">例题 3</span></div><h4 class="h1">2.4.1 化除为乘（增长率 |R| ≤ 10% 时）</h4><div class="kbox"><div class="kl">◆ 讲义公式</div><p style="margin:6px 0"><b>负增长（r∈[−10%,0%]）</b>，r 为绝对值：基期 ≈ 现期×(1＋r＋r²)＝B＋B×(r＋r²)；减少量 ≈ B×(r＋r²)。</p>
+<p style="margin:6px 0"><b>正增长（r∈[0%,10%]）</b>：基期 ≈ 现期×[1−(r−r²)]＝B−B×(r−r²)；增长量 ≈ B×(r−r²)。</p>
+<p style="margin:6px 0;font-size:.9rem;">记忆：增长率绝对值小时，除以 (1±r) 可用乘 (1∓r) 加一个 r² 修正项替代，避免复杂除法。</p></div><div class="qcard"><div class="qhead">例题 2-4 · 化除为乘（讲义练习 8）</div><p class="ask">现期 B＝3528，增长率 R＝−5.3%，求增长量 X。</p><div class="ansline"><span class="ans-tag">答案</span><b>X≈−197</b></div><div class="expline"><span class="exp-tag">解析</span><b>思路分析：</b><p class="st">① <span>r＝5.3%，r²≈0.28% → 减少量 ≈ B×(r＋r²)＝3528×5.58%。</span></p><p class="st">② <span>拆分：3528×5%＝176.4，3528×0.58%≈20.5。</span></p><p class="st">③ <span>X≈176.4＋20.5≈<b>−197</b>（下降 197）。</span></p></div></div><h4 class="h1">2.4.2 假设分配（增长率 0%～25%，能判断基期在整百数附近时）</h4><div class="kbox"><div class="kl">◆ 讲义要点</div><p style="margin:6px 0"><b>适用时机：</b>① 增长率在 [0%,25%] 之间求基期和增长量；② 能简单判断出基期在某个整百数附近。</p>
+<p style="margin:6px 0"><b>核心公式：</b>X＝A·R。流程：假设基期 A₀（整百数）→ 算假设增量 X₀＝A₀·R → 修正：真实 X ≈ X₀/(1+R)，真实 A＝B−X。</p></div><div class="qcard"><div class="qhead">例题 2-5 · 假设分配</div><p class="src">讲义例题 8 · 2023 联考</p><p class="mtr">2021 年，全国城市供水管道长度 105.99 万公里，同比增长 5.26%。</p><p class="ask">问：2021 年全国城市供水管道长度比 2020 年增长约：</p><div class="opt">A. 5 万公里</div><div class="opt">B. 5.3 万公里</div><div class="opt">C. 5.6 万公里</div><div class="opt">D. 6 万公里</div><div class="ansline"><span class="ans-tag">答案</span><b>B</b></div><div class="expline"><span class="exp-tag">解析</span><b>思路分析：</b><p class="st">① <span>标要素：已知现期 B＝105.99、增长率 R＝5.26%，求增长量 X＝B·R÷(1＋R)。</span></p><p class="st">② <span>415 份数法：R≈5%＝1/20 → 现期 21 份，每份≈105.99÷21≈5.05；实际 R＝5.26% 比 5% 略大，增长量应略大于每份 → 约 <b>5.3 万公里</b>。</span></p><p class="st">③ <span>验证：105.99×5.26%÷1.0526≈5.30 → 选 B。</span></p></div><div class="warnbox"><b>易错警示：</b><br/>假设分配要先<b>判断基期在哪个整百附近</b>；若现期偏大（如 1233、2625），可先估算基期再分配，避免第一步就偏差。增长率大时（>25%）不建议用本法。</div></div><h4 class="h1">2.4.3 415 份数法（增长率在某个分数附近时）</h4><div class="kbox"><div class="kl">◆ 讲义原理</div><p style="margin:6px 0">把增长率化为分数 1/n：<b>基期＝n 份，增长量＝1 份，现期＝n＋1 份</b>。"415"即来自 25%＝1/4 时基期 4 份、增长量 1 份、现期 5 份。</p>
+<div class="fx" style="margin:6px 0">增长量 X＝现期 ÷ (n＋1)；基期 A＝现期 − X</div>
+<p style="margin:6px 0;font-size:.9rem">需记忆的常用分数：50%＝1/2、33.3%≈1/3、25%＝1/4、20%＝1/5、16.7%≈1/6、14.3%≈1/7、12.5%＝1/8、11.1%≈1/9、10%＝1/10、9.1%≈1/11、8.3%≈1/12、7.7%≈1/13、7.1%≈1/14、6.7%≈1/15。</p></div><div class="qcard"><div class="qhead">例题 2-6 · 415 份数法</div><p class="src">讲义例题 10 · 2019 河南省考</p><p class="mtr">2018 年 1～2 月，股份制企业实现利润总额 6829.5 亿元，增长 21%。</p><p class="ask">问：2018 年 1～2 月股份制企业实现利润总额比上年同期增长约：</p><div class="opt">A. 864 亿元</div><div class="opt">B. 1434 亿元</div><div class="opt">C. 666 亿元</div><div class="opt">D. 1185 亿元</div><div class="ansline"><span class="ans-tag">答案</span><b>D</b></div><div class="expline"><span class="exp-tag">解析</span><b>思路分析：</b><p class="st">① <span>R＝21% ≈ 20%＝1/5 → 基期 5 份、增长量 1 份、现期 6 份。</span></p><p class="st">② <span>每份＝6829.5÷6≈1138；增长量＝1138×1≈1138，因 21%&gt;20%，微调至 <b>1185</b>。</span></p><p class="st">③ <span>精确验证：6829.5×21%÷1.21＝1434.2÷1.21≈1185 → 选 D。</span></p></div><div class="warnbox"><b>易错警示：</b><br/>增长率接近但略大于某分数时，份数法结果会略小，需<b>向上微调</b>；反之略小。负增长时用"基期 n 份、现期 n−1 份"。</div></div></section><section class="unit" id="zlu-2-5"><div class="unit-head"><h3>2.5 选项极近时的假设思维（讲义 2.5）</h3><span class="chip">例题 1</span></div><p>当选项极其相近（末位都不同）时，反而可以利用选项反推：先估算量级，再代入选项精确校验，往往比从头精算更快。</p><div class="qcard"><div class="qhead">例题 2-7 · 选项极近</div><p class="src">讲义例题 13 · 2020 新疆区考</p><p class="mtr">2014 年，全国商品房销售面积 120649 万平方米，比上年下降 7.6%，降幅比 1～11 月份收窄 0.6 个百分点。</p><p class="ask">问：2014 年，全国商品房销售面积比上年减少多少万平方米：</p><div class="opt">A. 10004.7</div><div class="opt">B. 9923.5</div><div class="opt">C. 9014.2</div><div class="opt">D. 8799.3</div><div class="ansline"><span class="ans-tag">答案</span><b>B</b></div><div class="expline"><span class="exp-tag">解析</span><b>思路分析：</b><p class="st">① <span>选项极近（前两位相同），需精算：减少量＝120649×7.6%÷(1−7.6%)。</span></p><p class="st">② <span>120649×7.6%＝9169.3；9169.3÷0.924≈9923.5。</span></p><p class="st">③ <span>也可用化除为乘校验：9169.3×(1＋0.076)≈9169.3＋697≈9866，接近 9923.5。</span></p></div><div class="warnbox"><b>易错警示：</b><br/>"降幅收窄 0.6 个百分点"不影响本问计算（问的是 2014 年减少量），但做综合分析时是常见陷阱——收窄指降幅变小，去年降幅更大。</div></div></section><section class="unit" id="zlu-2-6"><div class="unit-head"><h3>2.6 第二章答案速查（讲义例题与练习）</h3></div><div class="tbwrap"><table>
+<thead><tr><th>来源</th><th>题号</th><th>答案</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td>讲义例题</td><td class="mono">1–5</td><td class="mono">A A A C B</td><td>尾数法×2、高位叠加×3</td></tr>
+<tr><td>讲义例题</td><td class="mono">6–10</td><td class="mono">A B (B/C) B D</td><td>小分互换、乘法拆分、假设分配、415 份数；例题 8 存在 B/C 争议</td></tr>
+<tr><td>讲义例题</td><td class="mono">11–16</td><td class="mono">D C B B A C</td><td>415 份数（负增长）、选项极近、化除为乘等</td></tr>
+<tr><td>练习 1（小分互换）</td><td class="mono">×4</td><td class="mono">196 / 79 / 121.4 / 327</td><td>784×25%、632×12.5%、727×16.7%、981×33.3%</td></tr>
+<tr><td>练习 2（乘法拆分）</td><td class="mono">×6</td><td class="mono">268.4 / 173.8 / 339.8 / 173.8 / 798 / 334.75</td><td>488×55% 等六题</td></tr>
+<tr><td>练习 3（拆分法）</td><td class="mono">×12</td><td class="mono">44.4% / 48.8% / 13.7% / 3.49% / 12.5% / 94.5% / 24.8% / 13.7% / 2.1% / 3.34% / 95.3% / 6.7%</td><td>157÷354 等十二题</td></tr>
+<tr><td>练习 4（等比放缩）</td><td class="mono">×3</td><td class="mono">89.2% / 30.3% / 15.4%</td><td>885÷992、154÷508、150÷973</td></tr>
+<tr><td>练习 5–7</td><td class="mono">×3</td><td class="mono">B / B / C</td><td>等比放缩综合（2.4 / 0.31 / 22.7%）</td></tr>
+<tr><td>练习 8（化除为乘）</td><td class="mono">×9</td><td class="mono">−197 / −158 / −270 / −473 / −243 / 178 / 147 / 406 / 206</td><td>现期 3528(±5.3%) 等九题</td></tr>
+<tr><td>练习 9（假设分配）</td><td class="mono">×12</td><td class="mono">见下注</td><td>A/X 依次：436/20、543/21、622/42、787/66、521/67、226/33、614/111、769/173、1016/217、2035/590、563/−19、502/−21</td></tr>
+<tr><td>练习 10（415 份数）</td><td class="mono">×5</td><td class="mono">604/151、2187.5/−437.5、2776/464、7850/−1130、7493/832</td><td>现期 755(24.9%) 等五题，格式为 A/X</td></tr>
+</tbody>
+</table></div></section></div>
+<div class="module" id="zlmod-3"><div class="mod-banner"><h2>ABRX 类（讲义第三章）</h2><p>ABRX 类是资料分析的第一大考点家族，围绕四个基本量展开：基期 A、现期 B、增长量 X、增长率 R。讲义按"求 A / 求 B / 求 X / 求 R"四条主线展开，注意本章全部使用讲义符号：<b>A＝基期、B＝现期</b>。</p></div><section class="unit" id="zlu-3-1"><div class="unit-head"><h3>3.1 ABRX 类之"A"（求基期）</h3><span class="chip">例题 4</span></div><div class="kbox"><div class="kl">◆ 讲义考法与思路</div><ul style="margin:6px 0">
+<li><b>一般基期：</b>代入、直除、假设分配 → A＝B÷(1＋R)</li>
+<li><b>间隔基期：</b>先求出间隔增长率，再化为一般基期 → A＝B÷(1＋间隔R)</li>
+<li><b>基期和差：</b>用假设分配法求得两个基期后求和 / 求差</li>
+<li><b>已知变化情况求基期：</b>直接用 A＝X÷R</li>
+</ul>
+<p style="margin:6px 0;font-size:.9rem;">※ 基期（前期）、现期（本期）区分：与谁相比，谁为基期。</p></div><div class="qcard"><div class="qhead">精讲 · 一般基期</div><p class="src">讲义例题 2 · 2025 上海市考</p><p class="mtr">2024 年春节档电影总票房达 80.16 亿元，同比增长 18.5%。</p><p class="ask">问：2023 年春节档电影票房总额约为多少亿元：</p><div class="opt">A. 65.33</div><div class="opt">B. 67.65</div><div class="opt">C. 94.99</div><div class="opt">D. 98.35</div><div class="ansline"><span class="ans-tag">答案</span><b>B</b></div><div class="expline"><span class="exp-tag">解析</span><b>思路分析：</b><p class="st">① <span>标要素：问 2023 年（基期 A），已知现期 B＝80.16、R＝18.5%。</span></p><p class="st">② <span>列式：A＝80.16÷1.185。先看选项：C、D 明显大于 80.16（增长方向反了），排除 C、D。</span></p><p class="st">③ <span>速算：80.16÷1.185≈80.16×0.844≈<b>67.65 亿元</b>。</span></p></div><div class="warnbox"><b>易错警示：</b><br/>基期应<b>小于</b>现期（正增长时），可先用方向排除大于现期的选项；选项 A（65.33）是误用"80.16−18.5%×80.16"直接减的错误算法，正确做法是除以 (1＋R)。</div></div><div class="qcard"><div class="qhead">精讲 · 间隔基期</div><p class="src">讲义例题 4 · 2025 联考</p><p class="mtr">2023 年全国著作权登记总量达 8923901 件，同比增长 40.46%，增速比上年同期增加 39 个百分点。</p><p class="ask">问：2021 年全国著作权登记总量约为：</p><div class="opt">A. 626 万件</div><div class="opt">B. 656 万件</div><div class="opt">C. 685 万件</div><div class="opt">D. 728 万件</div><div class="ansline"><span class="ans-tag">答案</span><b>A</b></div><div class="expline"><span class="exp-tag">解析</span><b>思路分析：</b><p class="st">① <span>问 2021 年（相对 2023 年是<b>间隔基期</b>），先求 2022 年增速：40.46%−39 个百分点＝<b>1.46%</b>。</span></p><p class="st">② <span>间隔增长率：R＝40.46%＋1.46%＋40.46%×1.46%≈41.92%＋0.59%≈<b>42.5%</b>。</span></p><p class="st">③ <span>2021 年＝892.39 万件÷1.425≈<b>626 万件</b>。</span></p></div><div class="warnbox"><b>易错警示：</b><br/>"增速比上年同期<b>增加</b> 39 个百分点"→ 2022 增速＝40.46%−39%；若写成"回落 39 个百分点"则反之。间隔基期必须<b>先求间隔 R，再除一次</b>，不能直接除两年。</div></div><div class="qcard"><div class="qhead">精讲 · 基期和差</div><p class="src">讲义例题 8 · 2025 江苏省考</p><p class="mtr">2023 年，我国汽车产量 3011.3 万辆，比上年增长 9.3%，其中新能源汽车产量 944.3 万辆，增长 30.3%。</p><p class="ask">问：2022 年我国非新能源汽车产量为多少万辆：</p><div class="opt">A. 1854.2</div><div class="opt">B. 1891.1</div><div class="opt">C. 2030.4</div><div class="opt">D. 2067.0</div><div class="ansline"><span class="ans-tag">答案</span><b>C</b></div><div class="expline"><span class="exp-tag">解析</span><b>思路分析：</b><p class="st">① <span>拆解：非新能源 ＝ 汽车总量 − 新能源汽车 → 基期之差。</span></p><p class="st">② <span>2022 年汽车总量＝3011.3÷1.093≈2755.5；2022 年新能源＝944.3÷1.303≈724.7。</span></p><p class="st">③ <span>相减：2755.5−724.7≈<b>2030.4 万辆</b>。</span></p></div><div class="warnbox"><b>易错警示：</b><br/>基期和差<b>不能直接"现期相减再除增长率"</b>，必须分别求基期再相减；新能源增速（30.3%）远高于总量（9.3%），2022 年新能源占比更高，结果应比"现期直接减"（2067）更小。</div></div><div class="qcard"><div class="qhead">精讲 · 已知变化情况求基期</div><p class="src">讲义例题 9 · 2021 下四川省考</p><p class="mtr">2016 年黄河流域棉花单产每公顷增加 63.3 公斤，提高约 6.0%。</p><p class="ask">问：2015 年，黄河流域的棉花单产为：</p><div class="opt">A. 1118 公斤/公顷</div><div class="opt">B. 1092 公斤/公顷</div><div class="opt">C. 1055 公斤/公顷</div><div class="opt">D. 1003 公斤/公顷</div><div class="ansline"><span class="ans-tag">答案</span><b>C</b></div><div class="expline"><span class="exp-tag">解析</span><b>思路分析：</b><p class="st">① <span>识别：题目直接给出增长量 X＝63.3 和增长率 R＝6.0%，求基期 → <b>A＝X÷R</b>。</span></p><p class="st">② <span>计算：63.3÷6.0%＝<b>1055 公斤/公顷</b>。</span></p></div><div class="warnbox"><b>易错警示：</b><br/>此题型识别关键：题干出现"<b>增加了……公斤 / 提高了……%</b>"这种"变化量 + 变化率"组合，直接用 A＝X/R，一步到位。</div></div><h4 class="h1">3.1 答案速查</h4><div class="tbwrap"><table>
+<thead><tr><th>例题</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th></tr></thead>
+<tbody>
+<tr><td>答案</td><td class="mono">B</td><td class="mono">B</td><td class="mono">A</td><td class="mono">A</td><td class="mono">A</td><td class="mono">A</td><td class="mono">B</td><td class="mono">C</td><td class="mono">C</td><td class="mono">B</td></tr>
+</tbody>
+</table></div><p style="font-size:.85rem;">例题 1–5 对应"一般基期 ×2、间隔基期 ×2、基期和差 ×1"；例题 6–10 对应"基期和差 ×3、已知变化情况 ×2"。</p></section><section class="unit" id="zlu-3-2"><div class="unit-head"><h3>3.2 ABRX 类之"B"（求现期 / 求后期）</h3><span class="chip">例题 3</span></div><div class="kbox"><div class="kl">◆ 讲义考法与思路</div><ul style="margin:6px 0">
+<li><b>假设增量求后期：</b>求出 X，根据"B＝A＋nX"列不等式即可（保持增量不变，几年后首次超过）</li>
+<li><b>假设增速求后期：</b>利用公式"B＝A＋A·R"依次求出后一年，一般两到三次即可求得答案</li>
+<li><b>按照实际增长率求后期：</b>根据名义增长率求得基期后，再利用实际增长率求后期</li>
+</ul></div><div class="qcard"><div class="qhead">精讲 · 假设增量求后期</div><p class="src">讲义例题 11 · 2025 国考</p><p class="mtr">Z 省律师办理法律业务数：2021 年 76.43 万件、2022 年 81.24 万件、2023 年 93.55 万件。</p><p class="ask">问：如保持 2023 年同比增量不变，则到哪一年 Z 省律师办理法律业务数将首次超过 150 万件：</p><div class="opt">A. 2026 年</div><div class="opt">B. 2027 年</div><div class="opt">C. 2028 年</div><div class="opt">D. 2029 年</div><div class="ansline"><span class="ans-tag">答案</span><b>C</b></div><div class="expline"><span class="exp-tag">解析</span><b>思路分析：</b><p class="st">① <span>求 2023 年增量：X＝93.55−81.24＝<b>12.31 万件/年</b>。</span></p><p class="st">② <span>设还需 n 年：93.55＋12.31n＞150 → n＞(150−93.55)÷12.31＝4.58。</span></p><p class="st">③ <span>n 取 5 → 2023＋5＝<b>2028 年</b>首次超过。</span></p></div><div class="warnbox"><b>易错警示：</b><br/>年份计算：2023 为当年，再过 n 年对应 2023＋n；"首次超过"用不等式，n 须向上取整。</div></div><div class="qcard"><div class="qhead">精讲 · 假设增速求后期</div><p class="src">讲义例题 14 · 2026 福建事业单位</p><p class="mtr">2024 年全年，我国汽车实现出口 641 万辆，同比增长 23%。</p><p class="ask">问：若稳定保持 20% 的增速，汽车年出口突破千万量级需要：</p><div class="opt">A. 2 年</div><div class="opt">B. 3 年</div><div class="opt">C. 4 年</div><div class="opt">D. 5 年</div><div class="ansline"><span class="ans-tag">答案</span><b>B</b></div><div class="expline"><span class="exp-tag">解析</span><b>思路分析：</b><p class="st">① <span>保持 20% 增速，逐年用 B＝A×(1＋20%) 乘：第 1 年 641×1.2≈769；第 2 年 769×1.2≈923。</span></p><p class="st">② <span>第 3 年 923×1.2≈1108 ≥ 1000 → <b>3 年</b>突破千万量级。</span></p></div><div class="warnbox"><b>易错警示：</b><br/>用"倍增感"快速估算：1.2³＝1.728、1.2²＝1.44，641×1.44＝923＜1000、641×1.728≈1108＞1000，故需 3 年；不必逐年精确乘。</div></div><div class="qcard"><div class="qhead">精讲 · 按照实际增长率求后期</div><p class="src">讲义例题 15 · 2019 山东选调</p><p class="mtr">2018 年 1～12 月，社会消费品零售总额 380987 亿元，比上年增长 9.0%（扣除价格因素实际增长 6.9%）。</p><p class="ask">问：按 2017 年价格计算 2018 年社会消费品零售总额约为：</p><div class="opt">A. 349529 亿元</div><div class="opt">B. 356396 亿元</div><div class="opt">C. 373647 亿元</div><div class="opt">D. 409223 亿元</div><div class="ansline"><span class="ans-tag">答案</span><b>C</b></div><div class="expline"><span class="exp-tag">解析</span><b>思路分析：</b><p class="st">① <span>"按 2017 年价格计算"＝扣除价格因素，用<b>实际增长率</b>而非名义增长率。</span></p><p class="st">② <span>先求 2017 年名义值：380987÷1.09≈349529 亿元。</span></p><p class="st">③ <span>按 2017 年价格：349529×(1＋6.9%)≈<b>373647 亿元</b>。</span></p></div><div class="warnbox"><b>易错警示：</b><br/>名义与实际的分工：<b>名义增长</b>含价格因素，<b>实际增长</b>（按可比价格）剔除价格因素。"按某年价格计算"一律用实际增长率。</div></div><h4 class="h1">3.2 答案速查</h4><div class="tbwrap"><table>
+<thead><tr><th>例题</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th></tr></thead>
+<tbody>
+<tr><td>答案</td><td class="mono">C</td><td class="mono">C</td><td class="mono">C</td><td class="mono">B</td><td class="mono">C</td><td class="mono">B</td></tr>
+</tbody>
+</table></div></section><section class="unit" id="zlu-3-3"><div class="unit-head"><h3>3.3 ABRX 类之"X"（求增长量）</h3><span class="chip">例题 3</span></div><div class="kbox"><div class="kl">◆ 讲义考法与思路</div><ul style="margin:6px 0">
+<li><b>一般增长量：</b>R 靠近某分数 → 415 份数法；|R|＜3% → 直接 B·R；|R|＜10% → 化除为乘；其他 → 假设分配</li>
+<li><b>两期增长量之比：</b>依次求得 X₁、X₂，再求比值</li>
+<li><b>X＝X₁＋X₂＋X₃……：</b>各部分增量相加等于总增量（整体与部分联立）</li>
+</ul></div><div class="qcard"><div class="qhead">精讲 · 一般增长量</div><p class="src">讲义例题 17 · 2025 四川省考</p><p class="mtr">2023 年上半年，全国办理汽车转让登记业务 1057 万辆，同比增长 5.3%。</p><p class="ask">问：2023 年上半年，我国办理汽车转让登记业务同比增加：</p><div class="opt">A. 不到 40 万辆</div><div class="opt">B. 40 多万辆</div><div class="opt">C. 50 多万辆</div><div class="opt">D. 60 万辆以上</div><div class="ansline"><span class="ans-tag">答案</span><b>C</b></div><div class="expline"><span class="exp-tag">解析</span><b>思路分析：</b><p class="st">① <span>R＝5.3%≈5%＝1/20 → 415 份数法：现期 21 份。</span></p><p class="st">② <span>每份＝1057÷21≈50.3；实际 R 略大于 5% → 增量略大于 50.3，约 53 万辆。</span></p><p class="st">③ <span>落位：<b>50 多万辆</b>。</span></p></div><div class="warnbox"><b>易错警示：</b><br/>区间型选项只需估算定位；本题先估"约 50"即可排除 A、B、D，无需精确到个位。</div></div><div class="qcard"><div class="qhead">精讲 · 两期增长量之比</div><p class="src">讲义例题 20 · 2025 国考</p><p class="mtr">2023 年一季度，中西部地区进出口 1.84 万亿元，同比增长 12.6%；其中中西部地区对"一带一路"沿线国家进出口 7400.9 亿元，同比增长 38%。</p><p class="ask">问：2023 年一季度，中西部地区对"一带一路"沿线国家进出口贸易额同比增量约占同期中西部地区外贸进出口总额同比增量的：</p><div class="opt">A. 33%</div><div class="opt">B. 55%</div><div class="opt">C. 77%</div><div class="opt">D. 99%</div><div class="ansline"><span class="ans-tag">答案</span><b>D</b></div><div class="expline"><span class="exp-tag">解析</span><b>思路分析：</b><p class="st">① <span>分别求两个增量。总量：12.6%≈12.5%＝1/8 → 现期 9 份 → 增量≈1.84÷9≈0.204 万亿。</span></p><p class="st">② <span>一带一路：38%≈37.5%＝3/8 → 现期 11 份 → 每份≈7400.9÷11≈672.8 亿 → 增量≈672.8×3≈2018 亿≈0.202 万亿。</span></p><p class="st">③ <span>占比＝0.202÷0.204≈<b>99%</b>（两增量几乎相等，因为一带一路增量贡献了绝大部分）→ 选 D。</span></p></div><div class="warnbox"><b>易错警示：</b><br/>注意单位统一（万亿 / 亿）；两期增长量之比用 415 份数法各自估算后再比，避免列复杂除法。</div></div><div class="qcard"><div class="qhead">精讲 · X＝X₁＋X₂＋X₃……</div><p class="src">讲义例题 22 · 2021 下四川省考</p><p class="mtr">2016 年，全国棉花产量 534.3 万吨，比 2015 年减产 26.0 万吨。其中黄河流域减产 10.0 万吨，长江流域减产 23.0 万吨，新疆增产 9.1 万吨。</p><p class="ask">问：2016 年，黄河流域、长江流域和新疆三地之外的产棉地区棉花产量比上年：</p><div class="opt">A. 减少 6.8 万吨</div><div class="opt">B. 减少 2.1 万吨</div><div class="opt">C. 增加 2.1 万吨</div><div class="opt">D. 增加 6.8 万吨</div><div class="ansline"><span class="ans-tag">答案</span><b>B</b></div><div class="expline"><span class="exp-tag">解析</span><b>思路分析：</b><p class="st">① <span>整体＝部分之和 → 增量同样相加：X总＝X黄河＋X长江＋X新疆＋X其他。</span></p><p class="st">② <span>代入：−26＝(−10)＋(−23)＋9.1＋X其他。</span></p><p class="st">③ <span>解得 X其他＝−26＋10＋23−9.1＝<b>−2.1 万吨</b>（减少 2.1 万吨）。</span></p></div><div class="warnbox"><b>易错警示：</b><br/>增量有正负：减产记负、增产记正；"三地之外"用<b>总增量减去已知各区域增量</b>，注意不要漏掉任何一部分。</div></div><h4 class="h1">3.3 答案速查</h4><div class="tbwrap"><table>
+<thead><tr><th>例题</th><th>17</th><th>18</th><th>19</th><th>20</th><th>21</th><th>22</th><th>23</th><th>24</th><th>25</th></tr></thead>
+<tbody>
+<tr><td>答案</td><td class="mono">C</td><td class="mono">C</td><td class="mono">D</td><td class="mono">D</td><td class="mono">C</td><td class="mono">B</td><td class="mono">D</td><td class="mono">C</td><td class="mono">B</td></tr>
+</tbody>
+</table></div><p style="font-size:.85rem;">例题 17–18 一般增长量；19–20 两期增长量之比；21–23 X＝X₁＋X₂＋X₃……；24–25 一般增长率（见 3.4）。</p></section><section class="unit" id="zlu-3-4"><div class="unit-head"><h3>3.4 ABRX 类之"R"（求增长率）</h3><span class="chip">例题 5</span></div><div class="kbox"><div class="kl">◆ 讲义考法与思路（四大公式）</div><ul style="margin:6px 0">
+<li><b>一般增长率：</b>R＝X÷A，直接套公式</li>
+<li><b>间隔增长率：</b>已知今年较去年增长 R₁、去年较前年增长 R₂，今年较前年增长 <b>R＝R₁＋R₂＋R₁×R₂</b>（含逆运用）</li>
+<li><b>比值增长率：</b>符合 A＝B÷C（如人均收入、单价、亩产），B 增长 R₁、C 增长 R₂，则 <b>R＝(R₁−R₂)÷(1＋R₂)</b></li>
+<li><b>乘积增长率：</b>符合 A＝B×C（如总产量＝亩产×面积、总额＝量×价、部分＝整体×占比），则 <b>R＝R₁＋R₂＋R₁×R₂</b></li>
+</ul></div><div class="qcard"><div class="qhead">精讲 · 一般增长率</div><p class="src">讲义例题 25 · 2025 深圳市考</p><p class="mtr">客运量＝进站量与换乘量之和。深圳城轨 2023 年客运量 271102 万人次、进站量 158883 万人次；2022 年客运量 175426 万人次、进站量 106273 万人次。</p><p class="ask">问：2023 年，深圳城轨交通换乘量同比增长约：</p><div class="opt">A. 55%</div><div class="opt">B. 62%</div><div class="opt">C. 71%</div><div class="opt">D. 77%</div><div class="ansline"><span class="ans-tag">答案</span><b>B</b></div><div class="expline"><span class="exp-tag">解析</span><b>思路分析：</b><p class="st">① <span>先求换乘量（需一步减法）：2023 年＝271102−158883＝112219；2022 年＝175426−106273＝69153。</span></p><p class="st">② <span>增长率 R＝X÷A＝(112219−69153)÷69153＝43066÷69153。</span></p><p class="st">③ <span>速算：43066÷69153≈62.3% → 选 <b>B</b>。</span></p></div><div class="warnbox"><b>易错警示：</b><br/>涉及"和差关系"的增长率：先还原出所求量本身（换乘量），再求增长率；切忌直接拿客运量增速代替换乘量增速。</div></div><div class="qcard"><div class="qhead">精讲 · 间隔增长率</div><p class="src">讲义例题 26 · 2024 甘肃事业单位</p><p class="mtr">2023 年 1～7 月，全国规模以上工业企业实现利润总额 39439.8 亿元，同比下降 15.5%，增速比上年同期回落 16.6 个百分点。</p><p class="ask">问：2023 年 1～7 月，全国规模以上工业企业实现利润总额约比 2021 年 1～7 月：</p><div class="opt">A. 下降了 14.6%</div><div class="opt">B. 增长了 14.6%</div><div class="opt">C. 下降了 31.5%</div><div class="opt">D. 增长了 31.5%</div><div class="ansline"><span class="ans-tag">答案</span><b>A</b></div><div class="expline"><span class="exp-tag">解析</span><b>思路分析：</b><p class="st">① <span>间隔年份（2021→2023），先求 2022 年增速：−15.5%＋16.6%＝<b>＋1.1%</b>（今年回落，去年更高）。</span></p><p class="st">② <span>间隔增长率：R＝−15.5%＋1.1%＋(−15.5%)×1.1%≈−14.4%−0.17%≈<b>−14.6%</b>。</span></p><p class="st">③ <span>选 A（下降 14.6%）。C 的 31.5% 是把两年降幅直接相加的错误算法。</span></p></div><div class="warnbox"><b>易错警示：</b><br/>间隔增长率有交叉项 R₁×R₂ 且可为负；负增长时交叉项为正值（负×负），会"抵消"一部分降幅，所以结果应略大于直接相加。</div></div><div class="qcard"><div class="qhead">精讲 · 间隔增长率逆运用</div><p class="src">讲义例题 28 · 2022 江苏省考</p><p class="mtr">2021 年 1～7 月，我国原油产量 11561 万吨，同比增长 2.4%，比 2019 年同期增长 3.9%。</p><p class="ask">问：2020 年 1～7 月，我国原油产量的同比增速是：</p><div class="opt">A. 1.46%</div><div class="opt">B. 1.90%</div><div class="opt">C. 2.36%</div><div class="opt">D. 3.15%</div><div class="ansline"><span class="ans-tag">答案</span><b>A</b></div><div class="expline"><span class="exp-tag">解析</span><b>思路分析：</b><p class="st">① <span>识别：给出"比 2019 年同期增长 3.9%"＝间隔增长率，已知 R₁（2021 年增速 2.4%），求 R₂（2020 年增速）。</span></p><p class="st">② <span>逆用公式：3.9%＝2.4%＋R₂＋2.4%×R₂ → R₂＝(3.9%−2.4%)÷(1＋2.4%)。</span></p><p class="st">③ <span>计算：1.5%÷1.024≈<b>1.46%</b>。</span></p></div><div class="warnbox"><b>易错警示：</b><br/>逆运用公式：R₂＝(R间隔−R₁)÷(1＋R₁)，分子是"间隔增速减当年增速"，别写反。</div></div><div class="qcard"><div class="qhead">精讲 · 比值增长率</div><p class="src">讲义例题 32 · 2025 事业单位联考</p><p class="mtr">2023 年，S 市年末享受研发费加计扣除企业达 2.2 万家，比上年增长 25.2%。加计扣除额 926.08 亿元，比上年增长 69.5%。</p><p class="ask">问：2023 年，S 市平均每家年末享受研发费加计扣除的企业加计扣除额比上年：</p><div class="opt">A. 下降了不到 30%</div><div class="opt">B. 下降了 30% 以上</div><div class="opt">C. 增长了不到 30%</div><div class="opt">D. 增长了 30% 以上</div><div class="ansline"><span class="ans-tag">答案</span><b>D</b></div><div class="expline"><span class="exp-tag">解析</span><b>思路分析：</b><p class="st">① <span>识别：平均每家加计扣除额＝加计扣除额÷企业数，属 A＝B÷C 型 → <b>比值增长率</b>。</span></p><p class="st">② <span>套公式：R＝(R₁−R₂)÷(1＋R₂)＝(69.5%−25.2%)÷(1＋25.2%)。</span></p><p class="st">③ <span>计算：44.3%÷1.252≈<b>35.4%</b> → 增长 30% 以上。</span></p></div><div class="warnbox"><b>易错警示：</b><br/>分子增速大于分母增速 → 比值上升（先定性再定量）；"平均每"类题型 90% 考比值增长率，公式分母是 (1＋R₂) 即<b>分母量的增速</b>。</div></div><div class="qcard"><div class="qhead">精讲 · 乘积增长率</div><p class="src">讲义例题 38 · 2018 事业单位联考</p><p class="mtr">2017 年新疆棉花播种面积比 2016 年增长 8.7%；新疆棉区每公顷单产同比增长 4.4%。</p><p class="ask">问：2017 年，新疆棉花总产量同比增速在以下哪个范围内：</p><div class="opt">A. 不到一成</div><div class="opt">B. 一成多</div><div class="opt">C. 两成多</div><div class="opt">D. 超过三成</div><div class="ansline"><span class="ans-tag">答案</span><b>B</b></div><div class="expline"><span class="exp-tag">解析</span><b>思路分析：</b><p class="st">① <span>识别：总产量＝播种面积×单产，属 A＝B×C 型 → <b>乘积增长率</b>。</span></p><p class="st">② <span>套公式：R＝R₁＋R₂＋R₁×R₂＝8.7%＋4.4%＋8.7%×4.4%≈13.1%＋0.38%≈<b>13.5%</b>。</span></p><p class="st">③ <span>13.5%＝一成多 → 选 B。</span></p></div><div class="warnbox"><b>易错警示：</b><br/>乘积增长率与间隔增长率<b>公式相同</b>（R₁＋R₂＋R₁×R₂），区别只在识别：跨时间点是间隔、乘除关系是乘积/比值；"有占比，想乘积"（部分＝整体×占比）。</div></div><h4 class="h1">3.4 答案速查</h4><div class="tbwrap"><table>
+<thead><tr><th>例题</th><th>26</th><th>27</th><th>28</th><th>29</th><th>30</th><th>31</th><th>32</th><th>33</th><th>34</th><th>35</th><th>36</th><th>37</th><th>38</th><th>39</th><th>40</th><th>41</th><th>42</th><th>43</th><th>44</th></tr></thead>
+<tbody>
+<tr><td>答案</td><td class="mono">A</td><td class="mono">B</td><td class="mono">A</td><td class="mono">C</td><td class="mono">D</td><td class="mono">B</td><td class="mono">D</td><td class="mono">B</td><td class="mono">C</td><td class="mono">C</td><td class="mono">B</td><td class="mono">D</td><td class="mono">B</td><td class="mono">B</td><td class="mono">C</td><td class="mono">A</td><td class="mono">D</td><td class="mono">D</td><td class="mono">不相符</td></tr>
+</tbody>
+</table></div><p style="font-size:.85rem;">例题 26–31 间隔增长率及其逆运用；32–37 比值增长率（一般＋特殊）；38–44 乘积增长率（实际＋部分）；例题 44 为综合分析判断，D 选项说法与材料不相符。</p></section></div>
+<div class="module" id="zlmod-4"><div class="mod-banner"><h2>比重类（讲义第四章）</h2><p>比重类围绕"部分 ÷ 整体"展开五个层级：单期比重（现期 / 基期 / 隔级）→ 两期比重变化（比重趋势定性 → 比重差定量）。记忆主线：<b>现期比重直接除，基期比重乘修正，隔级比重连乘，比重趋势看增速，比重差看增速差</b>。</p></div><section class="unit" id="zlu-4-1"><div class="unit-head"><h3>4.1 单期比重之现期比重（讲义 4.1）</h3><span class="chip">例题 1</span></div><div class="kbox"><div class="kl">◆ 讲义考法与思路</div><ul style="margin:6px 0">
+<li>比重＝部分÷整体、部分＝整体×比重、整体＝部分÷比重，直接套公式</li>
+<li><b>部分比重和 / 比重差：</b>比重和（差）＝部分和（差）÷整体</li>
+<li><b>饼状图：</b>确定各部分比例，多用 1/2、1/3、1/4、1/8 或两部分倍数关系；饼图各部分一般<b>从 12 点钟方向起顺时针排列</b></li>
+</ul></div><div class="qcard"><div class="qhead">精讲 · 现期比重</div><p class="src">讲义例题 1 · 2024 国考</p><p class="mtr">2022 年 1～12 月我国工业机器人设备累计出口金额 6.1 亿美元，累计进口金额 20 亿美元；其中 12 月单月出口金额 0.5 亿美元，进口金额 1.8 亿美元。2022 年 1～11 月我国高新技术产品累计进出口总额为 14544 亿美元。</p><p class="ask">问：同期我国工业机器人设备累计进出口总额约占高新技术产品累计进出口总额的：</p><div class="opt">A. 0.2%</div><div class="opt">B. 0.5%</div><div class="opt">C. 1.0%</div><div class="opt">D. 1.6%</div><div class="ansline"><span class="ans-tag">答案</span><b>A</b></div><div class="expline"><span class="exp-tag">解析</span><b>思路分析：</b><p class="st">① <span>先算 1～11 月机器人进出口：出口 6.1−0.5＝5.6，进口 20−1.8＝18.2，合计 <b>23.8 亿美元</b>。</span></p><p class="st">② <span>比重＝23.8÷14544≈0.16%。</span></p><p class="st">③ <span>落位：最接近 <b>0.2%</b>。</span></p></div><div class="warnbox"><b>易错警示：</b><br/>时间错位陷阱：问 1～11 月，需用累计（1～12 月）<b>减去 12 月单月</b>；若直接用 26.1（全年累计）会算出 0.18%，方向虽对但遇到精确选项时即错。</div></div></section><section class="unit" id="zlu-4-2"><div class="unit-head"><h3>4.2 单期比重之基期比重（讲义 4.2）</h3><span class="chip">例题 1</span></div><div class="kbox"><div class="kl">◆ 讲义公式</div><div class="fx">基期比重 ＝ 现期比重 × (1＋整体增长率) ÷ (1＋部分增长率)</div>
+<p style="margin:6px 0;font-size:.9rem">常用计算技巧：等比放缩。<b>基期平均值、基期倍数、基期比值均可看作"基期比重"</b>，套同一公式。</p></div><div class="qcard"><div class="qhead">精讲 · 基期比重</div><p class="src">讲义例题 7 · 2023 联考</p><p class="mtr">2021 年专利授权数 460.1 万件，同比增长 26.4%；其中境内发明专利授权 57.8 万件，同比增长 33.2%。</p><p class="ask">问：2020 年，境内发明专利占专利授权数的比重为：</p><div class="opt">A. 11.9%</div><div class="opt">B. 12.6%</div><div class="opt">C. 13.5%</div><div class="opt">D. 14.3%</div><div class="ansline"><span class="ans-tag">答案</span><b>A</b></div><div class="expline"><span class="exp-tag">解析</span><b>思路分析：</b><p class="st">① <span>现期比重＝57.8÷460.1≈12.56%（境内发明专利为部分，授权数为整体）。</span></p><p class="st">② <span>基期修正：×(1＋26.4%)÷(1＋33.2%)。整体增速 26.4% 小于部分增速 33.2% → 基期比重<b>低于</b>现期比重。</span></p><p class="st">③ <span>12.56%×1.264÷1.332≈12.56%×0.949≈<b>11.9%</b>。</span></p></div><div class="warnbox"><b>易错警示：</b><br/>修正因子分子是 <b>整体增速</b>、分母是 <b>部分增速</b>（与比值增长率相反），不要记反；先定性判断方向（部分增速大 → 基期比重小）可辅助验算。</div></div></section><section class="unit" id="zlu-4-3"><div class="unit-head"><h3>4.3 单期比重之隔级比重（讲义 4.3）</h3><span class="chip">例题 1</span></div><div class="kbox"><div class="kl">◆ 讲义公式</div><p style="margin:6px 0">大集合、中集合、小集合三层关系：</p>
+<div class="fx">小集合 ÷ 大集合 ＝ (小集合 ÷ 中集合) × (中集合 ÷ 大集合)</div>
+<p style="margin:6px 0;font-size:.9rem">即：隔级比重 ＝ 小在中中的比重 × 中在大中的比重（两级连乘）。</p></div><div class="qcard"><div class="qhead">精讲 · 隔级比重</div><p class="src">讲义例题 11 · 2019 山东省考</p><p class="mtr">2017 年末，全国医疗卫生机构床位 794.0 万张，其中医院 612.0 万张（占 77.1%）。医院中，公立医院床位占 75.7%。</p><p class="ask">问：2017 年末公立医院床位数占全国医疗卫生机构床位数的比重为：</p><div class="opt">A. 75.7%</div><div class="opt">B. 77.1%</div><div class="opt">C. 58.4%</div><div class="opt">D. 56.2%</div><div class="ansline"><span class="ans-tag">答案</span><b>C</b></div><div class="expline"><span class="exp-tag">解析</span><b>思路分析：</b><p class="st">① <span>三层结构：公立医院（小）⊂ 医院（中）⊂ 全国机构（大）。</span></p><p class="st">② <span>隔级比重＝(公立÷医院)×(医院÷全国)＝75.7%×77.1%。</span></p><p class="st">③ <span>速算：77.1%×75.7%≈77%×3/4≈<b>57.8%</b>，精确为 58.4% → 选 C。</span></p></div><div class="warnbox"><b>易错警示：</b><br/>选项 A、B 分别是"一级比重"，迷惑性极强；隔级比重一定<b>小于每一级比重</b>（两个小于 1 的数相乘），可据此排除 A、B。</div></div></section><section class="unit" id="zlu-4-4"><div class="unit-head"><h3>4.4 两期比重变化之比重趋势（讲义 4.4）</h3><span class="chip">例题 3</span></div><div class="kbox"><div class="kl">◆ 讲义规律（定性秒杀）</div><div class="fx">分子增速 ＞ 分母增速 → 分数变大（比重上升）<br/>分子增速 ＜ 分母增速 → 分数变小（比重下降）</div>
+<p style="margin:6px 0;font-size:.9rem">变体考法：<b>比重趋势多一步</b>（结合同比、环比多步判断）；<b>比重趋势逆运用</b>（已知比重升降反推增速大小关系）。</p></div><div class="qcard"><div class="qhead">精讲 · 一般比重趋势</div><p class="src">讲义例题 14 · 2025 联考</p><p class="mtr">2024 年 7 月，规模以上工业发电量同比增长 2.5%。分品种看，火电同比下降 4.9%，水电增长 36.2%，核电增长 4.3%，风电增长 0.9%，太阳能发电增长 16.4%。</p><p class="ask">问：2024 年 7 月，规模以上工业五种发电形式发电量占规模以上工业总发电量的比重较 2023 年 7 月下降的品种共有多少种：</p><div class="opt">A. 1 种</div><div class="opt">B. 2 种</div><div class="opt">C. 3 种</div><div class="opt">D. 4 种</div><div class="ansline"><span class="ans-tag">答案</span><b>B</b></div><div class="expline"><span class="exp-tag">解析</span><b>思路分析：</b><p class="st">① <span>整体（总发电量）增速＝2.5%。各品种比重下降 ⇔ 品种增速 ＜ 整体增速。</span></p><p class="st">② <span>逐项比较：火电 −4.9%＜2.5% ↓；水电 36.2%＞2.5% ↑；核电 4.3%＞2.5% ↑；风电 0.9%＜2.5% ↓；太阳能 16.4%＞2.5% ↑。</span></p><p class="st">③ <span>下降品种：火电、风电，共 <b>2 种</b>。</span></p></div><div class="warnbox"><b>易错警示：</b><br/>比重趋势只比<b>增速大小</b>，不比绝对值；"下降"看增速是否小于整体增速，负增速当然也属于下降。</div></div><div class="qcard"><div class="qhead">精讲 · 比值趋势（比重趋势迁移）</div><p class="src">讲义例题 16 · 2022 国考</p><p class="mtr">2020 年，H 省秋粮玉米、稻谷市场平均交易价格分别比上年上涨 28.6%、8.7%；玉米、稻谷扣除成本前的产值分别为 957.1 元/亩、1520.7 元/亩，分别比上年增长 33.4%、8.9%。</p><p class="ask">问：2020 年，H 省秋粮玉米和稻谷的亩产与上年相比：</p><div class="opt">A. 仅稻谷亩产高于上年</div><div class="opt">B. 仅玉米亩产高于上年</div><div class="opt">C. 两者均高于上年</div><div class="opt">D. 两者均低于上年</div><div class="ansline"><span class="ans-tag">答案</span><b>C</b></div><div class="expline"><span class="exp-tag">解析</span><b>思路分析：</b><p class="st">① <span>拆式子：亩产＝产值÷单价（元/亩 ÷ 元/公斤），是"分数"，可用比重趋势判断。</span></p><p class="st">② <span>玉米：分子（产值）增速 33.4% ＞ 分母（单价）增速 28.6% → 亩产<b>上升</b>；稻谷：8.9% ＞ 8.7% → 亩产<b>上升</b>。</span></p><p class="st">③ <span>结论：<b>两者亩产均高于上年</b>。</span></p></div><div class="warnbox"><b>易错警示：</b><br/>比重趋势不只用于"占比"，凡是"分子÷分母"结构的量（单价、亩产、人均）都可迁移使用——分子增速大于分母，值变大。</div></div><div class="qcard"><div class="qhead">精讲 · 比重趋势逆运用</div><p class="src">讲义例题 21 · 2020 事业单位联考</p><p class="mtr">2019 年 1～10 月全国快递业务量同比增长 26%。与去年同期相比，中部地区快递业务量比重上升 0.5 个百分点。</p><p class="ask">问：2019 年 1～10 月份，中部地区快递业务量同比增速可能为：</p><div class="opt">A. 16%</div><div class="opt">B. 21%</div><div class="opt">C. 26%</div><div class="opt">D. 31%</div><div class="ansline"><span class="ans-tag">答案</span><b>D</b></div><div class="expline"><span class="exp-tag">解析</span><b>思路分析：</b><p class="st">① <span>逆运用：中部比重<b>上升</b> → 中部增速 ＞ 全国整体增速（26%）。</span></p><p class="st">② <span>看选项：只有 <b>31%</b> 大于 26% → 选 D。</span></p></div><div class="warnbox"><b>易错警示：</b><br/>逆运用只判断大小方向，不必计算具体值；若两个选项都大于整体增速，再用"上升幅度越大、增速超出越多"辅助判断。</div></div></section><section class="unit" id="zlu-4-5"><div class="unit-head"><h3>4.5 两期比重比较之比重差（讲义 4.5）</h3><span class="chip">例题 2</span></div><div class="kbox"><div class="kl">◆ 讲义公式与秒杀</div><div class="fx">比重差 ＝ 现期比重 − 基期比重 ＝ (基期部分 ÷ 现期整体) × (部分增长率 − 整体增长率)</div>
+<p style="margin:6px 0"><b>记忆口诀：</b>今年的整体分之去年的部分乘上增长率之差。</p>
+<p style="margin:6px 0"><b>秒杀计：</b><mark class="key">|比重差| ＜ |增速差|</mark>（比重变化幅度一定小于增速差绝对值）。</p></div><div class="qcard"><div class="qhead">精讲 · 比重差</div><p class="src">讲义例题 23 · 2022 浙江事业单位</p><p class="mtr">2021 年 1～8 月，我国出口 13.56 万亿元，同比增长 23.2%；对东盟出口 1.98 万亿元，增长 21.3%。</p><p class="ask">问：2021 年 1～8 月，我国对东盟出口额占出口总额的比重比上年约：</p><div class="opt">A. 增加了 2 个百分点</div><div class="opt">B. 减少了 2 个百分点</div><div class="opt">C. 增加了 0.2 个百分点</div><div class="opt">D. 减少了 0.2 个百分点</div><div class="ansline"><span class="ans-tag">答案</span><b>D</b></div><div class="expline"><span class="exp-tag">解析</span><b>思路分析：</b><p class="st">① <span>定性：部分增速 21.3% ＜ 整体增速 23.2% → 比重<b>下降</b>，排除 A、C。</span></p><p class="st">② <span>秒杀：|比重差|＜|增速差|＝1.9pp → 排除 B（2pp）→ 只剩 D。</span></p><p class="st">③ <span>精确：比重差≈(1.98÷13.56)×(−1.9%÷1.213)≈14.6%×(−1.57%)≈<b>−0.23pp</b>。</span></p></div><div class="warnbox"><b>易错警示：</b><br/>比重差单位是<b>百分点</b>；"增速差"是百分数之差，也是百分点。用秒杀计可直接排除"等于或大于增速差"的选项，省去计算。</div></div><h4 class="h1">知识点扩展：比重差 / 比值增长率 / 比值差三兄弟（讲义 4.5.3）</h4><div class="tbwrap"><table>
+<thead><tr><th>类型</th><th>分子分母单位</th><th>选项单位</th><th>问法特征</th><th>解法</th></tr></thead>
+<tbody>
+<tr><td><b>比重差</b></td><td>相同（均为量）</td><td>百分点 或 %</td><td>"……比重，与上年相比"</td><td>比重作差；可秒杀 |比重差|＜|增速差|</td></tr>
+<tr><td><b>比值增长率</b></td><td>一般不同</td><td>%</td><td>"平均、单价、亩产，与上年相比增长多少"</td><td>R＝(R₁−R₂)÷(1＋R₂)</td></tr>
+<tr><td><b>比值差</b></td><td>一般不同（如元、人）</td><td>实际量</td><td>"人均收入与上年相比差多少"</td><td>比值作差，<b>不可秒杀</b>，需算两个比值再减</td></tr>
+</tbody>
+</table></div><div class="qcard"><div class="qhead">精讲 · 比值差（不可秒杀）</div><p class="src">讲义例题 27 · 2022 下四川省考</p><p class="mtr">2020 年，全国艺术表演团体共演出 225.61 万场，比上年下降 24.0%；演出收入 86.63 亿元，下降 31.7%。</p><p class="ask">问：2020 年，全国艺术表演团体平均每场演出创造收入比上年：</p><div class="opt">A. 减少了不到 1000 元</div><div class="opt">B. 减少了 1000 元以上</div><div class="opt">C. 增加了不到 1000 元</div><div class="opt">D. 增加了 1000 元以上</div><div class="ansline"><span class="ans-tag">答案</span><b>A</b></div><div class="expline"><span class="exp-tag">解析</span><b>思路分析：</b><p class="st">① <span>问"平均每场收入差多少元"→ <b>比值差</b>，需算两个比值。</span></p><p class="st">② <span>2020 年每场＝86.63 亿÷225.61 万≈3839 元；2019 年每场＝(86.63÷0.683)÷(225.61÷0.76)≈126.8 亿÷296.9 万≈4271 元。</span></p><p class="st">③ <span>差值＝3839−4271≈<b>−432 元</b>，减少不到 1000 元 → 选 A。</span></p></div><div class="warnbox"><b>易错警示：</b><br/>比值差<b>不能</b>用"比值增长率公式"算（那是相对变化，这是绝对差值）；必须分别求出现期、基期两个比值后相减。</div></div><h4 class="h1">第四章答案速查</h4><div class="tbwrap"><table>
+<thead><tr><th>例题</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th></tr></thead>
+<tbody>
+<tr><td>答案</td><td class="mono">A</td><td class="mono">C</td><td class="mono">D</td><td class="mono">A</td><td class="mono">A</td><td class="mono">D</td><td class="mono">A</td><td class="mono">B</td><td class="mono">A</td><td class="mono">D</td><td class="mono">C</td><td class="mono">C</td><td class="mono">C</td><td class="mono">B</td><td class="mono">C</td></tr>
+</tbody>
+</table></div><div class="tbwrap"><table>
+<thead><tr><th>例题</th><th>16</th><th>17</th><th>18</th><th>19</th><th>20</th><th>21</th><th>22</th><th>23</th><th>24</th><th>25</th><th>26</th><th>27</th></tr></thead>
+<tbody>
+<tr><td>答案</td><td class="mono">C</td><td class="mono">A</td><td class="mono">A</td><td class="mono">不可推出</td><td class="mono">B</td><td class="mono">D</td><td class="mono">A</td><td class="mono">D</td><td class="mono">D</td><td class="mono">C</td><td class="mono">A</td><td class="mono">A</td></tr>
+</tbody>
+</table></div><p style="font-size:.85rem;">例题 1–6 现期比重（含饼状图）；7–10 基期比重；11–13 隔级比重；14–21 比重趋势（一般 / 多一步 / 逆运用）；22–25 比重差；26–27 比值差。</p></section></div>
+<div class="module" id="zlmod-5"><div class="mod-banner"><h2>盐水类（讲义第五章）——混合思维</h2><p>盐水类（混合思维）是讲义体系中最具特色的考点：把"平均数、增长率、比重"都看成"浓度"，利用"整体浓度必在两部分浓度之间"的性质快速解题。适用于时间累计（上半年＝一季度＋二季度）与数据相加（进出口＝出口＋进口）两类结构。</p></div><section class="unit" id="zlu-5-1"><div class="unit-head"><h3>5.1 盐水思想（混合思维）介绍（讲义 5.1）</h3></div><div class="kbox"><div class="kl">◆ 讲义要点</div><p style="margin:6px 0">盐水浓度＝溶质 ÷ 溶液。资料分析中与浓度数学形式相同的统计指标：<b>平均数＝总数÷个数、增长率＝增长量÷基期、比重＝部分÷整体</b>，都可看作"浓度"。</p>
+<p style="margin:6px 0"><b>适用前提：</b>整体与部分均可表示为 C＝A÷B，且两部分"浓度"合成整体的"浓度"。具有相加关系的数据有两类：<b>时间混合</b>（上半年＝一季度＋二季度）与<b>数据相加</b>（进出口＝进口＋出口、出口＝顺差＋进口、全国＝城镇＋农村）。</p>
+<p style="margin:6px 0"><b>三类考点：</b>① 三排序；② 已知三 R 求量之比；③ 已知二 R 和量之比求第三 R（先定性再定量）。</p></div></section><section class="unit" id="zlu-5-2"><div class="unit-head"><h3>5.2 三排序问题（讲义 5.2）</h3><span class="chip">例题 1</span></div><div class="kbox"><div class="kl">◆ 讲义思路</div><p style="margin:6px 0">整体浓度一定在两部分之间，问两者大小关系时，补全三者排序即可：<b>"部分 1 浓度 ＞ 整体浓度" 等价于 "整体浓度 ＞ 部分 2 浓度"</b>。</p>
+<p style="margin:6px 0;font-size:.9rem">【讲义示例】已知 2022 年 1～5 月同比增速 3.7%、1～6 月为 4.1%，则 6 月增速与 1～6 月的关系？答：1～6 月由 1～5 月和 6 月混合而成 → (1～5 月)＜(1～6 月)＜6 月，即 6 月增速应大于 4.1%。</p></div><div class="qcard"><div class="qhead">精讲 · 三排序（月均比较）</div><p class="src">讲义例题 4 · 2023 联考</p><p class="mtr">2022 年 1～7 月，全社会用电量 49303 亿千瓦时，同比增长 3.4%；其中第二产业 32552 亿千瓦时，同比增长 1.1%。7 月单月，第二产业用电量 5132 亿千瓦时，同比下降 0.1%。</p><p class="ask">问：能够从上述材料中推出的是（关于第二产业的表述）：</p><p class="opt">C. 2022 年 7 月第二产业用电量高于上半年第二产业月均用电量</p><div class="ansline"><span class="ans-tag">答案</span><b>C（可推出）</b></div><div class="expline"><span class="exp-tag">解析</span><b>思路分析：</b><p class="st">① <span>1～7 月＝上半年（1～6 月）＋7 月，整体在两部分之间，且"7 月 +（1～6 月）＝ 1～7 月"。</span></p><p class="st">② <span>月均视角：7 月单月值 5132；上半年合计＝32552−5132＝27420，月均＝27420÷6＝4570。</span></p><p class="st">③ <span>5132 ＞ 4570 → C 说法<b>正确</b>（7 月高于上半年月均）。</span></p></div><div class="warnbox"><b>易错警示：</b><br/>月均比较先算出"1～6 月合计再除 6"；同理可推 7 月增速与 1～7 月累计增速的关系（7 月 6.3%＞累计 3.4%）。</div></div></section><section class="unit" id="zlu-5-3"><div class="unit-head"><h3>5.3 已知三 R 求量之比（讲义 5.3）——十字交叉</h3><span class="chip">例题 1</span></div><div class="kbox"><div class="kl">◆ 讲义方法：十字交叉</div><p style="margin:6px 0">浓度 a 的 A 克与浓度 b 的 B 克混合成浓度 r，则：</p>
+<div class="fx">A ÷ B ＝ (r − b) ÷ (a − r)　（交叉相减，用大数减小数）</div>
+<p style="margin:6px 0;font-size:.9rem">应用：增长率混合 → 求出的是<b>基期量之比</b>；比重混合 → 总量之比；平均数混合 → 人数之比（牢记：求人数想盐水）。</p></div><div class="qcard"><div class="qhead">精讲 · 已知三 R 求量之比</div><p class="src">讲义例题 5 · 2023 广东省考</p><p class="mtr">2022 年，全国居民人均可支配收入 36883 元，比上年增长 5.0%。分城乡看，城镇居民人均可支配收入 49283 元，增长 3.9%；农村居民人均可支配收入 20133 元，增长 6.3%。</p><p class="ask">问：2022 年，我国城镇居民与农村居民人数之比最接近：</p><div class="opt">A. 2∶3</div><div class="opt">B. 3∶2</div><div class="opt">C. 3∶4</div><div class="opt">D. 4∶3</div><div class="ansline"><span class="ans-tag">答案</span><b>D</b></div><div class="expline"><span class="exp-tag">解析</span><b>思路分析：</b><p class="st">① <span>人均收入＝总收入÷人数 → 混合"浓度"是人均收入增速：整体 r＝5.0%，城镇 a＝3.9%，农村 b＝6.3%。</span></p><p class="st">② <span>十字交叉求<b>人数之比</b>：城∶农＝(r−b)∶(a−r)＝(5.0%−6.3%)∶(3.9%−5.0%)＝1.3∶1.1＝<b>13∶11</b>。</span></p><p class="st">③ <span>13∶11≈1.18，最接近 <b>4∶3</b>（1.33）→ 选 D。</span></p></div><div class="warnbox"><b>易错警示：</b><br/>求人数之比用"人均收入增速"十字交叉，量之比是<b>人数</b>（分母）之比；交叉相减取绝对值，方向别写反（城镇 13 份、农村 11 份）。</div></div></section><section class="unit" id="zlu-5-4"><div class="unit-head"><h3>5.4 已知二 R 和量之比求第三 R（讲义 5.4）</h3><span class="chip">例题 2</span></div><div class="kbox"><div class="kl">◆ 讲义两步走</div><p style="margin:6px 0"><b>第一步（定性）：</b>混合浓度在两部分浓度之间且<b>不在正中间</b>——靠近溶液质量（基期量）大的一方。</p>
+<p style="margin:6px 0"><b>第二步（定量）：</b>用线段法或十字交叉确定第三 R。线段法：画线按量之比分段 → 按量标点（中点靠近量大的一方）→ 几何计算。</p></div><div class="qcard"><div class="qhead">精讲 · 定性分析（中间值秒杀）</div><p class="src">讲义例题 11 · 2025 四川省考</p><p class="mtr">2023 年上半年，全国新注册登记机动车 1688 万辆，同比增长 1.9%；新注册登记汽车 1175 万辆，同比增长 5.8%。</p><p class="ask">问：2023 年上半年，全国新注册登记非汽车类机动车数量比上年同期：</p><div class="opt">A. 增长了不到 2%</div><div class="opt">B. 增长了 2% 以上</div><div class="opt">C. 减少了不到 2%</div><div class="opt">D. 减少了 2% 以上</div><div class="ansline"><span class="ans-tag">答案</span><b>D</b></div><div class="expline"><span class="exp-tag">解析</span><b>思路分析：</b><p class="st">① <span>机动车总量＝汽车＋非汽车 → 混合增速 1.9% 在两者之间；汽车（5.8%）＞整体（1.9%）→ 非汽车增速必然 ＜ 1.9%，且为负（把整体拉低这么多）。</span></p><p class="st">② <span>定量：非汽车量＝1688−1175＝513 万辆；汽车量（1175）是非汽车（513）的 2.3 倍 → 非汽车增速距整体约是汽车增速距整体的 2.3 倍。</span></p><p class="st">③ <span>非汽车增速 ≈ 1.9% − 2.3×(5.8%−1.9%) ≈ 1.9%−9.0% ≈ −7% → <b>减少 2% 以上</b>。</span></p></div><div class="warnbox"><b>易错警示：</b><br/>定性判断：整体增速被拉到 1.9%（远低于汽车 5.8%），说明非汽车大量负增长；"在中间不在正中间"，靠近量大的一方。</div></div><div class="qcard"><div class="qhead">精讲 · 定量计算（十字交叉）</div><p class="src">讲义例题 16 · 2024 山东省考</p><p class="mtr">2022 年，中国国内旅游总人次达 25.30 亿。其中，城镇居民 19.28 亿，同比下降 17.7%；农村居民 6.02 亿，同比下降 33.5%。</p><p class="ask">问：2022 年，中国国内旅游总人次同比约下降：</p><div class="opt">A. 17%</div><div class="opt">B. 19%</div><div class="opt">C. 20%</div><div class="opt">D. 22%</div><div class="ansline"><span class="ans-tag">答案</span><b>D</b></div><div class="expline"><span class="exp-tag">解析</span><b>思路分析：</b><p class="st">① <span>总人次增速＝城镇＋农村混合。先求基期量（十字交叉中"量"指基期）：2021 年城镇＝19.28÷0.823≈23.43 亿；农村＝6.02÷0.665≈9.05 亿。</span></p><p class="st">② <span>十字交叉：城∶农＝(r−b)÷(a−r)＝(r＋33.5%)÷(−17.7%−r)＝2.59（a 城镇增速 −17.7%、b 农村增速 −33.5%）。</span></p><p class="st">③ <span>解得 r≈<b>22.1%</b> → 选 D。</span></p></div><div class="warnbox"><b>易错警示：</b><br/>也可直接验证：2021 年总人次＝23.43＋9.05＝32.48 亿，(25.30−32.48)÷32.48≈−22.1%；十字交叉时注意"量"是<b>基期量</b>而非现期量。</div></div><h4 class="h1">第五章答案速查</h4><div class="tbwrap"><table>
+<thead><tr><th>例题</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th><th>17</th></tr></thead>
+<tbody>
+<tr><td>答案</td><td class="mono">A</td><td class="mono">C</td><td class="mono">C</td><td class="mono">C</td><td class="mono">D</td><td class="mono">C</td><td class="mono">A</td><td class="mono">A</td><td class="mono">B</td><td class="mono">D</td><td class="mono">D</td><td class="mono">D</td><td class="mono">A</td><td class="mono">C</td><td class="mono">D</td><td class="mono">D</td><td class="mono">可推出</td></tr>
+</tbody>
+</table></div><div class="tbwrap"><table>
+<thead><tr><th>练习</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th></tr></thead>
+<tbody>
+<tr><td>答案</td><td class="mono">20%∶30%＝4∶1</td><td class="mono">A∶B＝7∶8</td><td class="mono">城∶农＝91∶64</td><td class="mono">整体满意度 76%</td><td class="mono">全班平均分 83</td><td class="mono">音乐系男同学占比 46%</td><td class="mono">乙组参与率 40%</td></tr>
+</tbody>
+</table></div></section></div>
+<div class="module" id="zlmod-6"><div class="mod-banner"><h2>比较类（讲义第六章）</h2><p>比较类解决"谁大谁小、谁快谁慢"的问题，讲义给出三层递进武器：<b>比值大小比较</b>（趋势法 / 双线法 / 王者荣耀法）→ <b>增量大小比较</b>（大大则大 / 一大一小看倍数）→ <b>替代比较</b>（五种"以易代难"）。</p></div><section class="unit" id="zlu-6-1"><div class="unit-head"><h3>6.1 比值（增速、比重、基期等）大小比较（讲义 6.1）</h3><span class="chip">例题 2</span></div><div class="kgrid"><div class="kbox"><div class="kl">◆ 趋势法</div><p style="margin:4px 0;font-size:.92rem">借用比重趋势思路：<b>分子增速（倍数）大于分母 → 分数变大</b>；反之变小。比较相邻两年比值变化时逐期判断趋势。</p></div><div class="kbox"><div class="kl">◆ 双线法</div><p style="margin:4px 0;font-size:.92rem">折线图上有两条线（如总量与增速）时，直接看<b>两条线的相对位置 / 斜率</b>判断大小，无需计算。</p></div></div><div class="kbox"><div class="kl">◆ 王者荣耀法（判断是否大于某值）</div><p style="margin:4px 0;font-size:.92rem">利用盐水思想，将分子分母同时拆分，判断数字是否大于 / 小于某个值（如 50%、1/3、2/3）。</p>
+<p style="margin:4px 0;font-size:.9rem">例：判断 3313.80÷4485.97 是否大于 74%？4485.97×74%＝3319.6＞3313.8 → 占比略<b>低于</b>74%。</p></div><div class="qcard"><div class="qhead">精讲 · 趋势法</div><p class="src">讲义例题 4 · 2025 国考</p><p class="mtr">Z 省律师事务所总数：2020 年 1636 家 → 2021 年 1705 → 2022 年 1755 → 2023 年 1826；律师人数：27302 → 30889 → 36938 → 41924 人。</p><p class="ask">问：2021～2023 年，Z 省各年律师人数与律师事务所总数的比值：</p><div class="opt">A. 先升后降</div><div class="opt">B. 先降后升</div><div class="opt">C. 持续下降</div><div class="opt">D. 持续上升</div><div class="ansline"><span class="ans-tag">答案</span><b>D</b></div><div class="expline"><span class="exp-tag">解析</span><b>思路分析：</b><p class="st">① <span>比值＝人数÷律所数，看分子（人数）增速与分母（律所数）增速的相对大小。</span></p><p class="st">② <span>2021 年：人数 +13.1% ＞ 律所 +4.2% → 比值升；2022 年：人数 +19.6% ＞ 律所 +2.9% → 比值升；2023 年：人数 +13.5% ＞ 律所 +4.0% → 比值升。</span></p><p class="st">③ <span>三年分子增速均大于分母 → <b>持续上升</b>。</span></p></div><div class="warnbox"><b>易错警示：</b><br/>趋势法只需比较<b>增长率大小</b>，不必逐年计算比值；口诀"分子跑得快，分数变大"。</div></div><div class="qcard"><div class="qhead">精讲 · 王者荣耀法</div><p class="src">讲义例题 9 · 2017 浙江事业单位</p><p class="mtr">2016 年，H 市货物进出口总额 4485.97 亿元，其中出口总额 3313.80 亿元。</p><p class="ask">问：2016 年，H 市货物出口总额占进出口总额的比重约为：</p><div class="opt">A. 74%</div><div class="opt">B. 76%</div><div class="opt">C. 78%</div><div class="opt">D. 80%</div><div class="ansline"><span class="ans-tag">答案</span><b>A</b></div><div class="expline"><span class="exp-tag">解析</span><b>思路分析：</b><p class="st">① <span>基准值判断：4485.97×74%＝4485.97×(3/4−1%)≈3364.5−44.9≈3319.6。</span></p><p class="st">② <span>3319.6 ＞ 3313.8 → 实际占比略<b>低于</b> 74%。</span></p><p class="st">③ <span>四个选项中只有 A（74%）在"略低于 74%"附近（76% 及以上都明显更大）→ 选 A。</span></p></div><div class="warnbox"><b>易错警示：</b><br/>王者荣耀法避免直接做除法：选一个基准比例（50%、1/3、74% 等），用"整体×基准"反推，秒判大小。</div></div></section><section class="unit" id="zlu-6-2"><div class="unit-head"><h3>6.2 增量大小比较（讲义 6.2）</h3><span class="chip">例题 2</span></div><div class="kbox"><div class="kl">◆ 讲义两条秒杀计</div><div class="fx">① B 越大、R 越大 → X 越大（大大则大）<br/>② 一大一小看倍数：现期与增速一正一反时，比较"倍数差距"（现期倍数 vs 增速倍数）</div></div><div class="qcard"><div class="qhead">精讲 · 大大则大</div><p class="src">讲义例题 11 · 2021 新疆兵团</p><p class="mtr">2018 年木地板出口 26.6 万吨、3.85 亿美元，分别下降 24.8% 和 25.9%；胶合板出口 1137.8 万立方米、55.56 亿美元，金额增长 9%；纤维板出口 179 万吨、38.35 亿美元，金额增长 6.2%。</p><p class="ask">问：2018 年，下列三种产品出口金额增长值从大到小的顺序排列正确的是：</p><div class="opt">A. 木地板、胶合板、纤维板</div><div class="opt">B. 胶合板、纤维板、木地板</div><div class="opt">C. 木地板、纤维板、胶合板</div><div class="opt">D. 胶合板、木地板、纤维板</div><div class="ansline"><span class="ans-tag">答案</span><b>B</b></div><div class="expline"><span class="exp-tag">解析</span><b>思路分析：</b><p class="st">① <span>先排除"负增量"：木地板金额下降 25.9% → 增量为负，排最后。</span></p><p class="st">② <span>胶合板（55.56 亿，+9%）vs 纤维板（38.35 亿，+6.2%）：现期和增速均更大 → <b>大大则大</b>，胶合板增量更大。</span></p><p class="st">③ <span>排序：胶合板 ＞ 纤维板 ＞ 木地板 → 选 B。</span></p></div><div class="warnbox"><b>易错警示：</b><br/>"大大则大"只用于现期、增速<b>同向</b>；遇到负增长直接判负增量排末位，不必计算。</div></div><div class="qcard"><div class="qhead">精讲 · 一大一小看倍数</div><p class="src">讲义例题 12 · 2025 浙江省考</p><p class="mtr">2023 年一季度，我国民航、公路、铁路、水路旅客运输量分别为 1.29、9.79、7.53、0.51 亿人次，同比分别增长 68.9%、1.0%、66.0%、93.3%。</p><p class="ask">问：将四种运输方式按 2023 年一季度旅客运输量同比增量从高到低排序，正确的是：</p><div class="opt">A. 铁路、民航、水路、公路</div><div class="opt">B. 民航、公路、铁路、水路</div><div class="opt">C. 公路、水路、民航、铁路</div><div class="opt">D. 水路、铁路、公路、民航</div><div class="ansline"><span class="ans-tag">答案</span><b>A</b></div><div class="expline"><span class="exp-tag">解析</span><b>思路分析：</b><p class="st">① <span>铁路 vs 公路：铁路 7.53（+66%）vs 公路 9.79（+1%）——公路现期仅大 1.3 倍，但铁路增速大 66 倍 → <b>铁路增量更大</b>（一大一小看倍数）。</span></p><p class="st">② <span>铁路增量≈7.53×0.66÷1.66≈3.0；民航≈1.29×0.689÷1.689≈0.53；水路≈0.51×0.933÷1.933≈0.25；公路≈0.097。</span></p><p class="st">③ <span>排序：<b>铁路 ＞ 民航 ＞ 水路 ＞ 公路</b> → 选 A。</span></p></div><div class="warnbox"><b>易错警示：</b><br/>"一大一小"时比较两个倍数：现期倍数小、增速倍数大 → 增速大者增量大。直觉陷阱：公路现期最大但增速仅 1%，增量反而最小。</div></div><h4 class="h1">追及问题（利用增量大小确定差值变化）</h4><div class="kbox"><div class="kl">◆ 讲义思路</div><p style="margin:6px 0">两个量作差（如顺差＝出口−进口、城乡差距），差值变化 = 两个量的增量之差：<b>出口增量 ＞ 进口增量 → 顺差变大</b>；反之变小。例：2021 年 8 月出口环比 +4.9%、进口环比 +5.1%，进口增量更大 → 顺差环比减小，故"顺差比 7 月略有减小"<b>推不出</b>（讲义例题 16，答案为"推不出"）。</p></div></section><section class="unit" id="zlu-6-3"><div class="unit-head"><h3>6.3 替代比较（讲义 6.3）——以易代难</h3><span class="chip">例题 2</span></div><div class="tbwrap"><table>
+<thead><tr><th>替代方式</th><th>适用场景</th><th>替代逻辑</th></tr></thead>
+<tbody>
+<tr><td><b>末期/基期 替代 年均增长率</b></td><td>比较多年年均增速</td><td>年份差 n 相同时，年均增速大小 ⇔ 末期÷基期大小</td></tr>
+<tr><td><b>现期/基期 替代 增长率</b></td><td>已知两年数据比较增速</td><td>增速大小 ⇔ 现期÷基期大小（R＝A/B−1 单调）</td></tr>
+<tr><td><b>A/非A 替代 A/整体</b></td><td>比重比较（近一数据比较）</td><td>整体＝A＋非A，A/整体 ⇔ A/非A 单调（仅同方向比较时）</td></tr>
+<tr><td><b>X/B 替代 X/A</b></td><td>已知现期和增量比较增速</td><td>增速 R＝X/A＝X/(B−X)，B 大时近似用 X/B 比较</td></tr>
+<tr><td><b>图形高度 替代 数据比值</b></td><td>0 刻度同水平线的柱状图</td><td>高度之比 ＝ 数据之比，直接量高度</td></tr>
+</tbody>
+</table></div><div class="qcard"><div class="qhead">精讲 · 末期/基期替代年均增长率</div><p class="src">讲义例题 18 · 2023 国考</p><p class="mtr">2016 年与 2021 年集成电路产量（亿块）：甘肃 197→643；广东 219→539；上海 238→365；浙江 74→230。</p><p class="ask">问：将四省按 2016～2021 年集成电路产量年均增速（以 2016 年为基期）从高到低排列，正确的是：</p><div class="opt">A. ④①②③</div><div class="opt">B. ④①③②</div><div class="opt">C. ①④②③</div><div class="opt">D. ①④③②</div><div class="ansline"><span class="ans-tag">答案</span><b>C</b></div><div class="expline"><span class="exp-tag">解析</span><b>思路分析：</b><p class="st">① <span>年份差相同（均为 5 年）→ 直接比较<b>末期÷基期</b>。</span></p><p class="st">② <span>甘肃 643÷197≈3.26；浙江 230÷74≈3.11；广东 539÷219≈2.46；上海 365÷238≈1.53。</span></p><p class="st">③ <span>排序：甘肃＞浙江＞广东＞上海 → <b>①④②③</b>。</span></p></div><div class="warnbox"><b>易错警示：</b><br/>替代比较前提是<b>年份差相同</b>；n 不同时不可直接比末期/基期，需先折算。</div></div><div class="qcard"><div class="qhead">精讲 · X/B 替代 X/A</div><p class="src">讲义例题 23 · 2023 浙江选调</p><p class="mtr">到 2020 年底，J 省四种保险参保人数及比上年增加人数：城镇职工 1167.42 万（+70.52）、城乡居民 2077.99 万（+189.1）、失业保险 292.1 万（+2.42）、工伤保险 557.98 万（+18.55）。</p><p class="ask">问：到 2020 年底，J 省四种保险的参保人数同比增速最快的是：</p><div class="opt">A. 失业保险</div><div class="opt">B. 工伤保险</div><div class="opt">C. 城镇职工基本养老保险</div><div class="opt">D. 城乡居民基本养老保险</div><div class="ansline"><span class="ans-tag">答案</span><b>D</b></div><div class="expline"><span class="exp-tag">解析</span><b>思路分析：</b><p class="st">① <span>增速 R＝X÷A＝X÷(B−X)。当 X 远小于 B 时，R≈X÷B，可替代比较。</span></p><p class="st">② <span>城镇职工 70.52÷1167.42≈6.0%；城乡居民 189.1÷2077.99≈9.1%；失业保险 2.42÷292.1≈0.8%；工伤保险 18.55÷557.98≈3.3%。</span></p><p class="st">③ <span>最快：<b>城乡居民基本养老保险</b>（9.1%）→ 选 D。</span></p></div><div class="warnbox"><b>易错警示：</b><br/>替代仅在同方向比较时有效且增速不大时误差小；城乡居民增速 9.1% 与城镇职工 6.0% 差距明显，替代判断安全。</div></div><h4 class="h1">第六章答案速查</h4><div class="tbwrap"><table>
+<thead><tr><th>例题</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th><th>17</th></tr></thead>
+<tbody>
+<tr><td>答案</td><td class="mono">D</td><td class="mono">D</td><td class="mono">D</td><td class="mono">D</td><td class="mono">A</td><td class="mono">B</td><td class="mono">A</td><td class="mono">A</td><td class="mono">A</td><td class="mono">C</td><td class="mono">B</td><td class="mono">A</td><td class="mono">A</td><td class="mono">A</td><td class="mono">D</td><td class="mono">推不出</td><td class="mono">推不出</td></tr>
+</tbody>
+</table></div><div class="tbwrap"><table>
+<thead><tr><th>例题</th><th>18</th><th>19</th><th>20</th><th>21</th><th>22</th><th>23</th><th>24</th><th>25</th><th>26</th><th>27</th></tr></thead>
+<tbody>
+<tr><td>答案</td><td class="mono">C</td><td class="mono">A</td><td class="mono">A</td><td class="mono">C</td><td class="mono">C</td><td class="mono">D</td><td class="mono">D</td><td class="mono">D</td><td class="mono">D</td><td class="mono">D</td></tr>
+</tbody>
+</table></div><div class="tbwrap"><table>
+<thead><tr><th>练习</th><th>1（分数比较 6 题）</th><th>2</th><th>3</th><th>4</th></tr></thead>
+<tbody>
+<tr><td>答案</td><td class="mono">541/661＜582/679；91/215＞117/243；22/261＜34/329；72/142＜77/159；125/362＜181/401；73/142＜80/171</td><td class="mono">错（2701/5412＜50%）</td><td class="mono">对（2126/6342＞1/3）</td><td class="mono">错（631/962＜2/3）</td></tr>
+</tbody>
+</table></div></section></div>
+<div class="module" id="zlmod-7"><div class="mod-banner"><h2>平均倍数类（讲义第七章）</h2><p>平均数与倍数结构相似、公式互通（均与"基期比重"同构），年均增长量注意"基期推不推"，年均增长率记牢四组速算数字。本章是全书公式收尾章。</p></div><section class="unit" id="zlu-7-1"><div class="unit-head"><h3>7.1 平均数（讲义 7.1）</h3><span class="chip">例题 1</span></div><div class="kbox"><div class="kl">◆ 讲义考点</div><ul style="margin:6px 0">
+<li>① 求单个平均数（注意与时间有关的平均数）；② 两个平均数之比（A/C ÷ B/D ＝ AD/BC，两边除中间）</li>
+<li>③ 基期平均数（同基期比重公式）；④ 平均数的变化情况（同比重趋势）</li>
+<li>⑤ 平均数的差值（即比值差）；⑥ 平均数的增长率（即比值增长率）</li>
+</ul>
+<p style="margin:6px 0"><b>题型识别：</b>"均""每""单位"——<b>均前每后做分母</b>（人均收入→人数做分母、单位面积产量→面积做分母）。</p>
+<p style="margin:6px 0;font-size:.9rem;">时间平均数注意闰年 366 天、季度个数、大小月。</p></div><div class="qcard"><div class="qhead">精讲 · 基期平均数</div><p class="src">讲义例题 1 · 2025 联考</p><p class="mtr">2023 年全国群众文化机构文艺活动 246 万场次，同比增长 54.0%；服务 139298 万人次，同比增长 103.7%。</p><p class="ask">问：2022 年文艺活动平均每场次活动服务的人次约为：</p><div class="opt">A. 不到 400 人次</div><div class="opt">B. 400～450 人次</div><div class="opt">C. 450～500 人次</div><div class="opt">D. 500 人次以上</div><div class="ansline"><span class="ans-tag">答案</span><b>B</b></div><div class="expline"><span class="exp-tag">解析</span><b>思路分析：</b><p class="st">① <span>问 2022 年（基期）平均数＝基期服务人次 ÷ 基期场次。</span></p><p class="st">② <span>2022 年服务人次＝139298÷2.037≈68384 万人次；2022 年场次＝246÷1.54≈159.7 万场。</span></p><p class="st">③ <span>每场≈68384÷159.7≈<b>428 人次</b> → 选 B（400～450）。</span></p></div><div class="warnbox"><b>易错警示：</b><br/>基期平均数也可套"基期比重"公式：现期平均数 ×(1＋场次增速)÷(1＋人次增速)；分子分母增速不要对调。</div></div></section><section class="unit" id="zlu-7-2"><div class="unit-head"><h3>7.2 倍数（讲义 7.2）</h3><span class="chip">例题 1</span></div><div class="kbox"><div class="kl">◆ 讲义考点</div><ul style="margin:6px 0">
+<li>① A 是 B 的几倍＝A÷B；A 比 B 多几倍＝A÷B−1</li>
+<li>② 两个比值的倍数：A/C ÷ B/D ＝ AD/BC（两边除中间）</li>
+<li>③ 基期倍数（同基期比重公式）</li>
+<li>④ 翻番：A 比 B 翻 n 番 → A 是 B 的 2ⁿ 倍</li>
+<li>⑤ 增长率变倍数提问：<b>比值倍数＝比值增长率＋100%；间隔倍数＝间隔增长率＋100%</b></li>
+</ul>
+<p style="margin:6px 0;font-size:.9rem">1 倍＝100%，倍数＝增长率＋100%。</p></div><div class="qcard"><div class="qhead">精讲 · 基期倍数（先还原后相除）</div><p class="src">讲义例题 5 · 2022 江苏省考</p><p class="mtr">2021 年 1～7 月我国进口原油 30193 万吨，下降 5.6%；其中 7 月进口 4124 万吨，下降 19.6%。同期原油产量 11561 万吨，其中 7 月 1686 万吨。</p><p class="ask">问：2021 年上半年，我国原油进口量比生产量多：</p><div class="opt">A. 1.6 倍</div><div class="opt">B. 1.8 倍</div><div class="opt">C. 2.6 倍</div><div class="opt">D. 2.9 倍</div><div class="ansline"><span class="ans-tag">答案</span><b>A</b></div><div class="expline"><span class="exp-tag">解析</span><b>思路分析：</b><p class="st">① <span>上半年进口量＝30193−4124＝26069 万吨；上半年生产量＝11561−1686＝9875 万吨。</span></p><p class="st">② <span>"多几倍"＝26069÷9875−1≈2.64−1＝<b>1.64 倍</b>。</span></p><p class="st">③ <span>选 A（1.6 倍）；C 的 2.6 倍是"是几倍"的干扰值。</span></p></div><div class="warnbox"><b>易错警示：</b><br/>"多几倍＝是几倍−1"；本题问上半年，需用累计减 7 月单月还原，直接拿 30193 会错选 C。</div></div></section><section class="unit" id="zlu-7-3"><div class="unit-head"><h3>7.3 年均增长量（讲义 7.3）</h3><span class="chip">例题 1</span></div><div class="kbox"><div class="kl">◆ 讲义公式与"基期推不推"规则</div><div class="fx">年均增长量 ＝ (末期 − 基期) ÷ n　（n 为末期、基期年份差值）</div>
+<div class="tbwrap" style="margin:10px 0">
+<table>
+<thead><tr><th>问法 / 情形</th><th>基期处理</th><th>示例</th></tr></thead>
+<tbody>
+<tr><td>"十四五（2021～2025）时期年均增长量"</td><td><b>基期要推</b>（向前推一年）</td><td class="mono">(2025−2020)÷5</td></tr>
+<tr><td>"2021 年到 2025 年这五年年均增长量"</td><td><b>基期要推</b></td><td class="mono">(2025−2020)÷5</td></tr>
+<tr><td>图表有第一年（2020 年），问题从第二年（2021～2025）问起</td><td><b>基期要推</b></td><td class="mono">(2025−2020)÷5</td></tr>
+<tr><td>其他情况（图表与问题年份一致，无法直接推或推了无答案）</td><td><b>基期不推</b></td><td class="mono">(2025−2021)÷4</td></tr>
+</tbody>
+</table>
+</div></div><div class="qcard"><div class="qhead">精讲 · 年均增长量（基期要推）</div><p class="src">讲义例题 11 · 2025 江苏省考</p><p class="mtr">江苏省中医类医院实有床位：2019 年 59050 张、2020 年 59610 张、2021 年 57778 张、2022 年 59443 张、2023 年 60803 张。</p><p class="ask">问：2020～2023 年，江苏省中医类医院实有床位的年均增长量约是多少张：</p><div class="opt">A. 239</div><div class="opt">B. 298</div><div class="opt">C. 351</div><div class="opt">D. 438</div><div class="ansline"><span class="ans-tag">答案</span><b>D</b></div><div class="expline"><span class="exp-tag">解析</span><b>思路分析：</b><p class="st">① <span>判断基期：图表含 2019 年数据，问题从 2020 年起算 → 按讲义规则<b>基期要推</b>到 2019 年。</span></p><p class="st">② <span>年均增长量＝(60803−59050)÷(2023−2019)＝1753÷4≈<b>438 张</b>。</span></p></div><div class="warnbox"><b>易错警示：</b><br/>若用 (60803−59610)÷3≈398，无匹配选项——这正是"推了才有答案"的信号，反向验证基期应推到 2019。</div></div></section><section class="unit" id="zlu-7-4"><div class="unit-head"><h3>7.4 年均增长率（讲义 7.4）</h3><span class="chip">例题 2</span></div><div class="kbox"><div class="kl">◆ 讲义公式与记忆数字</div><div class="fx">(1＋r)ⁿ ＝ 末期 ÷ 基期　；r 极小时：末期 ÷ 基期 ≥ 1＋n·r</div>
+<p style="margin:6px 0"><b>需记住的数字（4 次方）：</b>1.05⁴≈1.216、1.1⁴≈1.46、1.15⁴≈1.75、1.2⁴≈2.07，中间数字可平均分段。</p>
+<p style="margin:6px 0;font-size:.9rem">结合考法：与间隔增长率结合考察（"两年平均增长"＝间隔增长率）；假设年均增速相同求后期。</p></div><div class="qcard"><div class="qhead">精讲 · 年均增长率计算</div><p class="src">讲义例题 18 · 2019 江西省考</p><p class="mtr">R&D 经费支出：2014 年 13016 亿元，2018 年 19657 亿元。</p><p class="ask">问：2014～2018 年 R&D 经费支出的年均增长率为：</p><div class="opt">A. 10.9%</div><div class="opt">B. 10.4%</div><div class="opt">C. 9.9%</div><div class="opt">D. 8.9%</div><div class="ansline"><span class="ans-tag">答案</span><b>A</b></div><div class="expline"><span class="exp-tag">解析</span><b>思路分析：</b><p class="st">① <span>末期÷基期＝19657÷13016≈1.510，n＝4 年。</span></p><p class="st">② <span>对照记忆数字：1.1⁴≈1.46＜1.510＜1.15⁴≈1.75 → r 在 10%～15% 之间，且更靠近 10%。</span></p><p class="st">③ <span>细分：1.105⁴≈1.49、1.11⁴≈1.518 → r≈<b>10.9%</b>。</span></p></div><div class="warnbox"><b>易错警示：</b><br/>用"记忆数字"先锁定区间再细分，避免开四次方；选项间距 0.5pp，需精确到小数点后一位。</div></div><div class="qcard"><div class="qhead">精讲 · 年均增长率与间隔结合（两年平均）</div><p class="src">讲义例题 22 · 2023 河南事业单位</p><p class="mtr">2021 年前三季度，苏州农村居民人均可支配收入同比增长 11.05%，两年平均增长 8.5%。</p><p class="ask">问：2020 年前三季度，苏州农村居民人均可支配收入同比增长约：</p><div class="opt">A. 5%</div><div class="opt">B. 6%</div><div class="opt">C. 8.5%</div><div class="opt">D. 11.05%</div><div class="ansline"><span class="ans-tag">答案</span><b>B</b></div><div class="expline"><span class="exp-tag">解析</span><b>思路分析：</b><p class="st">① <span>"两年平均增长 8.5%"＝2020、2021 两年复合：(1＋R₂₀)(1＋11.05%)＝(1＋8.5%)²。</span></p><p class="st">② <span>(1＋8.5%)²＝1.1772；1＋R₂₀＝1.1772÷1.1105≈1.0601。</span></p><p class="st">③ <span>R₂₀≈<b>6.0%</b> → 选 B。</span></p></div><div class="warnbox"><b>易错警示：</b><br/>"两年平均增速"不是两年增速的平均值，而是<b>复合增长率</b>（几何平均）；用乘法关系还原单年增速。</div></div><h4 class="h1">第七章答案速查</h4><div class="tbwrap"><table>
+<thead><tr><th>例题</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th><th>17</th><th>18</th><th>19</th><th>20</th><th>21</th><th>22</th><th>23</th><th>24</th><th>25</th></tr></thead>
+<tbody>
+<tr><td>答案</td><td class="mono">B</td><td class="mono">D</td><td class="mono">A</td><td class="mono">C</td><td class="mono">A</td><td class="mono">C</td><td class="mono">C</td><td class="mono">A</td><td class="mono">C</td><td class="mono">C</td><td class="mono">D</td><td class="mono">B</td><td class="mono">C</td><td class="mono">(C) C</td><td class="mono">C</td><td class="mono">C</td><td class="mono">B</td><td class="mono">A</td><td class="mono">D</td><td class="mono">C</td><td class="mono">A</td><td class="mono">B</td><td class="mono">A</td><td class="mono">C</td><td class="mono">A</td></tr>
+</tbody>
+</table></div><p style="font-size:.85rem;">例题 1–4 平均数；5–9 倍数（含基期倍数、翻番、增长率变倍数）；10–15 年均增长量；16–20 年均增长率；21–25 年均与间隔结合、假设年均增速求后期。例题 14 官方答案存在 C 的表述出入，以讲义参考答案标注为准。</p></section></div>
+<div class="module" id="zlmod-8"><div class="mod-banner"><h2>九大题型一览 · 高频易错 · 实战策略（手册大纲版）</h2><p>按《资料分析知识点串讲与运用学习手册》大纲补充：题型识别标志 → 核心方法 → 易错点，形成"读到关键词 → 条件反射式列式"的肌肉记忆。<b>注意：本章公式已统一转写为本手册讲义符号（A＝基期、B＝现期、X＝增长量、R＝增长率）</b>，与串讲手册原书"A＝现期、B＝基期"相反。</p></div><section class="unit" id="zlu-8-1"><div class="unit-head"><h3>8.1 九大题型识别标志与核心公式一览</h3></div><div class="tbwrap"><table>
+<thead><tr><th style="width:16%">题型</th><th style="width:26%">识别标志</th><th style="width:38%">核心公式 / 方法（讲义符号）</th><th>对应章节</th></tr></thead>
+<tbody>
+<tr><td><b>1 基期量</b>（必考 3–5 题）</td><td>"上年""去年同期"等时间词，材料给现期</td><td class="mono">A＝B/(1＋R)（截位直除）；A＝B−X（已知增量直接减）</td><td><a href="#zlmod-3">第三章</a></td></tr>
+<tr><td><b>2 增长量</b>（必考 2–4 题）</td><td>"增长了/净增"＋具体数值（无 %）</td><td class="mono">X＝B·R/(1＋R)（415 份数法）；X＝A·R（已知基期）；比较用"大大则大"</td><td><a href="#zlmod-3">第三章</a></td></tr>
+<tr><td><b>3 增长率</b>（必考 3–5 题）</td><td>"增长百分之几""增速""增幅"</td><td class="mono">R＝(B−A)/A＝X/A（分母永远是基期！）；比较时比 B/A 或 X/B</td><td><a href="#zlmod-3">第三章</a></td></tr>
+<tr><td><b>4 比重</b>（必考 3–5 题）</td><td>"占""比重""比例"</td><td class="mono">现期比重＝部分÷整体；基期比重＝现期比重×(1＋整体R)/(1＋部分R)；部分增速&gt;整体增速→比重上升</td><td><a href="#zlmod-4">第四章</a></td></tr>
+<tr><td><b>5 平均数</b>（必考 2–3 题）</td><td>"平均""每""人均""亩产"</td><td class="mono">平均数＝总量÷份数；平均数增长率＝(总量R−份数R)/(1＋份数R)</td><td><a href="#zlmod-7">第七章</a></td></tr>
+<tr><td><b>6 倍数</b>（必考 1–2 题）</td><td>"是……的几倍""比……多几倍"</td><td class="mono">是几倍＝甲÷乙；多几倍＝甲÷乙−1（差 1 是高频陷阱）</td><td><a href="#zlmod-7">第七章</a></td></tr>
+<tr><td><b>7 年均增长</b>（必考 1–2 题）</td><td>"年均增长""平均每年增长"</td><td class="mono">末期÷初期＝(1＋年均R)ⁿ；n 相同比末期÷初期即可</td><td><a href="#zlmod-7">第七章</a></td></tr>
+<tr><td><b>8 拉动与贡献率</b></td><td>"拉动……增长多少个百分点""贡献率"</td><td class="mono">拉动增长率＝部分增量÷整体基期；贡献率＝部分增量÷整体增量；拉动＝贡献率×整体增速</td><td><a href="#zlmod-1">第一章</a></td></tr>
+<tr><td><b>9 综合分析</b>（每篇压轴 4 题）</td><td>"正确/错误的是""能/不能推出"</td><td>先易后难，找到一个就收手；选"能推出"找第一个对的，选"不能推出"找第一个错的</td><td><a href="#zlmod-6">第六章</a></td></tr>
+</tbody>
+</table></div></section><section class="unit" id="zlu-8-2"><div class="unit-head"><h3>8.2 高频考点出题频率（单套 20 题 · 国考副省级）</h3></div><div class="tbwrap"><table>
+<thead><tr><th>考点</th><th>基期量</th><th>增长率</th><th>比重</th><th>综合分析</th><th>增长量</th><th>平均数</th><th>年均增长</th><th>倍数</th></tr></thead>
+<tbody><tr><td><b>题量（题/套）</b></td><td>4</td><td>4</td><td>4</td><td>4</td><td>3</td><td>2</td><td>2</td><td>2</td></tr></tbody>
+</table></div><p class="dim">题量为历年考频经验区间中值，用于指导复习优先级；综合分析 4 题来自每篇最后一题。</p></section><section class="unit" id="zlu-8-3"><div class="unit-head"><h3>8.3 易错点对照表（考前必背）</h3></div><div class="tbwrap"><table>
+<thead><tr><th style="width:22%">易错点</th><th style="width:44%">说明</th><th>避坑方法</th></tr></thead>
+<tbody>
+<tr><td>时间范围</td><td>"1—3 月" ≠ "3 月" ≠ "一季度"</td><td>划题干时间，逐一对照材料</td></tr>
+<tr><td>单位</td><td>万 / 亿 / 万吨 / 亿吨 / % / ‰</td><td>先看材料表头单位再计算</td></tr>
+<tr><td>增长量 vs 增长率</td><td>"增长 X" 与 "增长 X%" 是两码事</td><td>看有没有 %：有 % 是率，无 % 是量</td></tr>
+<tr><td>现期 vs 基期</td><td>"2023 年" 与 "2022 年" 数据混淆</td><td>划时间词，明确 A 与 B</td></tr>
+<tr><td>比重差 vs 增长率差</td><td>百分点 vs 百分比</td><td>比重差、增速差单位是百分点</td></tr>
+<tr><td>是几倍 vs 多几倍</td><td>差 1</td><td>"多几倍"＝"是几倍"−1</td></tr>
+<tr><td>顺差 vs 逆差</td><td>出口−进口 vs 进口−出口</td><td>顺差＝出口＞进口</td></tr>
+<tr><td>同比 vs 环比</td><td>与上年同期 vs 与上个月</td><td>同比看年，环比看月</td></tr>
+</tbody>
+</table></div><div class="mm"><div class="ml">◆ 自查口诀</div><div class="mn">时间先对齐，单位先统一；看"%"判率量，看"是/多"判倍数；比重差记百分点，同比环比分清月年。</div></div></section><section class="unit" id="zlu-8-4"><div class="unit-head"><h3>8.4 提速训练路径与考场策略</h3></div><h4 class="h1">① 四阶段训练路径</h4><div class="tbwrap"><table>
+<thead><tr><th>阶段</th><th>周期</th><th>训练内容</th><th>阶段目标</th></tr></thead>
+<tbody>
+<tr><td><b>1 方法掌握</b></td><td>1–2 周</td><td>每天学 1 个速算方法，配套 20 道专项题</td><td>三种速算方法熟练运用</td></tr>
+<tr><td><b>2 列式提速</b></td><td>1–2 周</td><td>每天 2 篇资料分析，重点练"先看选项再列式"</td><td>单篇 8 分钟内完成</td></tr>
+<tr><td><b>3 套题冲刺</b></td><td>2–3 周</td><td>每天 1 套完整资料分析（4 篇 20 题）计时</td><td>25 分钟内完成，正确率 90%+</td></tr>
+<tr><td><b>4 综合实战</b></td><td>持续</td><td>隔天 1 套完整行测，资料分析模块单独计时</td><td>稳定 25–30 分钟、保持正确率</td></tr>
+</tbody>
+</table></div><h4 class="h1">② 考场时间分配（全卷）</h4><div class="tbwrap"><table>
+<thead><tr><th>板块</th><th>题量</th><th>建议用时</th><th>策略</th></tr></thead>
+<tbody>
+<tr><td>常识判断</td><td>20 题</td><td>8 分钟</td><td>会就选，不会就蒙，单题 ≤ 30 秒</td></tr>
+<tr><td><b>资料分析</b></td><td>20 题</td><td>28 分钟</td><td><b>最先做、重点做，分值密度最高</b></td></tr>
+<tr><td>判断推理</td><td>40 题</td><td>35 分钟</td><td>图形 / 定义 / 类比 / 逻辑顺序做</td></tr>
+<tr><td>言语理解</td><td>40 题</td><td>35 分钟</td><td>中心理解与逻辑填空交替</td></tr>
+<tr><td>数量关系</td><td>15 题</td><td>剩余时间</td><td>挑 5–7 道会做的，其余统一蒙</td></tr>
+</tbody>
+</table></div><h4 class="h1">③ 每篇 6–7 分钟的节奏感</h4><div class="tbwrap"><table>
+<thead><tr><th style="width:30%">阶段</th><th>节奏</th></tr></thead>
+<tbody>
+<tr><td><b>前 4 题</b>（单题 40–60 秒）</td><td>基期、增长量、增长率、比重等基础计算题：标要素 → 套公式 → 速算，40 秒内必须出答案，超时先标记跳过</td></tr>
+<tr><td><b>第 5 题</b>（综合分析 2–3 分钟）</td><td>先读 4 个选项判断计算量，从最省的开始验证，找到答案立即收手；2 分钟没找到就按经验蒙 B/C 并标记</td></tr>
+</tbody>
+</table></div><div class="mm"><div class="ml">◆ 考场铁律</div><div class="mn">资料分析先做且做对；数量关系放最后；涂卡分两次（做完资料涂一次，做完言语判断涂一次），避免最后来不及。提速核心习惯：拿到题先看选项再列式（决定截位位数）；每题只列一个式子，绝不回头重算；口算为主、笔算为辅。</div></div></section></div>
+<div class="module" id="zlmod-9"><div class="mod-banner"><h2>附录：常用小数 · 公式总表 · 口诀卡</h2><p>三个考前速览工具：常用小数速查表、七章公式总表、速记口诀卡，配合"速算方法选择决策树"完成全书闭环。</p></div><section class="unit" id="zlu-9-1"><div class="unit-head"><h3>附录 A　讲义例题分布与常用小数</h3></div>
+<div class="figbox"><div class="bars">
+<div class="bar-row"><span class="bn">第一章 · 概述与 ABRX</span><span class="bt"><span class="bf" style="width:6.7%"></span></span><span class="bv">1</span></div>
+<div class="bar-row"><span class="bn">第二章 · 速算技巧</span><span class="bt"><span class="bf" style="width:46.7%"></span></span><span class="bv">7</span></div>
+<div class="bar-row"><span class="bn">第三章 · ABRX 类</span><span class="bt"><span class="bf" style="width:100%"></span></span><span class="bv">15</span></div>
+<div class="bar-row"><span class="bn">第四章 · 比重类</span><span class="bt"><span class="bf" style="width:53.3%"></span></span><span class="bv">8</span></div>
+<div class="bar-row"><span class="bn">第五章 · 盐水类</span><span class="bt"><span class="bf" style="width:26.7%"></span></span><span class="bv">4</span></div>
+<div class="bar-row"><span class="bn">第六章 · 比较类</span><span class="bt"><span class="bf" style="width:40%"></span></span><span class="bv">6</span></div>
+<div class="bar-row"><span class="bn">第七章 · 平均倍数类</span><span class="bt"><span class="bf" style="width:33.3%"></span></span><span class="bv">5</span></div>
+</div><div class="figcap">图 A-1　本手册各章精讲例题题量分布（共 46 道，均选自讲义收录历年真题）</div></div><div class="tbwrap"><table>
+<thead><tr><th>分数</th><th>小数</th><th>百分比</th><th>分数</th><th>小数</th><th>百分比</th></tr></thead>
+<tbody>
+<tr><td class="mono">1/2</td><td class="mono">0.5</td><td class="mono">50%</td><td class="mono">1/9</td><td class="mono">0.111</td><td class="mono">≈11.1%</td></tr>
+<tr><td class="mono">1/3</td><td class="mono">0.333</td><td class="mono">≈33.3%</td><td class="mono">1/10</td><td class="mono">0.1</td><td class="mono">10%</td></tr>
+<tr><td class="mono">1/4</td><td class="mono">0.25</td><td class="mono">25%</td><td class="mono">1/11</td><td class="mono">0.091</td><td class="mono">≈9.1%</td></tr>
+<tr><td class="mono">1/5</td><td class="mono">0.2</td><td class="mono">20%</td><td class="mono">1/12</td><td class="mono">0.083</td><td class="mono">≈8.3%</td></tr>
+<tr><td class="mono">1/6</td><td class="mono">0.167</td><td class="mono">≈16.7%</td><td class="mono">1/13</td><td class="mono">0.077</td><td class="mono">≈7.7%</td></tr>
+<tr><td class="mono">1/7</td><td class="mono">0.143</td><td class="mono">≈14.3%</td><td class="mono">1/14</td><td class="mono">0.071</td><td class="mono">≈7.1%</td></tr>
+<tr><td class="mono">1/8</td><td class="mono">0.125</td><td class="mono">12.5%</td><td class="mono">1/15</td><td class="mono">0.067</td><td class="mono">≈6.7%</td></tr>
+</tbody>
+</table></div>
+<div class="figbox"><div class="tbwrap"><table>
+<thead><tr><th style="width:20%">所求</th><th style="width:26%">已知条件</th><th>速算 / 方法选择</th></tr></thead>
+<tbody>
+<tr><td rowspan="4"><b>求基期 A</b></td><td>现期 B、增长率 R</td><td class="mono">|R|≤10% → 化除为乘；R 为整分数 → 415 份数；R∈0%~25% → 假设分配；其他 → 拆分 / 直除</td></tr>
+<tr><td>现期 B、增长量 X</td><td class="mono">A＝B−X（直接减）</td></tr>
+<tr><td>增长量 X、增长率 R</td><td class="mono">A＝X÷R</td></tr>
+<tr><td>间隔增长（隔两年）</td><td class="mono">先合成间隔 R₁＋R₂＋R₁R₂，再 A＝B÷(1＋间隔R)</td></tr>
+<tr><td><b>求现期 B</b></td><td>基期 A、增长率 R</td><td class="mono">B＝A×(1＋R)；求后期 → 列不等式逐年推</td></tr>
+<tr><td rowspan="2"><b>求增长量 X</b></td><td>现期 B、增长率 R</td><td class="mono">415 份数 / 化除为乘 / 假设分配</td></tr>
+<tr><td>基期 A、现期 B</td><td class="mono">X＝B−A（直接减）</td></tr>
+<tr><td rowspan="4"><b>求增长率 R</b></td><td>间隔增长</td><td class="mono">R₁＋R₂＋R₁R₂</td></tr>
+<tr><td>比值型（A＝B÷C）</td><td class="mono">(R₁−R₂)÷(1＋R₂)</td></tr>
+<tr><td>乘积型（A＝B×C）</td><td class="mono">R₁＋R₂＋R₁R₂</td></tr>
+<tr><td>混合（盐水）</td><td class="mono">十字交叉 / 线段法</td></tr>
+<tr><td rowspan="2"><b>其他类型</b></td><td>比重</td><td class="mono">基期修正 / 比重趋势 / 比重差</td></tr>
+<tr><td>比较</td><td class="mono">大大则大 / 替代比较</td></tr>
+</tbody>
+</table></div><div class="figcap">图 A-2　速算方法选择决策树（讲义体系）</div></div></section><section class="unit" id="zlu-9-2"><div class="unit-head"><h3>附录 B　七章核心公式总表</h3></div><div class="tbwrap"><table>
+<thead><tr><th>模块</th><th>公式</th></tr></thead>
+<tbody>
+<tr><td rowspan="4"><b>ABRX<br/>（A基期 B现期 X增长量 R增长率）</b></td><td class="mono">X＝B−A；R＝(B−A)÷A＝B/A−1</td></tr>
+<tr><td class="mono">B＝A(1＋R)＝A＋A·R；X＝A·R</td></tr>
+<tr><td class="mono">A＝B÷(1＋R)；X＝B·R÷(1＋R)</td></tr>
+<tr><td class="mono">A＝X÷R；R＝X÷(B−X)</td></tr>
+<tr><td rowspan="3"><b>速算</b></td><td class="mono">化除为乘（|r|≤10%）：基期≈B×[1∓(r−r²)]；增量≈B×(r−r²)</td></tr>
+<tr><td class="mono">415 份数：R＝1/n → 基期 n 份、增量 1 份、现期 n+1 份</td></tr>
+<tr><td class="mono">拆分法 / 等比放缩：分子分母同倍缩放，比值不变</td></tr>
+<tr><td rowspan="3"><b>比重</b></td><td class="mono">基期比重＝现期比重×(1＋整体R)÷(1＋部分R)</td></tr>
+<tr><td class="mono">隔级比重＝小/中 × 中/大</td></tr>
+<tr><td class="mono">比重差＝(基期部分÷现期整体)×(部分R−整体R)；|比重差|＜|增速差|</td></tr>
+<tr><td rowspan="2"><b>盐水</b></td><td class="mono">十字交叉：A÷B＝(r−b)÷(a−r)</td></tr>
+<tr><td class="mono">整体浓度介于两部分之间，且靠近量（基期）大的一方</td></tr>
+<tr><td rowspan="2"><b>比较</b></td><td class="mono">趋势法：分子增速＞分母增速 → 分数变大</td></tr>
+<tr><td class="mono">增量比较：B、R 同向大 → X 大；一大一小看倍数</td></tr>
+<tr><td rowspan="3"><b>平均倍数</b></td><td class="mono">平均数＝总量÷份数（均前每后做分母）</td></tr>
+<tr><td class="mono">年均增长量＝(末期−基期)÷n（注意基期是否前推）</td></tr>
+<tr><td class="mono">年均增长率：(1＋r)ⁿ＝末期÷基期；记忆 1.05⁴≈1.216、1.1⁴≈1.46、1.15⁴≈1.75、1.2⁴≈2.07</td></tr>
+</tbody>
+</table></div></section><section class="unit" id="zlu-9-3"><div class="unit-head"><h3>附录 C　速记口诀卡</h3></div><div class="mm-grid"><div class="mm"><div class="ml">◆ ABRX</div><div class="mn">基期 A 现期 B，增量 X 率 R<br/>与谁相比谁基期<br/>现期除一加率得基期</div></div><div class="mm"><div class="ml">◆ 速算四宝</div><div class="mn">小分互换乘化除<br/>乘法拆分用 1%<br/>化除为乘限一成<br/>415 份数记分数</div></div><div class="mm"><div class="ml">◆ 间隔与比值乘积</div><div class="mn">间隔乘积同一个：R₁＋R₂＋R₁R₂<br/>比值增长率：(R₁−R₂)÷(1＋R₂)<br/>有占比想乘积</div></div><div class="mm"><div class="ml">◆ 比重</div><div class="mn">基期比重乘修正<br/>分子整体分母部分<br/>比重差看增速差<br/>秒杀：变化小于增速差</div></div><div class="mm"><div class="ml">◆ 盐水</div><div class="mn">求人数想盐水<br/>整体浓度夹中间<br/>靠近量大的一边<br/>十字交叉求量比</div></div><div class="mm"><div class="ml">◆ 比较</div><div class="mn">分子快分数大（趋势法）<br/>大大则大判增量<br/>一大一小看倍数<br/>年均比末期除基期</div></div><div class="mm"><div class="ml">◆ 年均增长量</div><div class="mn">十四五推、这五年推<br/>图表有前一年也推<br/>推了无答案就不推</div></div><div class="mm"><div class="ml">◆ 避坑三查</div><div class="mn">一查时间（基期现期/同比环比）<br/>二查单位（万/亿/‰/吨公里）<br/>三查口径（名义实际、是几倍多几倍）</div></div></div></section><section class="unit" id="zlu-9-4"><div class="unit-head"><h3>附录 D · 内容说明与学习建议</h3></div>
+<p><b>内容说明：</b>本手册严格依据《行测资料分析理论讲义》的七章体系、知识点与公式整理，知识点与公式均以讲义为准（包括 A＝基期、B＝现期的符号约定）；精选精讲例题均选自讲义收录的历年真题，答案与讲义参考答案一致；速算练习答案来自讲义参考答案册。</p>
+<p><b>学习建议：</b>第一遍通读建立框架 → 第二遍按章精读并动手重算精讲例题 → 考前用附录 A、B、C 快速唤醒记忆，配合讲义与 600 题练习巩固。</p>
+</section></div>
+<p class="dim" style="text-align:center;margin:30px 0 4px">Generated by Trae Work · 2026 · 内容依据《行测资料分析理论讲义》</p>
+</main>
+</div>
+<button class="backtop" id="backtop" title="回到顶部">↑</button>
+<script>
+(function(){
+  var q=document.getElementById('q'),hit=document.getElementById('hitcount');
+  var units=Array.prototype.slice.call(document.querySelectorAll('.unit'));
+  function clearShl(root){
+    root.querySelectorAll('mark.shl').forEach(function(m){
+      var t=document.createTextNode(m.textContent);
+      m.parentNode.replaceChild(t,m);
+    });
+  }
+  function shl(root,word){
+    if(!word)return;
+    var walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{
+      acceptNode:function(n){
+        if(!n.nodeValue||n.nodeValue.indexOf(word)===-1)return NodeFilter.FILTER_REJECT;
+        var p=n.parentNode;
+        if(!p||/^(SCRIPT|STYLE|MARK)$/.test(p.tagName))return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    });
+    var nodes=[],n;
+    while(n=walker.nextNode())nodes.push(n);
+    nodes.forEach(function(node){
+      var idx=node.nodeValue.indexOf(word);
+      var after=node.splitText(idx);
+      after.splitText(word.length);
+      var m=document.createElement('mark');
+      m.className='shl';m.textContent=after.textContent;
+      after.parentNode.replaceChild(m,after);
+    });
+  }
+  function doSearch(word){
+    word=(word||'').trim();
+    document.querySelectorAll('.unit,.module').forEach(function(c){clearShl(c);c.classList.remove('hidden');});
+    if(!word){hit.textContent='';return;}
+    var n=0,first=null;
+    units.forEach(function(c){
+      if(c.textContent.indexOf(word)>-1){shl(c,word);n++;if(!first)first=c;}
+      else{c.classList.add('hidden');}
+    });
+    hit.textContent='命中 '+n+' 个考点单元';
+    if(first){first.scrollIntoView({behavior:'smooth',block:'start'});}
+  }
+  q.addEventListener('keydown',function(e){if(e.key==='Enter')doSearch(q.value);});
+  q.addEventListener('input',function(){if(!q.value.trim())doSearch('');});
+  // 隐藏答案
+  var hidden=false;
+  document.getElementById('hideans').addEventListener('click',function(){
+    hidden=!hidden;
+    document.querySelectorAll('.ansline,.expline').forEach(function(b){b.style.display=hidden?'none':'';});
+    this.textContent=hidden?'显示答案解析':'隐藏答案解析';
+    this.classList.toggle('on',hidden);
+  });
+  // 收起卡片
+  var collapsed=false;
+  document.getElementById('closeall').addEventListener('click',function(){
+    collapsed=!collapsed;
+    document.querySelectorAll('.unit').forEach(function(u){
+      Array.prototype.forEach.call(u.children,function(ch){
+        if(!ch.classList.contains('unit-head')&&!ch.classList.contains('unit-desc'))ch.style.display=collapsed?'none':'';
+      });
+    });
+    this.textContent=collapsed?'展开卡片':'收起卡片';
+  });
+  var bt=document.getElementById('backtop');
+  window.addEventListener('scroll',function(){bt.classList.toggle('show',window.scrollY>500);});
+  bt.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});
+  window.addEventListener('message',function(e){
+    var d=e.data||{};
+    if(d.type==='ws-search'&&d.q){q.value=d.q;doSearch(d.q);}
+  });
+  /* ===== 增强：关键词多处命中，可选择跳转（2026-09 注入） ===== */
+  function _wsEsc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':"&amp;",'<':"&lt;",'>':"&gt;",'"':"&quot;","'":"&#39;"}[c];}); }
+  function _wsLabel(card){
+    var t='';
+    if(card.getAttribute&&card.getAttribute('data-title')){ t=card.getAttribute('data-title'); }
+    if(!t){ var h=card.querySelector('.unit-head h2,.unit-head,.kp-head h3,h2,h3,h4'); if(h&&h.textContent){ t=h.textContent; } }
+    if(!t){ t=card.id?card.id:'定位'; }
+    return t.replace(/\s+/g,' ').trim().slice(0,26);
+  }
+  function _wsClose(){ var p=document.getElementById('_wsPanel'); if(p&&p.parentNode){ p.parentNode.removeChild(p); } }
+  function _wsGo(o){
+    var h=document.documentElement,b=document.body,hs=h?h.style.scrollBehavior:'',bs=b?b.style.scrollBehavior:'';
+    if(h){ h.style.scrollBehavior='auto'; } if(b){ b.style.scrollBehavior='auto'; }
+    try{ o.mk.scrollIntoView({block:'center'}); }catch(e1){ try{ o.mk.scrollIntoView(); }catch(e2){} }
+    if(h){ h.style.scrollBehavior=hs; } if(b){ b.style.scrollBehavior=bs; }
+    o.mk.classList.add('_cur');
+    setTimeout(function(){ o.mk.classList.remove('_cur'); },1900);
+  }
+  function doSearch(word){
+    word=(word||'').trim();
+    var st=document.getElementById('_wsStyle');
+    if(!st){
+      st=document.createElement('style'); st.id='_wsStyle';
+      st.textContent='#_wsPanel{position:fixed;right:14px;top:70px;width:320px;max-width:88vw;z-index:9999;background:#fff;border:1px solid #dce3f0;border-radius:14px;box-shadow:0 16px 44px -14px rgba(15,23,42,.4);overflow:hidden;font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;font-size:12.5px;color:#0f172a}#_wsPanel ._hd{display:flex;align-items:center;gap:5px;padding:10px 12px;background:#f4f7fd;border-bottom:1px solid #e9eef7;font-weight:700;font-size:13px}#_wsPanel ._hd em{color:#2563eb;font-style:normal;margin:0 2px}#_wsPanel ._x{margin-left:auto;border:0;background:rgba(100,116,139,.14);width:21px;height:21px;line-height:1;border-radius:50%;cursor:pointer;color:#475569;font-size:12px}#_wsPanel ._lst{max-height:320px;overflow:auto}#_wsPanel ._it{display:flex;gap:9px;padding:9px 12px;cursor:pointer;border-bottom:1px solid #f2f5fb;align-items:flex-start}#_wsPanel ._it:last-child{border-bottom:0}#_wsPanel ._it:hover{background:#f2f6ff}#_wsPanel ._no{flex:none;width:20px;height:20px;border-radius:50%;background:#e5eeff;color:#2563eb;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;margin-top:1px}#_wsPanel ._tt{font-weight:600;color:#1e293b}#_wsPanel ._tc{color:#64748b;font-size:11.5px;margin-top:2px;line-height:1.55;word-break:break-all;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}#_wsPanel ._tc mark{background:transparent;color:#dc2626;font-weight:700}mark.shl{background:#ffe066;border-radius:2px}mark.shl._cur{outline:2px solid #f59e0b;outline-offset:1px;animation:_wsb 1.8s ease-out 1}@keyframes _wsb{0%{box-shadow:0 0 0 0 rgba(245,158,11,.55)}70%{box-shadow:0 0 0 13px rgba(245,158,11,0)}100%{box-shadow:0 0 0 0 rgba(245,158,11,0)}}';
+      document.head.appendChild(st);
+    }
+    _wsClose();
+    var marks=document.querySelectorAll('mark.shl');
+    for(var i=0;i<marks.length;i++){ var tt=document.createTextNode(marks[i].textContent); marks[i].parentNode.replaceChild(tt,marks[i]); }
+    var cards=document.querySelectorAll('.kp,.unit');
+    for(var c0=0;c0<cards.length;c0++){ cards[c0].classList.remove('hidden'); }
+    if(!word){ if(hit){ hit.textContent=''; } return; }
+    var occs=[], hitCards=0, LIM=120;
+    for(var k=0;k<cards.length;k++){
+      var card=cards[k];
+      if(occs.length>=LIM){ if(card.textContent.indexOf(word)===-1){ card.classList.add('hidden'); } continue; }
+      if(card.textContent.indexOf(word)===-1){ card.classList.add('hidden'); continue; }
+      hitCards++;
+      var label=_wsLabel(card);
+      var walker=document.createTreeWalker(card,NodeFilter.SHOW_TEXT,{acceptNode:function(n){
+        if(!n.nodeValue||n.nodeValue.indexOf(word)===-1){ return NodeFilter.FILTER_REJECT; }
+        var p=n.parentNode;
+        if(!p||/^(SCRIPT|STYLE|MARK)$/.test(p.tagName)){ return NodeFilter.FILTER_REJECT; }
+        return NodeFilter.FILTER_ACCEPT;
+      }});
+      var tn, tns=[], guard=0;
+      while(tn=walker.nextNode()){ tns.push(tn); if(++guard>=600){ break; } }
+      for(var m=0;m<tns.length&&occs.length<LIM;m++){
+        var txt=tns[m].nodeValue, idxs=[], sp=0, fi, g2=0;
+        while((fi=txt.indexOf(word,sp))!==-1){ idxs.push(fi); sp=fi+word.length; if(++g2>=50){ break; } }
+        for(var s=idxs.length-1;s>=0&&occs.length<LIM;s--){
+          var at=idxs[s];
+          var after=tns[m].splitText(at);
+          after.splitText(word.length);
+          var mk=document.createElement('mark');
+          mk.className='shl'; mk.textContent=after.textContent;
+          after.parentNode.replaceChild(mk,after);
+          occs.push({mk:mk,label:label,a:txt.slice(Math.max(0,at-10),at).replace(/\s+/g,' '),b:txt.slice(at+word.length,at+word.length+14).replace(/\s+/g,' ')});
+        }
+      }
+    }
+    if(!occs.length){ if(hit){ hit.textContent='未命中「'+word+'」'; } return; }
+    if(hit){ hit.textContent='命中 '+occs.length+' 处 · 分布于 '+hitCards+' 个位置'; }
+    if(occs.length===1){ _wsGo(occs[0]); return; }
+    var panel=document.createElement('div'); panel.id='_wsPanel';
+    var rows='';
+    for(var r=0;r<occs.length;r++){
+      rows+='<div class="_it" data-r="'+r+'"><span class="_no">'+(r+1)+'</span><div style="min-width:0"><div class="_tt">'+_wsEsc(occs[r].label)+'</div><div class="_tc">'+_wsEsc(occs[r].a)+'<mark>'+_wsEsc(word)+'</mark>'+_wsEsc(occs[r].b)+'</div></div></div>';
+    }
+    panel.innerHTML='<div class="_hd">「'+_wsEsc(word)+'」命中 <em>'+occs.length+'</em> 处，点击定位<button class="_x" title="关闭">✕</button></div><div class="_lst">'+rows+'</div>';
+    document.body.appendChild(panel);
+    panel.querySelector('._x').addEventListener('click',_wsClose);
+    Array.prototype.forEach.call(panel.querySelectorAll('._it'),function(row){
+      row.addEventListener('click',function(){ _wsGo(occs[parseInt(row.getAttribute('data-r'),10)]); _wsClose(); });
+    });
+  }
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape'){ _wsClose(); } });
+  /* 父壳直达：携带 {q, id} 时定位到具体知识点/单元 */
+  window.addEventListener('message',function(e){
+    var d=e.data||{};
+    var qq=(d.q||'').trim();
+    if(d.type==='ws-search'&&qq&&d.id){
+      q.value=qq; doSearch(qq);
+      var el=document.getElementById(d.id);
+      if(el){
+        _wsClose();
+        var hz=document.documentElement,bz=document.body;
+        var hzs=hz?hz.style.scrollBehavior:'',bzs=bz?bz.style.scrollBehavior:'';
+        if(hz){hz.style.scrollBehavior='auto';} if(bz){bz.style.scrollBehavior='auto';}
+        try{ el.scrollIntoView({block:'start'}); }catch(e1){ try{ el.scrollIntoView(); }catch(e2){} }
+        if(hz){hz.style.scrollBehavior=hzs;} if(bz){bz.style.scrollBehavior=bzs;}
+        try{
+          var mks=el.querySelectorAll('mark.shl');
+          if(mks.length){ mks[0].classList.add('_cur'); setTimeout(function(){ mks[0].classList.remove('_cur'); },1900); }
+        }catch(e3){}
+      }
+    }
+  });
+})();
+</script>
+</body>
+</html>
+
+</body>
+</html>
