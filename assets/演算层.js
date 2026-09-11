@@ -22,12 +22,8 @@
   var PALETTE_NAME = ['黑', '红', '蓝', '绿', '橙'];
   var FONT = '"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans CJK SC",sans-serif';
 
-  /* ---------- 载入存档（容错，任何异常都不影响页面） ---------- */
+  /* ---------- 存档读取放在 boot 里（不拖慢标识出现） ---------- */
   var saved = null;
-  try {
-    var raw = localStorage.getItem(KEY);
-    if (raw) saved = JSON.parse(raw);
-  } catch (e) { saved = null; }
 
   /* ---------- 构建隔离的 UI（Shadow DOM，不污染板块页样式） ---------- */
   var host = document.createElement('div');
@@ -575,32 +571,47 @@
     if (e.persisted) { resize(); renderAll(); }
   });
 
-  /* ---------- 启动 ---------- */
-  if (saved) {
+  /* ---------- 启动 ----------
+     分两段：先让标识立刻出现在屏幕上；画布尺寸、存档、首帧渲染放到下一帧，
+     这样即便板块页有好几 MB，标识也不会被解析和绘制拖住。                    */
+  var booted = false;
+  function boot() {
+    if (booted) return;
+    booted = true;
     try {
-      if (saved.pc) state.pen.c = saved.pc;
-      if (saved.qc) state.pencil.c = saved.qc;
-      if (saved.pw) state.pen.w = saved.pw;
-      if (saved.qw) state.pencil.w = saved.qw;
-      if (saved.ew) state.eraser.w = saved.ew;
-      strokes = (saved.s || []).map(function (x) {
-        var s = { t: x.t, c: x.c, w: x.w, p: Float32Array.from(x.p), bb: null };
-        computeBB(s);
-        return s;
-      });
-    } catch (e) { strokes = []; }
+      var raw = localStorage.getItem(KEY);
+      if (raw) saved = JSON.parse(raw);
+    } catch (e) { saved = null; }
+    if (saved) {
+      try {
+        if (saved.pc) state.pen.c = saved.pc;
+        if (saved.qc) state.pencil.c = saved.qc;
+        if (saved.pw) state.pen.w = saved.pw;
+        if (saved.qw) state.pencil.w = saved.qw;
+        if (saved.ew) state.eraser.w = saved.ew;
+        strokes = (saved.s || []).map(function (x) {
+          var s = { t: x.t, c: x.c, w: x.w, p: Float32Array.from(x.p), bb: null };
+          computeBB(s);
+          return s;
+        });
+      } catch (e) { strokes = []; }
+    }
+    readScroll();
+    resize();
+    syncColors();
+    syncUI();
+    renderAll();
   }
-  readScroll();
-  resize();
-  syncColors();
-  syncUI();
-  renderAll();
-
-  /* 便于外部（含自动化自检）确认状态 */
   window.__xzScratch = {
     count: function () { return strokes.length; },
     mode: function () { return mode; },
+    ready: function () { return booted; },
     setMode: setMode,
     clear: function () { strokes = []; undoStack = []; redoStack = []; renderAll(); syncUI(); saveNow(); }
   };
+
+  syncColors();
+  syncUI();                                   // 标识先亮出来
+  if (window.requestAnimationFrame) requestAnimationFrame(boot);
+  else setTimeout(boot, 0);
 })();
