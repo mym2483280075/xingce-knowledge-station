@@ -3,6 +3,7 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
+<link rel="icon" href="data:,">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
@@ -269,8 +270,9 @@ var crumbTitle = document.getElementById('crumbTitle');
 var crumbEn = document.getElementById('crumbEn');
 var curId = null;
 var pendingQuery = null;
-/* 每次打开页面生成一个版本号，附加在 iframe 地址后，避免浏览器沿用旧的板块页面缓存 */
-var CACHE_V = 'v' + Date.now();
+/* 板块页版本号：只在“本次部署有内容更新”时改这里，平时让浏览器直接用缓存（走 ETag 校验），
+   不再用 Date.now()，否则每次切换板块都要重新下载整份 HTML（最大 1.2MB）。 */
+var CACHE_V = 'v20260911e';
 
 frame.addEventListener('load', function(){
   if(pendingQuery != null){
@@ -481,7 +483,17 @@ document.getElementById('menuBtn').addEventListener('click', function(){
 });
 
 /* ================= 初始化 ================= */
-initGlobalSearch();
+/* ================= 启动 ================= */
+/* 检索索引 561KB：不做后台预热，只在用户点/输入搜索框时加载，
+   首屏带宽全部留给板块内容；索引未就绪时回车仍可用关键词兜底路由。 */
+var wsWarmed = false;
+function warmIndex(){
+  if(wsWarmed) return;
+  wsWarmed = true;
+  initGlobalSearch();
+}
+globalQ.addEventListener('focus', warmIndex);
+globalQ.addEventListener('input', warmIndex);
 openSection('cs', null);
 </script>
 </body>

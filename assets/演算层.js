@@ -16,14 +16,12 @@
   window.__xzScratchLoaded = true;
 
   var DPR = Math.min(window.devicePixelRatio || 1, 2);
-  var MAX_STROKES = 4000, MAX_PTS = 12000, PT_MIN = 0.35;
-  var KEY = 'xz-scratch:v1:' + location.pathname;
+  var MAX_PTS = 12000, PT_MIN = 0.35;
   var PALETTE = ['#111827', '#dc2626', '#2563eb', '#16a34a', '#f59e0b'];
   var PALETTE_NAME = ['黑', '红', '蓝', '绿', '橙'];
   var FONT = '"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans CJK SC",sans-serif';
 
-  /* ---------- 存档读取放在 boot 里（不拖慢标识出现） ---------- */
-  var saved = null;
+  /* 本层不落盘：所有笔迹只存在于当前页面内存中，退出演算即清空 */
 
   /* ---------- 构建隔离的 UI（Shadow DOM，不污染板块页样式） ---------- */
   var host = document.createElement('div');
@@ -58,6 +56,10 @@
     '.sw{width:22px;height:22px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px rgba(15,23,42,.16);cursor:pointer;padding:0;flex:none}' +
     '.sw.on{box-shadow:0 0 0 2px #1d6fb8}' +
     '.hint{color:#94a3b8;font-size:11.5px;padding-left:2px}' +
+    '.toast{position:absolute;left:50%;bottom:66px;transform:translateX(-50%);background:rgba(15,23,42,.86);color:#fff;' +
+    'font:400 12.5px/1 ' + FONT + ';padding:8px 14px;border-radius:999px;opacity:0;transition:opacity .22s;' +
+    'pointer-events:none;white-space:nowrap}' +
+    '.toast.on{opacity:1}' +
     '</style>' +
     '<canvas id="cv"></canvas>' +
     '<div class="bar" id="bar">' +
@@ -74,15 +76,24 @@
       '</div>' +
       '<button type="button" id="clear" class="warn">清空</button>' +
       '<button type="button" id="hidenote">收起</button>' +
-      '<span class="hint">滚轮翻页 · 收起后正常点选题目</span>' +
+      '<span class="hint">滚轮翻页 · 退出即清空（不保存）</span>' +
     '</div>' +
-    '<button type="button" class="fab" id="fab">演算</button>';
+    '<button type="button" class="fab" id="fab">演算</button>' +
+    '<div class="toast" id="toast"></div>';
   (document.documentElement || document.body).appendChild(host);
 
   var cv = root.getElementById('cv'), ctx = cv.getContext('2d', { alpha: true });
   var bar = root.getElementById('bar'), fab = root.getElementById('fab');
   var toolsBox = root.getElementById('tools'), colorsBox = root.getElementById('colors');
   var undoBtn = root.getElementById('undo'), redoBtn = root.getElementById('redo');
+  var toastEl = root.getElementById('toast');
+  var toastTimer = 0;
+  function toastMsg(msg) {
+    toastEl.textContent = msg;
+    toastEl.classList.add('on');
+    if (toastTimer) clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { toastEl.classList.remove('on'); }, 1800);
+  }
 
   /* ---------- 状态 ---------- */
   var W = 0, H = 0, scrollY = 0;
@@ -92,7 +103,7 @@
   var strokes = [], undoStack = [], redoStack = [];
   var live = null, drawing = false, lastPr = 1;
   var markIdx = 1, prevDirty = null, rafLive = 0, rafDraw = 0;
-  var selected = null, drag = null, rectCache = null, saveTimer = 0, resizeTimer = 0;
+  var selected = null, drag = null, rectCache = null, resizeTimer = 0;
 
   /* ---------- 尺寸与坐标 ---------- */
   function readScroll() {
@@ -356,7 +367,7 @@
       redoStack.length = 0;
     }
     live = null; drawing = false; prevDirty = null;
-    syncUI(); scheduleSave();
+    syncUI();
   }
   function onUp() {
     if (drag) {
@@ -364,7 +375,7 @@
       if (d.moved) {
         undoStack.push({ t: 'move', s: d.s, prev: d.prev, next: d.s.p.slice() });
         redoStack.length = 0;
-        syncUI(); scheduleSave();
+        syncUI();
       }
       return;
     }
@@ -410,7 +421,7 @@
     }
     redoStack.push(op);
     selected = null;
-    renderAll(); syncUI(); scheduleSave();
+    renderAll(); syncUI();
   }
   function doRedo() {
     var op = redoStack.pop();
@@ -424,26 +435,7 @@
     }
     undoStack.push(op);
     selected = null;
-    renderAll(); syncUI(); scheduleSave();
-  }
-
-  /* ---------- 存档（矢量 JSON，非位图） ---------- */
-  function scheduleSave() {
-    if (saveTimer) clearTimeout(saveTimer);
-    saveTimer = setTimeout(saveNow, 900);
-  }
-  function saveNow() {
-    saveTimer = 0;
-    try {
-      localStorage.setItem(KEY, JSON.stringify({
-        v: 1, pc: state.pen.c, qc: state.pencil.c, pw: state.pen.w, qw: state.pencil.w, ew: state.eraser.w,
-        s: strokes.map(function (s) {
-          var arr = new Array(s.p.length);
-          for (var i = 0; i < s.p.length; i++) arr[i] = Math.round(s.p[i] * 10) / 10;
-          return { t: s.t, c: s.c, w: Math.round(s.w * 10) / 10, p: arr };
-        })
-      }));
-    } catch (e) { /* 存储满或无权限时静默跳过 */ }
+    renderAll(); syncUI();
   }
 
   /* ---------- UI 同步 ---------- */
@@ -454,14 +446,25 @@
     redoBtn.disabled = !redoStack.length;
   }
   function setMode(on) {
+    var wasOn = mode;
     mode = !!on;
     if (!mode && drawing) endStroke();
-    if (!mode) selected = null;
+    if (!mode) {
+      selected = null;
+      drag = null;
+      /* 退出即清空：笔迹不保存、不保留 */
+      if (wasOn && strokes.length) {
+        strokes = [];
+        undoStack.length = 0;
+        redoStack.length = 0;
+        toastMsg('已清空本页演算（不保存）');
+      }
+    }
     cv.classList.toggle('on', mode);
     cv.classList.toggle('pick', mode && tool === 'pick');
     bar.classList.toggle('show', mode);
     syncUI();
-    if (mode) renderAll();
+    renderAll();
   }
   function setTool(t) {
     if (drawing) endStroke();
@@ -495,7 +498,7 @@
     redoStack.length = 0;
     strokes = [];
     selected = null;
-    renderAll(); syncUI(); scheduleSave();
+    renderAll(); syncUI();
   });
   PALETTE.forEach(function (c, i) {
     var b = document.createElement('button');
@@ -533,7 +536,7 @@
           undoStack.push({ t: 'del', s: selected, i: i });
           redoStack.length = 0;
           selected = null;
-          renderAll(); syncUI(); scheduleSave();
+          renderAll(); syncUI();
         }
       }
     } else if (k >= '1' && k <= '5') {
@@ -558,13 +561,11 @@
       if (rafLive) { cancelAnimationFrame(rafLive); rafLive = 0; }
       if (rafDraw) { cancelAnimationFrame(rafDraw); rafDraw = 0; }
       if (drawing) endStroke();
-      saveNow();
     } else {
       renderAll();
     }
   });
   window.addEventListener('pagehide', function () {
-    saveNow();
     try { cv.width = 1; cv.height = 1; } catch (e) {}    // 立即归还画布缓存
   });
   window.addEventListener('pageshow', function (e) {
@@ -572,30 +573,22 @@
   });
 
   /* ---------- 启动 ----------
-     分两段：先让标识立刻出现在屏幕上；画布尺寸、存档、首帧渲染放到下一帧，
-     这样即便板块页有好几 MB，标识也不会被解析和绘制拖住。                    */
+     分两段：先让标识立刻出现在屏幕上；画布尺寸与首帧渲染放到下一帧，
+     这样即便板块页有好几 MB，标识也不会被解析和绘制拖住。
+     本层不读写任何存储：每次打开都是干净画布，退出即清空。              */
   var booted = false;
   function boot() {
     if (booted) return;
     booted = true;
+    /* 清掉早期版本遗留的草稿存档：本层不再保留任何笔迹 */
     try {
-      var raw = localStorage.getItem(KEY);
-      if (raw) saved = JSON.parse(raw);
-    } catch (e) { saved = null; }
-    if (saved) {
-      try {
-        if (saved.pc) state.pen.c = saved.pc;
-        if (saved.qc) state.pencil.c = saved.qc;
-        if (saved.pw) state.pen.w = saved.pw;
-        if (saved.qw) state.pencil.w = saved.qw;
-        if (saved.ew) state.eraser.w = saved.ew;
-        strokes = (saved.s || []).map(function (x) {
-          var s = { t: x.t, c: x.c, w: x.w, p: Float32Array.from(x.p), bb: null };
-          computeBB(s);
-          return s;
-        });
-      } catch (e) { strokes = []; }
-    }
+      var dead = [], i, k;
+      for (i = 0; i < localStorage.length; i++) {
+        k = localStorage.key(i);
+        if (k && k.indexOf('xz-scratch') === 0) dead.push(k);
+      }
+      for (i = 0; i < dead.length; i++) localStorage.removeItem(dead[i]);
+    } catch (e) {}
     readScroll();
     resize();
     syncColors();
@@ -607,7 +600,7 @@
     mode: function () { return mode; },
     ready: function () { return booted; },
     setMode: setMode,
-    clear: function () { strokes = []; undoStack = []; redoStack = []; renderAll(); syncUI(); saveNow(); }
+    clear: function () { strokes = []; undoStack = []; redoStack = []; renderAll(); syncUI(); }
   };
 
   syncColors();
