@@ -4,6 +4,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <title>行测知识工作站 · 六大板块一站式备考</title>
 <style>
 :root{
@@ -95,6 +98,7 @@ input{font-family:inherit}
 
 .sidebar-foot{padding:14px 18px;border-top:1px solid rgba(15,23,42,.05);font-size:11.5px;color:#7b8798;line-height:1.7}
 .sidebar-foot b{color:#3f4d63}
+.sidebar-foot .ver{margin-top:8px;font-size:10.5px;color:#9aa7ba;letter-spacing:.02em}
 .nav::-webkit-scrollbar{width:8px}
 .nav::-webkit-scrollbar-track{background:transparent}
 .nav::-webkit-scrollbar-thumb{background:rgba(15,23,42,.13);border-radius:999px;border:2px solid transparent;background-clip:content-box}
@@ -111,6 +115,7 @@ input{font-family:inherit}
 .crumb .bar{width:10px;height:26px;border-radius:3px;background:var(--c,var(--brand))}
 .crumb .tt{font-size:15.5px;font-weight:700;color:var(--ink);white-space:nowrap}
 .crumb .en{font-size:10.5px;color:var(--muted);letter-spacing:.08em}
+.vbadge{margin-left:6px;font-size:10px;color:#7b8798;background:rgba(255,255,255,.75);border:.5px solid rgba(15,23,42,.08);border-radius:999px;padding:1px 8px;letter-spacing:.02em;white-space:nowrap}
 
 .searchbox{
   flex:1;max-width:520px;margin-left:auto;position:relative;display:flex;align-items:center;
@@ -173,6 +178,7 @@ input{font-family:inherit}
     <div class="sidebar-foot">
       <b>快捷键</b><br>按 <b>/</b> 聚焦搜索 · 按 <b>Esc</b> 收起结果<br>
       内容来源：个人备考整理
+      <div class="ver">界面版本 2026-09-11 · 顶部卡片「图标与板块名同行 · 居中」</div>
     </div>
   </aside>
 
@@ -184,6 +190,7 @@ input{font-family:inherit}
         <span class="bar" id="crumbBar"></span>
         <span class="tt" id="crumbTitle">行测知识工作站</span>
         <span class="en" id="crumbEn"></span>
+        <span class="vbadge">版本 2026-09-11 · 卡片同行居中</span>
       </div>
       <div class="searchbox">
         <span class="ic">🔍</span>
@@ -262,6 +269,8 @@ var crumbTitle = document.getElementById('crumbTitle');
 var crumbEn = document.getElementById('crumbEn');
 var curId = null;
 var pendingQuery = null;
+/* 每次打开页面生成一个版本号，附加在 iframe 地址后，避免浏览器沿用旧的板块页面缓存 */
+var CACHE_V = 'v' + Date.now();
 
 frame.addEventListener('load', function(){
   if(pendingQuery != null){
@@ -289,7 +298,7 @@ function openSection(id, query){
   else { norm = {q: (query.q||''), id: (query.id||null)}; }
   var changed = (frame.getAttribute('data-cur') !== id);
   frame.setAttribute('data-cur', id);
-  if(changed){ frame.src = s.file; }
+  if(changed){ frame.src = s.file + '?' + CACHE_V; }
   if(norm && norm.q){
     var send = function(){
       try{ frame.contentWindow.postMessage({type:'ws-search', q: norm.q, id: norm.id}, '*'); }catch(e){}
