@@ -118,12 +118,42 @@ mark.key{background:none;color:var(--primary);font-weight:700}
 .qcard .qhead{white-space:normal}
 .quiz-title{margin:18px 0 2px;font-size:15px;color:var(--primary);font-weight:700;border-bottom:1px dashed var(--accent);padding-bottom:3px}
 @media(max-width:820px){.kgrid,.mm-grid{grid-template-columns:1fr}}
+/* ===== iOS 毛玻璃顶栏（统一设计） ===== */
+body{background:linear-gradient(180deg,color-mix(in srgb,var(--accent) 10%,#fff) 0%,var(--bg) 46%,var(--bg) 100%)}
+header{
+  display:grid;grid-template-columns:46px 1fr;column-gap:14px;align-items:center;
+  width:calc(100% - 36px);max-width:1204px;margin:16px auto 0;padding:20px 24px 18px;border-radius:24px;
+  text-align:left;color:#0f172a;
+  background:linear-gradient(180deg,rgba(255,255,255,.92),rgba(255,255,255,.68));
+  -webkit-backdrop-filter:blur(30px) saturate(180%);
+  backdrop-filter:blur(30px) saturate(180%);
+  border:1px solid rgba(255,255,255,.75);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 24px 50px -34px rgba(15,23,42,.45);
+}
+header::before{
+  content:"";grid-column:1;grid-row:1 / span 2;width:46px;height:46px;border-radius:50%;
+  background:var(--primary2);
+  -webkit-mask-image:radial-gradient(circle 18px at 50% 50%,#000 0%,rgba(0,0,0,.85) 30%,rgba(0,0,0,.40) 62%,rgba(0,0,0,.12) 86%,rgba(0,0,0,0) 100%);
+  mask-image:radial-gradient(circle 18px at 50% 50%,#000 0%,rgba(0,0,0,.85) 30%,rgba(0,0,0,.40) 62%,rgba(0,0,0,.12) 86%,rgba(0,0,0,0) 100%);
+}
+header h1{grid-column:2;grid-row:1;margin:0;font-size:25px;font-weight:800;letter-spacing:.01em;color:#0f172a}
+header .en{grid-column:2;grid-row:2;margin-top:3px;font-size:10.5px;font-weight:600;letter-spacing:.2em;opacity:1;color:color-mix(in srgb,var(--primary2) 55%,#7b8798)}
+header .intro{grid-column:1 / -1;margin:16px 0 0;max-width:none;font-size:13px;opacity:1;color:#5b6675;line-height:1.75;text-align:left}
+header .meta{grid-column:1 / -1;margin-top:13px;display:flex;gap:8px;justify-content:flex-start;flex-wrap:wrap;font-size:12px}
+header .meta span{background:color-mix(in srgb,var(--primary2) 10%,rgba(255,255,255,.8));border:1px solid color-mix(in srgb,var(--primary2) 16%,rgba(255,255,255,.7));border-radius:999px;padding:3px 12px;color:color-mix(in srgb,var(--primary) 55%,#3f4d63);font-weight:600}
+@media(max-width:900px){header{grid-template-columns:40px 1fr;column-gap:12px;width:calc(100% - 24px);margin:12px auto 0;padding:18px 18px 16px;border-radius:20px}header::before{width:40px;height:40px;border-radius:50%;-webkit-mask-image:radial-gradient(circle 15px at 50% 50%,#000 0%,rgba(0,0,0,.85) 30%,rgba(0,0,0,.40) 62%,rgba(0,0,0,.12) 86%,rgba(0,0,0,0) 100%);mask-image:radial-gradient(circle 15px at 50% 50%,#000 0%,rgba(0,0,0,.85) 30%,rgba(0,0,0,.40) 62%,rgba(0,0,0,.12) 86%,rgba(0,0,0,0) 100%)}header h1{font-size:21px}}
+@media print{body{background:#fff}}
+/* ===== 顶部卡片：图标与标题同行 · 文字居中 ===== */
+header{--mc:#f59e0b;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;column-gap:14px;text-align:center;padding:22px 24px 20px}
+header h1{margin:0;font-size:28px;font-weight:800;letter-spacing:.01em;color:color-mix(in srgb,var(--mc) 42%,#1e293b)}
+header .intro{flex:1 0 100%;margin:16px auto 0;max-width:820px;text-align:center}
+header .meta{flex:1 0 100%;margin-top:14px;justify-content:center}
+@media(max-width:900px){header{column-gap:12px;padding:20px 18px 18px}header h1{font-size:23px}}
 </style>
 </head>
 <body>
 <header>
   <h1>数量关系</h1>
-  <div class="en">QUANTITATIVE RELATIONS</div>
   <div class="intro">以《王炎 · 数量关系大满贯 · 讲义》（全 169 页）与《数量关系板块知识地图》为纲重组：先按五大题型族分部，再逐节拆解核心知识与解题方法，每节精选讲义「母题精讲」真题 3–5 道，附答案速查结论与解题思路。方法层优先于题型名——整除、比例份数、特值、十字交叉、方程贯穿全书。</div>
   <div class="meta">
     <span>五大题型族</span>
