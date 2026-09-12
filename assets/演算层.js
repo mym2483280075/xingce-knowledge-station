@@ -7,7 +7,8 @@
      2) 笔画是唯一数据源，坐标用 Float32Array 紧凑存（x,y,压力 各 4 字节）
      3) 撤销栈只存引用与上一版坐标，不存 ImageData 位图快照，并限制深度
      4) devicePixelRatio 上限 2，3x 屏可省一半以上像素内存
-     5) 书写中只重绘“脏矩形”；笔画按视口可视范围过滤，页面再长也不额外吃内存
+     5) 书写中只重画“当前这一笔的包围盒”（矩形边界对齐到整像素，避免抗锯齿接缝）；
+        笔画按视口可视范围过滤，页面再长也不额外吃内存
      6) 页面隐藏/切走时释放画布缓冲；零第三方依赖
    坐标：一律用“文档坐标”（滚动后依然贴在同一道题旁边），渲染时整体平移 scrollY。
 
@@ -231,7 +232,7 @@
   };
   var strokes = [], undoStack = [], redoStack = [];
   var live = null, drawing = false, lastPr = 1, activeId = -1;
-  var markIdx = 1, prevDirty = null, rafLive = 0, rafDraw = 0;
+  var rafLive = 0, rafDraw = 0;
   var selected = null, drag = null, rectCache = null, resizeTimer = 0;
 
   /* 手写笔 / 防误触 / 双指平移 */
@@ -363,20 +364,33 @@
     }
     c.globalAlpha = 1; c.globalCompositeOperation = 'source-over';
   }
+  /* 局部重绘：只重画给定矩形里的内容。
+     —— 两个关键点，都是为了让边缘不出伪影：
+        1) 矩形先向外取整到“设备像素边界”，clearRect 与 clip 都落在整像素上。
+           小数坐标的 clearRect 会被抗锯齿，每帧在矩形四边留下一圈半透明浅痕，
+           写字时一圈圈叠起来就是“栅栏条纹”（WebKit 上尤其明显）。
+        2) 清理与裁剪在恒等变换（设备像素）下做，画笔迹时再切回文档坐标。 */
   function paintRect(x0, y0, x1, y1) {
-    if (x1 <= x0 || y1 <= y0) return;
-    applyT();
-    ctx.clearRect(x0, y0, x1 - x0, y1 - y0);
+    var d = curDPR();
+    var dx0 = Math.floor(x0 * d), dy0 = Math.floor((y0 - scrollY) * d);
+    var dx1 = Math.ceil(x1 * d), dy1 = Math.ceil((y1 - scrollY) * d);
+    if (dx1 <= dx0 || dy1 <= dy0) return;
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.clearRect(dx0, dy0, dx1 - dx0, dy1 - dy0);
     ctx.save();
-    ctx.beginPath(); ctx.rect(x0, y0, x1 - x0, y1 - y0); ctx.clip();
+    ctx.beginPath();
+    ctx.rect(dx0, dy0, dx1 - dx0, dy1 - dy0);
+    ctx.clip();
+    applyT();
     for (var i = 0; i < strokes.length; i++) {
       var s = strokes[i];
       if (!s.bb || !hitBB(s.bb, x0, y0, x1, y1, padOf(s))) continue;
       drawStroke(ctx, s);
     }
-    if (live) drawStroke(ctx, live);
+    if (live) drawStroke(ctx, live);          /* 正在写的那一笔也要跟着重画 */
     ctx.restore();
     ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';
+    applyT();
   }
   function drawSel(s) {
     var b = s.bb; if (!b) return;
@@ -388,6 +402,8 @@
     ctx.strokeRect(b.x0 - pd, b.y0 - pd, (b.x1 - b.x0) + pd * 2, (b.y1 - b.y0) + pd * 2);
     ctx.restore();
   }
+  /* 整屏重绘：必须把正在写的那一笔一起画上，
+     否则书写途中任何一次整屏重画都会把它擦掉（只留下后续脏矩形补的碎片）。 */
   function renderAll() {
     readScroll();
     applyT();
@@ -398,6 +414,7 @@
       if (!s.bb || !hitBB(s.bb, 0, y0, W, y1, padOf(s))) continue;
       drawStroke(ctx, s);
     }
+    if (live) drawStroke(ctx, live);
     ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';
     if (selected) drawSel(selected);
   }
@@ -424,23 +441,22 @@
     else { if (x < b.x0) b.x0 = x; if (y < b.y0) b.y0 = y; if (x > b.x1) b.x1 = x; if (y > b.y1) b.y1 = y; }
     return true;
   }
+  /* 书写中的刷新：直接重画「整支笔迹的包围盒」。
+     早先的做法是只擦“上一帧矩形 + 新点矩形”，一旦中途发生整屏重画（滚动 / 尺寸变化 /
+     无压感笔判定）或矩形边缘被抗锯齿，就会留下鬼影与接缝条纹。
+     整笔包围盒只有一个矩形、边界还在整像素上，写多久都不会出伪影；
+     包围盒之外的内容本来就没被碰过，无需重画。 */
   function liveFrame() {
     rafLive = 0;
-    if (!live) return;
-    var p = live.p, n = p.length / 3;
-    if (n < 2) return;
-    var x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
-    for (var i = Math.max(1, markIdx - 1); i < n; i++) {
-      var x = p[i * 3], y = p[i * 3 + 1];
-      if (x < x0) x0 = x; if (y < y0) y0 = y;
-      if (x > x1) x1 = x; if (y > y1) y1 = y;
-    }
+    if (!live || !live.bb) return;
+    var sy = scrollY;
+    readScroll();
+    if (sy !== scrollY) { renderAll(); return; }   /* 页面滚过：整屏重画，避免墨迹错位 */
     var pd = padOf(live) + 1;
-    var nr = { x0: x0 - pd, y0: y0 - pd, x1: x1 + pd, y1: y1 + pd };
-    if (prevDirty) paintRect(prevDirty.x0, prevDirty.y0, prevDirty.x1, prevDirty.y1);
-    paintRect(nr.x0, nr.y0, nr.x1, nr.y1);
-    prevDirty = nr;
-    markIdx = n;
+    var x0 = live.bb.x0 - pd, y0 = live.bb.y0 - pd, x1 = live.bb.x1 + pd, y1 = live.bb.y1 + pd;
+    /* 包围盒已经铺满大半个屏幕时，直接整屏重画更省事（这么大的裁剪区没有意义） */
+    if ((x1 - x0) * (y1 - y0) > W * H * 0.55) { renderAll(); return; }
+    paintRect(x0, y0, x1, y1);
   }
   function scheduleLive() {
     if (rafLive) return;
@@ -537,7 +553,6 @@
     lastPr = o.pr;
     flatPress = false; prMin = 1; prMax = 0;
     live = { t: tool, c: curColor(), w: curWidth(), p: [], bb: null };
-    markIdx = 1; prevDirty = null;
     pushPoint(live, o.x, o.y, o.pr);
     scheduleLive();
   }
@@ -562,7 +577,7 @@
         /* 笔正在手上（笔按着 / 刚抬起）：手掌压出来的两点不能当成翻页手势 */
         if (penRecent()) { touches.pop(); return; }
         if (drawing && live && live.p.length < 3 * 14) {   /* 刚起笔就变手势：丢掉这一笔 */
-          live = null; drawing = false; activeId = -1; prevDirty = null; renderAll();
+          live = null; drawing = false; activeId = -1; renderAll();
         } else if (drawing) { endStroke(); }
         panning = true; panLast = centroid(); panTick = 0;
         hideRing();
@@ -666,7 +681,7 @@
       strokes.push(live);
       pushUndo({ t: 'add', s: live });
     }
-    live = null; drawing = false; activeId = -1; prevDirty = null;
+    live = null; drawing = false; activeId = -1;
     syncUI();
   }
   function onUp(e) {
