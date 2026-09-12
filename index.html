@@ -320,7 +320,7 @@ var curId = null;
 var pendingQuery = null;
 /* 板块页版本号：只在“本次部署有内容更新”时改这里，平时让浏览器直接用缓存（走 ETag 校验），
    不再用 Date.now()，否则每次切换板块都要重新下载整份 HTML（最大 1.2MB）。 */
-var CACHE_V = 'v20260912a';
+var CACHE_V = 'v20260912b';
 
 frame.addEventListener('load', function(){
   if(pendingQuery != null){

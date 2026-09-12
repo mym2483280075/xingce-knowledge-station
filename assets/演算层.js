@@ -18,16 +18,21 @@
      c) 笔尖悬停（iPad Pro M2+ / iPadOS 16.4+）：未落笔也能看到笔尖粗细预览圈
      d) 合批事件：优先吃 getCoalescedEvents 的原始采样点，线条更顺滑；
         支持 pointerrawupdate 的浏览器额外提升采样率
-     e) 某些笔（或手指）不报压力：自动识别“无压感”，改用运笔速度控制粗细
+     e) 某些笔（或手指）根本不报压力：自动识别为“无压感”，按满压渲染，
+        保证线宽严格等于用户设定的粗细，不擅自改粗改细
      f) 双指平移：演算模式下画布接管了单指，双指捏合/拖动仍可上下翻页
      g) touch-action/overscroll 处理，避免手写时页面跟着滚动或被 iOS 回弹打断
+     h) 位图尺寸以画布真实 CSS 盒子为准，捏合放大/浏览器缩放后自动对齐：
+        否则位图会被浏览器拉伸显示，笔迹会整体放大（看起来“过粗”）
    ========================================================= */
 (function () {
   'use strict';
   if (window.__xzScratchLoaded) return;
   window.__xzScratchLoaded = true;
 
-  var DPR = Math.min(window.devicePixelRatio || 1, 2);
+  /* devicePixelRatio 必须动态取：浏览器缩放、窗口跨屏、iPad 捏合都会改变它。
+     启动时读一次并缓存，会导致画布位图和显示尺寸对不上。 */
+  function curDPR() { return Math.min(window.devicePixelRatio || 1, 2); }
   var MAX_PTS = 12000, PT_MIN = 0.35, MAX_UNDO = 120;
   var FONT = '"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans CJK SC",sans-serif';
   var PREF_KEY = 'xz-ink-pref';
@@ -230,21 +235,49 @@
   var selected = null, drag = null, rectCache = null, resizeTimer = 0;
 
   /* 手写笔 / 防误触 / 双指平移 */
-  var penSeen = 0, penId = -1, velMode = false, prMin = 1, prMax = 0, velRef = 0;
+  var penSeen = 0, penId = -1, flatPress = false, flatToasted = false, prMin = 1, prMax = 0;
   var touches = [], panning = false, panLast = null, panTick = 0;
 
   /* ---------- 尺寸与坐标 ---------- */
   function readScroll() {
     scrollY = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
   }
-  function resize() {
-    W = Math.max(1, window.innerWidth || document.documentElement.clientWidth);
-    H = Math.max(1, window.innerHeight || document.documentElement.clientHeight);
-    cv.width = Math.round(W * DPR);
-    cv.height = Math.round(H * DPR);
+  /* 画布位图必须严格等于「画布真实 CSS 盒子 × devicePixelRatio」。
+     只认 window.innerWidth/innerHeight 会在 iPad 捏合放大、浏览器缩放、
+     动态视口变化时与 CSS 盒子对不上：位图被浏览器拉伸显示，
+     笔迹就会整体变大变粗（这正是 2 倍粗笔画的根因），还会有一大片写不上。
+     所以尺寸一律以画布自己的 getBoundingClientRect() 为准。 */
+  function sizeOf(el) {
+    var r = el.getBoundingClientRect();
+    var w = Math.round(r.width), h = Math.round(r.height);
+    if (!(w > 0)) w = Math.round(document.documentElement.clientWidth || window.innerWidth || 1);
+    if (!(h > 0)) h = Math.round(document.documentElement.clientHeight || window.innerHeight || 1);
+    return { w: Math.max(1, w), h: Math.max(1, h) };
+  }
+  function fitCanvas(s, d) {
+    W = s.w; H = s.h;
+    cv.width = Math.round(W * d);
+    cv.height = Math.round(H * d);
     rectCache = null;
   }
-  function applyT() { ctx.setTransform(DPR, 0, 0, DPR, 0, -scrollY * DPR); }
+  function resize() {
+    fitCanvas(sizeOf(cv), curDPR());
+  }
+  /* 落笔/拖动前自检：尺寸或 DPR 变了就地补正，避免“位图被拉伸”这一类问题 */
+  function ensureSize() {
+    var s = sizeOf(cv), d = curDPR();
+    if (cv.width !== Math.round(s.w * d) || cv.height !== Math.round(s.h * d) || W !== s.w || H !== s.h) {
+      fitCanvas(s, d);
+      readScroll();
+      renderAll();
+      return true;
+    }
+    return false;
+  }
+  function applyT() {
+    var d = curDPR();
+    ctx.setTransform(d, 0, 0, d, 0, -scrollY * d);
+  }
   function ptOf(e) {
     if (!rectCache) rectCache = cv.getBoundingClientRect();
     return {
@@ -494,6 +527,7 @@
   }
 
   function startStroke(e) {
+    ensureSize();
     rectCache = null;
     var o = ptOf(e);
     try { cv.setPointerCapture(e.pointerId); } catch (err) {}
@@ -501,7 +535,7 @@
     activeId = e.pointerId;
     drawing = true;
     lastPr = o.pr;
-    velMode = false; prMin = 1; prMax = 0; velRef = 0;
+    flatPress = false; prMin = 1; prMax = 0;
     live = { t: tool, c: curColor(), w: curWidth(), p: [], bb: null };
     markIdx = 1; prevDirty = null;
     pushPoint(live, o.x, o.y, o.pr);
@@ -540,6 +574,7 @@
 
     if (drawing && activeId !== e.pointerId) return;      /* 同一时刻只认一支笔 */
     e.preventDefault();
+    ensureSize();                                        /* 位图尺寸先跟当前视口对齐 */
     rectCache = null;
     var o = ptOf(e);
 
@@ -599,21 +634,24 @@
     if (!evs || !evs.length) evs = [e];
     for (var i = 0; i < evs.length; i++) {
       var q = ptOf(evs[i]);
-      /* 没有压感的笔/手指：改用运笔速度控制粗细（快则细、慢则粗） */
-      if (live.t === 'pen' && velMode) {
-        var n0 = live.p.length;
-        var dist = n0 >= 3 ? Math.hypot(q.x - live.p[n0 - 3], q.y - live.p[n0 - 2]) : 0;
-        var v = Math.min(1, dist / 12);
-        velRef = velRef * 0.7 + v * 0.3;
-        q.pr = Math.max(0.28, Math.min(1, 1.05 - velRef * 0.85));
-      } else {
-        lastPr = lastPr * 0.65 + q.pr * 0.35;
-        q.pr = lastPr;
+      if (live.t === 'pen') {
+        if (flatPress) { q.pr = 1; }
+        else { lastPr = lastPr * 0.65 + q.pr * 0.35; q.pr = lastPr; }
       }
       pushPoint(live, q.x, q.y, q.pr);
     }
-    /* 前 12 个点判定这支笔到底有没有压感 */
-    if (live.t === 'pen' && !velMode && live.p.length >= 12 * 3 && (prMax - prMin) < 0.02) velMode = true;
+    /* 判定这支笔到底有没有真压感。
+       不报压感的设备按规范会固定回 0.5，若照单全收就会只画出一半粗细，
+       所以一旦发现压力全程没有变化，就改按满压渲染，让线宽严格等于用户设定值。 */
+    if (live.t === 'pen' && !flatPress && live.p.length >= 12 * 3 && (prMax - prMin) < 0.03) {
+      flatPress = true;
+      for (var k = 2; k < live.p.length; k += 3) live.p[k] = 1;
+      renderAll();
+      if (!flatToasted) {
+        flatToasted = true;
+        toastMsg('这支笔不上报压感，已按你设定的粗细书写');
+      }
+    }
     scheduleLive();
   }
 
@@ -732,6 +770,11 @@
     wdot.style.height = wdot.style.width;
     wdot.style.color = (tool === 'eraser') ? (dark ? '#8b9bb1' : '#64748b') : activeState().c;
     wnum.textContent = fmtW(w) + 'px';
+    /* 让「当前粗细」一眼可见：命中预设值时把那一颗点亮 */
+    Array.prototype.forEach.call(presetsBox.children, function (b) {
+      var v = Number(b.getAttribute('data-w'));
+      b.classList.toggle('on', Math.abs(v - w) < 0.05);
+    });
   }
   function buildPresets() {
     presetsBox.innerHTML = '';
@@ -742,6 +785,7 @@
         b.type = 'button';
         b.textContent = fmtW(w);
         b.title = '快捷粗细 ' + fmtW(w) + 'px';
+        b.setAttribute('data-w', String(w));
         b.addEventListener('click', function () { setWidth(w); });
         presetsBox.appendChild(b);
       })(arr[i]);
@@ -784,8 +828,12 @@
     cv.classList.toggle('on', mode);
     cv.classList.toggle('pick', mode && tool === 'pick');
     bar.classList.toggle('show', mode);
-    if (mode) { document.documentElement.style.overscrollBehavior = 'none'; }
-    else { document.documentElement.style.overscrollBehavior = ''; }
+    if (mode) {
+      document.documentElement.style.overscrollBehavior = 'none';
+      ensureSize();                                     /* 进演算前先对齐位图尺寸 */
+    } else {
+      document.documentElement.style.overscrollBehavior = '';
+    }
     syncUI();
     renderAll();
   }
@@ -917,12 +965,18 @@
     if (!mode) placeFab();
   }
   window.addEventListener('scroll', onScroll, true);
+  /* 捏合放大 / 收起地址栏都会改动态视口：缩放归 resize，平移只需作废坐标缓存 */
   if (window.visualViewport && window.visualViewport.addEventListener) {
     window.visualViewport.addEventListener('resize', function () { onResize(); });
+    window.visualViewport.addEventListener('scroll', function () { rectCache = null; });
   }
   function onResize() {
     if (resizeTimer) clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(function () { rectCache = null; resize(); renderAll(); placeFab(); }, 120);
+    resizeTimer = setTimeout(function () {
+      resize();
+      renderAll();
+      placeFab();
+    }, 80);
   }
   window.addEventListener('resize', onResize);
   window.addEventListener('orientationchange', onResize);
