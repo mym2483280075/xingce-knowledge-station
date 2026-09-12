@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head><style id="xz-perf">/* 长页面打开提速：屏幕外的知识点块不做排版与绘制 */section.kp,section.unit{content-visibility:auto;contain-intrinsic-size:auto 700px}</style>
 <meta charset="UTF-8">
-<link rel="icon" href="data:,"><script src="../assets/%E4%B8%BB%E9%A2%98.js"></script><script src="../assets/%E6%BC%94%E7%AE%97%E5%B1%82.js?v=20260912d"></script>
+<link rel="icon" href="data:,"><script src="../assets/%E4%B8%BB%E9%A2%98.js?v=20260913b"></script><script src="../assets/%E6%BC%94%E7%AE%97%E5%B1%82.js?v=20260913b"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
@@ -3903,6 +3903,21 @@ header .meta{flex:1 0 100%;margin-top:14px;max-width:100%;justify-content:center
 </div>
 <button class="backtop" id="backtop" title="回到顶部">↑</button>
 <script>
+/* =====================================================================
+   页内交互脚本（各板块页共用同一份，改动时请同步全部 10 个板块页）
+   ---------------------------------------------------------------
+   【需求】这份脚本负责五件事：① 页内搜索（高亮 <mark class="shl"> + 命中计数）
+     ② 隐藏 / 显示答案解析 ③ 收起 / 展开卡片 ④ 回到顶部 ⑤ 接收外壳下发的搜索指令。
+   【接口】与外壳 index.html 的协议：window.postMessage({type:'ws-search', q, id})，
+     q = 关键词，id = 要直达的知识点 / 单元元素 id（可不带，那就只搜索）。
+   【易错】doSearch 本文件只保留一份实现（带 _wsPanel 面板与 mark.shl 高亮跳转）。
+     曾经并存两份同名函数（函数声明提升后只有最后一份会执行，前一份是死代码），已清理；
+     不要再往回加第二份 —— 改在死代码上会“怎么改都没反应”。
+   【坑】注入的搜索面板 CSS 已随附 html.xz-dark 覆盖，夜间模式下不再是白块；
+     再调色请继续用主题层变量（--xz-surface / --xz-line / --xz-ink / --xz-a1）。
+   【易错】高亮与命中依赖现有 DOM 结构（.kp / .unit / .unit-head / .ansline / .expline），
+     调整卡片结构时必须同步改这里的兜底选择器与 _wsLabel。
+   ===================================================================== */
 (function(){
   var q=document.getElementById('q'),hit=document.getElementById('hitcount');
   var cards=Array.prototype.slice.call(document.querySelectorAll('.kp'));
@@ -3936,18 +3951,6 @@ header .meta{flex:1 0 100%;margin-top:14px;max-width:100%;justify-content:center
       m.className='shl';m.textContent=after.textContent;
       after.parentNode.replaceChild(m,after);
     });
-  }
-  function doSearch(word){
-    word=(word||'').trim();
-    cards.forEach(function(c){clearShl(c);c.classList.remove('hidden');});
-    if(!word){hit.textContent='';tocLinks.forEach(function(l){l.style.fontWeight='';});return;}
-    var n=0,first=null;
-    cards.forEach(function(c){
-      if(c.textContent.indexOf(word)>-1){shl(c,word);n++;if(!first)first=c;}
-      else{c.classList.add('hidden');}
-    });
-    hit.textContent='命中 '+n+' 个知识点';
-    if(first){first.scrollIntoView({behavior:'smooth',block:'start'});}
   }
   q.addEventListener('keydown',function(e){if(e.key==='Enter')doSearch(q.value);});
   q.addEventListener('input',function(){if(!q.value.trim())doSearch('');});
@@ -3990,12 +3993,6 @@ header .meta{flex:1 0 100%;margin-top:14px;max-width:100%;justify-content:center
   },{rootMargin:'-20% 0px -70% 0px'});
   cards.forEach(function(c){io.observe(c);});
   // 工作站联动
-  window.addEventListener('message',function(e){
-    var d=e.data||{};
-    if(d.type==='ws-search'&&d.q){
-      q.value=d.q;doSearch(d.q);
-    }
-  });
   /* ===== 增强：关键词多处命中，可选择跳转（2026-09 注入） ===== */
   function _wsEsc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':"&amp;",'<':"&lt;",'>':"&gt;",'"':"&quot;","'":"&#39;"}[c];}); }
   function _wsLabel(card){
@@ -4019,7 +4016,17 @@ header .meta{flex:1 0 100%;margin-top:14px;max-width:100%;justify-content:center
     var st=document.getElementById('_wsStyle');
     if(!st){
       st=document.createElement('style'); st.id='_wsStyle';
-      st.textContent='#_wsPanel{position:fixed;right:14px;top:70px;width:320px;max-width:88vw;z-index:9999;background:#fff;border:1px solid #dce3f0;border-radius:14px;box-shadow:0 16px 44px -14px rgba(15,23,42,.4);overflow:hidden;font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;font-size:12.5px;color:#0f172a}#_wsPanel ._hd{display:flex;align-items:center;gap:5px;padding:10px 12px;background:#f4f7fd;border-bottom:1px solid #e9eef7;font-weight:700;font-size:13px}#_wsPanel ._hd em{color:#2563eb;font-style:normal;margin:0 2px}#_wsPanel ._x{margin-left:auto;border:0;background:rgba(100,116,139,.14);width:21px;height:21px;line-height:1;border-radius:50%;cursor:pointer;color:#475569;font-size:12px}#_wsPanel ._lst{max-height:320px;overflow:auto}#_wsPanel ._it{display:flex;gap:9px;padding:9px 12px;cursor:pointer;border-bottom:1px solid #f2f5fb;align-items:flex-start}#_wsPanel ._it:last-child{border-bottom:0}#_wsPanel ._it:hover{background:#f2f6ff}#_wsPanel ._no{flex:none;width:20px;height:20px;border-radius:50%;background:#e5eeff;color:#2563eb;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;margin-top:1px}#_wsPanel ._tt{font-weight:600;color:#1e293b}#_wsPanel ._tc{color:#64748b;font-size:11.5px;margin-top:2px;line-height:1.55;word-break:break-all;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}#_wsPanel ._tc mark{background:transparent;color:#dc2626;font-weight:700}mark.shl{background:#ffe066;border-radius:2px}mark.shl._cur{outline:2px solid #f59e0b;outline-offset:1px;animation:_wsb 1.8s ease-out 1}@keyframes _wsb{0%{box-shadow:0 0 0 0 rgba(245,158,11,.55)}70%{box-shadow:0 0 0 13px rgba(245,158,11,0)}100%{box-shadow:0 0 0 0 rgba(245,158,11,0)}}';
+      st.textContent='#_wsPanel{position:fixed;right:14px;top:70px;width:320px;max-width:88vw;z-index:9999;background:#fff;border:1px solid #dce3f0;border-radius:14px;box-shadow:0 16px 44px -14px rgba(15,23,42,.4);overflow:hidden;font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;font-size:12.5px;color:#0f172a}#_wsPanel ._hd{display:flex;align-items:center;gap:5px;padding:10px 12px;background:#f4f7fd;border-bottom:1px solid #e9eef7;font-weight:700;font-size:13px}#_wsPanel ._hd em{color:#2563eb;font-style:normal;margin:0 2px}#_wsPanel ._x{margin-left:auto;border:0;background:rgba(100,116,139,.14);width:21px;height:21px;line-height:1;border-radius:50%;cursor:pointer;color:#475569;font-size:12px}#_wsPanel ._lst{max-height:320px;overflow:auto}#_wsPanel ._it{display:flex;gap:9px;padding:9px 12px;cursor:pointer;border-bottom:1px solid #f2f5fb;align-items:flex-start}#_wsPanel ._it:last-child{border-bottom:0}#_wsPanel ._it:hover{background:#f2f6ff}#_wsPanel ._no{flex:none;width:20px;height:20px;border-radius:50%;background:#e5eeff;color:#2563eb;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;margin-top:1px}#_wsPanel ._tt{font-weight:600;color:#1e293b}#_wsPanel ._tc{color:#64748b;font-size:11.5px;margin-top:2px;line-height:1.55;word-break:break-all;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}#_wsPanel ._tc mark{background:transparent;color:#dc2626;font-weight:700}mark.shl{background:#ffe066;border-radius:2px}mark.shl._cur{outline:2px solid #f59e0b;outline-offset:1px;animation:_wsb 1.8s ease-out 1}@keyframes _wsb{0%{box-shadow:0 0 0 0 rgba(245,158,11,.55)}70%{box-shadow:0 0 0 13px rgba(245,158,11,0)}100%{box-shadow:0 0 0 0 rgba(245,158,11,0)}}'+
+        'html.xz-dark #_wsPanel{background:var(--xz-surface,#141d2e);border-color:var(--xz-line,#28344a);color:var(--xz-ink,#e8eff9)}'+
+        'html.xz-dark #_wsPanel ._hd{background:var(--xz-surface2,#1a2434);border-bottom-color:var(--xz-line,#28344a)}'+
+        'html.xz-dark #_wsPanel ._hd em{color:var(--xz-a1,#7fb2ff)}'+
+        'html.xz-dark #_wsPanel ._x{background:rgba(148,163,184,.18);color:var(--xz-ink2,#b6c3d4)}'+
+        'html.xz-dark #_wsPanel ._it{border-bottom-color:#26334a}'+
+        'html.xz-dark #_wsPanel ._it:hover{background:#1c2740}'+
+        'html.xz-dark #_wsPanel ._no{background:#1e2a45;color:#a8b6d8}'+
+        'html.xz-dark #_wsPanel ._tt{color:var(--xz-ink,#e8eff9)}'+
+        'html.xz-dark #_wsPanel ._tc{color:var(--xz-ink3,#93a3b8)}'+
+        'html.xz-dark #_wsPanel ._tc mark{color:#ffb4b4}';
       document.head.appendChild(st);
     }
     _wsClose();
@@ -4077,9 +4084,9 @@ header .meta{flex:1 0 100%;margin-top:14px;max-width:100%;justify-content:center
   window.addEventListener('message',function(e){
     var d=e.data||{};
     var qq=(d.q||'').trim();
-    if(d.type==='ws-search'&&qq&&d.id){
+    if(d.type==='ws-search'&&qq){
       q.value=qq; doSearch(qq);
-      var el=document.getElementById(d.id);
+      var el=d.id?document.getElementById(d.id):null;
       if(el){
         _wsClose();
         var hz=document.documentElement,bz=document.body;

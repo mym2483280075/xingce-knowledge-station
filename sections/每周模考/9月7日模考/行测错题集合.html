@@ -2,7 +2,7 @@
 <html lang="zh-CN" data-theme="mock">
 <head><style id="xz-perf">/* 长页面打开提速：屏幕外的知识点块不做排版与绘制 */section.kp,section.unit{content-visibility:auto;contain-intrinsic-size:auto 700px}</style>
 <meta charset="UTF-8">
-<link rel="icon" href="data:,"><script src="../../../assets/%E4%B8%BB%E9%A2%98.js"></script><script src="../../../assets/%E6%BC%94%E7%AE%97%E5%B1%82.js?v=20260912d"></script>
+<link rel="icon" href="data:,"><script src="../../../assets/%E4%B8%BB%E9%A2%98.js?v=20260913b"></script><script src="../../../assets/%E6%BC%94%E7%AE%97%E5%B1%82.js?v=20260913b"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
@@ -281,6 +281,18 @@ header .meta{flex:1 0 100%;margin-top:14px;max-width:100%;justify-content:center
 <button class="backtop" id="backtop" title="回到顶部">↑</button>
 
 <script>
+/* =====================================================================
+   页内交互脚本（各板块页共用同一份，改动时请同步全部 10 个板块页）
+   ---------------------------------------------------------------
+   【需求】这份脚本负责五件事：① 页内搜索（高亮 <mark class="shl"> + 命中计数）
+     ② 隐藏 / 显示答案解析 ③ 收起 / 展开卡片 ④ 回到顶部 ⑤ 接收外壳下发的搜索指令。
+   【接口】与外壳 index.html 的协议：window.postMessage({type:'ws-search', q, id})，
+     q = 关键词，id = 要直达的知识点 / 单元元素 id（可不带，那就只搜索）。
+   【易错】本文件是精简版：只有一份 doSearch，没有 _wsPanel 命中面板与直达 id 的增强块
+     （模考三页尚未同步那套增强）。要补增强时请照六大板块页的那一份抄，别只补一半。
+   【易错】高亮与命中依赖现有 DOM 结构（.kp / .unit / .unit-head / .ansline / .expline），
+     调整卡片结构时必须同步改这里的兜底选择器与 _wsLabel。
+   ===================================================================== */
 (function(){
   var q=document.getElementById('q'),hit=document.getElementById('hitcount');
   var mods=Array.prototype.slice.call(document.querySelectorAll('.module'));

@@ -9,7 +9,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>行测知识工作站 · 六大板块一站式备考</title>
-<script src="assets/%E4%B8%BB%E9%A2%98.js"></script>
+<script src="assets/%E4%B8%BB%E9%A2%98.js?v=20260913b"></script>
 <style>
 :root{
   --rail:#0b1220;
@@ -212,7 +212,7 @@ html.xz-dark .themeseg button.on{background:#24314b;box-shadow:0 1px 3px rgba(0,
       <b>快捷键</b><br>按 <b>/</b> 聚焦搜索 · 按 <b>Esc</b> 收起结果<br>
       演算画布：右手写字的「演算」按钮 · 支持 Apple Pencil 压感与粗细自选<br>
       内容来源：个人备考整理
-      <div class="ver">界面版本 2026-09-12 · 手写笔压感 / 粗细自选 / 夜晚模式</div>
+      <div class="ver">界面版本 2026-09-13 · 手写笔压感 / 粗细自选 / 夜晚模式</div>
     </div>
   </aside>
   <div class="backdrop" id="backdrop"></div>
@@ -225,7 +225,7 @@ html.xz-dark .themeseg button.on{background:#24314b;box-shadow:0 1px 3px rgba(0,
         <span class="bar" id="crumbBar"></span>
         <span class="tt" id="crumbTitle">行测知识工作站</span>
         <span class="en" id="crumbEn"></span>
-        <span class="vbadge">版本 2026-09-12 · 手写笔 / 夜晚模式</span>
+        <span class="vbadge">版本 2026-09-13 · 手写笔 / 夜晚模式</span>
       </div>
       <div class="searchbox">
         <span class="ic">🔍</span>
@@ -256,7 +256,31 @@ html.xz-dark .themeseg button.on{background:#24314b;box-shadow:0 1px 3px rgba(0,
 </div>
 
 <script>
+/* ===================================================================
+   给后续审阅者的阅读约定 —— 改代码前先看这一段
+   ---------------------------------------------------------------
+   【需求】用户明确提出的要求 / 已确认的产品行为，改动不要违背
+   【易错】最容易引入 bug 的地方：动它之前请把整段连同调用方一起读完
+   【坑】  浏览器 / 平台差异陷阱（iOS、iPadOS、iframe、离线环境）
+   【接口】对外暴露、被其它文件依赖的名字与语义，改名等于破坏调用方
+   【数据】常量与持久化格式，改字段要考虑兼容与重建
+   本文件是“外壳”：左侧导航 + 顶栏搜索 + 中间 iframe 承载各板块页。
+   三条关键契约：
+     ① 板块 id（SECTIONS[].id）必须与 scripts/build-index.js 里的 SEC_META、
+        以及 assets/search-index.json 里的 s 字段完全一致，
+        否则搜索命中后跳转错板块、侧栏计数对不上。
+     ② 与板块页的 postMessage 协议：'ws-search' {q,id} 下发搜索、'xz-theme' 上报主题，
+        主题层还有 'xz-theme-set' / 'xz-theme-query'（见 assets/主题.js）。
+     ③ 两个缓存版本号必须同时更新（用户要求“改了就要立刻生效”）：
+        · CACHE_V = 本文件里给 iframe 板块页 HTML 去缓存的版本号
+        · 各板块页里的 assets/演算层.js?v=...
+        漏改任何一个，iPad 上都会继续跑缓存里的旧文件，等于没改。
+   =================================================================== */
 /* ================= 板块配置 ================= */
+/* 【数据】【易错】板块清单：id 是全局主键（必须与 build-index.js / search-index.json 一致），
+   color 决定侧栏色标与面包条颜色，keywords 同时用于“关键词命中”和回车兜底路由。
+   加板块时三处要同步：这里 + build-index.js 的 SEC_META + 重跑 node scripts/build-index.js。
+   name/cnt/desc/sub 都是直接渲染到界面的文案，注意不要引入未转义的尖括号。 */
 var SECTIONS = [
   { id:'cs', name:'常识判断', en:'COMMON KNOWLEDGE', file:'sections/常识判断.html', color:'#14b8a6',
     sub:'文史·科技·经济·地理·法律', cnt:'五篇 117 个知识点',
@@ -288,6 +312,9 @@ var SECTIONS = [
     keywords:['模考','每周模考','周考','申论','错题','复盘','期次','9月7日','9月7日模考','整卷','模考中心'] }
 ];
 
+/* 【易错】找不到 id 时静默返回 SECTIONS[0]（常识判断）：好处是不会白屏，
+   坏处是“id 拼错”会表现为“跳到了对的板块”，排查时很容易被误导。
+   新增板块或改 id 后，请顺手点一遍侧栏每一项确认标题/计数都对。 */
 function getSection(id){ for(var i=0;i<SECTIONS.length;i++){ if(SECTIONS[i].id===id) return SECTIONS[i]; } return SECTIONS[0]; }
 
 /* ================= 侧边栏渲染 ================= */
@@ -319,9 +346,14 @@ var crumbEn = document.getElementById('crumbEn');
 var curId = null;
 var pendingQuery = null;
 /* 板块页版本号：只在“本次部署有内容更新”时改这里，平时让浏览器直接用缓存（走 ETag 校验），
-   不再用 Date.now()，否则每次切换板块都要重新下载整份 HTML（最大 1.2MB）。 */
-var CACHE_V = 'v20260912d';
+   不再用 Date.now()，否则每次切换板块都要重新下载整份 HTML（最大 1.2MB）。
+   【易错】【需求】改这个版本号时，别忘了同时改各板块页里 assets/演算层.js?v=...：
+   两者共同决定 iPad 上看到的到底是新代码还是缓存里的旧代码。
+   （2026-09-13 改动 assets/演算层.js，两处版本号同时升到 v20260913b。） */
+var CACHE_V = 'v20260913b';
 
+/* 【易错】切换板块后要把待发的搜索转发给新页面：必须等 iframe 的 load 事件再 postMessage，
+   抢在前面发会被丢弃（目标页还没绑定监听）。pendingQuery 就是为这个“等一手”存在的，别删。 */
 frame.addEventListener('load', function(){
   if(pendingQuery != null){
     try{
@@ -340,6 +372,11 @@ function setActive(id){
 }
 
 /* query: 字符串(兼容旧调用) 或 {q, id}；id 为目标知识点/单元锚点 */
+/* 【易错】openSection 是导航的唯一入口，两处细节别动：
+   ① changed 判定看 iframe 上的 data-cur（当前已加载的板块），只有真的换板块才重设 src，
+      否则每次点击都会重载整份板块页（最大 1.2MB）；
+   ② 搜索跳转必须“先改 src、再把查询挂到 pendingQuery”，等 load 后由上面的监听转发。
+   这里还负责更新面包条颜色/标题、窄屏自动收起侧栏，改动时留意这几步的先后顺序。 */
 function openSection(id, query){
   var s = getSection(id);
   var norm;
@@ -414,20 +451,31 @@ function renderDrop(matches){
 /* ===== 全文模糊搜索（GitHub 成熟方案 Fuse.js v7，CDN 加载；不可用时自动降级关键词检索） ===== */
 var wsData = null, wsFuse = null, wsFuseBusy = false;
 
+/* 【易错】凡是把内容拼进 innerHTML 的地方都必须先过这里（索引正文来自各板块页，
+   查询词来自用户输入）——少一处就可能出现排版错乱或注入问题。 */
 function wsEsc(s){
   return String(s==null?'':s).replace(/[&<>"']/g, function(c){
     return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
   });
 }
 function wsSnippet(it, q){
+  /* 【易错】索引正文（it.x）抄自各板块页的纯文本，里面可能原样带着 < > & 这些字符，
+     拼进 innerHTML 之前必须整段转义。原先只转义了命中词与尾段，pre 与“没命中时”
+     的那一句是裸露的 —— 一旦正文里有裸 < 或 &，结果面板就可能排版错乱甚至被截断。 */
   var idx = it.x.indexOf(q);
-  if(idx < 0){ return it.x.slice(0, 42); }
+  if(idx < 0){ return wsEsc(it.x.slice(0, 42)); }
   var a = idx - 14; if(a < 0){ a = 0; }
-  var pre = (a > 0 ? '…' : '') + it.x.slice(a, idx);
+  var pre = (a > 0 ? '…' : '') + wsEsc(it.x.slice(a, idx));
   var hit = it.x.slice(idx, idx + q.length);
   var tail = it.x.slice(idx + q.length, idx + q.length + 26) + (idx + q.length < it.x.length ? '…' : '');
   return pre + '<b>' + wsEsc(hit) + '</b>' + wsEsc(tail);
 }
+/* 【坑】【需求】全文搜索的三段式保障（用户要求离线也能用）：
+   ① 先取本地索引 search-index.json（构建脚本产出）；
+   ② 再动态 import CDN 上的 Fuse.js（jsdelivr → unpkg 依次兜底）；
+   ③ 任何一步失败都只能降级为“关键词命中”，绝不能抛错拦住搜索框。
+   所以这里用 catch 兜住并让 wsFuse 保持 null —— renderSearch 会据此走关键词分支。
+   改 CDN 地址或 Fuse 版本时，注意 keys 权重与 threshold 会直接影响命中排序。 */
 function initGlobalSearch(){
   if(wsFuseBusy || window.fetch == null){ return; }
   wsFuseBusy = true;
@@ -454,6 +502,10 @@ function initGlobalSearch(){
   }).catch(function(){ wsFuse = null; });
 }
 
+/* 【易错】两条搜索分支必须保持行为一致：
+   有 Fuse 时走“全文模糊搜索”（点结果 → 直达知识点锚点 data-a）；
+   没有 Fuse 时走 renderDrop（关键词命中，只到板块）。
+   任何一条分支里新加的 DOM 拼接都要 wsEsc 转义，并且都要给 .row 绑点击。 */
 function renderSearch(q){
   q = (q||'').trim();
   if(!q){ drop.classList.remove('show'); return; }
@@ -487,6 +539,8 @@ function renderSearch(q){
   renderDrop(findMatches(q));
 }
 
+/* 【需求】搜索交互约定：输入即搜（不按回车也出结果）；回车取“最佳一条”直接跳转，
+   取不到再退回结果面板；按 / 聚焦搜索框、Esc 收起结果——这三条是用户已习惯的键位。 */
 globalQ.addEventListener('input', function(){
   renderSearch(this.value);
 });
@@ -515,6 +569,8 @@ document.addEventListener('click', function(e){
 
 /* ================= 助手已下线（2026-09 清理） ================= */
 
+/* 【需求】回车兜底路由：索引还没加载好（或离线）时，用“关键词被包含在查询里”的方式
+   选最长命中的那个板块。这是保证“回车永远有反应”的最后一道保险，别删。 */
 function routeBest(q){
   var best = null, bestLen = 0;
   SECTIONS.forEach(function(s){
@@ -526,6 +582,8 @@ function routeBest(q){
 }
 
 /* ================= 快捷键 & 移动端 ================= */
+/* 【需求】快捷键与移动端：/ 聚焦搜索、Esc 收结果；菜单按钮切换侧栏，点遮罩也能收起，
+   窗口变宽（>860）时自动收起侧栏，避免“桌面端残留抽屉状态”。 */
 document.addEventListener('keydown', function(e){
   if(e.key==='/' && !['INPUT','TEXTAREA'].includes(document.activeElement.tagName)){
     e.preventDefault(); globalQ.focus();
@@ -545,6 +603,10 @@ window.addEventListener('resize', function(){
    1) 把 iframe 交给主题层，切换时由主题层同步过去
    2) 接收板块页回传的状态，保持顶栏分段控件与内容页一致
    没有主题层时（脚本被拦截等）顶栏控件退化为不可用，不影响其它功能。 */
+/* 【接口】与主题层的对接（assets/主题.js）：
+   bindFrame 把 iframe 注册进主题层，之后切换主题会同步到内容页；
+   下面的 message 监听接收板块页回传的 'xz-theme' 并 silent 应用（不能广播回去，会死循环）。
+   主题层缺失时（脚本被拦截）这里会整体跳过，顶栏控件退化为不可用但不影响其它功能。 */
 if(window.__xzTheme){
   try{ window.__xzTheme.bindFrame(frame); }catch(e){}
 }
@@ -557,7 +619,7 @@ window.addEventListener('message', function(e){
 
 /* ================= 初始化 ================= */
 /* ================= 启动 ================= */
-/* 检索索引 561KB：不做后台预热，只在用户点/输入搜索框时加载，
+/* 【性能】检索索引 561KB：不做后台预热，只在用户点/输入搜索框时加载，
    首屏带宽全部留给板块内容；索引未就绪时回车仍可用关键词兜底路由。 */
 var wsWarmed = false;
 function warmIndex(){
