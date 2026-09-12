@@ -2,6 +2,13 @@
    行测知识工作站 · 全局演算层（透明手写画布）
    用途：在任意板块页面上叠加一层几乎全透明的画布，透过它看题目、随手演算。
 
+   笔迹几何：perfect-freehand（github.com/steveruizok/perfect-freehand, MIT）
+     · 每一笔交给 getStroke() 生成一个闭合轮廓多边形，再用一次 fill() 出墨。
+     · 一次填充只有一个 coverage 掩膜，笔迹内部不存在“分段接缝”，
+       结构上不会出现条纹/板条状伪影（这也正是 tldraw 的生产做法）。
+     · 压感由轮廓宽度体现，满压时宽度正好等于用户设定的粗细。
+     · 库未加载成功时退化为“一条整路径 + 恒定宽度描边”，同样不分段。
+
    低内存设计（沿用并加强）：
      1) 单画布，只做视口大小（不是整页高度），无离屏副本
      2) 笔画是唯一数据源，坐标用 Float32Array 紧凑存（x,y,压力 各 4 字节）
@@ -30,6 +37,15 @@
   'use strict';
   if (window.__xzScratchLoaded) return;
   window.__xzScratchLoaded = true;
+
+  /* 本脚本自己的 URL：用来定位同目录下的 perfect-freehand（各板块页层级不同） */
+  var SELF = '';
+  try {
+    var _s = document.currentScript;
+    if (!_s) { var _a = document.getElementsByTagName('script'); _s = _a[_a.length - 1]; }
+    if (_s && _s.src) SELF = _s.src.replace(/[?#].*$/, '');
+  } catch (e) {}
+  var ASSET_DIR = SELF ? SELF.replace(/[^\/]*$/, '') : '../assets/';
 
   /* devicePixelRatio 必须动态取：浏览器缩放、窗口跨屏、iPad 捏合都会改变它。
      启动时读一次并缓存，会导致画布位图和显示尺寸对不上。 */
@@ -289,8 +305,9 @@
   }
 
   /* ---------- 几何 ---------- */
-  /* s.w 就是“满压时的线宽”，所见即所得：钢笔轻按会变细，重按到设定的粗细封顶 */
-  function padOf(s) { return s.w * 0.5 + 2; }
+  /* s.w 就是“满压时的线宽”，所见即所得：钢笔轻按会变细，重按到设定的粗细封顶。
+     轮廓在拐弯处会略微外扩，所以留一点额外余量给脏矩形与命中判定。 */
+  function padOf(s) { return s.w * 0.5 + 4; }
   function computeBB(s) {
     var p = s.p, n = p.length / 3;
     if (!n) { s.bb = null; return; }
@@ -313,6 +330,98 @@
     return Math.sqrt(qx * qx + qy * qy);
   }
 
+  /* ---------- 笔迹几何：perfect-freehand（tldraw 作者维护，MIT） ----------
+     旧做法是按压力把一笔切成很多小段、每段单独 stroke() 一次：
+     段与段之间宽度突变，圆头相接处会出现半透明接缝，整笔看起来像一层层板条
+     —— 也就是用户反馈的“斜向栅栏条纹”（恒定压力时只有一段，所以鼠标下看不出来）。
+     现在改成把整笔交给 getStroke() 生成一个闭合轮廓多边形，再一次 fill() 出墨：
+     一次填充只有一个coverage 掩膜，内部不存在分段接缝，结构上不可能出现条纹。
+     库没加载上时退化成“一条整路径 + 恒定宽度描边”，同样不会分段。 */
+  var PF = null, pfTried = false, pfLoading = false;
+  function loadOutline() {
+    if (pfTried || pfLoading) return;
+    pfLoading = true;
+    var urls = [
+      /* 内置副本用 .js 后缀：GitHub Pages 对 .mjs 的 MIME 识别不可靠，
+         而 ES 模块对 MIME 是严格校验的（内容仍是 ESM，import() 照常按模块解析） */
+      ASSET_DIR + 'perfect-freehand.js',
+      'https://cdn.jsdelivr.net/npm/perfect-freehand@1.2.3/dist/esm/index.mjs',
+      'https://unpkg.com/perfect-freehand@1.2.3/dist/esm/index.mjs'
+    ];
+    var chain = Promise.reject();
+    urls.forEach(function (u) { chain = chain.catch(function () { return import(u); }); });
+    chain.then(function (mod) {
+      PF = (mod && (typeof mod.getStroke === 'function' ? mod.getStroke
+        : (mod.default && typeof mod.default.getStroke === 'function' ? mod.default.getStroke
+          : (typeof mod.default === 'function' ? mod.default : null)))) || null;
+    }).catch(function () { PF = null; }).then(function () {
+      pfLoading = false; pfTried = true;
+      if (mode) renderAll();          /* 加载完成后重画一次，老笔迹也升级成轮廓渲染 */
+    });
+  }
+
+  var LIVE_IN = [];                   /* 复用容器，避免每帧重新分配点数组 */
+  function prOf(s, i) { return (s.t === 'pen' && !s.flat) ? s.p[i * 3 + 2] : 1; }
+  function inputPoints(s, reuse) {
+    var p = s.p, n = p.length / 3, arr = reuse || [];
+    /* 两点笔画：库内部会自行插值补充点，但那些补充点会丢掉压力值（回落到 0.5），
+       结果线宽只有设定值的 ~71%。这里先自己补一个中点，绕开它那条分支。 */
+    var need = (n === 2) ? 3 : n;
+    arr.length = need;
+    var j = 0;
+    for (var i = 0; i < n; i++) {
+      var q = arr[j];
+      if (!q) { q = [0, 0, 0]; arr[j] = q; }
+      q[0] = p[i * 3]; q[1] = p[i * 3 + 1]; q[2] = prOf(s, i);
+      j++;
+      if (i === 0 && n === 2) {
+        var m = arr[j];
+        if (!m) { m = [0, 0, 0]; arr[j] = m; }
+        m[0] = (p[0] + p[3]) / 2; m[1] = (p[1] + p[4]) / 2;
+        m[2] = (prOf(s, 0) + prOf(s, 1)) / 2;
+        j++;
+      }
+    }
+    return arr;
+  }
+  /* 各工具的轮廓参数。thinning 会同时影响粗细区间，
+     所以 size 取 w/(1+thinning)，保证“满压时正好等于用户设定的宽度”。 */
+  var OUT_CFG = {
+    pen: { thinning: 0.4, smoothing: 0.5, streamline: 0.45 },
+    pencil: { thinning: 0, smoothing: 0.42, streamline: 0.5 },
+    marker: { thinning: 0, smoothing: 0.5, streamline: 0.62 }
+  };
+  function outlineOptions(s) {
+    var o = OUT_CFG[s.t] || OUT_CFG.pen;
+    var t = (s.t === 'pen' && !s.flat) ? o.thinning : 0;
+    return {
+      size: Math.max(0.6, s.w) / (1 + t),
+      thinning: t,
+      smoothing: o.smoothing,
+      streamline: o.streamline,
+      simulatePressure: false,
+      last: true,
+      start: { cap: true, taper: 0 },
+      end: { cap: true, taper: 0 }
+    };
+  }
+  /* 官方给出的“轮廓点 → SVG path”写法，这里原样使用 */
+  function svgPathFromOutline(P) {
+    var len = P.length;
+    if (len < 4) { return ''; }
+    var avg = function (a, b) { return [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2]; };
+    var a = P[0], b = P[1], c = P[2], m = avg(b, c);
+    var d = 'M' + a[0].toFixed(2) + ',' + a[1].toFixed(2) +
+            'Q' + b[0].toFixed(2) + ',' + b[1].toFixed(2) + ' ' +
+            m[0].toFixed(2) + ',' + m[1].toFixed(2) + 'T';
+    for (var i = 2, max = len - 1; i < max; i++) {
+      a = P[i]; b = P[i + 1];
+      m = avg(a, b);
+      d += m[0].toFixed(2) + ',' + m[1].toFixed(2) + ' ';
+    }
+    return d + 'Z';
+  }
+
   /* ---------- 绘制 ---------- */
   function buildPath(s, i0, i1) {
     var p = s.p, n = p.length / 3, path = new Path2D(), aX, aY, bX, bY;
@@ -327,41 +436,56 @@
     }
     return path;
   }
-  function drawStroke(c, s) {
-    var p = s.p, n = p.length / 3;
+  function alphaOf(s) { return (s.t === 'pencil') ? 0.88 : (s.t === 'marker' ? 0.32 : 1); }
+  /* 兜底渲染：一条整路径 + 恒定宽度描边（不分段，所以也不会出条纹） */
+  function drawStrokeSimple(c, s) {
+    var n = s.p.length / 3;
     if (!n) return;
     c.lineCap = 'round'; c.lineJoin = 'round';
-    if (s.t === 'eraser') {
-      c.globalCompositeOperation = 'destination-out';
-      c.globalAlpha = 1; c.strokeStyle = '#000'; c.fillStyle = '#000';
-    } else {
-      c.globalCompositeOperation = 'source-over';
-      c.globalAlpha = (s.t === 'pencil') ? 0.88 : (s.t === 'marker' ? 0.32 : 1);
-      c.strokeStyle = s.c; c.fillStyle = s.c;
-    }
-    var w = s.w;
+    c.globalCompositeOperation = 'source-over';
+    c.globalAlpha = alphaOf(s);
+    c.strokeStyle = s.c; c.fillStyle = s.c;
     if (n === 1) {
       c.beginPath();
-      var r = (s.t === 'pen') ? w * p[2] / 2 : w / 2;
-      c.arc(p[0], p[1], Math.max(r, 0.5), 0, 6.2832);
+      c.arc(s.p[0], s.p[1], Math.max(s.w / 2, 0.5), 0, 6.2832);
       c.fill();
-    } else if (s.t === 'pen') {
-      /* 压感分段：把压力量化到 1/4 档，减少 path 数量又不丢手感 */
-      var lv = Math.round(p[2] * 4) / 4, start = 1, i;
-      for (i = 2; i < n; i++) {
-        var q = Math.round(p[i * 3 + 2] * 4) / 4;
-        if (q !== lv) {
-          c.lineWidth = Math.max(0.6, w * lv);
-          c.stroke(buildPath(s, start, i - 1));
-          lv = q; start = i;
-        }
-      }
-      c.lineWidth = Math.max(0.6, w * lv);
-      c.stroke(buildPath(s, start, n - 1));
     } else {
-      c.lineWidth = w;
+      c.lineWidth = s.w;
       c.stroke(buildPath(s, 1, n - 1));
     }
+    c.globalAlpha = 1;
+  }
+  function drawStroke(c, s) {
+    var n = s.p.length / 3;
+    if (!n) return;
+    if (s.t === 'eraser') {                   /* 橡皮：整条路径描边 + 擦除合成 */
+      c.lineCap = 'round'; c.lineJoin = 'round';
+      c.globalCompositeOperation = 'destination-out';
+      c.globalAlpha = 1; c.strokeStyle = '#000'; c.fillStyle = '#000';
+      if (n === 1) {
+        c.beginPath();
+        c.arc(s.p[0], s.p[1], Math.max(s.w / 2, 0.5), 0, 6.2832);
+        c.fill();
+      } else {
+        c.lineWidth = s.w;
+        c.stroke(buildPath(s, 1, n - 1));
+      }
+      c.globalAlpha = 1; c.globalCompositeOperation = 'source-over';
+      return;
+    }
+    if (!PF) { drawStrokeSimple(c, s); return; }
+    if (n < 2) { drawStrokeSimple(c, s); return; }
+    var path = s._p2d;
+    if (!path) {
+      var d = svgPathFromOutline(PF(inputPoints(s, s === live ? LIVE_IN : null), outlineOptions(s)));
+      if (!d) { drawStrokeSimple(c, s); return; }
+      path = new Path2D(d);
+      if (s !== live) s._p2d = path;         /* 已提交的笔画缓存轮廓，整屏重画时零成本 */
+    }
+    c.globalCompositeOperation = 'source-over';
+    c.globalAlpha = alphaOf(s);
+    c.fillStyle = s.c;
+    c.fill(path);
     c.globalAlpha = 1; c.globalCompositeOperation = 'source-over';
   }
   /* 局部重绘：只重画给定矩形里的内容。
@@ -500,6 +624,7 @@
     for (var i = 0; i < p.length; i += 3) { p[i] += dx; p[i + 1] += dy; }
     var b = s.bb;
     if (b) { b.x0 += dx; b.x1 += dx; b.y0 += dy; b.y1 += dy; }
+    s._p2d = null;                                  /* 点动了，缓存的轮廓作废 */
   }
 
   /* 手写笔是否“正在使用中”（笔尖按着，或刚抬起不到 0.8 秒） */
@@ -552,7 +677,7 @@
     drawing = true;
     lastPr = o.pr;
     flatPress = false; prMin = 1; prMax = 0;
-    live = { t: tool, c: curColor(), w: curWidth(), p: [], bb: null };
+    live = { t: tool, c: curColor(), w: curWidth(), p: [], bb: null, flat: false };
     pushPoint(live, o.x, o.y, o.pr);
     scheduleLive();
   }
@@ -660,6 +785,7 @@
        所以一旦发现压力全程没有变化，就改按满压渲染，让线宽严格等于用户设定值。 */
     if (live.t === 'pen' && !flatPress && live.p.length >= 12 * 3 && (prMax - prMin) < 0.03) {
       flatPress = true;
+      live.flat = true;
       for (var k = 2; k < live.p.length; k += 3) live.p[k] = 1;
       renderAll();
       if (!flatToasted) {
@@ -735,7 +861,7 @@
     } else if (op.t === 'del') {
       strokes.splice(Math.min(op.i, strokes.length), 0, op.s);
     } else if (op.t === 'move') {
-      op.s.p = op.prev.slice(); computeBB(op.s);
+      op.s.p = op.prev.slice(); computeBB(op.s); op.s._p2d = null;
     } else if (op.t === 'clear') {
       strokes = op.arr.slice();
     }
@@ -749,7 +875,7 @@
     if (op.t === 'add') {
       strokes.push(op.s);
     } else if (op.t === 'move') {
-      op.s.p = op.next.slice(); computeBB(op.s);
+      op.s.p = op.next.slice(); computeBB(op.s); op.s._p2d = null;
     } else if (op.t === 'clear') {
       op.arr = strokes.slice(); strokes = [];
     }
@@ -1035,6 +1161,7 @@
   function boot() {
     if (booted) return;
     booted = true;
+    loadOutline();                    /* 先把笔迹轮廓库拉起来（本地优先，失败走兜底） */
     readScroll();
     resize();
     buildColors();
@@ -1054,6 +1181,8 @@
     setTool: setTool,
     setWidth: function (w) { setWidth(Number(w) || 0); },
     getWidth: function () { return curWidth(); },
+    /* 笔迹几何库是否已就绪（perfect-freehand）；没就绪时走恒定宽度的兜底渲染 */
+    outline: function () { return !!PF; },
     penOnly: function (v) { if (typeof v === 'boolean') { pref.penOnly = v; savePref(); syncUI(); } return pref.penOnly; },
     clear: function () { strokes = []; undoStack = []; redoStack = []; renderAll(); syncUI(); }
   };
