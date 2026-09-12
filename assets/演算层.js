@@ -24,8 +24,9 @@
      b) 防误触（手掌抑制）：笔落下后的一段时间内忽略所有触摸输入；手写笔一旦出现，
         自动进入「仅手写笔」模式（可手动关闭），贴在屏幕上的手掌不会再画出杂线
      c) 笔尖悬停（iPad Pro M2+ / iPadOS 16.4+）：未落笔也能看到笔尖粗细预览圈
-     d) 合批事件：优先吃 getCoalescedEvents 的原始采样点，线条更顺滑；
-        支持 pointerrawupdate 的浏览器额外提升采样率
+     d) 合批事件：只吃 pointermove（内含 getCoalescedEvents 的全部原始采样点），线条更顺滑；
+        刻意不同时监听 pointerrawupdate —— 它和 pointermove 是两条流，
+        同时处理会把同一批样本推两遍，笔迹来回折返成锯齿（桌面端/安卓的“栅栏条纹”根因）
      e) 某些笔（或手指）根本不报压力：自动识别为“无压感”，按满压渲染，
         保证线宽严格等于用户设定的粗细，不擅自改粗改细
      f) 双指平移：演算模式下画布接管了单指，双指捏合/拖动仍可上下翻页
@@ -548,12 +549,23 @@
   }
 
   /* ---------- 采样 ---------- */
+  /* 反重放护栏：同一批原始样本被重复投喂时，新点会几乎精确落在前面某个已推过的点上。
+     真人运笔不可能在几个采样点之内回到同一坐标，所以按“精确重合”丢点既安全又能挡住重复投递。 */
+  function isReplay(s, x, y) {
+    var p = s.p, n = p.length / 3, k = 0;
+    for (var i = n - 1; i >= 0 && k < 6; i--, k++) {
+      var dx = x - p[i * 3], dy = y - p[i * 3 + 1];
+      if (dx * dx + dy * dy < 0.0025) return true;      /* 0.05px 内视为同一个采样点 */
+    }
+    return false;
+  }
   function pushPoint(s, x, y, pr) {
     var n = s.p.length;
     if (n >= MAX_PTS * 3) return false;
     if (n >= 3) {
       var dx = x - s.p[n - 3], dy = y - s.p[n - 2];
       if (dx * dx + dy * dy < PT_MIN * PT_MIN) return false;
+      if (isReplay(s, x, y)) return false;
     }
     if (s.t === 'pencil') { x += (Math.random() - 0.5) * 0.7; y += (Math.random() - 0.5) * 0.7; }
     if (s.t === 'marker') pr = 1;
@@ -835,14 +847,17 @@
     readScroll(); scheduleDraw();
     e.preventDefault();
   }
-  function onRaw(e) { if (drawing && mode) onMove(e); }
   cv.addEventListener('pointerdown', onDown);
   cv.addEventListener('pointermove', onMove);
   cv.addEventListener('pointerup', onUp);
   cv.addEventListener('pointercancel', onUp);
   cv.addEventListener('pointerleave', function () { hideRing(); });
   cv.addEventListener('wheel', onWheel, { passive: false });
-  if ('onpointerrawupdate' in window) cv.addEventListener('pointerrawupdate', onRaw);
+  /* 注意：不要同时监听 pointerrawupdate。
+     它只有 Chromium 系浏览器有，而 pointermove 又会通过 getCoalescedEvents()
+     把同一批原始样本原样重放一遍；两条都处理 = 每帧把这一批样本推两遍，
+     新点落回上一批的起点，笔迹就来回折返成锯齿 —— 桌面端与安卓上表现为
+     “斜向栅栏条纹”，而 Safari 不支持该事件所以 iPhone 一直正常。 */
   window.addEventListener('blur', function () { if (drawing) endStroke(); });
   window.addEventListener('contextmenu', function (e) { if (mode) e.preventDefault(); });
 
