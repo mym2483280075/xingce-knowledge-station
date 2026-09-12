@@ -4,11 +4,12 @@
 <head>
 <meta charset="UTF-8">
 <link rel="icon" href="data:,">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>行测知识工作站 · 六大板块一站式备考</title>
+<script src="assets/%E4%B8%BB%E9%A2%98.js"></script>
 <style>
 :root{
   --rail:#0b1220;
@@ -158,7 +159,38 @@ input{font-family:inherit}
   .sidebar.open{transform:none}
   .menu-btn{display:flex!important}
 }
-.menu-btn{display:none;border:0;background:transparent;font-size:20px;color:var(--ink);padding:4px}
+.menu-btn{display:none;border:0;background:transparent;font-size:20px;color:var(--ink);padding:4px;align-items:center;justify-content:center;width:36px;height:36px;border-radius:9px}
+
+/* ===== 显示模式开关（自动 / 白天 / 夜晚） ===== */
+.themeseg{display:flex;align-items:center;gap:2px;padding:3px;border-radius:11px;background:var(--bg);border:1px solid var(--rule);flex:none}
+.themeseg button{border:0;background:transparent;color:var(--muted);font-size:12px;font-weight:600;line-height:1;padding:7px 9px;border-radius:8px;cursor:pointer;display:flex;align-items:center;gap:5px;white-space:nowrap;-webkit-tap-highlight-color:transparent;font-family:inherit}
+.themeseg button:hover{background:var(--panel);color:var(--ink)}
+.themeseg button.on{background:var(--panel);color:var(--brand);box-shadow:0 1px 3px rgba(15,23,42,.14)}
+.themeseg svg{width:14px;height:14px;flex:none;display:block}
+html.xz-dark .themeseg button.on{background:#24314b;box-shadow:0 1px 3px rgba(0,0,0,.4)}
+@media(max-width:1080px){.themeseg button .tx{display:none}.themeseg button{padding:8px}}
+
+/* ===== 移动端侧边栏遮罩 ===== */
+.backdrop{position:fixed;inset:0;z-index:85;background:rgba(15,23,42,.45);opacity:0;pointer-events:none;transition:opacity .2s}
+.backdrop.show{opacity:1;pointer-events:auto}
+
+/* ===== 移动端外壳适配 ===== */
+@media(max-width:860px){
+  .topbar{height:auto;min-height:56px;flex-wrap:wrap;padding:8px 12px;gap:8px;row-gap:8px}
+  .crumb{flex:1 1 auto;min-width:0}
+  .crumb .tt{overflow:hidden;text-overflow:ellipsis}
+  .crumb .en,.crumb .vbadge{display:none}
+  .themeseg{margin-left:auto}
+  .searchbox{order:3;flex:1 0 100%;max-width:none;margin-left:0}
+  .search-drop{top:44px;max-height:56vh}
+  .nav-item{padding:12px}
+  .empty{font-size:13.5px}
+}
+@supports(padding:env(safe-area-inset-left)){
+  .sidebar{padding-top:env(safe-area-inset-top);padding-left:env(safe-area-inset-left)}
+  .topbar{padding-left:calc(12px + env(safe-area-inset-left));padding-right:calc(12px + env(safe-area-inset-right))}
+  .sidebar-foot{padding-bottom:calc(14px + env(safe-area-inset-bottom))}
+}
 </style>
 </head>
 <body>
@@ -178,10 +210,12 @@ input{font-family:inherit}
     <div class="nav" id="nav"></div>
     <div class="sidebar-foot">
       <b>快捷键</b><br>按 <b>/</b> 聚焦搜索 · 按 <b>Esc</b> 收起结果<br>
+      演算画布：右手写字的「演算」按钮 · 支持 Apple Pencil 压感与粗细自选<br>
       内容来源：个人备考整理
-      <div class="ver">界面版本 2026-09-11 · 顶部卡片「图标与板块名同行 · 居中」</div>
+      <div class="ver">界面版本 2026-09-12 · 手写笔压感 / 粗细自选 / 夜晚模式</div>
     </div>
   </aside>
+  <div class="backdrop" id="backdrop"></div>
 
   <!-- 主区域 -->
   <div class="main">
@@ -191,13 +225,27 @@ input{font-family:inherit}
         <span class="bar" id="crumbBar"></span>
         <span class="tt" id="crumbTitle">行测知识工作站</span>
         <span class="en" id="crumbEn"></span>
-        <span class="vbadge">版本 2026-09-11 · 卡片同行居中</span>
+        <span class="vbadge">版本 2026-09-12 · 手写笔 / 夜晚模式</span>
       </div>
       <div class="searchbox">
         <span class="ic">🔍</span>
         <input id="globalQ" placeholder="搜索板块或知识点，例如：图形推理 / 剩余价值 / 比重差…" autocomplete="off">
         <span class="kbd">/</span>
         <div class="search-drop" id="drop"></div>
+      </div>
+      <div class="themeseg" id="themeSeg" role="group" aria-label="显示模式">
+        <button type="button" data-xz-theme-set="auto" class="on" title="跟随系统深色模式">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="12" cy="12" r="8.2"/><path d="M12 3.8v16.4"/><path d="M12 6.4a5.6 5.6 0 0 1 0 11.2z" fill="currentColor" stroke="none"/></svg>
+          <span class="tx">自动</span>
+        </button>
+        <button type="button" data-xz-theme-set="light" title="白天模式">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="12" cy="12" r="4.6"/><path d="M12 2.6v2.2M12 19.2v2.2M2.6 12h2.2M19.2 12h2.2M5.4 5.4l1.6 1.6M17 17l1.6 1.6M18.6 5.4L17 7M7 17l-1.6 1.6"/></svg>
+          <span class="tx">白天</span>
+        </button>
+        <button type="button" data-xz-theme-set="dark" title="夜晚模式">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 14.6A8.6 8.6 0 1 1 9.4 3.5a6.9 6.9 0 0 0 11.1 11.1z"/></svg>
+          <span class="tx">夜晚</span>
+        </button>
       </div>
     </header>
     <div class="content">
@@ -272,7 +320,7 @@ var curId = null;
 var pendingQuery = null;
 /* 板块页版本号：只在“本次部署有内容更新”时改这里，平时让浏览器直接用缓存（走 ETag 校验），
    不再用 Date.now()，否则每次切换板块都要重新下载整份 HTML（最大 1.2MB）。 */
-var CACHE_V = 'v20260911e';
+var CACHE_V = 'v20260912a';
 
 frame.addEventListener('load', function(){
   if(pendingQuery != null){
@@ -311,8 +359,14 @@ function openSection(id, query){
   crumbBar.style.background = s.color;
   crumbTitle.textContent = s.name;
   crumbEn.textContent = s.en;
-  if(window.innerWidth <= 860){ document.getElementById('sidebar').classList.remove('open'); }
+  if(window.innerWidth <= 860){ closeSidebar(); }
 }
+
+/* 移动端侧边栏开关（带遮罩，点遮罩也能收起） */
+var sidebarEl = document.getElementById('sidebar');
+var backdropEl = document.getElementById('backdrop');
+function openSidebar(){ sidebarEl.classList.add('open'); backdropEl.classList.add('show'); }
+function closeSidebar(){ sidebarEl.classList.remove('open'); backdropEl.classList.remove('show'); }
 
 /* ================= 全局搜索 ================= */
 var globalQ = document.getElementById('globalQ');
@@ -479,7 +533,26 @@ document.addEventListener('keydown', function(e){
   if(e.key==='Escape'){ drop.classList.remove('show'); }
 });
 document.getElementById('menuBtn').addEventListener('click', function(){
-  document.getElementById('sidebar').classList.toggle('open');
+  if(sidebarEl.classList.contains('open')) closeSidebar(); else openSidebar();
+});
+backdropEl.addEventListener('click', closeSidebar);
+window.addEventListener('resize', function(){
+  if(window.innerWidth > 860) closeSidebar();
+});
+
+/* ================= 显示模式（白天 / 夜晚 / 跟随系统） =================
+   主题层 assets/主题.js 负责实际换肤；这里只做两件事：
+   1) 把 iframe 交给主题层，切换时由主题层同步过去
+   2) 接收板块页回传的状态，保持顶栏分段控件与内容页一致
+   没有主题层时（脚本被拦截等）顶栏控件退化为不可用，不影响其它功能。 */
+if(window.__xzTheme){
+  try{ window.__xzTheme.bindFrame(frame); }catch(e){}
+}
+window.addEventListener('message', function(e){
+  var d = e && e.data;
+  if(d && d.type === 'xz-theme' && d.mode && window.__xzTheme){
+    try{ window.__xzTheme.setMode(d.mode, true); }catch(e2){}
+  }
 });
 
 /* ================= 初始化 ================= */
