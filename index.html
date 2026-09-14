@@ -170,6 +170,143 @@ input{font-family:inherit}
 html.xz-dark .themeseg button.on{background:#24314b;box-shadow:0 1px 3px rgba(0,0,0,.4)}
 @media(max-width:1080px){.themeseg button .tx{display:none}.themeseg button{padding:8px}}
 
+/* ===== iOS 风格计时器（秒表 · 分段 · 面板/全屏双模式） =====
+   【需求】顶栏常驻入口 + 弹出面板，行为对齐 iOS「时钟 · 秒表」：
+     初始＝左「复位」+ 右「启动」；启动后＝左「分段」+ 右「停止」；停止后回到「复位」+「启动」。
+     停止只是暂停（再次「启动」从上一次的值继续），只有「复位」才回到 00:00:00 并清空分段。
+   【需求】显示模式两种（顶部胶囊分段控件切换，同一份 DOM，只换类名）：
+     · 面板＝顶栏下方的弹层，不挡内容（现在这个样子）
+     · 全屏＝铺满整屏的 iOS 秒表（白底黑字 / 夜晚黑底白字），大字 + 双圆钮 + 分段列表
+   【需求】计时显示只保留 时:分:秒，不加毫秒/百分秒；大字细体 + 双圆钮的比例按 iOS 秒表排。
+   【坑】颜色必须用 Apple 动态系统色：绿 #34C759（夜晚 #30D158）、红 #FF3B30（夜晚 #FF453A），
+     次级圆钮取 systemGray（rgba(120,120,128,*)）。别图省事写成主题的 --brand，
+     否则夜晚模式会串色。--tm-* 在下面 :root / html.xz-dark 里定义，
+     面板底色仍旧走 --panel / --rule，跟着主题层换肤，不要在这里写死颜色。
+   【坑】全屏的呈现方式是“同一个面板加 .full 类后 position:fixed 铺满”，不要再复制一份 DOM：
+     两份 DOM 会让计时状态、分段列表出现两套，必然对不上。
+     所以全屏规则一律写成 .timer-panel.full.show，避免面板收起（去掉 .show）后还残留全屏铺满。 */
+:root{
+  --tm-green:#34c759;--tm-red:#ff3b30;
+  --tm-fill:rgba(120,120,128,.16);--tm-ring:rgba(120,120,128,.36);--tm-label:#0f172a;
+  --tm-seg-track:rgba(120,120,128,.14);--tm-seg-thumb:#fff;
+}
+html.xz-dark{
+  --tm-green:#30d158;--tm-red:#ff453a;
+  --tm-fill:rgba(120,120,128,.24);--tm-ring:rgba(120,120,128,.5);--tm-label:#f3f6fb;
+  --tm-seg-track:rgba(120,120,128,.24);--tm-seg-thumb:#636366;
+}
+.timerwrap{position:relative;flex:none;display:flex;align-items:center}
+
+/* 顶栏入口：与「显示模式」分段控件同一套浅底 + 细边 + 小圆角语言 */
+.timer-trigger{
+  display:flex;align-items:center;gap:7px;height:36px;padding:0 12px;
+  border:1px solid var(--rule);border-radius:11px;background:var(--bg);color:var(--muted);
+  font-size:12px;font-weight:600;line-height:1;-webkit-tap-highlight-color:transparent;
+  transition:background .18s ease,border-color .18s ease,color .18s ease;
+}
+.timer-trigger:hover{background:var(--panel);color:var(--ink)}
+.timer-trigger svg{width:16px;height:16px;flex:none;display:block}
+.timer-trigger .tx{font-variant-numeric:tabular-nums;font-feature-settings:"tnum" 1;letter-spacing:.01em}
+.timer-trigger.run{color:var(--tm-green);border-color:color-mix(in srgb,var(--tm-green) 45%,transparent);background:color-mix(in srgb,var(--tm-green) 12%,transparent)}
+.timer-trigger.paused{color:var(--ink)}
+
+/* 面板：iOS 弹层（毛玻璃 + 大圆角 + 顶部缩放弹入） */
+.timer-panel{
+  display:none;position:absolute;top:calc(100% + 10px);right:0;z-index:70;
+  width:352px;max-width:calc(100vw - 24px);padding:14px 16px 12px;border-radius:24px;
+  background:color-mix(in srgb,var(--panel) 90%,transparent);
+  -webkit-backdrop-filter:blur(30px) saturate(180%);backdrop-filter:blur(30px) saturate(180%);
+  border:.5px solid color-mix(in srgb,var(--rule) 85%,transparent);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.55),0 24px 60px -26px rgba(15,23,42,.5),0 2px 10px rgba(15,23,42,.06);
+  transform-origin:top right;
+}
+.timer-panel.show{display:block;animation:tmIn .24s cubic-bezier(.22,1,.36,1) both}
+@keyframes tmIn{from{opacity:0;transform:translateY(-8px) scale(.96)}to{opacity:1;transform:none}}
+
+/* 大号计时数字：SF Pro 细体 + 等宽数字（冒号不跳字） */
+.timer-display{
+  padding:10px 0 16px;text-align:center;white-space:nowrap;
+  font-family:-apple-system,"SF Pro Display","SF Pro Text","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  font-size:44px;font-weight:200;line-height:1.08;letter-spacing:.005em;color:var(--tm-label);
+  font-variant-numeric:tabular-nums;font-feature-settings:"tnum" 1;
+}
+
+/* 双圆钮：2px 圆环 + 半透明填充，文字与圆环同色 */
+.timer-actions{display:flex;justify-content:center;gap:60px;padding:2px 0 14px}
+.timer-btn{
+  width:76px;height:76px;border-radius:50%;flex:none;
+  border:2px solid var(--tm-ring);background:var(--tm-fill);color:var(--tm-label);
+  font-size:17px;font-weight:400;line-height:1;display:flex;align-items:center;justify-content:center;
+  -webkit-tap-highlight-color:transparent;
+  transition:background .18s ease,border-color .18s ease,color .18s ease,transform .12s ease,opacity .18s ease;
+}
+.timer-btn:active{transform:scale(.96)}
+.timer-btn.go{border-color:var(--tm-green);background:color-mix(in srgb,var(--tm-green) 15%,transparent);color:var(--tm-green)}
+.timer-btn.go.stop{border-color:var(--tm-red);background:color-mix(in srgb,var(--tm-red) 15%,transparent);color:var(--tm-red)}
+.timer-btn:disabled{opacity:.42;cursor:default}
+.timer-btn:disabled:active{transform:none}
+
+/* 分段列表：最新一条在最上，三列（第 N 次 / 分段 / 总计） */
+.timer-laps{display:none;max-height:176px;overflow-y:auto;-webkit-overflow-scrolling:touch;border-top:.5px solid color-mix(in srgb,var(--rule) 75%,transparent)}
+.timer-laps.show{display:block}
+.timer-laps .row{display:flex;align-items:center;gap:10px;padding:9px 2px;border-bottom:.5px solid color-mix(in srgb,var(--rule) 55%,transparent);font-size:13px;color:var(--ink);font-variant-numeric:tabular-nums;font-feature-settings:"tnum" 1}
+.timer-laps .row:last-child{border-bottom:0}
+.timer-laps .n{flex:none;width:58px;color:var(--muted)}
+.timer-laps .seg{flex:1;text-align:right}
+.timer-laps .tot{flex:1;text-align:right;color:var(--muted)}
+.timer-note{padding:8px 2px 2px;text-align:center;font-size:11.5px;line-height:1.6;color:var(--muted)}
+
+/* 模式切换：iOS 胶囊分段控件（跟在面板顶部；全屏时留在同一位，作为“退回面板”的唯一出口，
+   所以它必须常驻、不能只在某一种模式里出现） */
+.timer-modebar{display:flex;justify-content:center;padding:0 0 10px}
+.timer-modeseg{display:flex;align-items:center;gap:2px;padding:2px;border-radius:9px;background:var(--tm-seg-track);flex:none}
+.timer-modeseg button{
+  border:0;background:transparent;color:var(--muted);font-family:inherit;font-size:12px;font-weight:600;line-height:1;
+  padding:6px 14px;border-radius:7px;cursor:pointer;white-space:nowrap;-webkit-tap-highlight-color:transparent;
+  transition:background .18s ease,color .18s ease,box-shadow .18s ease;
+}
+.timer-modeseg button.on{background:var(--tm-seg-thumb);color:var(--tm-label);box-shadow:0 1px 3px rgba(15,23,42,.16)}
+
+/* ---------- 全屏模式：同一个面板铺满整屏，按 iOS「时钟 · 秒表」整屏排版 ---------- */
+.timer-panel.full.show{
+  display:flex;flex-direction:column;position:fixed;inset:0;top:0;right:0;bottom:0;left:0;
+  width:auto;max-width:none;height:100vh;height:100dvh;padding:0;border:0;border-radius:0;z-index:200;
+  background:#fff;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none;
+  --tm-label:#000;--muted:#8e8e93;--rule:#e5e5ea;
+  animation:tmFullIn .34s cubic-bezier(.22,1,.36,1) both;
+}
+html.xz-dark .timer-panel.full.show{background:#000;--tm-label:#fff;--muted:#98989f;--rule:#38383a}
+@keyframes tmFullIn{from{opacity:0;transform:translateY(10px) scale(.975)}to{opacity:1;transform:none}}
+.timer-panel.full .timer-modebar{padding:calc(16px + env(safe-area-inset-top)) 20px 0}
+
+/* 【需求】全屏下「时间 + 双圆钮」整体落在整屏正中，并明显放大：
+   居中是靠 .timer-stage 的 margin:auto 0 吃满上下留白，不是 flex:1 撑开
+   （撑开会让它紧贴顶部的分段控件、落回页面上半部）。
+   分段列表与底部提示放进 .timer-bottom 贴底，两者互不干扰。
+   【坑】每个尺寸都用 min(宽 → 高) 双重约束：只看 vw 的话，矮屏（横屏 iPad、笔记本小窗）
+   会把大字和圆钮顶出屏幕；只用 vmin 又会在带鱼屏上不够大。 */
+.timer-panel.full .timer-stage{margin:auto 0;display:flex;flex-direction:column;align-items:center;padding:0 14px}
+.timer-panel.full .timer-display{padding:0;font-size:clamp(46px,min(14vw,17vh),160px)}
+.timer-panel.full .timer-actions{margin-top:clamp(28px,6vh,76px);padding:0;gap:clamp(48px,min(16vw,18vh),190px)}
+.timer-panel.full .timer-btn{
+  width:clamp(84px,min(13vmin,15vh),132px);height:clamp(84px,min(13vmin,15vh),132px);
+  font-size:clamp(19px,2.2vmin,24px);
+}
+.timer-panel.full .timer-bottom{flex:none;display:flex;flex-direction:column;padding:0 14px calc(14px + env(safe-area-inset-bottom))}
+.timer-panel.full .timer-laps{flex:0 1 auto;min-height:0;max-height:min(30vh,300px);width:min(620px,100%);margin:0 auto;border-top:0}
+.timer-panel.full .timer-laps .row{padding:15px 2px;font-size:16px}
+.timer-panel.full .timer-note{padding:8px 0 0;font-size:12px}
+
+@media(max-width:1080px){
+  .timer-trigger{padding:0 10px}
+  .timer-trigger:not(.run):not(.paused) .tx{display:none}
+}
+@media(max-width:860px){
+  .timer-panel{width:min(340px,calc(100vw - 20px));right:-4px;padding:12px 14px 10px;border-radius:22px}
+  .timer-display{font-size:40px;padding:8px 0 14px}
+  .timer-actions{gap:44px}
+}
+
 /* ===== 移动端侧边栏遮罩 ===== */
 .backdrop{position:fixed;inset:0;z-index:85;background:rgba(15,23,42,.45);opacity:0;pointer-events:none;transition:opacity .2s}
 .backdrop.show{opacity:1;pointer-events:auto}
@@ -210,9 +347,10 @@ html.xz-dark .themeseg button.on{background:#24314b;box-shadow:0 1px 3px rgba(0,
     <div class="nav" id="nav"></div>
     <div class="sidebar-foot">
       <b>快捷键</b><br>按 <b>/</b> 聚焦搜索 · 按 <b>Esc</b> 收起结果<br>
+      计时器：顶栏时钟入口 · 启动 / 分段 / 停止 / 复位 · 面板与全屏两种模式<br>
       演算画布：右手写字的「演算」按钮 · 支持 Apple Pencil 压感与粗细自选<br>
       内容来源：个人备考整理
-      <div class="ver">界面版本 2026-09-13 · 手写笔压感 / 粗细自选 / 夜晚模式</div>
+      <div class="ver">界面版本 2026-09-15 · iOS 风格计时器（时/分/秒 · 分段 · 面板/全屏）· 手写笔压感 / 粗细自选 / 夜晚模式</div>
     </div>
   </aside>
   <div class="backdrop" id="backdrop"></div>
@@ -225,13 +363,44 @@ html.xz-dark .themeseg button.on{background:#24314b;box-shadow:0 1px 3px rgba(0,
         <span class="bar" id="crumbBar"></span>
         <span class="tt" id="crumbTitle">行测知识工作站</span>
         <span class="en" id="crumbEn"></span>
-        <span class="vbadge">版本 2026-09-13 · 手写笔 / 夜晚模式</span>
+        <span class="vbadge">版本 2026-09-15 · 计时器 / 手写笔 / 夜晚模式</span>
       </div>
       <div class="searchbox">
         <span class="ic">🔍</span>
         <input id="globalQ" placeholder="搜索板块或知识点，例如：图形推理 / 剩余价值 / 比重差…" autocomplete="off">
         <span class="kbd">/</span>
         <div class="search-drop" id="drop"></div>
+      </div>
+      <!-- 计时器（iOS 秒表）：入口常驻顶栏，运行中直接显示时:分:秒，面板不挡内容 -->
+      <div class="timerwrap" id="timerWrap">
+        <button class="timer-trigger" id="timerBtn" type="button" aria-expanded="false" aria-label="计时器" title="计时器（iOS 秒表 · 时/分/秒 · 分段）">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13.6" r="7.4"/><path d="M12 10.4v3.4l2.3 1.7"/><path d="M9.3 2.9h5.4"/><path d="M12 2.9v2.6"/></svg>
+          <span class="tx" id="timerBtnTx">计时</span>
+        </button>
+        <div class="timer-panel" id="timerPanel" role="dialog" aria-label="计时器">
+          <!-- 模式切换（iOS 分段控件）：面板 = 现在这个样子；全屏 = 铺满整屏的秒表 -->
+          <div class="timer-modebar">
+            <div class="timer-modeseg" id="timerModeSeg" role="group" aria-label="计时器显示模式">
+              <button type="button" data-tm-mode="panel" class="on">面板</button>
+              <button type="button" data-tm-mode="full">全屏</button>
+            </div>
+          </div>
+          <!-- 【易错】stage / bottom 两层包裹是全屏居中的关键：
+               全屏下 .timer-stage 用 margin:auto 0 把「时间 + 双圆钮」顶到整屏正中，
+               .timer-bottom（分段列表 + 提示）贴底；面板模式下两者只是普通块级容器，
+               不产生任何样式影响。删掉任一层，全屏的居中与贴底就会失效。 -->
+          <div class="timer-stage">
+            <div class="timer-display" id="timerDisplay">00:00:00</div>
+            <div class="timer-actions">
+              <button class="timer-btn" id="timerLap" type="button" disabled>复位</button>
+              <button class="timer-btn go" id="timerGo" type="button">启动</button>
+            </div>
+          </div>
+          <div class="timer-bottom">
+            <div class="timer-laps" id="timerLaps"></div>
+            <div class="timer-note" id="timerNote">启动后「复位」变为「分段」，停止后再变回「复位」</div>
+          </div>
+        </div>
       </div>
       <div class="themeseg" id="themeSeg" role="group" aria-label="显示模式">
         <button type="button" data-xz-theme-set="auto" class="on" title="跟随系统深色模式">
@@ -275,6 +444,11 @@ html.xz-dark .themeseg button.on{background:#24314b;box-shadow:0 1px 3px rgba(0,
         · CACHE_V = 本文件里给 iframe 板块页 HTML 去缓存的版本号
         · 各板块页里的 assets/演算层.js?v=...
         漏改任何一个，iPad 上都会继续跑缓存里的旧文件，等于没改。
+   ---------------------------------------------------------------
+   （2026-09-15 顶栏新增 iOS 风格计时器：只动本文件，iframe 里的板块页一字未改，
+     所以 CACHE_V 保持 v20260914b 不动 —— 它是“板块页版本”不是“界面版本”，
+     跟着改只会让 iPad 白下载一遍全部板块页。要换到新的 index.html，刷新一次即可。
+     同日追加计时器的「面板 / 全屏」双模式：同样只改本文件，CACHE_V 继续不动。）
    =================================================================== */
 /* ================= 板块配置 ================= */
 /* 【数据】【易错】板块清单：id 是全局主键（必须与 build-index.js / search-index.json 一致），
@@ -620,6 +794,181 @@ window.addEventListener('message', function(e){
     try{ window.__xzTheme.setMode(d.mode, true); }catch(e2){}
   }
 });
+
+/* ================= iOS 风格计时器（秒表 · 分段） =================
+   【需求】顶栏入口 + 弹出面板，状态机严格对齐 iOS「时钟 · 秒表」：
+     初始(0,停) ──启动──▶ 运行中 ──停止──▶ 暂停 ──启动──▶ 继续（不清零）
+       运行中左键＝「分段」（记录并追加一条）；暂停/初始左键＝「复位」（归零 + 清空分段）
+       右键：初始/暂停＝「启动」（绿色）· 运行中＝「停止」（红色）
+   【坑】① 计时用 Date.now() 差值累计，不是“每秒 +1”：iPad 切后台/锁屏时 rAF 会停摆，
+     用差值回来才是真实耗时（这也是面板关掉、切板块后时间依旧准确的原因）。
+     ② rAF 只在“秒数变了”时才写 DOM，避免每秒 60 次重排把长文页拖慢。
+     ③ 「停止」只暂停不清零，别写成 reset —— 用户按停止后必须还能接着计时。
+   【需求】显示模式两种，由面板顶部的分段控件切换：面板＝顶栏下方的弹层（不挡内容）·
+     全屏＝铺满整屏的 iOS 秒表（白底黑字 / 夜晚黑底白字，大字 + 双圆钮 + 分段列表）。
+     两种模式共用同一份 DOM 与同一个计时状态，来回切、收面板都不打断计时。
+   【接口】total() / fmt() 是唯一的时间出口：面板大字与顶栏小字都走这里，不要各算一份；
+     状态类落在 #timerBtn 上（.run / .paused），窄屏只隐藏“未计时”时的文字标签。
+   【数据】laps 每项 { n:第几次, total:该次点击时的总计(ms), seg:本次分段(ms) }。
+     只存内存、刷新即清空（有意为之：不做持久化，免得隔天打开看到一个巨大的计时值）。 */
+(function(){
+  var wrap = document.getElementById('timerWrap');
+  if(!wrap){ return; }
+  var panel = document.getElementById('timerPanel');
+  var btn = document.getElementById('timerBtn');
+  var btnTx = document.getElementById('timerBtnTx');
+  var disp = document.getElementById('timerDisplay');
+  var elLapBtn = document.getElementById('timerLap');
+  var elGo = document.getElementById('timerGo');
+  var elLaps = document.getElementById('timerLaps');
+  var elNote = document.getElementById('timerNote');
+  var seg = document.getElementById('timerModeSeg');
+
+  var elapsed = 0;      /* 暂停前已累计的毫秒 */
+  var startedAt = 0;    /* 本段启动时刻（Date.now()），未运行时为 0 */
+  var running = false;
+  var mode = 'panel';   /* 显示模式：panel＝弹层（现在这个样子）· full＝铺满整屏 */
+  var laps = [];
+  var rafId = 0, lastShownSec = -1;
+
+  function total(){ return elapsed + (running ? (Date.now() - startedAt) : 0); }
+  function pad2(n){ return (n < 10 ? '0' : '') + n; }
+  function fmt(ms){
+    var s = Math.floor(ms / 1000);
+    return pad2(Math.floor(s / 3600)) + ':' + pad2(Math.floor(s % 3600 / 60)) + ':' + pad2(s % 60);
+  }
+
+  function renderLaps(){
+    if(!laps.length){
+      elLaps.innerHTML = '';
+      elLaps.classList.remove('show');
+      if(elNote){ elNote.style.display = ''; }
+      return;
+    }
+    var html = '';
+    for(var i = laps.length - 1; i >= 0; i--){   /* 最新一条排最上（与 iOS 一致） */
+      html += '<div class="row"><span class="n">第 ' + laps[i].n + ' 次</span>' +
+              '<span class="seg">' + fmt(laps[i].seg) + '</span>' +
+              '<span class="tot">' + fmt(laps[i].total) + '</span></div>';
+    }
+    elLaps.innerHTML = html;
+    elLaps.classList.add('show');
+    if(elNote){ elNote.style.display = 'none'; }
+  }
+
+  /* 渲染是唯一的“状态 → 界面”出口：左右键文案/配色、顶栏小字都在这里同步，
+     改状态的地方只改 state 再调 render()，不要在事件里各写一份 DOM。 */
+  function render(){
+    var ms = total();
+    var t = fmt(ms);
+    if(disp.textContent !== t){ disp.textContent = t; }
+    if(running){
+      btn.classList.add('run');
+      btn.classList.remove('paused');
+      btnTx.textContent = t;
+      elLapBtn.textContent = '分段';
+      elLapBtn.disabled = false;
+      elGo.textContent = '停止';
+      elGo.classList.add('stop');
+    }else{
+      btn.classList.remove('run');
+      if(ms > 0){ btn.classList.add('paused'); btnTx.textContent = t; }
+      else { btn.classList.remove('paused'); btnTx.textContent = '计时'; }
+      elLapBtn.textContent = '复位';
+      elLapBtn.disabled = (ms <= 0 && !laps.length);
+      elGo.textContent = '启动';
+      elGo.classList.remove('stop');
+    }
+  }
+
+  function tick(){
+    rafId = 0;
+    var sec = Math.floor(total() / 1000);
+    if(sec !== lastShownSec){ lastShownSec = sec; render(); }
+    if(running){ rafId = requestAnimationFrame(tick); }
+  }
+  function kick(){
+    if(!rafId && running){ lastShownSec = -1; rafId = requestAnimationFrame(tick); }
+  }
+
+  elGo.addEventListener('click', function(){
+    if(running){                 /* 停止：暂停并保留数值，左键随 render() 变回「复位」 */
+      elapsed = total();
+      startedAt = 0;
+      running = false;
+    }else{                       /* 启动 / 继续：从当前值接着计 */
+      startedAt = Date.now();
+      running = true;
+      kick();
+    }
+    render();
+  });
+
+  elLapBtn.addEventListener('click', function(){
+    if(running){                 /* 分段：记录本次用时与当前总计 */
+      var tt = total();
+      var prev = laps.length ? laps[laps.length - 1].total : 0;
+      laps.push({ n: laps.length + 1, total: tt, seg: tt - prev });
+      renderLaps();
+    }else{                       /* 复位：归零并清空分段 */
+      elapsed = 0;
+      startedAt = 0;
+      running = false;
+      laps = [];
+      renderLaps();
+    }
+    render();
+  });
+
+  /* 显示模式：panel＝顶栏下方的弹层（现在这个样子）· full＝铺满整屏的 iOS 秒表。
+     只切类名、不换 DOM，所以计时状态与分段列表在两种模式之间天然连续，
+     切换时也不会丢正在跑的时间（这也是不复制一份全屏 DOM 的原因）。
+     .full 只加在“已展开”的面板上，收起后不留全屏痕迹（CSS 亦写成 .timer-panel.full.show）。 */
+  function setMode(m){
+    mode = (m === 'full') ? 'full' : 'panel';
+    panel.classList.toggle('full', mode === 'full');
+    if(seg){
+      var bs = seg.querySelectorAll('button');
+      for(var i = 0; i < bs.length; i++){
+        bs[i].classList.toggle('on', bs[i].getAttribute('data-tm-mode') === mode);
+      }
+    }
+    render();
+  }
+  if(seg){
+    seg.addEventListener('click', function(e){
+      var b = (e.target && e.target.closest) ? e.target.closest('[data-tm-mode]') : null;
+      if(b){ setMode(b.getAttribute('data-tm-mode')); }
+    });
+  }
+
+  function openPanel(){
+    panel.classList.add('show');
+    btn.setAttribute('aria-expanded', 'true');
+    setMode(mode);   /* 沿用上次选的模式，顺带对齐分段控件与布局 */
+  }
+  function closePanel(){
+    panel.classList.remove('show');
+    btn.setAttribute('aria-expanded', 'false');
+  }
+  btn.addEventListener('click', function(){
+    if(panel.classList.contains('show')){ closePanel(); } else { openPanel(); }
+  });
+  /* 【易错】点面板内部不能收起面板（#timerWrap 把入口和面板包在一起就是为这一句判断），
+     外面任何位置点击/按 Esc 才收起；计时本体不受开关面板影响，继续照常走。 */
+  document.addEventListener('click', function(e){
+    if(!panel.classList.contains('show')){ return; }
+    if(!e.target.closest || !e.target.closest('#timerWrap')){ closePanel(); }
+  });
+  /* Esc：全屏 → 先退回面板；面板 → 收起。全屏铺满时按一次 Esc 不该把计时器整个关掉。 */
+  document.addEventListener('keydown', function(e){
+    if(e.key !== 'Escape' || !panel.classList.contains('show')){ return; }
+    if(mode === 'full'){ setMode('panel'); } else { closePanel(); }
+  });
+
+  renderLaps();
+  render();
+})();
 
 /* ================= 初始化 ================= */
 /* ================= 启动 ================= */
