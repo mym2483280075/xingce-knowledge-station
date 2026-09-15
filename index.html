@@ -8,7 +8,7 @@
 <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>行测知识工作站 · 六大板块一站式备考</title>
+<title>行测知识工作站 · 行测 / 申论 / 日常积累 / 模考真题</title>
 <script src="assets/%E4%B8%BB%E9%A2%98.js?v=20260913b"></script>
 <style>
 :root{
@@ -311,6 +311,32 @@ html.xz-dark .timer-panel.full.show{background:#000;--tm-label:#fff;--muted:#989
 .backdrop{position:fixed;inset:0;z-index:85;background:rgba(15,23,42,.45);opacity:0;pointer-events:none;transition:opacity .2s}
 .backdrop.show{opacity:1;pointer-events:auto}
 
+/* ===== 侧边栏二级导航（行测 / 申论 / 模考真题 可展开）=====
+    【需求】一级是四大专区（行测 · 申论 · 日常积累 · 模考真题），点一级展开二级，
+   二级才是真正的页面入口；「日常积累」是单页，直接点即打开，没有二级。 */
+.nav-parent .chev{
+  flex:none;width:18px;height:18px;display:flex;align-items:center;justify-content:center;
+  color:#9aa7ba;transition:transform .2s cubic-bezier(.3,.8,.4,1),color .18s ease;
+}
+.nav-parent .chev svg{width:14px;height:14px;display:block}
+.nav-parent.open .chev{transform:rotate(180deg);color:color-mix(in srgb,var(--c,var(--brand)) 70%,#64748b)}
+.nav-parent.has-active{
+  background:rgba(255,255,255,.72);
+  box-shadow:0 0 0 .5px rgba(15,23,42,.05),0 10px 22px -18px rgba(15,23,42,.4),inset 0 1px 0 rgba(255,255,255,.9);
+}
+.nav-sub{display:none;margin:0 0 10px 24px;padding-left:10px;border-left:1.5px solid rgba(15,23,42,.08)}
+.nav-sub.open{display:block;animation:subIn .2s cubic-bezier(.22,1,.36,1) both}
+@keyframes subIn{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:none}}
+.nav-sub .nav-item{padding:8px 10px;margin-bottom:4px;border-radius:13px;gap:9px}
+.nav-sub .nav-item .dot{width:7px;height:7px;flex:none;border-radius:50%;background:var(--c,var(--brand));opacity:.5;transition:opacity .18s ease,box-shadow .18s ease}
+.nav-sub .nav-item.active .dot{opacity:1;box-shadow:0 0 0 3px color-mix(in srgb,var(--c,var(--brand)) 18%,transparent)}
+.nav-sub .nav-item .nm{font-size:14px;font-weight:500}
+.nav-sub .nav-item.active .nm .cn{font-weight:700}
+.nav-sub .nav-item .cnt{font-size:10px;padding:1px 7px}
+.nav-sub .nav-item.active::before{top:8px;bottom:8px}
+
+/* ===== Main ===== */
+
 /* ===== 移动端外壳适配 ===== */
 @media(max-width:860px){
   .topbar{height:auto;min-height:56px;flex-wrap:wrap;padding:8px 12px;gap:8px;row-gap:8px}
@@ -321,6 +347,7 @@ html.xz-dark .timer-panel.full.show{background:#000;--tm-label:#fff;--muted:#989
   .searchbox{order:3;flex:1 0 100%;max-width:none;margin-left:0}
   .search-drop{top:44px;max-height:56vh}
   .nav-item{padding:12px}
+  .nav-sub .nav-item{padding:10px}
   .empty{font-size:13.5px}
 }
 @supports(padding:env(safe-area-inset-left)){
@@ -342,15 +369,16 @@ html.xz-dark .timer-panel.full.show{background:#000;--tm-label:#fff;--muted:#989
           <div class="tag">ADMINISTRATIVE APTITUDE · HUB</div>
         </div>
       </div>
-      <div class="desc">六大板块 · 一个入口。行测全模块讲义与考点精编，支持全局检索与关键词定位。</div>
+      <div class="desc">行测 · 申论 · 日常积累 · 模考真题，四大专区一个入口。行测六大板块与申论五大题型分置呈现，支持全局检索与关键词定位。</div>
     </div>
     <div class="nav" id="nav"></div>
     <div class="sidebar-foot">
       <b>快捷键</b><br>按 <b>/</b> 聚焦搜索 · 按 <b>Esc</b> 收起结果<br>
+      侧栏：点「行测 / 申论 / 模考真题」展开二级，再点具体板块进入<br>
       计时器：顶栏时钟入口 · 启动 / 分段 / 停止 / 复位 · 面板与全屏两种模式<br>
       演算画布：右手写字的「演算」按钮 · 支持 Apple Pencil 压感与粗细自选<br>
       内容来源：个人备考整理
-      <div class="ver">界面版本 2026-09-15 · iOS 风格计时器（时/分/秒 · 分段 · 面板/全屏）· 手写笔压感 / 粗细自选 / 夜晚模式</div>
+      <div class="ver">界面版本 2026-09-15 · 四大专区（行测 / 申论 / 日常积累 / 模考真题）· 侧栏二级导航 · iOS 风格计时器</div>
     </div>
   </aside>
   <div class="backdrop" id="backdrop"></div>
@@ -363,7 +391,7 @@ html.xz-dark .timer-panel.full.show{background:#000;--tm-label:#fff;--muted:#989
         <span class="bar" id="crumbBar"></span>
         <span class="tt" id="crumbTitle">行测知识工作站</span>
         <span class="en" id="crumbEn"></span>
-        <span class="vbadge">版本 2026-09-15 · 计时器 / 手写笔 / 夜晚模式</span>
+        <span class="vbadge">版本 2026-09-15 · 四大专区 / 二级导航</span>
       </div>
       <div class="searchbox">
         <span class="ic">🔍</span>
@@ -433,10 +461,10 @@ html.xz-dark .timer-panel.full.show{background:#000;--tm-label:#fff;--muted:#989
    【坑】  浏览器 / 平台差异陷阱（iOS、iPadOS、iframe、离线环境）
    【接口】对外暴露、被其它文件依赖的名字与语义，改名等于破坏调用方
    【数据】常量与持久化格式，改字段要考虑兼容与重建
-   本文件是“外壳”：左侧导航 + 顶栏搜索 + 中间 iframe 承载各板块页。
+   本文件是“外壳”：左侧两级导航（四大专区 → 板块页）+ 顶栏搜索 + 中间 iframe 承载各板块页。
    三条关键契约：
-     ① 板块 id（SECTIONS[].id）必须与 scripts/build-index.js 里的 SEC_META、
-        以及 assets/search-index.json 里的 s 字段完全一致，
+     ① 叶子板块 id（PAGES[].id，即 XC_SECTIONS / SN_SECTIONS / RJ_SECTION / MK_SECTIONS 里的 id）
+        必须与 scripts/build-index.js 里的 SEC_META、以及 assets/search-index.json 里的 s 字段完全一致，
         否则搜索命中后跳转错板块、侧栏计数对不上。
      ② 与板块页的 postMessage 协议：'ws-search' {q,id} 下发搜索、'xz-theme' 上报主题，
         主题层还有 'xz-theme-set' / 'xz-theme-query'（见 assets/主题.js）。
@@ -449,13 +477,24 @@ html.xz-dark .timer-panel.full.show{background:#000;--tm-label:#fff;--muted:#989
      所以 CACHE_V 保持 v20260914b 不动 —— 它是“板块页版本”不是“界面版本”，
      跟着改只会让 iPad 白下载一遍全部板块页。要换到新的 index.html，刷新一次即可。
      同日追加计时器的「面板 / 全屏」双模式：同样只改本文件，CACHE_V 继续不动。）
+   （2026-09-15 侧栏改为「四大专区 + 二级」两层结构，并新增申论 5 个板块页与日常积累页：
+     只改本文件 + 新增页面，已有 6 个板块页一字未改，CACHE_V 照旧不动。
+     新增页面共用 assets/板块页脚本.js（页内搜索 / 收起卡片 / 外壳直达），
+     该脚本是这几个新页面的“板块页脚本版本”，改动它时记得升它自己的 ?v=。）
    =================================================================== */
 /* ================= 板块配置 ================= */
-/* 【数据】【易错】板块清单：id 是全局主键（必须与 build-index.js / search-index.json 一致），
-   color 决定侧栏色标与面包条颜色，keywords 同时用于“关键词命中”和回车兜底路由。
+/* 【数据】【易错】侧栏是「四大专区 + 二级条目」两层结构：
+     · 行测     = XC_SECTIONS 六大板块（常识判断 / 政治理论 / 言语理解 / 数量关系 / 判断推理 / 资料分析）
+     · 申论     = SN_SECTIONS 五大题型（概括题 / 分析题 / 对策题 / 公文写作 / 大作文）
+     · 日常积累 = RJ_SECTION 单页（没有二级，内容由用户自行录入）
+     · 模考真题 = MK_SECTIONS 总览 + 已归档期次（期次复用 sections/每周模考.html，进入后高亮对应卡片）
+   四个数组最后拼成 NAV 树；nav 只渲染 NAV，下面所有查找/搜索都走 PAGES 拍平表。
+   【数据】叶子字段：id 是全局主键（必须与 build-index.js / search-index.json 一致），
+     color 决定侧栏色标与面包条颜色，keywords 同时用于“关键词命中”和回车兜底路由，
+     hit 是打开该页后要高亮的卡片关键词（模考期次用，可省略）。
    加板块时三处要同步：这里 + build-index.js 的 SEC_META + 重跑 node scripts/build-index.js。
    name/cnt/desc/sub 都是直接渲染到界面的文案，注意不要引入未转义的尖括号。 */
-var SECTIONS = [
+var XC_SECTIONS = [
   { id:'cs', name:'常识判断', en:'COMMON KNOWLEDGE', file:'sections/常识判断.html', color:'#14b8a6',
     sub:'文史·科技·经济·地理·法律', cnt:'五篇 117 个知识点',
     desc:'知识面最广，重日常积累，考基础识记与生活常识应用。',
@@ -479,36 +518,150 @@ var SECTIONS = [
   { id:'zl', name:'资料分析', en:'DATA ANALYSIS', file:'sections/资料分析.html', color:'#8b5cf6',
     sub:'ABRX · 比重 · 盐水 · 比较', cnt:'八章体系+实战策略',
     desc:'公式与速算并重，掌握 ABRX 体系与截位/假设分配/415 可大幅提速。',
-    keywords:['资料','统计','ABRX','基期','现期','增长量','增长率','增速','比重','盐水','比较','平均','倍数','年均','速算','截位','直除','化除为乘','假设分配','415','份数法','十字交叉','混合','比重差','比值增长率','比值差','间隔','拉动','贡献率'] },
-  { id:'mk', name:'每周模考', en:'WEEKLY MOCK', file:'sections/每周模考.html', color:'#f43f5e', grp:'备考专区',
-    sub:'9月7日模考 · 行测 / 申论 / 错题', cnt:'1 期 · 行测130题/申论5题',
-    desc:'整卷模考的复盘归档中心：按期次分册，每期下设行测、申论、行测错题集合三大入口，行测与错题按六大板块分类分置。',
-    keywords:['模考','每周模考','周考','申论','错题','复盘','期次','9月7日','9月7日模考','整卷','模考中心'] }
+    keywords:['资料','统计','ABRX','基期','现期','增长量','增长率','增速','比重','盐水','比较','平均','倍数','年均','速算','截位','直除','化除为乘','假设分配','415','份数法','十字交叉','混合','比重差','比值增长率','比值差','间隔','拉动','贡献率'] }
 ];
 
-/* 【易错】找不到 id 时静默返回 SECTIONS[0]（常识判断）：好处是不会白屏，
+/* 申论五大题型（新增 2026-09-15）：页面在 sections/申论/ 下，每页是「框架 + 待录入槽位」。
+   录入内容后按上面的约定把新单元的 id 补进 scripts/build-index.js 并重跑索引脚本。 */
+var SN_SECTIONS = [
+  { id:'sngk', name:'概括题', en:'SUMMARY', file:'sections/申论/概括题.html', color:'#0d9488',
+    sub:'8 道真题 · 讲义答案', cnt:'8 题答案',
+    desc:'归纳概括题：判题三问、四步作答流程、找点与合并、采分与复盘。',
+    keywords:['申论','概括','归纳','概括题','概括问题','概括原因','概括影响','概括做法','概括变化','概括特点','找点','合并','采分点','要点','采分','字数'] },
+  { id:'snfx', name:'分析题', en:'ANALYSIS', file:'sections/申论/分析题.html', color:'#0d9488',
+    sub:'4 道真题 · 讲义答案', cnt:'4 题答案',
+    desc:'分析题：五类小问法判定与各自的作答框架（词句理解、启示、评价、关系、变化）。',
+    keywords:['申论','分析','分析题','词句理解','解释','启示','观点评价','关系分析','变化分析','谈理解','谈谈看法'] },
+  { id:'sndc', name:'对策题', en:'SOLUTIONS', file:'sections/申论/对策题.html', color:'#0d9488',
+    sub:'3 道真题 · 讲义答案', cnt:'3 题答案',
+    desc:'对策题：单一与复合两类问法、对策的三个来源、对策写法与可行性核验。',
+    keywords:['申论','对策','对策题','建议','措施','提出对策','复合对策','对策来源','可行性','工作方案'] },
+  { id:'sngw', name:'公文写作', en:'DOCUMENTS', file:'sections/申论/公文写作.html', color:'#0d9488',
+    sub:'7 道真题 · 格式要点', cnt:'7 题答案',
+    desc:'公文写作：格式四要素、省略格式的判题关键词、常考文种速查与正文结构。',
+    keywords:['申论','公文','公文写作','应用文','格式','文种','标题','落款','主送机关','宣传稿','倡议书','公开信','讲话稿','汇报提纲','简报','发布词','推荐材料','工作方案'] },
+  { id:'sndz', name:'大作文', en:'ESSAY', file:'sections/申论/大作文.html', color:'#0d9488',
+    sub:'审题立意 · 结构 · 论证', cnt:'框架已就绪',
+    desc:'大作文：审题立意三步、结构范式、开头与分论点写法、论证方法与素材运用。',
+    keywords:['申论','作文','大作文','文章写作','议论文','立意','总论点','分论点','开头','结尾','结构','论证','素材','范文','标题'] },
+  { id:'snfw', name:'范文', en:'MODEL ESSAYS', file:'sections/申论/范文.html', color:'#0d9488',
+    sub:'五类范文 · 每类精选 5 篇', cnt:'25 篇精选',
+    desc:'政治 / 经济 / 社会 / 文化 / 生态五类高分范文，每类精选 5 篇，全文照录。',
+    keywords:['范文','高分范文','样卷','申论范文','政治类范文','经济类范文','社会类范文','文化类范文','生态类范文','范文精读'] }
+];
+
+/* 日常积累（新增 2026-09-15）：单页，五个槽位的内容由用户自行录入。 */
+var RJ_SECTION =
+  { id:'rj', name:'日常积累', en:'DAILY ACCUMULATION', file:'sections/日常积累.html', color:'#f59e0b',
+    sub:'时政 · 金句 · 素材 · 常识速记', cnt:'框架已就绪',
+    desc:'时政热点、金句名言、成语好句、常识速记、案例素材五个槽位，内容自行录入。',
+    keywords:['积累','日常积累','时政','热点','金句','名言','素材','案例','好词好句','成语积累','速记','摘抄'] };
+
+/* 模考真题：总览 + 期次。新增一期时在下面数组里加一条叶子（id 建议 mk-YYMMDD），
+   并同步 sections/每周模考.html 里的 MOCK_DATES（那份才是期次内容登记表）。 */
+var MK_SECTIONS = [
+  { id:'mk', name:'模考总览', en:'MOCK HUB', file:'sections/每周模考.html', color:'#f43f5e',
+    sub:'期次列表 · 行测 / 申论 / 错题', cnt:'1 期',
+    desc:'按期次分册：每期下设行测、申论、行测错题集合三大入口，行测与错题按六大板块分置。',
+    keywords:['模考','每周模考','模考真题','期次','整卷','复盘'] },
+  { id:'mk-260907', name:'9月7日模考', en:'2026-09-07', file:'sections/每周模考.html', color:'#f43f5e',
+    sub:'行测 130 题 · 申论 5 题 · 错题', cnt:'第 1 期',
+    desc:'2026 年 9 月 7 日整卷模考：行测六大板块题目、申论整卷与行测错题集合。',
+    hit:'9月7日模考',
+    keywords:['9月7日','9月7日模考','第一期','模考'] }
+];
+
+/* ================= 侧栏导航树 ================= */
+/* 【易错】一级节点只负责「展开 / 收起」，本身不是页面；叶子才有 file。
+   一级的 id 不进搜索索引（它没有对应页面）；模考期次的正文在子页面里，索引同样够不着，
+   所以都不登记 —— 详见 build-index.js 里那段说明，别再试了。
+   一级节点也可以有 file（点它直接进页面），本项目暂未使用这种混搭。 */
+var NAV = [
+  { id:'xc', name:'行测', en:'ADMINISTRATIVE APTITUDE', color:'#4f7cff',
+    sub:'六大板块 · 常识到资料分析', cnt:'6 个板块',
+    desc:'行测六大板块：常识判断、政治理论、言语理解、数量关系、判断推理、资料分析。',
+    children: XC_SECTIONS },
+  { id:'sn', name:'申论', en:'ESSAY WRITING', color:'#0d9488',
+    sub:'五大题型 + 范文库', cnt:'6 个板块',
+    desc:'申论板块：概括题、分析题、对策题、公文写作、大作文，以及五类高分范文库。',
+    children: SN_SECTIONS },
+  RJ_SECTION,
+  { id:'mkx', name:'模考真题', en:'MOCK EXAMS', color:'#f43f5e',
+    sub:'整卷模考 · 按期次归档', cnt:'1 期',
+    desc:'整卷模考的复盘归档中心：按期次分册，每期下设行测、申论、行测错题集合三大入口。',
+    children: MK_SECTIONS }
+];
+
+/* 拍平成两张表：
+   PAGES   = 所有可打开的叶子页面（搜索、跳转、计数都只认它）
+   PARENTS = 所有一级专区（只用于侧栏展开与「专区名兜底路由」） */
+var PAGES = [], PARENTS = [];
+NAV.forEach(function(n){
+  if(n.children && n.children.length){
+    PARENTS.push(n);
+    n.children.forEach(function(c){ c.parent = n; PAGES.push(c); });
+  } else {
+    PAGES.push(n);
+  }
+});
+
+/* 【易错】找不到 id 时静默返回 PAGES[0]（行测 · 常识判断）：好处是不会白屏，
    坏处是“id 拼错”会表现为“跳到了对的板块”，排查时很容易被误导。
    新增板块或改 id 后，请顺手点一遍侧栏每一项确认标题/计数都对。 */
-function getSection(id){ for(var i=0;i<SECTIONS.length;i++){ if(SECTIONS[i].id===id) return SECTIONS[i]; } return SECTIONS[0]; }
+function getSection(id){ for(var i=0;i<PAGES.length;i++){ if(PAGES[i].id===id) return PAGES[i]; } return PAGES[0]; }
 
 /* ================= 侧边栏渲染 ================= */
+/* 【易错】一级 = .nav-parent + 紧随其后的 .nav-sub（二级容器），靠 data-parent / data-sub 配对；
+   叶子 = .nav-item[data-id]。展开状态只靠 .open 类，不要用内联 style 控制高度。
+   改文案时注意：name/cnt 直接拼进 innerHTML，不要引入未转义的尖括号。 */
+var CHEV_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5l6 6 6-6"/></svg>';
 var nav = document.getElementById('nav');
 (function(){
-  var html = '', lastGrp = '';
-  SECTIONS.forEach(function(s){
-    var g = s.grp || '六大板块';
-    if(g !== lastGrp){ html += '<div class="group">' + g + '</div>'; lastGrp = g; }
-    html += '<button class="nav-item" data-id="'+s.id+'" style="--c:'+s.color+'">'+
-      '<span class="ico"></span>'+
-      '<span class="txt"><span class="nm"><span class="cn">'+s.name+'</span></span></span>'+
-      '<span class="cnt">'+s.cnt+'</span></button>';
+  var html = '';
+  NAV.forEach(function(n){
+    if(n.children && n.children.length){
+      html += '<button class="nav-item nav-parent" data-parent="'+n.id+'" style="--c:'+n.color+'" aria-expanded="false" title="'+n.name+'：'+(n.desc||'')+'">'+
+        '<span class="ico"></span>'+
+        '<span class="txt"><span class="nm"><span class="cn">'+n.name+'</span></span></span>'+
+        '<span class="cnt">'+n.cnt+'</span>'+
+        '<span class="chev">'+CHEV_SVG+'</span></button>';
+      html += '<div class="nav-sub" data-sub="'+n.id+'">';
+      n.children.forEach(function(c){
+        html += '<button class="nav-item nav-child" data-id="'+c.id+'" data-pid="'+n.id+'" style="--c:'+c.color+'" title="'+c.name+'：'+(c.desc||'')+'">'+
+          '<span class="dot"></span>'+
+          '<span class="txt"><span class="nm"><span class="cn">'+c.name+'</span></span></span>'+
+          '<span class="cnt">'+c.cnt+'</span></button>';
+      });
+      html += '</div>';
+    } else {
+      html += '<button class="nav-item nav-leaf" data-id="'+n.id+'" style="--c:'+n.color+'" title="'+n.name+'：'+(n.desc||'')+'">'+
+        '<span class="ico"></span>'+
+        '<span class="txt"><span class="nm"><span class="cn">'+n.name+'</span></span></span>'+
+        '<span class="cnt">'+n.cnt+'</span></button>';
+    }
   });
   nav.innerHTML = html;
 })();
 
-/* 侧边栏点击切换 */
+/* 展开 / 收起一级专区（各专区互不影响，可以同时展开多个） */
+function setParentOpen(pid, open){
+  var p = nav.querySelector('.nav-parent[data-parent="'+pid+'"]');
+  var sub = nav.querySelector('.nav-sub[data-sub="'+pid+'"]');
+  if(!p || !sub){ return; }
+  p.classList.toggle('open', !!open);
+  sub.classList.toggle('open', !!open);
+  p.setAttribute('aria-expanded', open ? 'true' : 'false');
+}
+function toggleParent(pid){
+  var p = nav.querySelector('.nav-parent[data-parent="'+pid+'"]');
+  setParentOpen(pid, !(p && p.classList.contains('open')));
+}
+
+/* 侧边栏点击：一级＝展开收起，叶子＝打开页面 */
 nav.addEventListener('click', function(e){
-  var item = e.target.closest('.nav-item');
+  var par = e.target.closest('.nav-parent');
+  if(par){ toggleParent(par.getAttribute('data-parent')); return; }
+  var item = e.target.closest('.nav-item[data-id]');
   if(item){ openSection(item.getAttribute('data-id'), null); }
 });
 
@@ -543,26 +696,43 @@ frame.addEventListener('load', function(){
 
 function setActive(id){
   curId = id;
-  var items = nav.querySelectorAll('.nav-item');
+  var items = nav.querySelectorAll('.nav-item[data-id]');
   for(var i=0;i<items.length;i++){
     items[i].classList.toggle('active', items[i].getAttribute('data-id')===id);
   }
+  /* 一级专区高亮：当前页面属于哪个专区，哪个专区就加 .has-active */
+  var ps = nav.querySelectorAll('.nav-parent');
+  for(var j=0;j<ps.length;j++){
+    var pid = ps[j].getAttribute('data-parent');
+    var has = false;
+    for(var k=0;k<items.length;k++){
+      if(items[k].classList.contains('active') && items[k].getAttribute('data-pid')===pid){ has = true; break; }
+    }
+    ps[j].classList.toggle('has-active', has);
+  }
+  /* 打开叶子时自动展开它所属的专区 —— 否则从搜索跳过去，二级是收起的会看不到选中项 */
+  var sec = getSection(id);
+  if(sec && sec.parent){ setParentOpen(sec.parent.id, true); }
 }
 
 /* query: 字符串(兼容旧调用) 或 {q, id}；id 为目标知识点/单元锚点 */
-/* 【易错】openSection 是导航的唯一入口，两处细节别动：
-   ① changed 判定看 iframe 上的 data-cur（当前已加载的板块），只有真的换板块才重设 src，
-      否则每次点击都会重载整份板块页（最大 1.2MB）；
+/* 【易错】openSection 是导航的唯一入口，三处细节别动：
+   ① changed 判定改成看「目标文件」而不是板块 id：模考总览与各期次共用同一份
+      sections/每周模考.html，按 id 判定会在切期次时把整页重新下载一遍；
+      按文件判定则同页只加载一次，再用 ws-search 高亮不同期次。
    ② 搜索跳转必须“先改 src、再把查询挂到 pendingQuery”，等 load 后由上面的监听转发。
-   这里还负责更新面包条颜色/标题、窄屏自动收起侧栏，改动时留意这几步的先后顺序。 */
+   ③ 没带查询时，若该叶子配了 hit（模考期次），就用 hit 当关键词高亮对应卡片。
+   这里还负责更新面包条颜色/标题、展开所属专区、窄屏自动收起侧栏，留意先后顺序。 */
 function openSection(id, query){
   var s = getSection(id);
   var norm;
   if(query == null){ norm = null; }
   else if(typeof query === 'string'){ norm = {q: query, id: null}; }
   else { norm = {q: (query.q||''), id: (query.id||null)}; }
-  var changed = (frame.getAttribute('data-cur') !== id);
-  frame.setAttribute('data-cur', id);
+  if((!norm || !norm.q) && s.hit){ norm = {q: s.hit, id: null}; }
+
+  var changed = (frame.getAttribute('data-cur') !== s.file);
+  frame.setAttribute('data-cur', s.file);
   if(changed){ frame.src = s.file + '?' + CACHE_V; }
   if(norm && norm.q){
     var send = function(){
@@ -589,8 +759,8 @@ var drop = document.getElementById('drop');
 
 function findMatches(q){
   var out = [];
-  SECTIONS.forEach(function(s){
-    s.keywords.forEach(function(k){
+  PAGES.forEach(function(s){
+    (s.keywords || []).forEach(function(k){
       if(q && k.indexOf(q) > -1){ out.push({sec:s, kw:k}); }
     });
   });
@@ -748,15 +918,24 @@ document.addEventListener('click', function(e){
 /* ================= 助手已下线（2026-09 清理） ================= */
 
 /* 【需求】回车兜底路由：索引还没加载好（或离线）时，用“关键词被包含在查询里”的方式
-   选最长命中的那个板块。这是保证“回车永远有反应”的最后一道保险，别删。 */
+   选最长命中的那个板块。这是保证“回车永远有反应”的最后一道保险，别删。
+   【需求】再加一层：只输入专区名（行测 / 申论 / 模考真题 / 日常积累）时，
+   落到该专区的第一项（单页专区就是它自己）。 */
 function routeBest(q){
   var best = null, bestLen = 0;
-  SECTIONS.forEach(function(s){
-    s.keywords.forEach(function(k){
+  PAGES.forEach(function(s){
+    (s.keywords || []).forEach(function(k){
       if(q.indexOf(k) > -1 && k.length > bestLen){ bestLen = k.length; best = {id:s.id, kw:k}; }
     });
   });
-  return best;
+  if(best){ return best; }
+  for(var i=0;i<NAV.length;i++){
+    var n = NAV[i];
+    if(q.indexOf(n.name) > -1){
+      return { id: (n.children && n.children.length ? n.children[0].id : n.id), kw: n.name };
+    }
+  }
+  return null;
 }
 
 /* ================= 快捷键 & 移动端 ================= */

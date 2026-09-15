@@ -24,13 +24,25 @@ const SEC_META = [
   { file: '言语理解.html', id: 'yy', name: '言语理解' },
   { file: '数量关系.html', id: 'sl', name: '数量关系' },
   { file: '判断推理.html', id: 'pd', name: '判断推理' },
-  { file: '资料分析.html', id: 'zl', name: '资料分析' }
-  /* 【易错】每周模考（id: mk）刻意没有登记在这里，别再试：
-     它的正文是 render() 用 MOCK_DATES 在前端拼出来的（HTML 里只有一个空的 #wrap），
-     而本脚本只扒静态 HTML —— 登记进去也只会得到 0 条，白让人以为已经索引了。
-     模考正文（行测 / 申论 / 错题集合）在 sections/每周模考/<期次>/ 子页面里，
-     也不该登记：外壳只认 SECTIONS[].file 指定的顶层页面，索引里的子页面锚点点不过去。
-     想让模考内容可全文检索，正确做法是给每期子页面在 index.html 里加 SECTIONS 条目。 */
+  { file: '资料分析.html', id: 'zl', name: '资料分析' },
+  /* 申论五大题型（2026-09-15 新增）：页面在 sections/申论/ 下，
+     卡片容器统一是 section.unit，所以 wanted 用默认白名单之外的 ['unit']。
+     【易错】申论页里的「待录入」槽位也是 section.unit，会一并进索引 —— 这是有意的：
+     录入真题后只要重跑本脚本，新内容自动可搜，不需要再动这里。 */
+  { file: '申论/概括题.html', id: 'sngk', name: '申论·概括题', wanted: ['unit'] },
+  { file: '申论/分析题.html', id: 'snfx', name: '申论·分析题', wanted: ['unit'] },
+  { file: '申论/对策题.html', id: 'sndc', name: '申论·对策题', wanted: ['unit'] },
+  { file: '申论/公文写作.html', id: 'sngw', name: '申论·公文写作', wanted: ['unit'] },
+  { file: '申论/大作文.html', id: 'sndz', name: '申论·大作文', wanted: ['unit'] },
+  { file: '申论/范文.html', id: 'snfw', name: '申论·范文', wanted: ['unit'] },
+  { file: '日常积累.html', id: 'rj', name: '日常积累', wanted: ['unit'] }
+  /* 【易错】模考真题（侧栏专区 mkx）刻意没有登记在这里，别再试：
+     它下面的「模考总览」（id: mk）与各期次（id: mk-YYMMDD）都指向同一份
+     sections/每周模考.html，而那一页的正文是 render() 用 MOCK_DATES 在前端拼出来的
+     （HTML 里只有一个空的 #wrap），本脚本只扒静态 HTML —— 登记进去也只会得到 0 条，
+     白让人以为已经索引了。模考正文（行测 / 申论 / 错题集合）在子页面里，
+     外壳索引里的锚点也点不过去，所以同样不登记。
+     想让模考内容可全文检索，正确做法是给每期子页面在 index.html 里加叶子条目。 */
 ];
 
 // 【易错】把 HTML 扒成纯文本：规则要与板块页真实结构保持兼容（图片只取 alt、

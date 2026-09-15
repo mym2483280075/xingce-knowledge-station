@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="amber">
+<head><style id="xz-perf">/* 长页面打开提速：屏幕外的知识点块不做排版与绘制 */section.kp,section.unit{content-visibility:auto;contain-intrinsic-size:auto 700px}</style>
+<meta charset="UTF-8">
+<link rel="icon" href="data:,"><script src="../assets/%E4%B8%BB%E9%A2%98.js?v=20260913b"></script><script src="../assets/%E6%BC%94%E7%AE%97%E5%B1%82.js?v=20260913b"></script><script src="../assets/%E5%AE%9A%E4%BD%8D%E5%B1%82.js?v=20260914a"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>日常积累 · 行测知识工作站</title>
+<link rel="stylesheet" href="../assets/%E6%9D%BF%E5%9D%97%E9%A1%B5%E6%A0%B7%E5%BC%8F.css?v=20260915a">
+<style>
+:root{--primary:#b45309;--primary2:#d97706;--accent:#fbbf24;--bg:#faf6ef}
+html[data-theme="amber"]{--primary:#b45309;--primary2:#d97706;--accent:#fbbf24;--bg:#faf6ef}
+</style>
+</head>
+<body>
+<header>
+  <h1>日常积累</h1>
+  <div class="en">DAILY ACCUMULATION</div>
+  <div class="intro">日常积累是行测常识与申论素材的共同底座：时政热点、金句名言、成语好句、常识速记、案例素材。本页只搭好分类框架与录入模板，内容由你自己陆续填进来。</div>
+  <div class="meta"><span>四大专区之一</span><span>框架已就绪</span><span>内容由你录入</span></div>
+</header>
+<div class="toolbar">
+  <input id="q" placeholder="搜索本板块考点 / 关键词，回车定位…">
+  <span class="hitcount" id="hitcount"></span>
+  <button class="btn" id="hideans">隐藏参考答案</button>
+  <button class="btn" id="closeall">收起卡片</button>
+</div>
+<div class="layout">
+<nav class="toc" id="toc">
+<a class="t-item" href="#overview" style="font-weight:700;color:var(--primary)">★ 板块总览 · 内容地图</a>
+<div class="t-pian"><a href="#rj-m1">一、使用说明</a></div>
+<a class="t-item" href="#rj-1-1">1.1 这一页怎么用</a>
+<div class="t-pian"><a href="#rj-m2">二、积累槽位</a></div>
+<a class="t-item" href="#rj-2-1">2.1 时政热点（待录入）</a>
+<a class="t-item" href="#rj-2-2">2.2 金句名言（待录入）</a>
+<a class="t-item" href="#rj-2-3">2.3 成语与好词好句（待录入）</a>
+<a class="t-item" href="#rj-2-4">2.4 常识速记（待录入）</a>
+<a class="t-item" href="#rj-2-5">2.5 案例素材（待录入）</a>
+</nav>
+<main id="main">
+<div class="ov" id="overview"><h2 class="ov-title">板块总览 · 内容地图</h2><div class="ov-grid"><div class="ov-card"><h3>一、使用说明</h3><ul><li><a href="#rj-1-1"><b>1.1 这一页怎么用</b></a></li></ul></div><div class="ov-card"><h3>二、积累槽位</h3><ul><li><a href="#rj-2-1"><b>2.1 时政热点（待录入）</b></a></li><li><a href="#rj-2-2"><b>2.2 金句名言（待录入）</b></a></li><li><a href="#rj-2-3"><b>2.3 成语与好词好句（待录入）</b></a></li><li><a href="#rj-2-4"><b>2.4 常识速记（待录入）</b></a></li><li><a href="#rj-2-5"><b>2.5 案例素材（待录入）</b></a></li></ul></div></div></div>
+<div class="module" id="rj-m1"><div class="mod-banner"><h2>一、使用说明</h2></div><section class="unit" id="rj-1-1" data-title="这一页怎么用"><div class="unit-head"><h3>这一页怎么用</h3><span class="chip">说明</span></div><div class="kbox"><div class="kl">◆ 三个原则</div>
+<ul>
+<li><b>分类固定</b>：五个槽位（时政热点 / 金句名言 / 成语好句 / 常识速记 / 案例素材）不要随意新增顶级分类，否则检索会散。</li>
+<li><b>一张卡一条</b>：每个条目录成一张 <b>&lt;section class="unit"&gt;</b> 卡片，顶部全局搜索就能直接命中它。</li>
+<li><b>保留出处</b>：时政类条目尽量带上时间与来源，避免过期信息被反复引用。</li>
+</ul></div>
+<div class="kbox"><div class="kl">◆ 想让我帮你录入时说一句就行</div>
+<p>例如：“把这周的时政热点录进日常积累”“把这份金句整理到日常积累的金句槽位”，我会按下面模板写入对应槽位。</p></div>
+<div class="ph"><div class="ph-t"><i>录入模板</i>所有槽位共用这一份卡片模板</div>
+<pre class="tpl">&lt;section class="unit" id="唯一id" data-title="标题（用于搜索索引）"&gt;
+  &lt;div class="unit-head"&gt;&lt;h3&gt;标题&lt;/h3&gt;&lt;span class="chip"&gt;讲义 / 真题&lt;/span&gt;&lt;/div&gt;
+  &lt;div class="unit-desc"&gt;一句话说明（可留空）&lt;/div&gt;
+  &lt;div class="qcard"&gt;&lt;div class="qhead"&gt;题干&lt;/div&gt;
+    &lt;p&gt;……（材料范围、字数要求）&lt;/p&gt;
+    &lt;p&gt;材料要点：……&lt;/p&gt;&lt;/div&gt;
+  &lt;div class="ansline"&gt;&lt;span class="ans-tag"&gt;参考答案&lt;/span&gt;……&lt;/div&gt;
+  &lt;div class="expline"&gt;&lt;span class="exp-tag"&gt;解析与复盘&lt;/span&gt;……&lt;/div&gt;
+&lt;/section&gt;</pre></div></section></div>
+<div class="module" id="rj-m2"><div class="mod-banner"><h2>二、积累槽位</h2><p>五个槽位，内容陆续填入；填之前保持空槽状态即可。</p></div><section class="unit" id="rj-2-1" data-title="时政热点（待录入）"><div class="unit-head"><h3>时政热点（待录入）</h3><span class="chip wait">待录入</span></div><div class="ph"><div class="ph-t"><i>待录入</i>时政热点</div>
+<p>按“时间 + 事件/表述 + 可用于哪些题”记录，申论论据与面试素材通用。</p>
+<p>录入方式：按本页第一处「待录入」槽位里给出的卡片模板录入即可（每条一张 <b>&lt;section class="unit"&gt;</b> 卡片）。</p></div></section><section class="unit" id="rj-2-2" data-title="金句名言（待录入）"><div class="unit-head"><h3>金句名言（待录入）</h3><span class="chip wait">待录入</span></div><div class="ph"><div class="ph-t"><i>待录入</i>金句名言</div>
+<p>按主题（民生、生态、创新、治理、文化等）归类，标注适用场景（开头 / 分论点 / 结尾）。</p>
+<p>录入方式：按本页第一处「待录入」槽位里给出的卡片模板录入即可（每条一张 <b>&lt;section class="unit"&gt;</b> 卡片）。</p></div></section><section class="unit" id="rj-2-3" data-title="成语与好词好句（待录入）"><div class="unit-head"><h3>成语与好词好句（待录入）</h3><span class="chip wait">待录入</span></div><div class="ph"><div class="ph-t"><i>待录入</i>成语与好词好句</div>
+<p>逻辑填空高频成语辨析、易混词对照、可迁移的优美表达。</p>
+<p>录入方式：按本页第一处「待录入」槽位里给出的卡片模板录入即可（每条一张 <b>&lt;section class="unit"&gt;</b> 卡片）。</p></div></section><section class="unit" id="rj-2-4" data-title="常识速记（待录入）"><div class="unit-head"><h3>常识速记（待录入）</h3><span class="chip wait">待录入</span></div><div class="ph"><div class="ph-t"><i>待录入</i>常识速记</div>
+<p>行测常识的高频考点速记卡，与「行测 · 常识判断」板块互补，这里只放最需要反复看的。</p>
+<p>录入方式：按本页第一处「待录入」槽位里给出的卡片模板录入即可（每条一张 <b>&lt;section class="unit"&gt;</b> 卡片）。</p></div></section><section class="unit" id="rj-2-5" data-title="案例素材（待录入）"><div class="unit-head"><h3>案例素材（待录入）</h3><span class="chip wait">待录入</span></div><div class="ph"><div class="ph-t"><i>待录入</i>案例素材</div>
+<p>人物、事件、数据类素材，标注可支撑的论点方向。</p>
+<p>录入方式：按本页第一处「待录入」槽位里给出的卡片模板录入即可（每条一张 <b>&lt;section class="unit"&gt;</b> 卡片）。</p></div></section></div>
+</main>
+</div>
+<button class="backtop" id="backtop" title="回到顶部">↑</button>
+<div class="foot-tip">内容来源：个人备考整理（讲义《2027 年方法实战班》与《课堂讲义答案》系列 PDF）。标注「待录入」的槽位在补充内容后会自动进入顶部全局搜索。</div>
+<script src="../assets/%E6%9D%BF%E5%9D%97%E9%A1%B5%E8%84%9A%E6%9C%AC.js?v=20260915a"></script>
+</body>
+</html>
