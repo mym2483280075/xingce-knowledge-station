@@ -192,8 +192,8 @@ def main():
             print(f"    - {rel}")
 
     if not changed and not added and not (deleted and args.allow_delete):
-        print("\n✓ 线上就是最新的，无需发布。")
-        verify([])
+        print("\n✓ 线上就是最新的，无需发布。抽查线上页面：")
+        verify([], published=False)
         return
 
     if args.check:
@@ -262,7 +262,7 @@ def live_url(rel):
     return SITE + "/".join(urllib.parse.quote(seg) for seg in rel.split("/"))
 
 
-def verify(rels):
+def verify(rels, published=True):
     targets = [r for r in rels if os.path.splitext(r)[1].lower() in VERIFY_EXT]
     if not targets:
         targets = ["index.html"]
@@ -291,12 +291,14 @@ def verify(rels):
             print(f"    ✗ {rel}  期望 {want[:10]} 实际 {str(got)[:24]}")
     print()
     if fail:
-        print(f"⚠ 发布已提交，但有 {len(fail)} 个文件未在线上校验通过（可能是 CDN 缓存，稍后刷新即可）：")
+        print(f"⚠ 有 {len(fail)} 个文件未在线上校验通过（可能是 CDN 缓存，稍后刷新即可）：")
         for r in fail:
             print("   ", live_url(r))
-    else:
+    elif published:
         print(f"✓ 发布完成并验证通过：{SITE}")
         print(f"  本次校验 {len(ok)} 个文件，字节级一致。")
+    else:
+        print(f"✓ 线上内容与本地一致：{SITE}")
 
 
 if __name__ == "__main__":
