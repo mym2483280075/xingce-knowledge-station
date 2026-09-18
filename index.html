@@ -563,9 +563,14 @@ var RJ_SECTION =
    并同步 sections/每周模考.html 里的 MOCK_DATES（那份才是期次内容登记表）。 */
 var MK_SECTIONS = [
   { id:'mk', name:'模考总览', en:'MOCK HUB', file:'sections/每周模考.html', color:'#f43f5e',
-    sub:'期次列表 · 行测 / 申论 / 错题', cnt:'1 期',
+    sub:'期次列表 · 行测 / 申论 / 错题', cnt:'2 期',
     desc:'按期次分册：每期下设行测、申论、行测错题集合三大入口，行测与错题按六大板块分置。',
     keywords:['模考','每周模考','模考真题','期次','整卷','复盘'] },
+  { id:'mk-260918', name:'9月18日模考', en:'2026-09-18', file:'sections/每周模考.html', color:'#f43f5e',
+    sub:'行测 120 题 · 申论 5 题 · 错题 37 道', cnt:'第 2 期',
+    desc:'2026 年 9 月 18 日整卷模考：行测六大板块题本与答案解析、申论参考答案与评分标准均已录入，37 道错题已按六大板块分置。',
+    hit:'9月18日模考',
+    keywords:['9月18日','9月18日模考','第二期','模考','错题'] },
   { id:'mk-260907', name:'9月7日模考', en:'2026-09-07', file:'sections/每周模考.html', color:'#f43f5e',
     sub:'行测 130 题 · 申论 5 题 · 错题', cnt:'第 1 期',
     desc:'2026 年 9 月 7 日整卷模考：行测六大板块题目、申论整卷与行测错题集合。',
@@ -589,7 +594,7 @@ var NAV = [
     children: SN_SECTIONS },
   RJ_SECTION,
   { id:'mkx', name:'模考真题', en:'MOCK EXAMS', color:'#f43f5e',
-    sub:'整卷模考 · 按期次归档', cnt:'1 期',
+    sub:'整卷模考 · 按期次归档', cnt:'2 期',
     desc:'整卷模考的复盘归档中心：按期次分册，每期下设行测、申论、行测错题集合三大入口。',
     children: MK_SECTIONS }
 ];

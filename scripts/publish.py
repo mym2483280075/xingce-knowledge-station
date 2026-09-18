@@ -28,7 +28,8 @@ try:
 except Exception:
     pass
 
-TOKEN = os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN") or ""
+TOKEN = (os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN")
+         or os.environ.get("GITHUB_MCP_PAT") or "")
 REPO = os.environ.get("XS_REPO", "mym2483280075/xingce-knowledge-station")
 BRANCH = os.environ.get("XS_BRANCH", "main")
 HERE = os.path.dirname(os.path.abspath(__file__))

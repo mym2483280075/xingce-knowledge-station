@@ -89,9 +89,9 @@ html.xz-dark .exam.ws-hit{background:color-mix(in srgb,var(--primary2) 20%,#141d
 <body>
 <header>
   <h1>每周模考</h1>
-  <div class="intro">整卷模考的复盘归档中心：按「期次」分册，每期下设行测、申论、行测错题集合三大入口；行测与错题集合内按常识判断、政治理论、言语理解、数量关系、判断推理、资料分析六类分置题目。</div>
+  <div class="intro">整卷模考的复盘归档中心：按「期次」分册，每期下设行测、申论、行测错题集合三大入口；行测与错题集合内按政治理论、常识判断、言语理解、数量关系、判断推理、资料分析六类分置题目（与试卷部分顺序一致）。</div>
   <div class="meta">
-    <span>当前 1 期</span>
+    <span id="mkCount">当前 2 期</span>
     <span>一期三入口</span>
     <span>六分类分置</span>
     <span>支持续增期次</span>
@@ -110,12 +110,17 @@ html.xz-dark .exam.ws-hit{background:color-mix(in srgb,var(--primary2) 20%,#141d
    【易错】render() 把这些字段直接拼进 innerHTML 与 href（没有转义）：
    期次名里若出现空格、引号、斜杠会让链接失效，命名请严格用「M月D日模考」。 */
 var MOCK_DATES = [
-  { t:'9月7日模考', no:'第 1 期', desc:'2026 年 9 月 7 日整卷模考复盘。先补录行测六大分类题目，再做申论复盘，错题统一沉淀。' }
+  { t:'9月18日模考', no:'第 2 期', state:'答案已录入 · 错题已分置',
+    desc:'2026 年 9 月 18 日整卷模考。行测 120 题（六大板块）与申论 5 大题已录入题本，行测答案与解析、申论参考答案与评分标准均已按官方版本补全；本次 37 道错题已按六大板块沉淀。',
+    qc:'120 题 · 含答案解析', sc:'5 大题 · 含评分标准', cc:'37 道错题' },
+  { t:'9月7日模考', no:'第 1 期', state:'行测申论已录入 · 答案点击展开',
+    desc:'2026 年 9 月 7 日整卷模考复盘。先补录行测六大分类题目，再做申论复盘，错题统一沉淀。',
+    qc:'130 题已录入', sc:'5 大题已录入', cc:'六分类空槽' }
 ];
 
 var SIX = [
-  { c:'常识判断',  s:'文史 · 科技 · 经济 · 地理 · 法律' },
   { c:'政治理论',  s:'习思想 · 马克思主义基本原理' },
+  { c:'常识判断',  s:'文史 · 科技 · 经济 · 地理 · 法律' },
   { c:'言语理解',  s:'片段阅读 · 逻辑填空' },
   { c:'数量关系',  s:'数学运算 · 速算' },
   { c:'判断推理',  s:'图形 · 定义 · 类比 · 逻辑' },
@@ -127,14 +132,14 @@ function render(){
   var html = '<div class="block-title"><h2>期次列表</h2><em>共 ' + MOCK_DATES.length + ' 期</em></div>';
   MOCK_DATES.forEach(function(m){
     html += '<div class="exam"><div class="exam-top"><h3>' + m.t + '</h3>' +
-            '<span class="no">' + m.no + '</span><span class="state">行测申论已录入 · 答案点击展开</span></div>' +
+            '<span class="no">' + m.no + '</span><span class="state">' + (m.state || '行测申论已录入 · 答案点击展开') + '</span></div>' +
             '<div class="exam-desc">' + m.desc + '</div><div class="parts">' +
             '<a class="part" href="每周模考/' + m.t + '/行测.html"><b><span class="pi">测</span>行测</b>' +
-            '<span>整卷行测题目，按六大板块分类排布：' + SIX_STR + '。每题保留卷面原图，答案解析折叠于题下。</span><span class="cnt">130 题已录入</span></a>' +
+            '<span>整卷行测题目，按六大板块分类排布：' + SIX_STR + '。每题保留卷面原图，答案解析折叠于题下。</span><span class="cnt">' + (m.qc || '题本已录入') + '</span></a>' +
             '<a class="part" href="每周模考/' + m.t + '/申论.html"><b><span class="pi">论</span>申论</b>' +
-            '<span>申论整卷：给定资料原图 8 页 + 5 道大题题目原图，参考答案、评分标准与范文折叠于每题下方。</span><span class="cnt">5 大题已录入</span></a>' +
+            '<span>申论整卷：给定资料与 5 道大题均已文字化，参考答案、评分标准与范文折叠于每题下方。</span><span class="cnt">' + (m.sc || '题本已录入') + '</span></a>' +
             '<a class="part" href="每周模考/' + m.t + '/行测错题集合.html"><b><span class="pi">错</span>行测错题集合</b>' +
-            '<span>本卷错题按六大板块分类沉淀，每题记录错因与复盘。</span><span class="cnt">六分类空槽</span></a>' +
+            '<span>本卷错题按六大板块分类沉淀，每题记录错因与复盘。</span><span class="cnt">' + (m.cc || '六分类空槽') + '</span></a>' +
             '</div></div>';
   });
   html += '<div class="guide"><h3>如何新增一期模考（例如 10月7日模考、11月20日模考）</h3>' +
@@ -142,8 +147,10 @@ function render(){
     '<li>或手动复制 <code>9月7日模考</code> 文件夹，改名为新期次（如 <code>10月7日模考</code>）后清空内容；</li>' +
     '<li>题图素材放入对应分类文件夹：<code>行测_assets/分类名/</code> 与 <code>行测错题集合_assets/分类名/</code>、<code>申论_assets/</code>；</li>' +
     '<li>在本页 <code>MOCK_DATES</code> 数组顶部 push 一条期次信息即可出现在上方列表中。</li></ol>' +
-    '<div class="tpl">素材放置约定：每期目录下，行测_assets 与行测错题集合_assets 均内含常识判断/政治理论/言语理解/数量关系/判断推理/资料分析六个分类子文件夹，题目图片按题型放入后，再让助手写入对应页面（题目卡自带答案与解析，错题卡自带错因与复盘）。</div></div>';
+    '<div class="tpl">素材放置约定：每期目录下，行测_assets 与行测错题集合_assets 均内含政治理论/常识判断/言语理解/数量关系/判断推理/资料分析六个分类子文件夹，题目图片按题型放入后，再让助手写入对应页面（题目卡自带答案与解析，错题卡自带错因与复盘）。</div></div>';
   document.getElementById('wrap').innerHTML = html;
+  var cntEl = document.getElementById('mkCount');
+  if(cntEl){ cntEl.textContent = '当前 ' + MOCK_DATES.length + ' 期'; }
 }
 render();
 
