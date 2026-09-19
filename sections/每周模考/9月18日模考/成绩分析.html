@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="mock">
+<head><style id="xz-perf">/* 长页面打开提速：屏幕外的知识点块不做排版与绘制 */section.scard{content-visibility:auto;contain-intrinsic-size:auto 500px}</style>
+<meta charset="UTF-8">
+<link rel="icon" href="data:,"><script src="../../../assets/%E4%B8%BB%E9%A2%98.js?v=20260913b"></script><script src="../../../assets/%E6%BC%94%E7%AE%97%E5%B1%82.js?v=20260913b"></script><script src="../../../assets/%E5%AE%9A%E4%BD%8D%E5%B1%82.js?v=20260914a"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>9月18日模考 · 成绩分析 · 行测知识工作站</title>
+<style>
+:root{
+  --primary:#b91c1c; --primary2:#dc2626; --accent:#f87171; --bg:#fbf3f3;
+  --ok:#15803d; --mid:#b45309; --bad:#b91c1c;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:"PingFang SC","Microsoft YaHei","Noto Sans CJK SC","Hiragino Sans GB",sans-serif;color:#1f2937;background:var(--bg);line-height:1.8;font-size:15px}
+header{background:linear-gradient(135deg,#7f1d1d 0%,var(--primary2) 62%,var(--accent) 135%);color:#fff;padding:30px 26px 24px;text-align:center}
+header h1{margin:0;font-size:27px;letter-spacing:1px}
+header .en{margin-top:3px;font-size:11.5px;letter-spacing:.22em;opacity:.82}
+header .intro{margin:12px auto 0;max-width:880px;font-size:13px;opacity:.94;line-height:1.75}
+header .meta{margin-top:12px;display:flex;gap:9px;justify-content:center;flex-wrap:wrap;font-size:12px}
+header .meta span{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:2px 13px}
+.subnav{position:sticky;top:0;z-index:60;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-bottom:1px solid #f5dcdc;padding:8px 16px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.subnav a{text-decoration:none;font-size:12.5px;border:1px solid #f0cece;background:#fff;color:#a03030;border-radius:999px;padding:5px 14px;white-space:nowrap}
+.subnav a:hover{border-color:var(--primary2);color:var(--primary2)}
+.subnav a.on{background:linear-gradient(135deg,var(--primary),var(--primary2));border-color:transparent;color:#fff;font-weight:700}
+main{max-width:1000px;margin:0 auto;padding:18px 18px 80px}
+.scard{background:#fff;border:1px solid #f5dcdc;border-radius:14px;padding:16px 20px 18px;margin:0 0 16px;scroll-margin-top:64px}
+.scard>h2{margin:0 0 12px;font-size:17px;color:var(--primary);display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.scard>h2 em{font-style:normal;font-size:11.5px;font-weight:600;color:#a16262;background:#fdf1f1;border-radius:999px;padding:1px 10px}
+.lead{font-size:13.5px;color:#4b5563;background:#fdf5f6;border-left:3px solid var(--accent);border-radius:0 8px 8px 0;padding:9px 14px;margin:0 0 14px;line-height:1.85}
+.lead b{color:#9f1239}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.kpi{border:1px solid #f0dbe0;border-radius:13px;background:linear-gradient(180deg,#fff,#fdf5f6);padding:12px 15px}
+.kpi .k{font-size:11.5px;color:#a16262;letter-spacing:.03em}
+.kpi .v{font-size:25px;font-weight:800;color:var(--primary);line-height:1.35;margin-top:2px}
+.kpi .v small{font-size:12px;font-weight:600;color:#a16262;margin-left:4px}
+.kpi .n{font-size:11.5px;color:#7a6b73;margin-top:2px}
+table.mod{width:100%;border-collapse:collapse;font-size:13px}
+table.mod th{background:#fdf1f3;color:#9f1239;font-size:12px;font-weight:700;text-align:center;padding:7px 6px;border-bottom:1px solid #f3d7dd;white-space:nowrap}
+table.mod td{padding:7px 6px;border-bottom:1px solid #f7ecee;text-align:center;color:#374151}
+table.mod td.nm{text-align:left;font-weight:700;color:#1f2937}
+table.mod tr:last-child td{border-bottom:0}
+table.mod tr.hi td{background:#fef7f7}
+.bar{position:relative;height:8px;border-radius:999px;background:#f1e4e7;overflow:hidden;min-width:56px;margin-bottom:3px}
+.bar i{position:absolute;left:0;top:0;bottom:0;border-radius:999px;background:linear-gradient(90deg,#f87171,#b91c1c)}
+.bar.ok i{background:linear-gradient(90deg,#4ade80,#15803d)}
+.bar.mid i{background:linear-gradient(90deg,#fbbf24,#b45309)}
+.tag{display:inline-block;font-size:11px;border-radius:999px;padding:1px 9px;white-space:nowrap}
+.tag.ok{color:var(--ok);background:#f0fdf4;border:1px solid #bbf7d0}
+.tag.mid{color:var(--mid);background:#fffbeb;border:1px solid #fde68a}
+.tag.bad{color:var(--bad);background:#fef2f2;border:1px solid #fecaca}
+td.num{font-variant-numeric:tabular-nums}
+td.d{font-weight:700}
+td.d.ok{color:var(--ok)} td.d.bad{color:var(--bad)}
+.tnote{margin:10px 0 0;font-size:12px;color:#7a6b73;line-height:1.75}
+.pintro{margin:0 0 12px;font-size:12.5px;color:#7a6b73;line-height:1.75}
+.diag{display:grid;gap:10px}
+.ditem{border:1px solid #f0dbe0;border-radius:12px;padding:11px 14px;background:#fffafb}
+.ditem b{display:block;font-size:13.5px;color:#9f1239;margin-bottom:3px}
+.ditem p{margin:0;font-size:13px;color:#4b5563;line-height:1.8}
+.wrow{display:flex;gap:10px;align-items:flex-start;padding:9px 4px;border-bottom:1px dashed #f3dbe0;font-size:13px}
+.wrow:last-child{border-bottom:0}
+.wrow .wn{flex:none;width:78px;font-weight:800;color:var(--primary)}
+.wrow .wn i{display:block;font-style:normal;font-size:11px;font-weight:600;color:#a16262}
+.wrow .wd{color:#4b5563;line-height:1.8}
+.wrow code{background:#fdf1f1;color:#9f1239;border-radius:5px;padding:0 5px;font-size:12px}
+.wrow.hi{background:#fef7f7;border-radius:10px}
+ol.plan{margin:0;padding-left:22px;font-size:13.5px;color:#3f4653}
+ol.plan li{margin:8px 0;line-height:1.85}
+ol.plan li b{color:#9f1239}
+ol.plan code{background:#fdf1f1;color:#9f1239;border-radius:5px;padding:0 5px;font-size:12px}
+.goal{margin:14px 0 0;border:1px dashed var(--accent);border-radius:12px;background:#fffafa;padding:10px 14px;font-size:13px;color:#7f1d1d;line-height:1.85}
+.note{font-size:12.5px;color:#7a6b73;line-height:1.85;margin:0;padding-left:20px}
+.note li{margin:5px 0}
+.backtop{position:fixed;right:18px;bottom:18px;z-index:70;border:0;border-radius:50%;width:44px;height:44px;background:var(--primary2);color:#fff;font-size:18px;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.22);display:none}
+.backtop.show{display:block}
+@media(max-width:720px){ main{padding:14px 12px 72px} .scard{padding:14px 14px 16px} .kpi .v{font-size:22px} table.mod{font-size:12.5px} }
+@media print{ .subnav,.backtop{display:none} body{background:#fff} }
+/* ===== iOS 毛玻璃顶栏（统一设计） ===== */
+body{background:linear-gradient(180deg,color-mix(in srgb,var(--accent) 10%,#fff) 0%,var(--bg) 46%,var(--bg) 100%)}
+header{
+  display:grid;grid-template-columns:46px 1fr;column-gap:14px;align-items:center;
+  width:calc(100% - 36px);max-width:1204px;margin:16px auto 0;padding:20px 24px 18px;border-radius:24px;
+  text-align:left;color:#0f172a;
+  background:linear-gradient(180deg,rgba(255,255,255,.92),rgba(255,255,255,.68));
+  -webkit-backdrop-filter:blur(30px) saturate(180%);
+  backdrop-filter:blur(30px) saturate(180%);
+  border:1px solid rgba(255,255,255,.75);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 24px 50px -34px rgba(15,23,42,.45);
+}
+header::before{
+  content:"";grid-column:1;grid-row:1 / span 2;width:46px;height:46px;border-radius:50%;
+  background:var(--primary2);
+  -webkit-mask-image:radial-gradient(circle 18px at 50% 50%,#000 0%,rgba(0,0,0,.85) 30%,rgba(0,0,0,.40) 62%,rgba(0,0,0,.12) 86%,rgba(0,0,0,0) 100%);
+  mask-image:radial-gradient(circle 18px at 50% 50%,#000 0%,rgba(0,0,0,.85) 30%,rgba(0,0,0,.40) 62%,rgba(0,0,0,.12) 86%,rgba(0,0,0,0) 100%);
+}
+header h1{grid-column:2;grid-row:1;margin:0;font-size:25px;font-weight:800;letter-spacing:.01em;color:#0f172a}
+header .en{grid-column:2;grid-row:2;margin-top:3px;font-size:10.5px;font-weight:600;letter-spacing:.2em;opacity:1;color:color-mix(in srgb,var(--primary2) 55%,#7b8798)}
+header .intro{grid-column:1 / -1;margin:16px 0 0;max-width:none;font-size:13px;opacity:1;color:#5b6675;line-height:1.75;text-align:left}
+header .meta{grid-column:1 / -1;margin-top:13px;display:flex;gap:8px;justify-content:flex-start;flex-wrap:wrap;font-size:12px}
+header .meta span{background:color-mix(in srgb,var(--primary2) 10%,rgba(255,255,255,.8));border:1px solid color-mix(in srgb,var(--primary2) 16%,rgba(255,255,255,.7));border-radius:999px;padding:3px 12px;color:color-mix(in srgb,var(--primary) 55%,#3f4d63);font-weight:600}
+@media(max-width:900px){header{grid-template-columns:40px 1fr;column-gap:12px;width:calc(100% - 24px);margin:12px auto 0;padding:18px 18px 16px;border-radius:20px}header::before{width:40px;height:40px;border-radius:50%;-webkit-mask-image:radial-gradient(circle 15px at 50% 50%,#000 0%,rgba(0,0,0,.85) 30%,rgba(0,0,0,.40) 62%,rgba(0,0,0,.12) 86%,rgba(0,0,0,0) 100%);mask-image:radial-gradient(circle 15px at 50% 50%,#000 0%,rgba(0,0,0,.85) 30%,rgba(0,0,0,.40) 62%,rgba(0,0,0,.12) 86%,rgba(0,0,0,0) 100%)}header h1{font-size:21px}}
+@media print{body{background:#fff}}
+/* ===== 顶部卡片：图标与板块名称同一行 · 整行居中 ===== */
+header{--mc:#f43f5e;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;column-gap:12px;row-gap:4px;text-align:center;padding:22px 24px 20px}
+header::before{flex:none;margin:0}
+header h1{flex:none;margin:0;max-width:100%;font-size:28px;font-weight:800;letter-spacing:.01em;color:color-mix(in srgb,var(--mc) 42%,#1e293b)}
+header .en{flex:none;margin-top:0;max-width:100%}
+header .intro{flex:1 0 100%;margin:16px auto 0;max-width:min(820px,100%);text-align:center}
+header .meta{flex:1 0 100%;margin-top:14px;max-width:100%;justify-content:center}
+@media(max-width:900px){header{column-gap:10px;padding:20px 18px 18px}header h1{font-size:23px}}
+</style>
+</head>
+<body>
+<header>
+  <h1>9月18日模考 · 成绩分析</h1>
+  <div class="intro">把「9月18日模考行测成绩表（全年级榜 + 308 班名单）」与本站「行测错题集合（37 道）」对齐后得出的结论：分数落在什么位置、失分去了哪里、下一阶段先补什么。成绩表本地留存、未入站，本页只保留分数与排名，不含姓名与准考证号。</div>
+  <div class="meta"><span>行测 69.2</span><span>年级 102 / 约 444</span><span>班内 23 / 93</span><span>37 道错题归因</span></div>
+</header>
+<div class="subnav">
+  <a href="../../每周模考.html">← 模考中心</a>
+  <a href="行测.html">行测</a>
+  <a href="申论.html">申论</a>
+  <a href="行测错题集合.html">行测错题集合</a>
+  <a class="on" href="成绩分析.html">成绩分析</a>
+</div>
+<main>
+
+<section class="scard" id="cj-jielun">
+  <h2>一句话结论 <em>本次模考</em></h2>
+  <p class="lead">行测 <b>69.2</b> 分，约在年级前 <b>23%</b>、班内前 25%，高出班中位 6.2 分。失分<b>不在总量，而在方向</b>：资料分析与图形推理两块技巧型模块明显低于同分段同学，言语、数量、常识则与同分段基本持平。<b>逻辑判断满分（年级榜并列第 1）</b>，政治理论与定义判断也高于年级前 20 名平均，属于稳定的得分盘。</p>
+  <div class="kpis">
+    <div class="kpi"><div class="k">行测成绩</div><div class="v">69.2<small>/ 100</small></div><div class="n">得分率 69.2%</div></div>
+    <div class="kpi"><div class="k">年级排名</div><div class="v">102<small>/ 约 444</small></div><div class="n">约前 23% · 年级榜均 70.2</div></div>
+    <div class="kpi"><div class="k">班内排名</div><div class="v">23<small>/ 93</small></div><div class="n">班中位 63.0 · 班最高 78.8</div></div>
+    <div class="kpi"><div class="k">本次错题</div><div class="v">37<small>道</small></div><div class="n">共失 30.8 分 · 题题可归因</div></div>
+  </div>
+</section>
+
+<section class="scard" id="cj-zhenduan">
+  <h2>三条诊断 <em>结论先看这里</em></h2>
+  <div class="diag">
+    <div class="ditem"><b>① 失分方向比失分总量更值得注意</b><p>总失 30.8 分，按绝对量排是「言语 8 &gt; 数量 5.4 &gt; 资料 4.5 &gt; 常识 4 &gt; 图推 3.6」；但按「和同分段同学比」排，真正落后的只有 <b>资料分析（年级榜 165/185）</b>与 <b>图形推理（131/185）</b>。言语、数量、常识的分数与同分段基本一致，这一轮先不动。</p></div>
+    <div class="ditem"><b>② 有一张王牌没有用满</b><p>逻辑判断 9/9 满分，年级榜内并列第 1；政治理论（6/185）、定义判断（31/185）也都高于年级前 20 名平均。论证类、规则类题目已经是头部水平，这部分每周少量保温即可，不必再投大块时间。</p></div>
+    <div class="ditem"><b>③ 错题形态是「规律 / 模型不熟」，不是粗心</b><p>图推 4 道错题连在第 61–65 题（封闭区域数、位置+线条数、对称轴方向与数量、笔画数奇点）；数量 7 道错题横跨 7 个不同模型（和差倍比、排列组合、工程、几何、最值、利润、整除）。这种分布说明是覆盖不足，而不是算错或看错。</p></div>
+  </div>
+</section>
+
+<section class="scard" id="cj-cuoti">
+  <h2>37 道错题的去向 <em>按失分从大到小</em></h2>
+  <div class="wrow hi"><div class="wn">言语理解<i>9 题 · 失 8 分</i></div><div class="wd">逻辑填空 <code>21 / 22 / 23 / 25 / 28 / 29</code>（6 题），片段阅读 <code>38 / 44 / 46</code>（3 题）。逻辑填空占了本轮言语失分的六成，问题在词义辨析与语境对应，不在阅读速度。</div></div>
+  <div class="wrow"><div class="wn">数量关系<i>7 题 · 失 5.4 分</i></div><div class="wd">和差倍比 <code>51</code>、排列组合计数 <code>53</code>、工程 <code>54</code>、几何切角 <code>55</code>、方案最值 <code>57</code>、利润折扣 <code>59</code>、整除 <code>60</code>。每题都是有固定模型的题，属于模型没铺开。</div></div>
+  <div class="wrow"><div class="wn">资料分析<i>5 题 · 失 4.5 分</i></div><div class="wd">比值比较 <code>108</code>、单价倍数 <code>109</code>、平均数 <code>112</code>、多步计算 <code>113</code>、综合分析 <code>115</code>。错题集中在资料二、资料三，资料一全对——是题型识别与速算的问题，不是不会算。</div></div>
+  <div class="wrow"><div class="wn">判断推理<i>9 题 · 失 6.7 分</i></div><div class="wd">图形推理 4 题（<code>62</code> 封闭区域数、<code>63</code> 位置+线条数、<code>64</code> 对称轴方向与数量、<code>65</code> 笔画数奇点）；定义判断 2 题（<code>76</code> / <code>79</code>，要素对应不全）；类比推理 3 题（<code>82</code> 充分条件、<code>83</code> 原材料命名、<code>90</code> 近义对应）。</div></div>
+  <div class="wrow"><div class="wn">常识判断<i>5 题 · 失 4 分</i></div><div class="wd">法律 2 题（<code>11</code> 权利与义务、<code>13</code> 治安管理处罚法妨害公共安全），人文与生活 3 题（<code>15</code> 三省六部与科举、<code>17</code> 人体消化与胰岛素、<code>18</code> 古代称谓）。本轮没有一道时政题。</div></div>
+  <div class="wrow"><div class="wn">政治理论<i>2 题 · 失 1.6 分</i></div><div class="wd"><code>1</code> 「第二个结合」的理解、<code>9</code> 「九个指头与一个指头」对应主要矛盾与矛盾的主要方面，都属于关键词对应型。</div></div>
+</section>
+
+<section class="scard" id="cj-modules">
+  <h2>模块明细 <em>9 个模块逐个定位</em></h2>
+  <p class="pintro">每条结论的原始数据都在这里：我的分数、得分率、与年级榜平均的差距、在年级榜内的名次。</p>
+  <table class="mod">
+    <thead>
+      <tr><th>模块</th><th>满分</th><th>我的</th><th>得分率</th><th>对比年级榜均</th><th>年级榜内名次</th><th>定位</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="nm">逻辑判断</td><td class="num">9</td><td class="num d ok">9</td><td><div class="bar ok"><i style="width:100%"></i></div><span style="font-size:11.5px;color:#7a6b73">100%</span></td><td class="num">+1.96</td><td class="num">1 / 185</td><td><span class="tag ok">强项</span></td></tr>
+      <tr><td class="nm">政治理论</td><td class="num">8</td><td class="num d ok">6.4</td><td><div class="bar ok"><i style="width:80%"></i></div><span style="font-size:11.5px;color:#7a6b73">80%</span></td><td class="num">+1.81</td><td class="num">6 / 185</td><td><span class="tag ok">强项</span></td></tr>
+      <tr><td class="nm">定义判断</td><td class="num">8</td><td class="num d ok">6.4</td><td><div class="bar ok"><i style="width:80%"></i></div><span style="font-size:11.5px;color:#7a6b73">80%</span></td><td class="num">+0.40</td><td class="num">31 / 185</td><td><span class="tag ok">强项</span></td></tr>
+      <tr><td class="nm">类比推理</td><td class="num">7</td><td class="num">4.9</td><td><div class="bar mid"><i style="width:70%"></i></div><span style="font-size:11.5px;color:#7a6b73">70%</span></td><td class="num">-0.28</td><td class="num">93 / 185</td><td><span class="tag mid">持平</span></td></tr>
+      <tr><td class="nm">常识判断</td><td class="num">8</td><td class="num">4</td><td><div class="bar mid"><i style="width:50%"></i></div><span style="font-size:11.5px;color:#7a6b73">50%</span></td><td class="num">-0.36</td><td class="num">92 / 185</td><td><span class="tag mid">持平</span></td></tr>
+      <tr><td class="nm">言语理解</td><td class="num">24</td><td class="num">16</td><td><div class="bar mid"><i style="width:67%"></i></div><span style="font-size:11.5px;color:#7a6b73">67%</span></td><td class="num">-0.49</td><td class="num">96 / 185</td><td><span class="tag mid">持平</span></td></tr>
+      <tr><td class="nm">数量关系</td><td class="num">9</td><td class="num">3.6</td><td><div class="bar mid"><i style="width:40%"></i></div><span style="font-size:11.5px;color:#7a6b73">40%</span></td><td class="num">-0.74</td><td class="num">96 / 185</td><td><span class="tag mid">持平</span></td></tr>
+      <tr class="hi"><td class="nm">图形推理</td><td class="num">9</td><td class="num d bad">5.4</td><td><div class="bar"><i style="width:60%"></i></div><span style="font-size:11.5px;color:#7a6b73">60%</span></td><td class="num">-1.06</td><td class="num">131 / 185</td><td><span class="tag bad">短板</span></td></tr>
+      <tr class="hi"><td class="nm">资料分析</td><td class="num">18</td><td class="num d bad">13.5</td><td><div class="bar"><i style="width:75%"></i></div><span style="font-size:11.5px;color:#7a6b73">75%</span></td><td class="num">-2.21</td><td class="num">165 / 185</td><td><span class="tag bad">短板</span></td></tr>
+    </tbody>
+  </table>
+  <p class="tnote">「年级榜内名次」= 在可见的年级榜 185 行里，该模块分数比我高的人数 +1。「定位」不看绝对分数，只看与年级榜平均的差距：领先为强项，落后且名次靠后为短板。资料分析是本卷单模块分值最高的一块（20 题 18 分），恰好也是最靠后的一块。</p>
+</section>
+
+<section class="scard" id="cj-lujing">
+  <h2>下一阶段补什么 <em>按性价比排序</em></h2>
+  <ol class="plan">
+    <li><b>资料分析（第一优先，可捞 2.7–3.6 分）</b>：每天 2 篇限时，专练本站「资料分析」的 <code>6.1 比值大小比较</code>、<code>7.1 平均数</code>、<code>7.2 倍数</code>，配合 <code>2.4 除法转换技巧</code>练截位直除。目标：20 题错 ≤2。</li>
+    <li><b>图形推理（可捞 1.8–3.6 分）</b>：按规律分块刷，每天 20 题，重心是「定量分析（点线面角素）」「四大类之对称图类」「六提示」与笔画数奇点。考场上分 2–3 次做：先在判断模块挑 3–5 道，其余留到判断做完、涂卡前再看。</li>
+    <li><b>逻辑填空（可捞 1.6 分）</b>：把本轮 6 道错题回刷「言语理解 → 词义辨析与逻辑对应 + 成语高频词库」，每天 15 题，只练「先看选项再看空格、抓关联词定语境」。</li>
+    <li><b>数量关系（可捞 1.8 分左右）</b>：不追全覆盖，只锁 5 类必拿——工程、利润、几何、和差倍比、容斥（对应「数量关系」第一、五、八、九、十四/十五节）；其余统一蒙，不恋战。</li>
+    <li><b>常识判断（可捞 1.4 分，可选）</b>：只把本轮 5 道错题（法律 + 古代称谓）回刷两轮，不投大块时间。</li>
+    <li><b>保温项</b>：逻辑判断每周 30 题保持手感；政治理论、定义判断维持现状即可。</li>
+  </ol>
+  <div class="goal"><b>目标换算：</b>把上面 5 块的差距补上一半，总分约 <b>76 分</b>——对应年级约第 14 名、班内前 5（本卷班内第 5 门槛 76.2）。当前 68.6–69.8 这一段挤了 33 人，多拿 3 分就能跨过一大片。</div>
+</section>
+
+<section class="scard" id="cj-shuoming">
+  <h2>数据口径 <em>看结论前请先读</em></h2>
+  <ul class="note">
+    <li><b>成绩来源</b>：9月18日模考行测成绩表（全年级榜前 181 名 + 308 班完整名单，本地留存、未入站）。本页只保留分数与排名，不记录姓名与准考证号。</li>
+    <li><b>本页的「我」是怎么定的</b>：成绩表里没有标注本人那一行，本页取「模块失分结构与本站 37 道错题逐一吻合」的那一行——常识 5 错、图推 4 错、定义 2 错、类比 3 错、逻辑 0 错、资料 5 错、政治 2 错，总错题恰好 37。若实际标注的行不同，改这一处即可，其余口径不变。</li>
+    <li><b>错题归因依据</b>：行测错题集合的题号—考点分布。等「我的答案」「错因」补录后，本页可做二次校准，区分「会做但错」与「完全没思路」。</li>
+    <li><b>名次口径</b>：年级榜截图只到第 181 名，故「年级榜内名次」以 185 行可见行为分母；总分年级排名取成绩表原始值 102（全年级至少 444 人）。</li>
+    <li><b>9月7日模考</b>：该期目前没有成绩数据（成绩表未入站、错题集合为空槽），无法做两次模考的趋势对比；补录后即可在本页加「进步曲线」。</li>
+  </ul>
+</section>
+
+</main>
+<button class="backtop" id="bt" title="回到顶部">↑</button>
+<script>
+(function(){
+  var bt = document.getElementById('bt');
+  function onScroll(){ if(bt){ bt.classList.toggle('show', window.scrollY > 500); } }
+  window.addEventListener('scroll', onScroll, { passive:true });
+  if(bt){ bt.addEventListener('click', function(){ window.scrollTo({ top:0, behavior:'smooth' }); }); }
+  onScroll();
+})();
+</script>
+</body>
+</html>

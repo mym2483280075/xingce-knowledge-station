@@ -230,7 +230,10 @@ for (const s of sections) { if (s.hit) { hitMap[s.hit] = s.id; } }
 const MK_FILES = [
   { f: '行测.html', tag: '行测', sfx: 'xc', wanted: new Set(['qcard']) },
   { f: '申论.html', tag: '申论', sfx: 'sn', wanted: new Set(['shen', 'matcard']) },
-  { f: '行测错题集合.html', tag: '行测错题', sfx: 'ct', wanted: new Set(['qcard']) }
+  { f: '行测错题集合.html', tag: '行测错题', sfx: 'ct', wanted: new Set(['qcard']) },
+  /* 成绩分析页的正文块统一用 class="scard"（卡片 id 形如 cj-modules），
+     与错题集合的 qcard 分开，避免两种卡片互相污染索引。 */
+  { f: '成绩分析.html', tag: '成绩分析', sfx: 'cj', wanted: new Set(['scard']) }
 ];
 if (fs.existsSync(MK_ROOT)) {
   const dirs = fs.readdirSync(MK_ROOT).filter((d) => fs.statSync(path.join(MK_ROOT, d)).isDirectory());
