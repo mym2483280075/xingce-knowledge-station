@@ -152,6 +152,14 @@ input{font-family:inherit}
 .search-drop .ghead{padding:8px 13px;font-size:11px;color:var(--muted);border-bottom:1px solid #f1f5f9;background:#fafbfe}
 .search-drop .sc{flex:none;font-size:10px;color:#475569;background:#eef2ff;border-radius:999px;padding:2px 8px}
 .search-drop .t2 b,.search-drop .t2 mark{background:#fff3bf;color:#92400e;font-weight:700;border-radius:2px;padding:0 1px}
+/* 键盘选中的那一行（↑↓ 切换）与“全文索引加载进度”提示条 */
+.search-drop .row.sel{background:#eef2ff}
+.search-drop .row.sel .t1{color:var(--brand)}
+.search-drop .stat{display:flex;align-items:center;gap:8px;padding:8px 13px;font-size:11px;color:var(--muted);border-bottom:1px solid #f1f5f9}
+.search-drop .stat .bar{flex:1;height:3px;border-radius:2px;background:#e8edf6;overflow:hidden}
+.search-drop .stat .bar i{display:block;height:100%;background:var(--brand);transition:width .25s}
+html.xz-dark .search-drop .row.sel{background:#1e2a44}
+html.xz-dark .search-drop .stat .bar{background:#26324c}
 
 /* ===== Responsive ===== */
 @media(max-width:860px){
@@ -378,7 +386,7 @@ html.xz-dark .timer-panel.full.show{background:#000;--tm-label:#fff;--muted:#989
       计时器：顶栏时钟入口 · 启动 / 分段 / 停止 / 复位 · 面板与全屏两种模式<br>
       演算画布：右手写字的「演算」按钮 · 支持 Apple Pencil 压感与粗细自选<br>
       内容来源：个人备考整理
-      <div class="ver">界面版本 2026-09-15 · 四大专区（行测 / 申论 / 日常积累 / 模考真题）· 侧栏二级导航 · iOS 风格计时器</div>
+      <div class="ver">界面版本 2026-09-19 · 全文检索覆盖全站正文与模考真题 · 顶栏搜索支持 ↑↓ 选择 / 回车直达</div>
     </div>
   </aside>
   <div class="backdrop" id="backdrop"></div>
@@ -391,13 +399,17 @@ html.xz-dark .timer-panel.full.show{background:#000;--tm-label:#fff;--muted:#989
         <span class="bar" id="crumbBar"></span>
         <span class="tt" id="crumbTitle">行测知识工作站</span>
         <span class="en" id="crumbEn"></span>
-        <span class="vbadge">版本 2026-09-15 · 四大专区 / 二级导航</span>
+        <span class="vbadge">版本 2026-09-19 · 全文检索覆盖全站</span>
       </div>
-      <div class="searchbox">
-        <span class="ic">🔍</span>
-        <input id="globalQ" placeholder="搜索板块或知识点，例如：图形推理 / 剩余价值 / 比重差…" autocomplete="off">
-        <span class="kbd">/</span>
-        <div class="search-drop" id="drop"></div>
+      <!-- 【易错】搜索框的可访问性契约：role=combobox + aria-expanded 由 renderSearch 同步，
+           结果面板 role=listbox，每行 role=option（↑↓ 选中、Enter 进入）。
+           这几处属性是键盘与读屏可用的前提，改 DOM 结构时别丢。 -->
+      <div class="searchbox" role="search">
+        <span class="ic" aria-hidden="true">🔍</span>
+        <input id="globalQ" placeholder="搜索板块或知识点，例如：图形推理 / 剩余价值 / 比重差…" autocomplete="off"
+               role="combobox" aria-expanded="false" aria-controls="drop" aria-autocomplete="list" aria-label="全站搜索">
+        <span class="kbd" aria-hidden="true">/</span>
+        <div class="search-drop" id="drop" role="listbox" aria-label="搜索结果"></div>
       </div>
       <!-- 计时器（iOS 秒表）：入口常驻顶栏，运行中直接显示时:分:秒，面板不挡内容 -->
       <div class="timerwrap" id="timerWrap">
@@ -687,8 +699,14 @@ var pendingQuery = null;
      两处版本号同时升到 v20260914a。）
    （2026-09-14 新增 assets/定位层.js 修目录跳转落点：10 个板块页都插了新的
      <script ...定位层.js?v=20260914a>，所以这里必须再升到 v20260914b，
-     否则 iPad 会继续用缓存里的旧板块页 HTML，定位层的 <script> 根本不会被加载。） */
-var CACHE_V = 'v20260914b';
+     否则 iPad 会继续用缓存里的旧板块页 HTML，定位层的 <script> 根本不会被加载。）
+   （2026-09-19 给 9月18日模考行测 / 错题集合 / 申论·公文写作 三页的图片补 width/height，
+     这三页的 HTML 变了 —— 按同一规则把 CACHE_V 升到 v20260919a，
+     否则 iPad 上仍是旧 HTML，图片依旧会在懒加载时把后面的内容顶下去。）
+   （2026-09-19 内联脚本统一：12 个板块页的内联「页内交互脚本」全部换成
+     assets/板块页脚本.js?v=20260919b，页面 HTML 变了 —— 升到 v20260919b，
+     否则 iPad 会继续用缓存里的旧页面（旧页面里还带着那份内联脚本）。 */
+var CACHE_V = 'v20260919b';
 
 /* 【易错】切换板块后要把待发的搜索转发给新页面：必须等 iframe 的 load 事件再 postMessage，
    抢在前面发会被丢弃（目标页还没绑定监听）。pendingQuery 就是为这个“等一手”存在的，别删。 */
@@ -794,17 +812,44 @@ function renderDrop(matches){
       '<div class="t2">'+m.sec.sub+'</div></div></div>';
   }).join('');
   drop.classList.add('show');
-  Array.prototype.forEach.call(drop.querySelectorAll('.row'), function(r){
-    r.addEventListener('click', function(){
-      openSection(r.getAttribute('data-id'), {q: r.getAttribute('data-q'), id: r.getAttribute('data-a')||null});
-      drop.classList.remove('show');
-      globalQ.blur();
-    });
-  });
+  /* 【易错】这里不再逐行绑定 click：面板上的点击统一由 drop 的委托监听处理
+     （见 renderSearch 下方），两处都绑会让一次点击执行两次跳转。 */
 }
 
-/* ===== 全文模糊搜索（GitHub 成熟方案 Fuse.js v7，CDN 加载；不可用时自动降级关键词检索） ===== */
-var wsData = null, wsFuse = null, wsFuseBusy = false;
+/* ===== 全站搜索（Fuse 本地加载 + 核心索引 + 分板块全文索引渐进补齐） =====
+   【架构】为什么不是一个 JSON：
+     全站正文约 120 万字，一次性下完要 1.3MB gzip；而绝大多数搜索命中都在标题或当前板块。
+     所以索引拆两层（构建见 scripts/build-index.js）：
+       ① assets/search-index.json —— 核心索引：每张卡片一条，只有标题，gzip 约 17KB；
+          聚焦搜索框即加载，标题级命中立刻可见，也是“回车永远有反应”的兜底。
+       ② assets/search-full/<key>.json —— 每板块一份全文切片：先加载“当前正在看的板块”，
+          其余在面板展开且有查询时按 2 并发慢慢补齐，结果随到随更新（wsPump）。
+   【坑】Fuse 走本地文件 assets/fuse.basic.min.mjs，CDN 只作为兜底：
+     本机 jsdelivr 的解析时通时不通，一旦失败旧实现会静默退化成“只匹配关键词”，
+     用户看到的是「未找到匹配知识点」，完全不知道是索引没加载 —— 所以现在会在面板里
+     明确提示加载进度与降级状态。
+   【易错】凡是把内容拼进 innerHTML 的地方都必须先过 wsEsc（正文来自板块页，查询词来自用户）。 */
+var wsCore = null;          // 核心索引（每张卡片一条标题）
+var wsFull = [];            // 已加载的全文切片
+var wsFuse = null;          // 覆盖“核心索引 + 已加载全文”的模糊检索器实例
+var wsFuseLib;              // Fuse 构造函数：undefined=未加载 / null=加载失败
+var wsFuseCount = -1;       // wsFuse 建立时的条目数，用于判断是否需要重建
+var wsInitBusy = false;     // 核心索引加载中
+var wsCoreFailed = false;   // 核心索引加载失败（离线 / 请求被拦）：面板给出可行动的降级提示
+var wsQueue = [];           // 待加载的全文索引 key（当前板块优先）
+var wsTail = [];            // 低优先级的其余板块：查询稳定一会儿后才开始下（见 wsScheduleTail）
+var wsTailTimer = null;
+var wsLoaded = {};          // key -> true（已加载）/ 'fail'
+var wsPending = {};         // key -> true（正在下载）：防止同一次搜索里把同一个板块重复排队
+var wsInflight = 0;
+var wsTotalFiles = 0;
+var wsFileKey = {};         // 页面文件 -> 全文索引 key
+var wsFileSec = {};         // 页面文件 -> 板块 id（用于结果排序时优先当前板块）
+var wsRows = [];            // 当前结果列表（键盘上下键用）
+var wsSel = -1;             // 当前选中行
+var wsUrgent = false;       // 当前查询暂无结果：提高并发，尽快把兜底批拉进来
+var wsPlanQ = null;         // 上一次规划对应的查询词（避免同一句查询反复重排队列）
+var WS_FULL_DIR = 'assets/search-full/';
 
 /* 【易错】凡是把内容拼进 innerHTML 的地方都必须先过这里（索引正文来自各板块页，
    查询词来自用户输入）——少一处就可能出现排版错乱或注入问题。 */
@@ -817,6 +862,9 @@ function wsSnippet(it, q){
   /* 【易错】索引正文（it.x）抄自各板块页的纯文本，里面可能原样带着 < > & 这些字符，
      拼进 innerHTML 之前必须整段转义。原先只转义了命中词与尾段，pre 与“没命中时”
      的那一句是裸露的 —— 一旦正文里有裸 < 或 &，结果面板就可能排版错乱甚至被截断。 */
+  /* 【坑】核心索引里的条目只有标题、没有正文（全文切片还在后台加载）。
+     这里必须容忍 it.x 缺失，否则首屏搜索结果会直接抛异常、整个面板空白。 */
+  if(!it || !it.x){ return '<span style="color:#94a3b8">正文索引加载中…</span>'; }
   var idx = it.x.indexOf(q);
   if(idx < 0){ return wsEsc(it.x.slice(0, 42)); }
   var a = idx - 14; if(a < 0){ a = 0; }
@@ -825,95 +873,363 @@ function wsSnippet(it, q){
   var tail = it.x.slice(idx + q.length, idx + q.length + 26) + (idx + q.length < it.x.length ? '…' : '');
   return pre + '<b>' + wsEsc(hit) + '</b>' + wsEsc(tail);
 }
-/* 【坑】【需求】全文搜索的三段式保障（用户要求离线也能用）：
-   ① 先取本地索引 search-index.json（构建脚本产出）；
-   ② 再动态 import CDN 上的 Fuse.js（jsdelivr → unpkg 依次兜底）；
-   ③ 任何一步失败都只能降级为“关键词命中”，绝不能抛错拦住搜索框。
-   所以这里用 catch 兜住并让 wsFuse 保持 null —— renderSearch 会据此走关键词分支。
-   改 CDN 地址或 Fuse 版本时，注意 keys 权重与 threshold 会直接影响命中排序。 */
-function initGlobalSearch(){
-  if(wsFuseBusy || window.fetch == null){ return; }
-  wsFuseBusy = true;
+/* 【坑】Fuse 优先用本地文件，CDN 只作兜底：任何一步失败都只降级、绝不抛错拦住搜索框。
+   本地路径 './assets/fuse.basic.min.mjs' 是相对文档（内联脚本的 base 就是文档 URL）解析的。 */
+function wsLoadFuse(){
+  if(wsFuseLib !== undefined){ return Promise.resolve(wsFuseLib); }
+  var urls = [
+    './assets/fuse.basic.min.mjs',
+    'https://cdn.jsdelivr.net/npm/fuse.js@7.0.0/dist/fuse.basic.min.mjs',
+    'https://unpkg.com/fuse.js@7.0.0/dist/fuse.basic.min.mjs'
+  ];
+  var chain = Promise.reject();
+  urls.forEach(function(u){
+    chain = chain.catch(function(){ return import(u); });
+  });
+  return chain.then(function(mod){
+    wsFuseLib = (mod && mod.default) ? mod.default : null;
+    return wsFuseLib;
+  }).catch(function(){
+    wsFuseLib = null;   // 明确标记“加载失败”，renderSearch 会据此提示降级
+    return null;
+  });
+}
+
+/* ===== 索引装配 ===== */
+/* 当前搜索池 = 尚未加载全文的那些板块的标题条目 + 已加载的全部切片。
+   这样既不会重复展示（同一张卡片在核心索引与全文索引里各有一条），
+   又能让“已加载的板块”立刻进入模糊检索。 */
+function wsSearchSet(){
+  var pending = [];
+  if(wsCore){
+    for(var i=0;i<wsCore.items.length;i++){
+      var it = wsCore.items[i];
+      if(!it.k || !wsLoaded[it.k]){ pending.push(it); }
+    }
+  }
+  return pending.concat(wsFull);
+}
+
+function wsBuild(){
+  if(!wsFuseLib){ wsFuse = null; return; }
+  var items = wsSearchSet();
+  if(wsFuse && items.length === wsFuseCount){ return; }
+  try{
+    wsFuse = new wsFuseLib(items, {
+      includeScore: true, ignoreLocation: true,
+      threshold: 0.35,
+      keys: [{ name: 't', weight: 3 }, { name: 'n', weight: 1 }, { name: 'x', weight: 1 }]
+    });
+    wsFuseCount = items.length;
+  }catch(e){ wsFuse = null; }
+}
+
+/* 核心索引：聚焦搜索框就加载（十几 KB），拿到后立刻可搜标题 */
+function wsInit(){
+  if(wsInitBusy || wsCore || window.fetch == null){ return; }
+  wsInitBusy = true;
   fetch('assets/search-index.json').then(function(r){
     if(!r.ok){ throw new Error('no index'); }
     return r.json();
   }).then(function(d){
-    wsData = d;
-    var cdn = [
-      'https://cdn.jsdelivr.net/npm/fuse.js@7.0.0/dist/fuse.basic.min.mjs',
-      'https://unpkg.com/fuse.js@7.0.0/dist/fuse.basic.min.mjs'
-    ];
-    var chain = Promise.reject();
-    cdn.forEach(function(u){ chain = chain.catch(function(){ return import(u); }); });
-    return chain.catch(function(){ return null; });
-  }).then(function(mod){
-    if(mod && wsData && wsData.items){
-      wsFuse = new mod.default(wsData.items, {
-        includeScore: true, includeMatches: true,
-        threshold: 0.35, ignoreLocation: true,
-        keys: [{ name: 't', weight: 2 }, { name: 'n', weight: 1 }, { name: 'x', weight: 1 }]
-      });
-    }
-  }).catch(function(){ wsFuse = null; });
+    if(!d || !d.items || !d.items.length){ throw new Error('bad index'); }
+    wsCore = d;
+    var files = d.files || [];
+    wsTotalFiles = files.length;
+    files.forEach(function(f){ wsFileKey[f.f] = f.k; wsFileSec[f.f] = f.s; });
+    wsCore.items.forEach(function(it){ it.k = wsFileKey[it.f] || ''; });
+    return wsLoadFuse();
+  }).then(function(){
+    wsBuild();
+    if(globalQ.value.trim()){ renderSearch(globalQ.value); } else { wsPump(); }
+  }).catch(function(){
+    wsCore = null;      // 索引拿不到：renderSearch 会退回关键词分支
+    wsCoreFailed = true; // 明确标记失败，面板里给出可行动的提示，而不是一直转圈
+    /* 【易错】失败是异步到达的：此时用户的查询通常已经渲染过一遍（还停在“正在加载”），
+       必须主动重渲染一次，否则面板会永远显示加载中。 */
+    if(globalQ.value.trim()){ renderSearch(globalQ.value); }
+  }).then(function(){ wsInitBusy = false; });
 }
 
-/* 【易错】两条搜索分支必须保持行为一致：
-   有 Fuse 时走“全文模糊搜索”（点结果 → 直达知识点锚点 data-a）；
-   没有 Fuse 时走 renderDrop（关键词命中，只到板块）。
-   任何一条分支里新加的 DOM 拼接都要 wsEsc 转义，并且都要给 .row 绑点击。 */
-function renderSearch(q){
+/* 【性能】全文索引按相关性分两批加载，避免“随便搜一下就把整站索引拖下来”：
+   ① 立即批（wsQueue）＝ 当前正在看的板块 + 标题命中的板块 —— 命中率高，几乎总是够用；
+   ② 兜底批（wsTail）＝ 其余板块 —— 只有在查询稳定停留一段时间后才开始下，
+      期间用户若改了关键词就重新规划（wsPlan），下到一半也不会白下：已加载的会留着复用。 */
+function wsPlan(q){
+  if(!wsCore){ return; }
   q = (q||'').trim();
-  if(!q){ drop.classList.remove('show'); return; }
-  if(wsFuse && wsData){
-    var res;
-    try{ res = wsFuse.search(q, { limit: 10 }); }catch(e){ res = []; }
-    if(!res.length){
-      drop.innerHTML = '<div class="empty">正文中未找到与「'+wsEsc(q)+'」相关的内容，可换个关键词试试</div>';
-      drop.classList.add('show');
+  /* 【易错】同一句查询不要重复规划：renderSearch 在每次索引到达后都会重跑一遍，
+     规划若把“还在下载中”的板块当成“未加载”再排一次，就会出现同一个文件并发下载
+     5、6 次（实测发生过，直接把首条结果的等待时间拉长到十几秒）。 */
+  if(wsPlanQ === q && (wsQueue.length || wsTail.length || wsInflight)){ return; }
+  wsPlanQ = q;
+  var curKey = wsFileKey[frame.getAttribute('data-cur')] || '';
+  var hitSec = {};
+  for(var i=0;i<wsCore.items.length;i++){
+    var it = wsCore.items[i];
+    if(it.t && it.t.indexOf(q) > -1){ hitSec[it.s] = true; }
+  }
+  var pri = [], tail = [];
+  (wsCore.files || []).forEach(function(f){
+    if(wsLoaded[f.k] || wsPending[f.k]){ return; }
+    if(f.k === curKey || hitSec[f.s]){ pri.push(f.k); } else { tail.push(f.k); }
+  });
+  wsQueue = pri;
+  wsTail = tail;
+  if(wsTailTimer){ clearTimeout(wsTailTimer); wsTailTimer = null; }
+  if(wsTail.length && q){
+    wsTailTimer = setTimeout(function(){
+      wsTailTimer = null;
+      /* 查询没变才继续：用户换了词就走新一轮 wsPlan */
+      if(globalQ.value.trim() === q && (drop.classList.contains('show') || globalQ.value.trim())){
+        wsQueue = wsQueue.concat(wsTail);
+        wsTail = [];
+        wsPump();
+      }
+    }, 400);
+  }
+}
+
+/* 全文索引按需补齐：面板展开且有查询时才下载，并发 2 */
+function wsPump(){
+  if(!wsCore){ return; }
+  if(!(drop.classList.contains('show') || globalQ.value.trim())){ return; }
+  /* 【需求】有关键词却一条都没命中时不再“省流量”：并发提到 4，
+     否则搜一个只出现在正文里的短语（例如模考题解析里的原句）会干等好几秒 ——
+     这正是“搜得到”体验最脆弱的地方。 */
+  var limit = wsUrgent ? 6 : 2;
+  while(wsInflight < limit && wsQueue.length){
+    var k = wsQueue.shift();
+    if(wsLoaded[k] || wsPending[k]){ continue; }
+    wsFetchFull(k);
+  }
+}
+function wsFetchFull(k){
+  wsInflight++;
+  wsPending[k] = true;
+  fetch(WS_FULL_DIR + k + '.json?v=' + (wsCore.rev || ''))
+    .then(function(r){ if(!r.ok){ throw new Error('x'); } return r.json(); })
+    .then(function(d){
+      if(d && d.items && d.items.length){ wsFull = wsFull.concat(d.items); }
+      wsLoaded[k] = true;
+    })
+    .catch(function(){ wsLoaded[k] = 'fail'; })
+    .then(function(){
+      wsInflight--;
+      delete wsPending[k];
+      wsBuild();
+      if(globalQ.value.trim()){ renderSearch(globalQ.value); }
+      wsPump();
+    });
+}
+function wsLoadedCount(){ var n = 0; for(var k in wsLoaded){ if(wsLoaded[k] === true){ n++; } } return n; }
+function wsCurSecId(){
+  var f = frame.getAttribute('data-cur');
+  return (f && wsFileSec[f]) ? wsFileSec[f] : null;
+}
+
+/* 【排序】三段式：① 标题精确子串 → ② 正文精确子串 → ③ 模糊命中。
+   【易错】不要把顺序交回给 Fuse 的 score：实测搜「一笔画」时模糊第一名是
+   「言语理解 · 实词第2组 · 集中到一起」，而回车取的是第一条，于是人被送去别的板块。
+   同样分数的再按“当前正在看的板块优先 → 标题更短优先 → 所属板块名”稳定排序。 */
+function wsRank(q){
+  var pool = wsSearchSet();
+  var byCard = {}, list = [];
+  function add(it, tier, score){
+    var id = it.f + '#' + (it.i || it.t);
+    var cur = byCard[id];
+    if(cur){
+      if(tier < cur.tier){ cur.tier = tier; cur.score = score; }
+      if(it.x && !cur.it.x){ cur.it = it; }   // 有正文切片的条目更适合展示摘要
       return;
     }
-    drop.innerHTML = '<div class="ghead">全文模糊搜索 · 命中 '+res.length+' 条（点击直达）</div>' + res.map(function(r){
-      var it = r.item;
-      var sec = getSection(it.s);
-      return '<div class="row" data-id="'+wsEsc(it.s)+'" data-q="'+wsEsc(q)+'" data-a="'+wsEsc(it.i||'')+'" style="--c:'+(sec?sec.color:'#4f7cff')+'">'+
-        '<span class="dot"></span>'+
-        '<div style="min-width:0"><div class="t1">'+wsEsc(it.n)+' · '+wsEsc(it.t)+'</div>'+
-        '<div class="t2">'+wsSnippet(it, q)+'</div></div>'+
-        '<span class="sc">'+wsEsc(it.n)+'</span></div>';
-    }).join('');
-    drop.classList.add('show');
-    Array.prototype.forEach.call(drop.querySelectorAll('.row'), function(rr){
-      rr.addEventListener('click', function(){
-        openSection(rr.getAttribute('data-id'), {q: rr.getAttribute('data-q'), id: rr.getAttribute('data-a')||null});
-        drop.classList.remove('show');
-        globalQ.blur();
-      });
-    });
-    return;
+    var rec = { it: it, tier: tier, score: score };
+    byCard[id] = rec; list.push(rec);
   }
-  renderDrop(findMatches(q));
+  for(var i=0;i<pool.length;i++){
+    var it = pool[i];
+    if(!it){ continue; }
+    if((it.t || '').indexOf(q) > -1){ add(it, 0, 0); continue; }
+    if(it.x && it.x.indexOf(q) > -1){ add(it, 1, 0); }
+  }
+  if(wsFuse){
+    var res = [];
+    try{ res = wsFuse.search(q, { limit: 40 }); }catch(e){ res = []; }
+    for(var j=0;j<res.length;j++){ add(res[j].item, 2, res[j].score || 0); }
+  }
+  var curSec = wsCurSecId();
+  /* 【需求】查询词正好是某个板块名或该板块的关键词时（例如「资料分析」「倡议书」），
+     把该板块的结果整体提前：否则「资料分析」的第一条会是模考里的「资料分析 · 第 101 题」，
+     而用户想要的是资料分析板块本身。 */
+  var boostSec = {};
+  PAGES.forEach(function(s){
+    if(s.name === q){ boostSec[s.id] = 1; }
+    (s.keywords || []).forEach(function(k){ if(k === q){ boostSec[s.id] = 1; } });
+  });
+  list.sort(function(a,b){
+    if(a.tier !== b.tier){ return a.tier - b.tier; }
+    var ab = boostSec[a.it.s] ? 0 : 1, bb = boostSec[b.it.s] ? 0 : 1;
+    if(ab !== bb){ return ab - bb; }
+    var ac = (curSec && a.it.s === curSec) ? 0 : 1, bc = (curSec && b.it.s === curSec) ? 0 : 1;
+    if(ac !== bc){ return ac - bc; }
+    if(Math.abs(a.score - b.score) > 0.001){ return a.score - b.score; }
+    var an = (a.it.t || '').length, bn = (b.it.t || '').length;
+    if(an !== bn){ return an - bn; }
+    return String(a.it.n||'').localeCompare(String(b.it.n||''));
+  });
+  return list.slice(0, 12);
 }
 
-/* 【需求】搜索交互约定：输入即搜（不按回车也出结果）；回车取“最佳一条”直接跳转，
-   取不到再退回结果面板；按 / 聚焦搜索框、Esc 收起结果——这三条是用户已习惯的键位。 */
+function wsMove(step){
+  if(!wsRows.length){ return; }
+  wsSel = (wsSel + step + wsRows.length) % wsRows.length;
+  var rows = drop.querySelectorAll('.row[data-idx]');
+  for(var i=0;i<rows.length;i++){
+    var on = (Number(rows[i].getAttribute('data-idx')) === wsSel);
+    rows[i].classList.toggle('sel', on);
+    if(on){ try{ rows[i].scrollIntoView({ block:'nearest' }); }catch(e){} }
+  }
+  var cur = rows[wsSel];
+  if(cur){ globalQ.setAttribute('aria-activedescendant', 'wsRow' + wsSel); }
+}
+
+/* 打开一条搜索结果：可能跨文件（模考子页有自己的 HTML），所以由它自己管 iframe.src */
+function wsOpen(it, q){
+  if(!it){ return; }
+  var sec = getSection(it.s);
+  var file = it.f || (sec ? sec.file : null);
+  if(!file){ return; }
+  var changed = (frame.getAttribute('data-cur') !== file);
+  frame.setAttribute('data-cur', file);
+  if(changed){ frame.src = file + '?' + CACHE_V; }
+  var payload = { q: q, id: it.i || null };
+  if(changed){ pendingQuery = payload; }
+  else {
+    try{ frame.contentWindow.postMessage({type:'ws-search', q: payload.q, id: payload.id}, '*'); }catch(e){}
+  }
+  if(sec){ setActive(sec.id); }
+  crumbBar.style.background = sec ? sec.color : 'var(--brand)';
+  /* 模考子页的标题用索引里的显示名（如「模考 · 9月18日 · 行测」），否则读者分不清在看哪一页 */
+  crumbTitle.textContent = it.n || (sec ? sec.name : '');
+  crumbEn.textContent = sec ? sec.en : '';
+  if(window.innerWidth <= 860){ closeSidebar(); }
+}
+
+/* 【易错】渲染完不要再逐行绑 click —— 面板上的点击统一交给下面的委托监听，
+   否则键盘导航（↑↓ 改的是 DOM 上的 .sel）与点击会各走一套状态。 */
+function renderSearch(q){
+  q = (q||'').trim();
+  if(!q){
+    drop.classList.remove('show');
+    globalQ.setAttribute('aria-expanded','false');
+    wsRows = []; wsSel = -1;
+    return;
+  }
+  wsInit();
+  if(!wsCore){
+    /* 加载失败与加载中要分开说：前者给可行动的提示（离线仍能用关键词与侧边栏），
+       后者只是等一会儿，混在一起会让人以为卡死了。 */
+    drop.innerHTML = wsCoreFailed
+      ? '<div class="stat">检索索引没加载成功（多半是离线或代理不通）· 现在按板块关键词匹配，回车仍可跳到对应板块</div>'
+      : '<div class="stat">正在加载检索索引…</div>';
+    drop.classList.add('show');
+    globalQ.setAttribute('aria-expanded','true');
+    return;
+  }
+  wsPlan(q);
+  wsPump();
+  var ranked = wsRank(q);
+  var kw = findMatches(q);
+  var readyN = wsLoadedCount();
+  /* 【需求】一条都没命中时：把还没排队的兜底板块立刻拉进来，并让面板明确说“还在找”，
+     否则用户看到的是一个空面板，会以为坏了。 */
+  if(!ranked.length && wsTail.length){
+    if(wsTailTimer){ clearTimeout(wsTailTimer); wsTailTimer = null; }
+    wsQueue = wsQueue.concat(wsTail);
+    wsTail = [];
+  }
+  wsUrgent = !ranked.length;
+  /* 【易错】把兜底批并进队列后必须再 pump 一次：否则“队列里有活、却没人在下载、
+     定时器也已被清掉”，整批索引就永远停在那里（实测症状：搜「殷墟」一直空面板）。 */
+  if(wsQueue.length && !wsInflight){ wsPump(); }
+  var html = '';
+  if(ranked.length){
+    html += '<div class="ghead">搜索命中 '+ranked.length+' 条 · ↑↓ 选择 / 回车进入 / Esc 收起</div>';
+  }
+  if(readyN < wsTotalFiles){
+    var pct = wsTotalFiles ? Math.round(readyN / wsTotalFiles * 100) : 0;
+    var label = ranked.length ? ('全文索引 ' + readyN + '/' + wsTotalFiles + ' 个板块') : ('还没找到，正在检索其余板块 ' + readyN + '/' + wsTotalFiles);
+    html += '<div class="stat"><span>'+label+'</span>'+
+            '<span class="bar"><i style="width:'+pct+'%"></i></span></div>';
+  }
+  if(wsFuseLib === null){
+    html += '<div class="stat">模糊检索库未加载（离线或 CDN 不可达），当前只按标题与关键词匹配</div>';
+  }
+  html += ranked.map(function(r, idx){
+    var it = r.it, sec = getSection(it.s);
+    return '<div class="row" id="wsRow'+idx+'" role="option" data-idx="'+idx+'" style="--c:'+(sec?sec.color:'#4f7cff')+'">'+
+      '<span class="dot"></span>'+
+      '<div style="min-width:0"><div class="t1">'+wsEsc(it.n)+' · '+wsEsc(it.t)+'</div>'+
+      '<div class="t2">'+wsSnippet(it, q)+'</div></div>'+
+      '<span class="sc">'+wsEsc(it.n)+'</span></div>';
+  }).join('');
+  if(kw.length && ranked.length < 3){
+    html += '<div class="ghead">板块关键词命中</div>' + kw.map(function(m){
+      return '<div class="row" data-id="'+wsEsc(m.sec.id)+'" data-q="'+wsEsc(m.kw)+'" style="--c:'+m.sec.color+'">'+
+        '<span class="dot"></span><div><div class="t1">'+wsEsc(m.sec.name)+' · '+wsEsc(m.kw)+'</div>'+
+        '<div class="t2">'+wsEsc(m.sec.sub)+'</div></div></div>';
+    }).join('');
+  }
+  if(!ranked.length && !kw.length && readyN >= wsTotalFiles){
+    html += '<div class="empty">未找到与「'+wsEsc(q)+'」相关的内容，可换个关键词试试</div>';
+  }
+  drop.innerHTML = html;
+  wsRows = ranked.map(function(r){ return r.it; });
+  wsSel = -1;
+  drop.classList.add('show');
+  globalQ.setAttribute('aria-expanded','true');
+}
+
+/* 面板内点击：结果行 → wsOpen；关键词行 → 板块定位。用委托，避免每次渲染重复绑定。 */
+drop.addEventListener('click', function(e){
+  var row = e.target && e.target.closest ? e.target.closest('.row') : null;
+  if(!row){ return; }
+  var idx = row.getAttribute('data-idx');
+  if(idx != null && wsRows[Number(idx)]){ wsOpen(wsRows[Number(idx)], globalQ.value.trim()); }
+  else if(row.getAttribute('data-id')){ openSection(row.getAttribute('data-id'), {q: row.getAttribute('data-q'), id:null}); }
+  drop.classList.remove('show');
+  globalQ.setAttribute('aria-expanded','false');
+  globalQ.blur();
+});
+
+/* 【需求】搜索交互约定：输入即搜（不按回车也出结果）；↑↓ 选择、回车进入
+   （没选就取排序第一）；按 / 聚焦搜索框、Esc 收起结果——键位是用户已习惯的。
+   【易错】回车取的是 wsRank 的结果而不是 wsFuse.search 的第一条：
+   模糊命中可能把「一笔画」排到言语理解去，排序规则见 wsRank 的注释。 */
 globalQ.addEventListener('input', function(){
   renderSearch(this.value);
 });
 globalQ.addEventListener('keydown', function(e){
+  if(e.key === 'ArrowDown' || e.key === 'ArrowUp'){
+    if(!drop.classList.contains('show') || !wsRows.length){ return; }
+    e.preventDefault();
+    wsMove(e.key === 'ArrowDown' ? 1 : -1);
+    return;
+  }
   if(e.key === 'Enter'){
     var q = this.value.trim();
     if(!q) return;
-    if(wsFuse){
-      try{
-        var r = wsFuse.search(q, { limit: 1 });
-        if(r.length){
-          openSection(r[0].item.s, {q: q, id: r[0].item.i||null});
-          drop.classList.remove('show'); this.blur(); return;
-        }
-      }catch(e2){}
+    var pick = (wsSel >= 0 && wsRows[wsSel]) ? wsRows[wsSel] : (wsRows[0] || null);
+    if(pick){
+      wsOpen(pick, q);
+      drop.classList.remove('show');
+      globalQ.setAttribute('aria-expanded','false');
+      this.blur();
+      return;
     }
     var best = routeBest(q);
     drop.classList.remove('show');
+    globalQ.setAttribute('aria-expanded','false');
     if(best){ openSection(best.id, {q: q, id: null}); this.blur(); }
     else { renderSearch(q); }
   }
@@ -1156,15 +1472,15 @@ window.addEventListener('message', function(e){
   render();
 })();
 
-/* ================= 初始化 ================= */
 /* ================= 启动 ================= */
-/* 【性能】检索索引 561KB：不做后台预热，只在用户点/输入搜索框时加载，
-   首屏带宽全部留给板块内容；索引未就绪时回车仍可用关键词兜底路由。 */
+/* 【性能】两级索引都不做后台预热：聚焦/输入搜索框时才加载核心索引（约 17KB gzip），
+   全文切片再按“当前板块优先”逐步补齐；首屏带宽全部留给板块内容。
+   索引未就绪时回车仍可用关键词兜底路由（routeBest）。 */
 var wsWarmed = false;
 function warmIndex(){
   if(wsWarmed) return;
   wsWarmed = true;
-  initGlobalSearch();
+  wsInit();
 }
 globalQ.addEventListener('focus', warmIndex);
 globalQ.addEventListener('input', warmIndex);
