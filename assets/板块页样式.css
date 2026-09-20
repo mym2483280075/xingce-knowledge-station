@@ -1,157 +1,470 @@
-*{box-sizing:border-box}
+/* ===================================================================
+   板块页通用样式（行测六大板块 / 申论 / 日常积累 / 每周模考 共用一份）
+   ---------------------------------------------------------------
+   【重要】文件第一行必须是这条 @import：本文件里所有颜色/间距都引用 design-tokens.css
+     的变量，一旦令牌没加载，整站会「布局还在、颜色与间距全丢」。
+     @import 的地址相对本文件解析（assets/），与页面里的 <link> 指向同一个 URL，
+     浏览器会去重，不会多下一次；它的作用只是兜住「页面漏写或写错 <link> 路径」的情况。
+   ---------------------------------------------------------------
+   【约定】本文件只放「21 个板块页共有的骨架与组件」，颜色一律走 design-tokens.css
+     的变量（--xz-*）。页面自己只声明板块主色：
+       :root{ --primary:…; --primary2:…; --accent:…; }   ← 只用于强调，不铺大面积底色
+   【为什么】以前 15 个页面各自内联一份样式，再靠主题层用 !important 打补丁：
+     改一处要动 15 个文件，暗色模式逐个选择器覆盖（浏览器为每个元素保存的匹配集合
+     也跟着变大）。现在：结构一份、配色一份（令牌）、每页 3 行主色。
+   【易错】
+     · 组件里禁止写死十六进制颜色 —— 写了暗色模式必然漏掉那一块。
+     · 选择器别名（.kp 与 .unit、.qblock 与 .qbox、details.ans 与 details.fold…）是有意保留的：
+       各板块页历史结构不同，用别名归一，别再让它们各长一套视觉。
+     · .toolbar 是吸顶条，assets/定位层.js 靠它量遮挡高度：改高度不用改 JS，
+       但不要把 .toolbar 挪到 .layout 之后。
+   =================================================================== */
+@import url("design-tokens.css?v=20260920f");
+
+/* 【约定】两条栏基准：--toc-w 是左侧目录宽，--gutter 是栏间距。
+   页头、吸顶工具条、正文网格都按这两条对齐到同一条左边线，
+   所以它们必须用同一组变量 —— 改宽度只改这里，不要再写死 240/24。 */
+:root{
+  --toc-w:240px;               /* 左侧目录列宽 */
+  --gutter:var(--sp-6);        /* 栏间距（外壳侧栏→目录，目录→正文） */
+}
+
+/* ---------- 页面骨架 ---------- */
 html{scroll-behavior:smooth}
-body{margin:0;font-family:"PingFang SC","Microsoft YaHei","Noto Sans CJK SC","Hiragino Sans GB",sans-serif;color:#1f2937;line-height:1.8;font-size:15px;
-  background:linear-gradient(180deg,color-mix(in srgb,var(--accent) 12%,#fff) 0%,var(--bg) 46%,var(--bg) 100%)}
-/* ===== iOS 毛玻璃顶栏（全站统一设计） ===== */
+body{
+  margin:0;color:var(--xz-ink);background:var(--xz-bg);
+  font-family:var(--font-sans);font-size:var(--fs-body);line-height:var(--lh-body);
+  -webkit-font-smoothing:antialiased;overflow-wrap:break-word;
+}
+
+/* ---------- 页头（紧凑版） ----------
+   【做法】用 flex + order 把「标题 / 英文名 / 元信息胶囊」排在第一行、简介独占第二行，
+     这样不用改 21 个页面的 HTML 结构就能把页头从 140–250px 压到 100px 上下。
+   页面里的顺序是 h1 → .en → .intro → .meta，靠 order 把 .meta 提到 .intro 前面。 */
 header{
-  display:flex;flex-wrap:wrap;justify-content:center;align-items:center;column-gap:12px;row-gap:4px;text-align:center;
-  width:calc(100% - 36px);max-width:1204px;margin:16px auto 0;padding:22px 24px 20px;border-radius:24px;color:#0f172a;
-  background:linear-gradient(180deg,rgba(255,255,255,.92),rgba(255,255,255,.68));
-  -webkit-backdrop-filter:blur(30px) saturate(180%);backdrop-filter:blur(30px) saturate(180%);
-  border:1px solid rgba(255,255,255,.75);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 24px 50px -34px rgba(15,23,42,.45);
+  display:flex;flex-wrap:wrap;align-items:baseline;column-gap:var(--sp-3);row-gap:var(--sp-2);
+  /* 【需求】页头随设备铺满：左边线和目录对齐（同一条 --gutter），
+     右侧胶囊跟着窗口走 —— 这样宽屏上页头不会缩在半路。
+     正文栏宽度交给 design-tokens 的 --measure（clamp），见 .layout。 */
+  width:100%;margin:0;padding:var(--sp-5) var(--gutter) 0;
 }
-header::before{content:"";flex:none;width:46px;height:46px;border-radius:50%;background:var(--primary2);
-  -webkit-mask-image:radial-gradient(circle 18px at 50% 50%,#000 0%,rgba(0,0,0,.85) 30%,rgba(0,0,0,.40) 62%,rgba(0,0,0,.12) 86%,rgba(0,0,0,0) 100%);
-  mask-image:radial-gradient(circle 18px at 50% 50%,#000 0%,rgba(0,0,0,.85) 30%,rgba(0,0,0,.40) 62%,rgba(0,0,0,.12) 86%,rgba(0,0,0,0) 100%)}
-header h1{flex:none;margin:0;max-width:100%;font-size:27px;font-weight:800;letter-spacing:.01em;color:color-mix(in srgb,var(--primary2) 42%,#1e293b)}
-header .en{flex:none;margin:0;max-width:100%;font-size:10.5px;font-weight:600;letter-spacing:.2em;color:color-mix(in srgb,var(--primary2) 55%,#7b8798)}
-header .intro{flex:1 0 100%;margin:16px auto 0;max-width:min(820px,100%);font-size:13px;color:#5b6675;line-height:1.75}
-header .meta{flex:1 0 100%;margin-top:14px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap;font-size:12px}
-header .meta span{background:color-mix(in srgb,var(--primary2) 10%,rgba(255,255,255,.8));border:1px solid color-mix(in srgb,var(--primary2) 16%,rgba(255,255,255,.7));
-  border-radius:999px;padding:3px 12px;color:color-mix(in srgb,var(--primary) 55%,#3f4d63);font-weight:600}
-/* ===== 工具条 ===== */
-.toolbar{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
-  border-bottom:1px solid #e5e7eb;padding:9px 16px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-.toolbar input{flex:1;min-width:180px;max-width:460px;padding:8px 14px;border:1px solid #d1d5db;border-radius:999px;font-size:13.5px;outline:none;font-family:inherit}
-.toolbar input:focus{border-color:var(--primary)}
-.btn{border:1px solid #d1d5db;background:#fff;border-radius:999px;padding:7px 14px;font-size:12.5px;cursor:pointer;color:#374151;white-space:nowrap;font-family:inherit}
-.btn:hover{border-color:var(--primary);color:var(--primary)}
-.btn.on{background:var(--primary);border-color:var(--primary);color:#fff}
-.hitcount{font-size:12px;color:#6b7280;white-space:nowrap}
-/* ===== 布局 ===== */
-.layout{display:flex;max-width:1240px;margin:0 auto;padding:20px 18px 70px;gap:22px;align-items:flex-start}
-nav.toc{position:sticky;top:64px;flex:0 0 264px;max-height:calc(100vh - 84px);overflow:auto;background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:14px 12px;font-size:12.5px}
-nav.toc .t-pian{font-weight:800;margin:10px 4px 4px;font-size:13.5px;border-top:2px solid var(--accent);padding-top:8px}
-nav.toc .t-pian:first-child{border-top:0;margin-top:0;padding-top:0}
-nav.toc .t-pian a{color:var(--primary);text-decoration:none}
-nav.toc a.t-item{display:block;padding:3px 6px 3px 16px;border-radius:6px;color:#6b7280;text-decoration:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-nav.toc a.t-item:hover{background:#f3f4f6;color:var(--primary)}
-main{flex:1;min-width:0}
-/* ===== 总览 ===== */
-.ov{background:#fff;border:1px solid #e5e7eb;border-radius:16px;padding:20px 24px;margin-bottom:24px;scroll-margin-top:70px}
-.ov-title{margin:0 0 12px;font-size:19px;color:var(--primary)}
-.ov-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
-.ov-card{border:1px solid #e5e7eb;border-radius:12px;padding:12px 16px;background:linear-gradient(180deg,#fff,color-mix(in srgb,var(--primary) 4%,#fff))}
-.ov-card h3{margin:0 0 6px;font-size:15.5px;color:var(--primary)}
+/* 【需求】页头不再放那条 34px 的板块色短条：它既不带板块名也不带图标，
+   指代不清，实际读起来只是装饰噪音。板块色改由三处承担：
+   侧栏图标、正文卡片左侧色条、目录首行的「★ 总览」。 */
+header h1{
+  order:0;margin:0;font-size:var(--fs-xl);font-weight:750;letter-spacing:.01em;color:var(--xz-ink);
+}
+header .en{
+  order:1;margin:0;font-size:var(--fs-xs);font-weight:600;letter-spacing:.14em;color:var(--xz-ink-4);
+}
+header .meta{
+  order:2;display:flex;gap:var(--sp-2);flex-wrap:wrap;align-items:center;
+  font-size:var(--fs-xs);margin-left:auto;
+}
+header .meta span{
+  border:1px solid var(--xz-line);background:var(--xz-surface-2);color:var(--xz-ink-3);
+  border-radius:var(--r-pill);padding:2px 10px;font-weight:600;white-space:nowrap;
+}
+header .intro{
+  /* 【易错】同理：max-width 会夹住 flex-basis，简介就不会换到第二行、而是挤在胶囊右边。
+     所以行宽上限改用 padding-right 撑出来（百分比内边距相对 flex 容器宽度解析）。 */
+  order:3;flex:1 0 100%;margin:0;max-width:none;
+  padding-right:max(0px,calc(100% - var(--measure)));
+  font-size:var(--fs-sm);color:var(--xz-ink-3);line-height:1.7;
+}
+@media(max-width:860px){
+  header{padding:var(--sp-3) var(--sp-3) 0;column-gap:var(--sp-2)}
+  header .meta{margin-left:0;flex:1 0 100%}
+  header .intro{font-size:var(--fs-base)}
+}
+
+/* ---------- 吸顶工具条（44px 左右：搜索 + 命中数 + 操作） ---------- */
+.toolbar{
+  position:sticky;top:0;z-index:50;
+  display:flex;align-items:center;gap:var(--sp-2);flex-wrap:wrap;
+  /* 吸顶条的底色要通栏（滚动时才盖得住正文），但里面的控件要跟页头、正文栏对齐：
+     左侧留 --gutter 与目录对齐，右侧同样留 --gutter（原来用百分比反推把控件收窄，
+     宽屏上会白白空掉一大截）。 */
+  padding:var(--sp-2) var(--gutter);
+  background:var(--xz-surface);border-bottom:1px solid var(--xz-line);
+}
+.toolbar input{
+  flex:1 1 200px;min-width:150px;max-width:400px;
+  padding:7px 13px;border:1px solid var(--xz-line-2);border-radius:var(--r-sm);
+  background:var(--xz-surface-2);color:var(--xz-ink);font-size:var(--fs-base);outline:none;
+  transition:border-color var(--dur) var(--ease),background var(--dur) var(--ease);
+}
+.toolbar input::placeholder{color:var(--xz-ink-3)}
+.toolbar input:focus{border-color:var(--xz-brand);background:var(--xz-surface)}
+.hitcount{font-size:var(--fs-sm);color:var(--xz-ink-3);white-space:nowrap;margin-right:auto}
+/* 没有命中时不要占位（空 span 也会算一个 flex 项与一个 gap） */
+.hitcount:empty{display:none}
+/* 按钮组靠右：原来是靠 .hitcount 的 margin-right:auto 推过去的，
+   现在命中数为空时那个元素被隐藏了，所以把「推」的责任挪到第一个按钮上。
+   窄屏时搜索框已经占满剩余宽度，这条 auto 外边距自然不起作用。 */
+.toolbar > button:first-of-type{margin-left:auto}
+.btn{
+  display:inline-flex;align-items:center;gap:5px;white-space:nowrap;
+  border:1px solid var(--xz-line-2);background:var(--xz-surface);color:var(--xz-ink-2);
+  border-radius:var(--r-pill);padding:6px 12px;font-size:var(--fs-sm);font-weight:600;cursor:pointer;
+  transition:border-color var(--dur) var(--ease),color var(--dur) var(--ease),background var(--dur) var(--ease);
+}
+.btn:hover{border-color:var(--xz-brand);color:var(--xz-brand-ink)}
+.btn.on{background:var(--xz-brand-ink);border-color:var(--xz-brand-ink);color:#fff}
+.btn.on:hover{color:#fff}
+/* 【易错】这两个「窄屏专用按钮」的 display 规则必须写在 .btn 之后：
+   .btn 和 .btn-toc/.btn-more 都是单类名（优先级相同），谁在后面谁生效。
+   写在前面的话 .btn{display:inline-flex} 会把它们强行显示出来 ——
+   之前「目录」按钮在桌面端也一直露着，就是这个原因。
+   它们由 assets/板块页脚本.js 插入，桌面端要把 display 压回 none。 */
+.btn-toc{display:none}
+.btn-more{display:none}
+.btn-more svg{width:13px;height:13px;flex:none;transition:transform var(--dur) var(--ease)}
+.btn-more[aria-expanded="true"] svg{transform:rotate(180deg)}
+.tb-more{
+  position:absolute;top:calc(100% + 6px);right:var(--gutter);z-index:55;
+  display:none;flex-direction:column;gap:6px;min-width:158px;padding:8px;
+  background:var(--xz-elev);border:1px solid var(--xz-line);border-radius:var(--r-sm);
+  box-shadow:var(--sh-2);
+}
+.tb-more.show{display:flex}
+.tb-more .btn{width:100%;justify-content:flex-start}
+@media(max-width:720px){
+  .toolbar{padding:var(--sp-2) var(--sp-3);gap:6px}
+  /* 【需求】窄屏工具条保持一行：搜索框与「目录 / 更多」同排。
+     iOS 上 <16px 的输入框聚焦会被整页放大，所以输入框提到 16px。 */
+  .toolbar input{font-size:16px;max-width:none;flex:1 1 auto;min-width:110px}
+  .btn{padding:6px 10px}
+  .btn-more{display:inline-flex}
+  .tb-more{right:var(--sp-3)}
+}
+
+/* ---------- 布局：左侧目录（保留原设计）+ 正文栏 ---------- */
+/* ---------- 布局 ----------
+   【需求】左侧目录要「贴着外壳侧栏」，不要凭空空出一大段：
+     三栏（外壳侧栏 │ 目录 │ 正文）连成一片才像一个工作站。
+   【做法】justify-content:start（原来用 center：窗口一宽，两侧各空 100~200px，
+     目录看起来和侧栏断开了）+ 去掉 max-width（否则超宽屏上 margin:auto 又会重新居中）
+     + 左右各留 24px 内边距当栏间距。
+   【需求】正文栏宽度跟着设备走（--measure = clamp(46em, 74vw, 84em)），
+     而不是写死 50em —— 写死会在宽屏上留出一大片空白。
+   【易错】不要把 justify-content 改回 center，也不要在 .layout 上加 max-width：
+     这两件事任何一个都会让空隙重新出现。正文行宽由 --measure 单独兜住。 */
+.layout{
+  display:grid;grid-template-columns:240px minmax(0,var(--measure));gap:var(--sp-6);
+  justify-content:start;align-items:start;
+  padding:var(--sp-5) var(--sp-6) var(--sp-10);
+}
+main{min-width:0}
+/* 模考子页（申论材料页等）用的是自己的 .wrap 容器，原先写死 max-width:920px。
+   这里统一改成跟着设备走。用 body .wrap 提高一级优先级，是为了压过各页内联样式里的 .wrap
+   —— 那几行在共享样式之后加载。
+   【为什么单独设 74em 上限】.wrap 里基本是纯连续文字（申论材料、题本），
+   没有表格和网格来消化宽度；它和「卡片页」不一样，行太长最难读。
+   74em（约 74 个汉字）是这两种页面之间的折中。 */
+body .wrap{max-width:min(100%,74em);margin-left:auto;margin-right:auto}
+nav.toc{
+  position:sticky;top:56px;max-height:calc(100vh - 76px);overflow:auto;
+  background:var(--xz-surface);border:1px solid var(--xz-line);border-radius:var(--r-md);
+  padding:var(--sp-3) 10px;font-size:var(--fs-sm);box-shadow:var(--sh-1);
+}
+nav.toc .t-pian,nav.toc .t-zhang{
+  font-weight:700;margin:var(--sp-3) 4px var(--sp-1);font-size:var(--fs-base);
+  color:var(--xz-ink-2);border-top:1px solid var(--xz-line);padding-top:var(--sp-2);
+}
+nav.toc .t-pian:first-child,nav.toc .t-zhang:first-child{border-top:0;margin-top:0;padding-top:0}
+nav.toc .t-pian a{color:var(--xz-brand-ink);text-decoration:none}
+nav.toc a.t-item{
+  display:block;padding:5px 8px;border-radius:var(--r-xs);color:var(--xz-ink-3);text-decoration:none;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  transition:background var(--dur) var(--ease),color var(--dur) var(--ease);
+}
+nav.toc a.t-item:hover{background:var(--xz-surface-2);color:var(--xz-ink)}
+nav.toc a.t-item.active{
+  background:var(--accent-soft-2);
+  color:var(--accent-ink);font-weight:700;
+}
+/* 窄屏：目录默认收起，给正文让位（1000px 以下左侧目录会挤掉一半正文） */
+@media(max-width:1000px){
+  .layout{grid-template-columns:1fr;gap:var(--sp-4);padding:var(--sp-4) var(--sp-3) var(--sp-8)}
+  /* 目录收起后正文会占满整行，这时仍要保住行宽上限，否则 1000px 宽时一行能塞 60 多个汉字 */
+  main{width:100%;max-width:var(--measure);margin:0 auto}
+  nav.toc{position:static;max-height:min(46vh,340px);display:none}
+  body.toc-open nav.toc{display:block}
+  .btn-toc{display:inline-flex}
+  /* 单栏时页头不再受三栏宽度约束，改回占满 */
+  header{max-width:none;padding:var(--sp-4) var(--sp-3) 0}
+  .toolbar{padding-left:var(--sp-3);padding-right:var(--sp-3)}
+}
+
+/* ---------- 卡片：所有内容块的统一表面 ---------- */
+.unit,.kp,.ov,.module,.qbox,.qcard,.qblock,.tp,.figbox{
+  background:var(--xz-surface);border:1px solid var(--xz-line);border-radius:var(--r-md);box-shadow:var(--sh-1);
+}
+.unit,.kp{padding:var(--sp-4) var(--sp-5);margin-bottom:var(--sp-4);scroll-margin-top:70px}
+.ov{padding:var(--sp-5);margin-bottom:var(--sp-5);scroll-margin-top:70px}
+.module{margin-bottom:var(--sp-8);scroll-margin-top:70px}
+.qbox,.qblock{margin:var(--sp-3) 0;padding:var(--sp-3) var(--sp-4)}
+.qcard{margin:var(--sp-3) 0;padding:var(--sp-3) var(--sp-4);background:var(--xz-surface-2)}
+.figbox{padding:var(--sp-4) var(--sp-5) var(--sp-3);margin:var(--sp-4) 0 var(--sp-2)}
+
+/* 卡片头：左侧主色条 + 标题 */
+.unit-head,.kp-head{
+  display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+  border-left:3px solid var(--primary);padding-left:var(--sp-3);
+}
+.unit-head h3,.kp-head h3,.unit-head h2,.kp-head h2{
+  margin:0;font-size:var(--fs-lg);font-weight:750;color:var(--xz-ink);flex:1;min-width:180px;
+}
+.unit-desc,.kp-crumb{font-size:var(--fs-sm);color:var(--xz-ink-3);margin:6px 0 10px;padding-left:var(--sp-5)}
+
+/* 模块横幅：从「满色渐变」改为「浅底 + 主色条」——不再大面积重绘，也不抢正文视觉 */
+.mod-banner{
+  background:var(--accent-soft);
+  border:1px solid var(--accent-line);
+  border-left:3px solid var(--primary);
+  border-radius:var(--r-md);padding:var(--sp-3) var(--sp-5);margin-bottom:var(--sp-4);
+}
+.mod-banner h2{margin:0;font-size:var(--fs-xl);color:var(--xz-ink)}
+.mod-banner p{margin:5px 0 0;font-size:var(--fs-sm);color:var(--xz-ink-3)}
+
+/* 总览卡 */
+.ov-title{margin:0 0 var(--sp-3);font-size:var(--fs-lg);color:var(--xz-ink)}
+.ov-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:var(--sp-3)}
+.ov-card{border:1px solid var(--xz-line);border-radius:var(--r-sm);padding:var(--sp-3) var(--sp-4);background:var(--xz-surface-2)}
+.ov-card h3{margin:0 0 6px;font-size:var(--fs-base);color:var(--xz-ink)}
 .ov-card ul{margin:0;padding-left:0;list-style:none}
-.ov-card li{margin:5px 0;font-size:13px;line-height:1.5}
-.ov-card li a{color:#111827;font-weight:700;text-decoration:none;border-bottom:1px dashed var(--accent)}
-.ov-card li a:hover{color:var(--primary)}
-.ov-card li span{display:block;color:#6b7280;font-size:12px;padding-left:2px}
-/* ===== 模块 / 单元卡 ===== */
-.module{margin-bottom:34px;scroll-margin-top:70px}
-.mod-banner{background:linear-gradient(135deg,var(--primary),var(--primary2));color:#fff;border-radius:14px;padding:16px 22px;margin-bottom:16px;box-shadow:0 6px 18px -8px color-mix(in srgb,var(--primary) 60%,transparent)}
-.mod-banner h2{margin:0;font-size:21px}
-.mod-banner p{margin:6px 0 0;font-size:13px;opacity:.94}
-.unit{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:18px 22px 16px;margin-bottom:16px;scroll-margin-top:70px}
-.unit-head{display:flex;align-items:center;gap:10px;border-left:4px solid var(--primary);padding-left:12px;flex-wrap:wrap}
-.unit-head h3{margin:0;font-size:17px;color:var(--primary);flex:1;min-width:200px}
-.unit-desc{font-size:12.5px;color:#6b7280;margin:6px 0 10px;padding-left:16px}
-.chip{font-size:11px;border-radius:999px;padding:1px 9px;font-weight:600;background:color-mix(in srgb,var(--primary) 10%,#fff);color:var(--primary);border:1px solid color-mix(in srgb,var(--primary) 30%,#fff)}
-.chip.wait{background:#fff7ed;color:#b45309;border-color:#fed7aa}
-.unit p{margin:4px 0;text-align:justify}
-.unit ul,.unit ol{margin:6px 0;padding-left:22px}
-/* 要点框 / 表格 / 双列 */
-.kbox{border:1px solid #e5e7eb;border-left:4px solid var(--accent);background:linear-gradient(180deg,#fff,color-mix(in srgb,var(--accent) 6%,#fff));border-radius:12px;padding:12px 16px;margin:10px 0}
-.kbox .kl{font-weight:700;color:var(--primary);letter-spacing:.03em;margin-bottom:5px;font-size:13.5px}
-.kgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:10px 0}
-.kgrid .kbox{margin:0}
-.tbwrap{overflow-x:auto;border:1px solid #e5e7eb;border-radius:12px;margin:10px 0;background:#fff}
-.tbwrap table{width:100%;border-collapse:collapse;font-size:13.5px;line-height:1.65;min-width:560px;margin:0}
-.tbwrap th{background:linear-gradient(135deg,var(--primary),var(--primary2));color:#fff;font-weight:600;text-align:left;padding:8px 12px;white-space:nowrap;border:0}
-.tbwrap td{border:1px solid #e5e7eb;padding:7px 12px;vertical-align:top;color:#374151}
-.tbwrap tbody tr:nth-child(even) td{background:#f8f9fd}
-.warnbox{background:#fffbeb;border:1px solid #fcd34d;border-radius:8px;padding:7px 12px;margin:8px 0;font-size:13.5px;color:#374151}
-.note{font-size:12px;color:#6b7280;background:color-mix(in srgb,var(--primary) 5%,#fff);border-radius:8px;padding:6px 12px;margin:8px 0;line-height:1.7}
-.zt-banner{margin:14px 0 8px;background:repeating-linear-gradient(45deg,#fff8e6,#fff8e6 12px,#fff3d6 12px,#fff3d6 24px);border:1px solid #f59e0b;color:#92600a;font-weight:700;font-size:13.5px;border-radius:10px;padding:8px 14px}
-/* ===== 待录入槽位 ===== */
-.ph{border:2px dashed color-mix(in srgb,var(--primary) 34%,#e5e7eb);border-radius:12px;background:color-mix(in srgb,var(--primary) 4%,#fff);padding:14px 18px;margin:10px 0}
-.ph-t{font-weight:800;color:var(--primary);font-size:14px;display:flex;align-items:center;gap:8px;margin-bottom:4px}
-.ph-t i{font-style:normal;font-size:10.5px;font-weight:700;background:var(--primary);color:#fff;border-radius:999px;padding:1px 9px;letter-spacing:.04em}
-.ph p{margin:4px 0;font-size:13px;color:#4b5563}
-.tpl{white-space:pre;overflow-x:auto;font-family:"Consolas","JetBrainsMono","Courier New",monospace;font-size:12px;line-height:1.75;
-  background:#0f172a;color:#e2e8f0;border-radius:10px;padding:12px 14px;margin:8px 0 2px}
-html.xz-dark .ph{background:color-mix(in srgb,var(--primary) 12%,#141d2e);border-color:color-mix(in srgb,var(--primary) 40%,#28344a)}
-html.xz-dark .ph p{color:var(--xz-ink2,#b6c3d4)}
-html.xz-dark .tpl{background:#0b1120;color:#cbd5e1}
-/* ===== 题卡 / 参考答案 ===== */
-.qcard{margin:12px 0;border:1px solid #dbe3ee;border-radius:12px;background:#fbfcfe;padding:10px 16px 12px}
-.qhead{display:inline-block;font-size:12.5px;font-weight:800;color:#fff;background:var(--primary2);border-radius:6px;padding:1px 10px;margin:2px 0 6px}
-.ansline{margin-top:8px;background:#ecfdf5;border:1px solid #6ee7b7;border-radius:8px;padding:6px 12px;font-size:14px}
-.ans-tag{display:inline-block;background:#10b981;color:#fff;font-size:11px;font-weight:700;border-radius:5px;padding:0 8px;margin-right:8px}
-.expline{margin-top:6px;background:#fffbeb;border:1px solid #fcd34d;border-radius:8px;padding:6px 12px;font-size:13.5px}
-.exp-tag{display:inline-block;background:#f59e0b;color:#fff;font-size:11px;font-weight:700;border-radius:5px;padding:0 8px;margin-right:8px}
-/* ===== 题卡 / 折叠资料 / 范文 ===== */
-.qbox{margin:10px 0 6px;border:1px solid #e5e7eb;border-radius:12px;background:#fbfcfe;padding:10px 16px 12px}
-.qlbl{display:inline-block;font-size:11.5px;font-weight:800;color:#fff;background:var(--primary2);border-radius:6px;padding:1px 9px;margin-bottom:6px;letter-spacing:.02em}
-.qbox p{margin:4px 0;font-size:14.5px;line-height:1.85}
-.qreq{margin:0 0 8px;padding-left:2px}
-.qreq ol{margin:2px 0 0;padding-left:22px}
-.qreq li{font-size:13.5px;color:#374151;line-height:1.75}
-.chip.src{background:#f1f5f9;color:#64748b;border-color:#e2e8f0;font-weight:500}
-details.fold{margin:8px 0;border:1px solid #e5e7eb;border-radius:12px;background:#fff;overflow:hidden}
-details.fold>summary{cursor:pointer;padding:9px 14px;font-size:13.5px;font-weight:700;color:var(--primary);background:color-mix(in srgb,var(--primary) 6%,#fff);list-style:none;display:flex;align-items:center;gap:8px}
-details.fold>summary::-webkit-details-marker{display:none}
-details.fold>summary::before{content:"▸";font-size:12px;transition:transform .18s ease;display:inline-block}
-details.fold[open]>summary::before{transform:rotate(90deg)}
-details.fold>summary .hint{font-weight:400;font-size:11.5px;color:#94a3b8;margin-left:auto}
-.foldbody{padding:10px 16px 14px}
-.foldbody p{margin:6px 0;font-size:14px;line-height:1.9;text-align:justify;text-indent:2em}
-.mathead{display:inline-block;font-size:11.5px;font-weight:800;color:var(--primary);background:color-mix(in srgb,var(--primary) 8%,#fff);border:1px solid color-mix(in srgb,var(--primary) 24%,#fff);border-radius:6px;padding:1px 9px;margin:8px 0 2px}
-.ansline .ansbody p{margin:5px 0;font-size:14.5px;line-height:1.9;text-align:justify}
-.ansline .ansbody p:first-child{margin-top:2px}
-.fwbody p{margin:7px 0;font-size:15px;line-height:2;text-align:justify;text-indent:2em}
-.fwbody p:first-child{text-indent:0}
-.fwmeta{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:2px 0 10px;font-size:12px;color:#6b7280}
-.fwtype{font-size:11.5px;font-weight:800;color:#fff;background:var(--primary2);border-radius:999px;padding:1px 11px}
-.fwnum{font-size:12px;font-weight:800;color:var(--primary);background:color-mix(in srgb,var(--primary) 10%,#fff);border:1px solid color-mix(in srgb,var(--primary) 26%,#fff);border-radius:8px;padding:1px 8px;margin-right:8px}
-.tp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px;margin:12px 0}
-.tp{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:14px 18px}
-.tp h4{margin:0 0 6px;font-size:15.5px;color:var(--primary)}
-.tp .cnt{font-size:11.5px;color:#6b7280}
-html.xz-dark details.fold{background:#131c2b!important;border-color:var(--xz-line,#28344a)!important}
-html.xz-dark .qbox{background:#131c2b!important;border-color:var(--xz-line,#28344a)!important}
-html.xz-dark .qbox p,html.xz-dark .qreq li{color:var(--xz-ink2,#b6c3d4)!important}
-html.xz-dark .tp{background:#131c2b!important;border-color:var(--xz-line,#28344a)!important}
-html.xz-dark .fwbody p{color:var(--xz-ink2,#b6c3d4)!important}
-html.xz-dark .tp h4,html.xz-dark .tpl-title{color:var(--xz-a1,#7fb2ff)!important}
+.ov-card li{margin:5px 0;font-size:var(--fs-base);line-height:1.55}
+.ov-card li a{color:var(--xz-ink);font-weight:700;text-decoration:none;border-bottom:1px dashed var(--xz-line-2)}
+.ov-card li a:hover{color:var(--xz-brand-ink)}
+.ov-card li span{display:block;color:var(--xz-ink-3);font-size:var(--fs-sm);padding-left:2px}
 
-/* ===== 《公文格式》讲义正文排版 ===== */
-.gw-lead{margin:6px 0 8px;font-size:14.5px;line-height:1.9;color:#374151;text-align:justify}
-.gw-h{margin:14px 0 4px;font-size:15px;font-weight:700;color:var(--primary);border-left:3px solid var(--accent);padding-left:8px}
-.gw-layout{white-space:pre;font-family:"Consolas","JetBrainsMono","Courier New",monospace;font-size:13px;line-height:1.95;
-  background:color-mix(in srgb,var(--primary) 5%,#fff);border:1px dashed color-mix(in srgb,var(--primary) 32%,#e5e7eb);
-  border-radius:10px;padding:12px 16px;margin:10px 0 4px;overflow-x:auto;color:#1f2937}
-.unit>.gw-lead,.unit>.gw-h,.unit>p,.unit>.figbox{max-width:100%}
-.gwimg{display:block;max-width:100%;height:auto;margin:0 auto;border:1px solid #e5e7eb;border-radius:8px;background:#fff}
-html.xz-dark .gw-layout{background:#131c2b;border-color:var(--xz-line,#28344a);color:var(--xz-ink2,#b6c3d4)}
-html.xz-dark .gwimg{border-color:var(--xz-line,#28344a)}
-html.xz-dark .gw-h{color:var(--xz-a1,#7fb2ff)}
-html.xz-dark .gw-lead{color:var(--xz-ink2,#b6c3d4)}
-
-/* ===== 其他 ===== */
-mark.shl{background:#ffe066;border-radius:2px}
-.unit.hidden,.module.hidden{display:none}
-.backtop{position:fixed;right:18px;bottom:18px;z-index:60;border:0;border-radius:50%;width:44px;height:44px;background:var(--primary);color:#fff;font-size:18px;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.22);display:none}
-.backtop.show{display:block}
-.foot-tip{max-width:1240px;margin:0 auto 40px;padding:0 18px;font-size:11.5px;color:#a0939a;text-align:center}
-@media(max-width:900px){
-  .layout{flex-direction:column;align-items:stretch}
-  nav.toc{position:static;width:100%;flex:none;max-height:300px}
-  main{width:100%;min-width:0;max-width:100%}
-  header{width:calc(100% - 24px);margin:12px auto 0;padding:18px 18px 16px;border-radius:20px}
-  header h1{font-size:22px}
-  .kgrid{grid-template-columns:1fr}
+/* ---------- 正文排版 ----------
+   不再两端对齐：中文 justify 会把字距拉开，长段落尤其难看。行宽由 --measure 兜住。 */
+.unit p,.kp-body p,.ov p,.qbox p,.qblock p,.qcard p,.foldbody p,.tp p{margin:5px 0;text-align:left}
+.unit ul,.unit ol,.kp-body ul,.kp-body ol{margin:6px 0;padding-left:22px}
+.unit li,.kp-body li{margin:3px 0}
+.unit h2.chap,.kp-body h2.chap{
+  margin:var(--sp-5) 0 6px;font-size:var(--fs-lg);color:var(--xz-ink);
+  border-bottom:1px solid var(--xz-line);padding-bottom:5px;
 }
-@media print{nav.toc,.toolbar,.backtop{display:none}.unit{break-inside:avoid}}
+.unit h3.sec,.kp-body h3.sec{
+  margin:var(--sp-4) 0 4px;font-size:var(--fs-base);color:var(--xz-ink);
+  border-left:3px solid var(--accent-line);padding-left:8px;
+}
+.unit h4.h1,.kp-body h4.sub1{margin:var(--sp-3) 0 3px;font-size:var(--fs-base);font-weight:700;color:var(--xz-ink)}
+.unit h5.h2,.kp-body h5.sub2{margin:10px 0 2px;font-size:var(--fs-base);font-weight:600;color:var(--xz-ink-2)}
+.kp-body h5.sub3{margin:8px 0 2px;font-size:var(--fs-base);font-weight:600;color:var(--xz-ink-3)}
+
+/* ---------- 表格 ---------- */
+.tbwrap{overflow-x:auto;border:1px solid var(--xz-line);border-radius:var(--r-sm);margin:var(--sp-3) 0;background:var(--xz-surface)}
+.tbwrap table,.kp-body table.tbl{width:100%;border-collapse:collapse;font-size:var(--fs-base);line-height:1.7;min-width:520px;margin:0}
+.kp-body table.tbl{margin:var(--sp-3) 0 var(--sp-4)}
+.tbwrap th,.kp-body table.tbl th{
+  background:var(--accent-soft);
+  color:var(--xz-ink);font-weight:700;text-align:left;padding:8px 12px;border:0;
+}
+.tbwrap th{white-space:nowrap}
+.kp-body table.tbl th{border:1px solid var(--xz-line)}
+.tbwrap td,.kp-body table.tbl td{border:1px solid var(--xz-line);padding:7px 12px;vertical-align:top;color:var(--xz-ink-2)}
+.tbwrap tbody tr:nth-child(even) td,.kp-body table.tbl tr:nth-child(even) td{background:var(--xz-surface-2)}
+
+/* ---------- 要点框 / 提示条 ---------- */
+.kbox{
+  border:1px solid var(--xz-line);border-left:3px solid var(--primary);
+  background:var(--xz-surface-2);border-radius:var(--r-sm);
+  padding:var(--sp-3) var(--sp-4);margin:10px 0;font-size:var(--fs-base);
+}
+.kbox .kl{font-weight:700;color:var(--xz-ink);letter-spacing:.02em;margin-bottom:5px;font-size:var(--fs-base)}
+.kbox p,.kbox li{font-size:var(--fs-base)}
+.kbox ul,.kbox ol{margin:6px 0;padding-left:22px}
+.kgrid{display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-3);margin:10px 0}
+.kgrid .kbox{margin:0}
+.warnbox{
+  background:var(--xz-warn-bg);border:1px solid var(--xz-warn-line);border-radius:var(--r-xs);
+  padding:7px 12px;margin:var(--sp-2) 0;font-size:var(--fs-base);color:var(--xz-warn-ink);
+}
+.note{font-size:var(--fs-sm);color:var(--xz-ink-3);background:var(--xz-surface-2);border-radius:var(--r-xs);padding:6px 12px;margin:var(--sp-2) 0;line-height:1.7}
+.zt-banner{
+  margin:var(--sp-3) 0 var(--sp-2);
+  background:var(--xz-warn-bg);border:1px solid var(--xz-warn-line);color:var(--xz-warn-ink);
+  font-weight:700;font-size:var(--fs-base);border-radius:var(--r-sm);padding:8px 14px;
+}
+
+/* ---------- 标签 / 徽章 ---------- */
+.chip{
+  display:inline-flex;align-items:center;gap:5px;font-size:var(--fs-xs);border-radius:var(--r-pill);
+  padding:2px 9px;font-weight:600;background:var(--xz-surface-2);color:var(--xz-ink-3);border:1px solid var(--xz-line);
+}
+.chip.wait{background:var(--xz-warn-bg);color:var(--xz-warn-ink);border-color:var(--xz-warn-line)}
+.chip.src{background:var(--xz-surface-2);color:var(--xz-ink-4);border-color:var(--xz-line);font-weight:500}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip.b{background:var(--xz-fill-bg);color:var(--xz-fill-ink);border-color:var(--xz-fill-line)}
+.chip.k{background:var(--xz-info-bg);color:var(--xz-info-ink);border-color:var(--xz-info-line)}
+.chip.m{background:var(--xz-good-bg);color:var(--xz-good-ink);border-color:var(--xz-good-line)}
+.chip-q{background:var(--xz-warn-bg);border-color:var(--xz-warn-line);color:var(--xz-warn-ink)}
+.unit-head .vno,.unit-head .kno{
+  display:inline-block;margin-right:8px;font-size:var(--fs-xs);font-weight:700;color:#fff;
+  background:var(--accent-ink);border-radius:var(--r-xs);padding:1px 8px;
+}
+
+/* ---------- 题卡 / 答案 / 解析 ---------- */
+.qhead,.qlbl,.mathead,.qtag,.ext-tag{
+  display:inline-block;font-size:var(--fs-xs);font-weight:700;border-radius:var(--r-xs);
+  padding:1px 10px;margin:2px 0 6px;letter-spacing:.02em;
+  background:var(--accent-soft-2);
+  color:var(--accent-ink);
+  border:1px solid var(--accent-line);
+}
+.qcard .qhead{white-space:normal}
+.opt{padding-left:18px;color:var(--xz-ink-2)}
+.ansline,details.ans .ans-body{
+  margin-top:var(--sp-2);background:var(--xz-good-bg);border:1px solid var(--xz-good-line);
+  border-radius:var(--r-sm);padding:7px 12px;font-size:var(--fs-base);
+}
+.ans-tag{display:inline-block;background:var(--xz-good-tag);color:#fff;font-size:var(--fs-xs);font-weight:700;border-radius:var(--r-xs);padding:0 8px;margin-right:8px}
+.expline{
+  margin-top:6px;background:var(--xz-warn-bg);border:1px solid var(--xz-warn-line);
+  border-radius:var(--r-sm);padding:7px 12px;font-size:var(--fs-base);
+}
+.exp-tag{display:inline-block;background:var(--xz-warn-tag);color:#fff;font-size:var(--fs-xs);font-weight:700;border-radius:var(--r-xs);padding:0 8px;margin-right:8px}
+.ansline .ansbody p{margin:5px 0;font-size:var(--fs-base);line-height:1.85}
+.ansline .ansbody p:first-child{margin-top:2px}
+details.ans{margin-top:var(--sp-2)}
+details.ans summary{cursor:pointer;font-size:var(--fs-sm);font-weight:700;color:var(--xz-brand-ink);user-select:none}
+
+/* 填空高亮：隐藏测试模式下可点开 */
+mark.fill{background:var(--xz-fill-bg);color:var(--xz-fill-ink);font-weight:700;padding:0 4px;border-radius:4px;border-bottom:2px solid var(--xz-fill-line)}
+span.blank{color:var(--xz-ink-4);letter-spacing:2px;border-bottom:1px dashed var(--xz-line-2)}
+body.selftest mark.fill{
+  color:transparent;text-shadow:0 0 9px rgba(0,0,0,.28);background:var(--xz-surface-3);
+  border-bottom-color:var(--xz-line-2);cursor:pointer;
+  transition:background var(--dur) var(--ease),color var(--dur) var(--ease);
+}
+body.selftest mark.fill:hover,body.selftest mark.fill.show{color:var(--xz-fill-ink);text-shadow:none;background:var(--xz-fill-bg);border-bottom-color:var(--xz-fill-line)}
+mark.key{background:none;color:var(--accent-ink);font-weight:700}
+mark.shl{background:var(--xz-mark-bg);color:var(--xz-mark-ink);border-radius:3px;padding:0 2px}
+.unit.hidden,.module.hidden,.kp.hidden,.qblock.hidden{display:none}
+
+/* ---------- 折叠资料 / 范文 ---------- */
+details.fold{margin:var(--sp-2) 0;border:1px solid var(--xz-line);border-radius:var(--r-sm);background:var(--xz-surface);overflow:hidden}
+details.fold>summary{
+  cursor:pointer;padding:9px 14px;font-size:var(--fs-base);font-weight:700;color:var(--xz-ink);
+  background:var(--xz-surface-2);list-style:none;display:flex;align-items:center;gap:8px;
+}
+details.fold>summary::-webkit-details-marker{display:none}
+details.fold>summary::before{content:"▸";font-size:12px;transition:transform var(--dur) var(--ease);display:inline-block}
+details.fold[open]>summary::before{transform:rotate(90deg)}
+details.fold>summary .hint{font-weight:400;font-size:var(--fs-xs);color:var(--xz-ink-4);margin-left:auto}
+.foldbody{padding:10px 16px 14px}
+.foldbody p{margin:6px 0;font-size:var(--fs-base);line-height:1.9;text-indent:2em}
+.fwbody p{margin:7px 0;font-size:var(--fs-body);line-height:2;text-indent:2em}
+.fwbody p:first-child{text-indent:0}
+.fwmeta{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:2px 0 10px;font-size:var(--fs-sm);color:var(--xz-ink-3)}
+.fwtype{font-size:var(--fs-xs);font-weight:800;color:#fff;background:var(--accent-ink);border-radius:var(--r-pill);padding:1px 11px}
+.fwnum{font-size:var(--fs-sm);font-weight:800;color:var(--xz-ink-2);background:var(--xz-surface-2);border:1px solid var(--xz-line);border-radius:var(--r-xs);padding:1px 8px;margin-right:8px}
+
+/* ---------- 技巧 / 范文网格 ---------- */
+.tp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:var(--sp-3);margin:var(--sp-3) 0}
+.tp{background:var(--xz-surface);border:1px solid var(--xz-line);border-radius:var(--r-md);padding:var(--sp-4)}
+.tp h4{margin:0 0 6px;font-size:var(--fs-base);color:var(--xz-ink)}
+.tp .cnt{font-size:var(--fs-xs);color:var(--xz-ink-3)}
+
+/* ---------- 待录入槽位 ---------- */
+.ph{
+  border:1px dashed var(--accent-line);
+  border-radius:var(--r-sm);background:var(--accent-soft);
+  padding:var(--sp-3) var(--sp-4);margin:10px 0;
+}
+.ph-t{font-weight:800;color:var(--xz-ink);font-size:var(--fs-base);display:flex;align-items:center;gap:8px;margin-bottom:4px}
+.ph-t i{font-style:normal;font-size:var(--fs-xs);font-weight:700;background:var(--accent-ink);color:#fff;border-radius:var(--r-pill);padding:1px 9px;letter-spacing:.04em}
+.ph p{margin:4px 0;font-size:var(--fs-base);color:var(--xz-ink-2)}
+.tpl{
+  white-space:pre;overflow-x:auto;font-family:var(--font-mono);font-size:var(--fs-sm);line-height:1.75;
+  background:var(--xz-surface-2);color:var(--xz-ink-2);border:1px solid var(--xz-line);
+  border-radius:var(--r-sm);padding:12px 14px;margin:8px 0 2px;
+}
+
+/* ---------- 《公文格式》讲义正文排版 ---------- */
+.gw-lead{margin:6px 0 8px;font-size:var(--fs-base);line-height:1.9;color:var(--xz-ink-2)}
+.gw-h{margin:14px 0 4px;font-size:var(--fs-base);font-weight:700;color:var(--xz-ink);border-left:3px solid var(--primary);padding-left:8px}
+.gw-layout{
+  white-space:pre;font-family:var(--font-mono);font-size:var(--fs-base);line-height:1.95;
+  background:var(--xz-surface-2);border:1px dashed var(--xz-line-2);
+  border-radius:var(--r-sm);padding:12px 16px;margin:10px 0 4px;overflow-x:auto;color:var(--xz-ink-2);
+}
+.unit>.gw-lead,.unit>.gw-h,.unit>p,.unit>.figbox{max-width:100%}
+.gwimg{display:block;max-width:100%;height:auto;margin:0 auto;border:1px solid var(--xz-line);border-radius:var(--r-sm);background:var(--xz-surface)}
+
+/* ---------- 图片 / 图注 ---------- */
+.fig{margin:var(--sp-2) 0;text-align:center}
+.fig img,.figbox img{max-width:100%;height:auto;border:1px solid var(--xz-line);border-radius:var(--r-sm);background:var(--xz-surface)}
+.figcap{font-size:var(--fs-sm);color:var(--xz-ink-3);text-align:center;margin:8px 0 2px;line-height:1.6}
+
+/* ---------- 结尾提示 ---------- */
+.foot-tip{max-width:1280px;margin:0 auto var(--sp-10);padding:0 var(--sp-5);font-size:var(--fs-xs);color:var(--xz-ink-4);text-align:center}
+
+/* ---------- 阅读进度条（由 assets/板块页脚本.js 插入） ---------- */
+.xz-progress{position:fixed;top:0;left:0;width:100%;height:2px;z-index:70;pointer-events:none}
+.xz-progress i{display:block;height:100%;width:0;background:var(--primary);transition:width .1s linear}
+
+/* ---------- 回到顶部 ----------
+   【易错】演算按钮由 assets/演算层.js 固定在右下角（bottom:16px），
+   这里必须往上让一格，否则两个圆钮会重叠。 */
+.backtop{
+  position:fixed;right:16px;bottom:72px;z-index:60;
+  width:40px;height:40px;border:1px solid var(--xz-line-2);border-radius:var(--r-pill);
+  background:var(--xz-surface);color:var(--xz-ink-2);font-size:17px;cursor:pointer;
+  box-shadow:var(--sh-2);display:none;
+}
+.backtop:hover{color:var(--xz-ink);border-color:var(--xz-brand)}
+.backtop.show{display:block}
+
+/* ---------- 窄屏 ---------- */
+@media(max-width:1000px){
+  header{max-width:none}
+  header .intro{max-width:none}
+  .kgrid{grid-template-columns:1fr}
+  /* 宽表自己横向滚动，别把整页顶宽（窄屏最常见的破版来源） */
+  .kp-body table.tbl{display:block;overflow-x:auto;min-width:0}
+}
+@media(max-width:640px){
+  header h1{font-size:var(--fs-lg)}
+  .unit,.kp{padding:var(--sp-3) var(--sp-4)}
+  .ov{padding:var(--sp-4)}
+  .foot-tip{padding:0 var(--sp-3)}
+}
+
+/* ---------- 排版工具类 ----------
+   来源：原先散落在各板块页里的 <div style="margin-top:6px"> 之类（共 235 处）。
+   2026-09-20 收敛到这里，值与原内联写法逐一对齐，所以这次迁移不改变任何页面的实际间距。
+   【约定】新增内容优先用这里的类；确实一次性的间距再考虑内联，不要再往页面里塞颜色
+   （颜色一律走令牌，否则暗色模式会漏）。 */
+/* 【易错】这些类名写成 .sp-y6.sp-y6 这种「双写」形式，是刻意的：
+   容器规则（.unit p{margin:5px 0}、.foldbody p{…}、.ansline .ansbody p{…}）
+   优先级是 (0,1,1) 甚至 (0,2,1)，单类名工具类 (0,1,0) 会被它们压掉，
+   于是原内联样式写的 6px 会悄悄变成 5px、0.9rem 会变回 15.5px。
+   双写把工具类提到 (0,2,0)，恢复「作者写什么就是什么」的语义。
+   改这里时不要图省事写成单类名。 */
+.sp-t6.sp-t6{margin-top:6px}
+.sp-t8.sp-t8{margin-top:8px}
+.sp-y4.sp-y4{margin:4px 0}
+.sp-y6.sp-y6{margin:6px 0}
+.sp-y10.sp-y10{margin:10px 0}
+.fz-85.fz-85{font-size:.85rem}
+.fz-90.fz-90{font-size:.9rem}
+.fz-92.fz-92{font-size:.92rem}
+.d-block.d-block{display:block}
+.t-center.t-center{text-align:center;margin:30px 0 4px}
+/* 表格里的小字备注（原先是内联的 #7a6b73 硬编码色） */
+.t-note.t-note{font-size:var(--fs-xs);color:var(--xz-ink-3)}
+/* 目录首行的「★ 总览」：原先是内联的 color:var(--primary)，暗色下对比度不够，
+   改走 --accent-ink（亮/暗自动切换）。选择器要压过 nav.toc a.t-item 的颜色。 */
+nav.toc a.t-lead,.t-lead{font-weight:700;color:var(--accent-ink)}
+
+/* ---------- 打印 ---------- */
+@media print{
+  nav.toc,.toolbar,.backtop,.xz-progress,.palette,.modal{display:none!important}
+  .unit,.kp{break-inside:avoid;box-shadow:none}
+  body{background:#fff}
+}

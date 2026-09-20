@@ -1,0 +1,179 @@
+/* ===================================================================
+   设计令牌（外壳 index.html 与所有板块页共用的唯一来源）
+   ---------------------------------------------------------------
+   【用途】把颜色、间距、圆角、字号、阴影、动效集中在这里，
+     外壳与板块页都只引用 --xz-* / --sp-* / --r-* / --fs-* 这些变量，
+     页面自己只声明「板块主色」（--primary / --primary2 / --accent）。
+   【为什么】2026-09 之前是「每个板块页内联一份 CSS + 主题层用 200 行 !important
+     覆盖颜色」：改一处样式要动 15 个文件，暗色模式靠补丁，规则越多浏览器为每个
+     元素保存的匹配集合也越大（内存与重绘成本都上去了）。
+     现在改成：结构样式一份（板块页样式.css）＋配色一份（本文件）＋每页 3 行主色。
+   【易错】本文件只放「变量与极少数基础类」，不要往里塞板块页的组件样式；
+     暗色不是反色，是同一套语义变量换一组值，所以组件里禁止写死十六进制颜色。
+   =================================================================== */
+
+/* ---------- 亮色（默认） ---------- */
+:root{
+  /* 表面与文字：--xz- 前缀，外壳与内容页共用 */
+  --xz-bg:#f7f8fa;            /* 页面底色 */
+  --xz-surface:#ffffff;       /* 卡片 / 面板 */
+  --xz-surface-2:#f1f3f7;     /* 次级面（输入框、按钮底、代码块） */
+  --xz-surface-3:#e9edf3;     /* 三级面（悬停、选中） */
+  --xz-line:#e4e7ec;          /* 常规分隔线 / 卡片边框 */
+  --xz-line-2:#d3d9e2;        /* 强调边框（输入框、可交互元素） */
+  --xz-ink:#14181f;           /* 主文字 */
+  --xz-ink-2:#4a5262;         /* 次级文字（正文说明、表格内容） */
+  --xz-ink-3:#5f6875;         /* 三级文字（小字、标签）· 白底 5.6:1 */
+  --xz-ink-4:#8a93a1;         /* 仅用于装饰性文字，不承载信息 */
+  --xz-elev:#ffffff;          /* 浮层表面 */
+
+  /* 品牌色：--xz-brand 用于「填充」，--xz-brand-ink 用于「白底上的文字/白字底」 */
+  --xz-brand:#4f7cff;
+  --xz-brand-ink:#2f56d9;     /* 白底 6.1:1，反白 6.1:1 */
+
+  /* 板块主色派生层：页面只声明 --primary，这五个档位自动跟着变。
+     soft/soft-2 = 浅色面（卡片底、提示条），line = 描边，ink/ink-2 = 主色文字。
+     暗色模式在下面整体换一组值，所以组件里永远不用写「主色 10% 混白」。 */
+  --accent-soft:color-mix(in srgb,var(--primary,#4f7cff) 6%,var(--xz-surface));
+  --accent-soft-2:color-mix(in srgb,var(--primary,#4f7cff) 12%,var(--xz-surface));
+  --accent-line:color-mix(in srgb,var(--primary,#4f7cff) 24%,var(--xz-line));
+  --accent-ink:color-mix(in srgb,var(--primary,#4f7cff) 88%,#000);
+  --accent-ink-2:color-mix(in srgb,var(--primary,#4f7cff) 62%,var(--xz-ink-2));
+
+  /* 语义色（答案 / 解析 / 警示 / 成功） */
+  --xz-good-bg:#ecfdf5;  --xz-good-line:#a7f3d0;  --xz-good-ink:#047857;  --xz-good-tag:#059669;
+  --xz-warn-bg:#fffbeb;  --xz-warn-line:#fcd34d;  --xz-warn-ink:#92500a;  --xz-warn-tag:#b45309;
+  --xz-info-bg:#eff4ff;  --xz-info-line:#c7d7fe;  --xz-info-ink:#2f56d9;
+  --xz-mark-bg:#fff3bf;  --xz-mark-ink:#7a4d05;   /* 搜索命中高亮 */
+  --xz-danger-bg:#fef2f2; --xz-danger-line:#fecaca; --xz-danger-ink:#b91c1c;
+  /* 填空高亮：默认色，但优先沿用各板块页自己声明的 --fill-*（页面 :root 在后，会覆盖这里的默认值） */
+  --xz-fill-bg:var(--fill-bg,#fff7d6);
+  --xz-fill-line:var(--fill-line,#eab308);
+  --xz-fill-ink:var(--fill-ink,#78350f);
+
+  /* 间距（4 的倍数，命名按档位而不是像素） */
+  --sp-1:4px; --sp-2:8px; --sp-3:12px; --sp-4:16px; --sp-5:20px; --sp-6:24px; --sp-8:32px; --sp-10:40px;
+
+  /* 圆角：工作站风格比 iOS 收敛一档 */
+  --r-xs:6px; --r-sm:8px; --r-md:12px; --r-lg:16px; --r-pill:999px;
+
+  /* 阴影：只保留两级，靠边框而不是阴影分层 */
+  --sh-1:0 1px 2px rgba(16,24,40,.05);
+  --sh-2:0 6px 20px -10px rgba(16,24,40,.18),0 1px 2px rgba(16,24,40,.05);
+  --sh-3:0 24px 60px -28px rgba(16,24,40,.34),0 2px 8px rgba(16,24,40,.06);
+
+  /* 字体与节奏 */
+  --font-sans:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans CJK SC",system-ui,sans-serif;
+  --font-mono:"SFMono-Regular",Consolas,"JetBrains Mono","Courier New",monospace;
+  --fs-xs:11.5px; --fs-sm:12.5px; --fs-base:13.5px; --fs-body:15.5px;
+  --fs-lg:17px; --fs-xl:20px; --fs-2xl:24px;
+  --lh-body:1.78; --lh-tight:1.5;
+  /* 正文栏宽度：跟着设备走，不再固定死。
+     46em 是下限（小屏也要够读），74vw 是「吃掉可用宽度」，84em 是上限
+     （防止 2.5K/4K 屏把一行拉到 100 多个汉字）。
+     【调参入口】想让卡片更宽或更窄，只改这一条；不要再去动 .layout 的列定义。 */
+  --measure:clamp(46em, 74vw, 84em);
+
+  /* 动效 */
+  --ease:cubic-bezier(.22,1,.36,1);
+  --dur:.16s;
+
+  color-scheme:light;
+}
+
+/* ---------- 暗色：只换变量值，组件样式一行都不用改 ---------- */
+html.xz-dark{
+  --xz-bg:#0d1219;
+  --xz-surface:#141a23;
+  --xz-surface-2:#1a212c;
+  --xz-surface-3:#212a37;
+  --xz-line:#242c38;
+  --xz-line-2:#333e4e;
+  --xz-ink:#e8edf4;
+  --xz-ink-2:#b9c3d1;
+  --xz-ink-3:#94a0b0;
+  --xz-ink-4:#6f7b8b;
+  --xz-elev:#1a222d;
+
+  --xz-brand:#5b86ff;
+  --xz-brand-ink:#8fb0ff;     /* 暗底上的品牌文字：够亮才看得清 */
+
+  --accent-soft:color-mix(in srgb,var(--primary,#4f7cff) 15%,var(--xz-surface));
+  --accent-soft-2:color-mix(in srgb,var(--primary,#4f7cff) 24%,var(--xz-surface));
+  --accent-line:color-mix(in srgb,var(--primary,#4f7cff) 34%,var(--xz-line));
+  --accent-ink:color-mix(in srgb,var(--primary,#4f7cff) 42%,#fff);
+  --accent-ink-2:color-mix(in srgb,var(--primary,#4f7cff) 55%,var(--xz-ink-2));
+
+  --xz-good-bg:#0e2a22;  --xz-good-line:#1f5c48;  --xz-good-ink:#5fd3a6;  --xz-good-tag:#12795a;
+  --xz-warn-bg:#2a2210;  --xz-warn-line:#6b5518;  --xz-warn-ink:#e8c46a;  --xz-warn-tag:#8a6412;
+  --xz-info-bg:#131f38;  --xz-info-line:#2b3f6b;  --xz-info-ink:#9cb6ff;
+  --xz-mark-bg:#4a3a08;  --xz-mark-ink:#ffe08a;
+  --xz-danger-bg:#2c1517; --xz-danger-line:#7f3238; --xz-danger-ink:#f09a9a;
+  /* 暗色下必须由令牌决定：页面里的浅黄底在深色页面上会刺眼 */
+  --xz-fill-bg:#3a2f08;  --xz-fill-line:#8a6d12;  --xz-fill-ink:#ffe08a;
+
+  --sh-1:0 1px 0 rgba(0,0,0,.4);
+  --sh-2:0 8px 24px -14px rgba(0,0,0,.8);
+  --sh-3:0 28px 70px -30px rgba(0,0,0,.85);
+  color-scheme:dark;
+}
+
+/* ---------- 基础重置（两端共用） ---------- */
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+button,a,input,summary,label,select{-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+button,input,select,textarea{font-family:inherit;font-size:inherit}
+img,video{max-width:100%}
+
+/* 焦点可见：键盘用户必须看得见落点（此前只有搜索框有焦点样式） */
+:focus-visible{outline:2px solid var(--xz-brand);outline-offset:2px;border-radius:var(--r-xs)}
+html.xz-dark :focus-visible{outline-color:var(--xz-brand-ink)}
+
+/* 滚动条：跟随主题，不再写死浅灰 */
+*{scrollbar-color:var(--xz-line-2) transparent;scrollbar-width:thin}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--xz-line-2);border-radius:var(--r-pill);border:2px solid transparent;background-clip:content-box}
+::-webkit-scrollbar-thumb:hover{background:var(--xz-ink-4);background-clip:content-box}
+
+/* ---------- 共用小组件 ---------- */
+/* 次级按钮：白底细边，悬停描边变主色。板块页与外壳的操作按钮都走这一个类 */
+.xz-btn{
+  display:inline-flex;align-items:center;gap:6px;white-space:nowrap;
+  border:1px solid var(--xz-line-2);background:var(--xz-surface);color:var(--xz-ink-2);
+  border-radius:var(--r-pill);padding:6px 13px;font-size:var(--fs-sm);font-weight:600;line-height:1.2;
+  cursor:pointer;transition:background var(--dur) var(--ease),border-color var(--dur) var(--ease),color var(--dur) var(--ease);
+}
+.xz-btn:hover{border-color:var(--xz-brand);color:var(--xz-brand-ink);background:var(--xz-surface)}
+.xz-btn:active{transform:translateY(.5px)}
+.xz-btn.on,.xz-btn[aria-pressed="true"]{background:var(--xz-brand-ink);border-color:var(--xz-brand-ink);color:#fff}
+.xz-btn.on:hover,.xz-btn[aria-pressed="true"]:hover{color:#fff}
+
+/* 图标按钮：方形、只放图标，用于顶栏 */
+.xz-ibtn{
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;flex:none;
+  width:34px;height:34px;padding:0;border:1px solid transparent;border-radius:var(--r-sm);
+  background:transparent;color:var(--xz-ink-2);cursor:pointer;
+  transition:background var(--dur) var(--ease),color var(--dur) var(--ease),border-color var(--dur) var(--ease);
+}
+.xz-ibtn:hover{background:var(--xz-surface-3);color:var(--xz-ink)}
+.xz-ibtn svg{width:17px;height:17px;display:block}
+.xz-ibtn.wide{width:auto;padding:0 10px;gap:7px;font-size:var(--fs-sm);font-weight:600}
+
+/* 小标签：板块计数、来源、状态 */
+.xz-chip{
+  display:inline-flex;align-items:center;gap:5px;flex:none;
+  border:1px solid var(--xz-line);background:var(--xz-surface-2);color:var(--xz-ink-3);
+  border-radius:var(--r-pill);padding:2px 9px;font-size:var(--fs-xs);font-weight:600;line-height:1.5;
+}
+
+/* 开关式小标签（会在 JS 里加 .on） */
+.xz-chip.on{background:var(--xz-info-bg);border-color:var(--xz-info-line);color:var(--xz-info-ink)}
+
+/* 视觉隐藏但给读屏 */
+.xz-sr{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+
+/* 【性能与无障碍】系统开启「减少动态效果」时，全站动画退化为瞬时 —— 省电也更少眩晕 */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
+}

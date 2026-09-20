@@ -226,7 +226,7 @@
     '.ring{position:absolute;left:0;top:0;border-radius:50%;border:1.5px solid currentColor;color:var(--ui-hi);' +
       'pointer-events:none;opacity:0;transform:translate(-50%,-50%);transition:opacity .14s;will-change:transform}' +
     '.ring.on{opacity:.85}' +
-    '.fab{position:absolute;top:12px;right:14px;pointer-events:auto;border:0;border-radius:999px;padding:10px 16px;' +
+    '.fab{position:absolute;bottom:calc(16px + env(safe-area-inset-bottom,0px));right:16px;pointer-events:auto;border:0;border-radius:999px;padding:10px 16px;' +
       'font:600 13px/1 ' + FONT + ';color:#fff;background:rgba(29,111,184,.94);cursor:pointer;' +
       'box-shadow:0 8px 20px -10px rgba(15,23,42,.6);transition:background .18s,transform .14s;-webkit-tap-highlight-color:transparent}' +
     '.fab:hover{background:rgba(29,111,184,1)}' +
@@ -364,7 +364,7 @@
       '.swd{width:32px;height:32px}' +
       '.wsl{height:34px;min-width:92px}' +
       '.hint{display:none}' +
-      '.fab{top:10px;right:10px;padding:11px 17px;font-size:13.5px}' +
+      '.fab{bottom:calc(12px + env(safe-area-inset-bottom,0px));right:12px;padding:11px 17px;font-size:13.5px}' +
       '.toast{bottom:calc(120px + env(safe-area-inset-bottom,0px))}' +
     '}' +
     '@media(prefers-reduced-motion:reduce){.tb,.tb::after,.swd,.wpb i,.insp{transition:none!important}}' +
@@ -498,7 +498,17 @@
     cv.height = Math.round(H * d);
     rectCache = null;
   }
+  /* 【性能·内存】画布位图 = CSS 尺寸 × devicePixelRatio² × 4 字节：
+     1440×900 的页面在 2x 屏上就是 20MB 上下，iPad Pro 更大。
+     以前每次打开板块页都在 boot() 里直接分配（哪怕用户整页只读不写），
+     现在改成「进演算才分配、退出即释放」，未用演算的页面这张位图根本不占内存。
+     【易错】释放时必须把 W/H 归零并把 rectCache 置空，否则坐标换算会继续按旧尺寸算。 */
+  function releaseCanvas() {
+    if (cv.width > 1 || cv.height > 1) { cv.width = 1; cv.height = 1; }
+    W = 1; H = 1; rectCache = null;
+  }
   function resize() {
+    if (!mode) { releaseCanvas(); return; }
     fitCanvas(sizeOf(cv), curDPR());
   }
   /* 【易错】落笔/拖动前自检：尺寸或 DPR 变了就地补正（内部会顺带 renderAll）。
@@ -1458,6 +1468,7 @@
       ensureSize();                                     /* 进演算前先对齐位图尺寸 */
     } else {
       document.documentElement.style.overscrollBehavior = '';
+      releaseCanvas();                                  /* 退出即释放位图（见 releaseCanvas 注释） */
     }
     syncUI();
     renderAll();
@@ -1504,18 +1515,11 @@
   function placeFab() {
     if (mode) { fab.style.display = 'none'; return; }
     fab.style.display = '';
-    var top = 12;
-    try {
-      var bars = document.querySelectorAll('.toolbar,.subnav');
-      for (var i = 0; i < bars.length; i++) {
-        var el = bars[i], st = window.getComputedStyle(el);
-        if (st.position !== 'sticky' && st.position !== 'fixed') continue;
-        var r = el.getBoundingClientRect();
-        if (r.height > 0 && r.top < 6 && r.bottom + 10 > top) top = r.bottom + 10;
-      }
-    } catch (e) {}
-    if (window.innerWidth <= 920 && top < 54) top = 54;
-    fab.style.top = Math.round(top) + 'px';
+    /* 【需求】演算按钮固定在右下角（CSS 里给 bottom/right）。
+       原来贴在右上角并按吸顶条动态让位：但右上角正是页头标题与元信息胶囊的位置，
+       iPad 阅读时一直压着正文，而且和顶栏的计时/显示模式按钮视觉打架。
+       停靠工具条只在演算模式出现，本按钮在演算模式下会被隐藏，两者不会重叠。 */
+    fab.style.top = 'auto';
   }
 
   /* ---------- 笔迹设置面板（颜色 + 粗细） ----------
@@ -1849,7 +1853,8 @@
     setTool(tool);
     syncUI();
     placeFab();
-    renderAll();
+    /* 不在演算模式下时画布是 1×1 的空位图，这里没必要渲染首帧 */
+    if (mode) { renderAll(); }
     if (DIAG) diagLog('环境', {
       coalesced: !!(window.PointerEvent && PointerEvent.prototype.getCoalescedEvents),
       predicted: !!(window.PointerEvent && PointerEvent.prototype.getPredictedEvents),

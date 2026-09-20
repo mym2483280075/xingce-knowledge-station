@@ -38,6 +38,142 @@
   var hit = document.getElementById('hitcount');
   var selftestOn = function () { return document.body.classList.contains('selftest'); };
 
+  /* ================= 窄屏的目录入口 =================
+     【需求】≤1000px 时左侧目录会挤掉一半正文，所以样式层默认把它收起。
+     这里往工具条里插一个「目录」按钮作为出口（工具条是吸顶的，随时可点）。
+     没有工具条或没有目录的页面直接跳过，不影响其它功能。 */
+  (function tocToggle(){
+    var toc = document.querySelector('nav.toc');
+    var bar = document.querySelector('.toolbar');
+    if (!toc || !bar) { return; }
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'btn btn-toc';
+    b.textContent = '目录';
+    b.setAttribute('aria-expanded', 'false');
+    b.addEventListener('click', function () {
+      var on = document.body.classList.toggle('toc-open');
+      b.classList.toggle('on', on);
+      b.setAttribute('aria-expanded', on ? 'true' : 'false');
+    });
+    bar.appendChild(b);
+  })();
+
+  /* ================= 窄屏：把次要按钮收进「更多」菜单 =================
+     【需求】≤720px 时工具条原来要折成两行（约 90px 常驻吸顶），吃掉正文。
+     现在窄屏只留「搜索框 · 目录 · 更多」，其余按钮（隐藏答案 / 展开全部答案 / 收起卡片）
+     收进「更多」里。
+     【做法】不重建按钮，直接把原来的按钮节点搬进菜单容器 —— 各按钮的
+     事件监听与文案更新逻辑（自测模式：关→开、收起卡片→展开卡片）都不用改。
+     【易错】桌面端要把按钮搬回原位，所以搬回去时用 insertBefore(anchor) 而不是 appendChild：
+     直接 append 会让它们跑到「目录」按钮后面，顺序就和页面原本写的不一样了。 */
+  var tbMenu = null, tbToggle = null, tbMoved = [];
+  (function moreMenu(){
+    var bar = document.querySelector('.toolbar');
+    if (!bar || !window.matchMedia) { return; }
+    /* 搬进菜单的按钮按「窄屏优先级」排：自测模式虽然重要，但它是模式开关不是常用动作，
+       留在工具条里会把搜索框挤到 110px。它开了之后由「更多」按钮自身的点亮状态来提示。 */
+    tbMoved = ['hideans', 'selftest', 'openans', 'closeall'].map(function (id) {
+      return document.getElementById(id);
+    }).filter(Boolean);
+    if (!tbMoved.length) { return; }
+
+    tbMenu = document.createElement('div');
+    tbMenu.className = 'tb-more';
+    tbMenu.id = 'tbMore';
+    tbMenu.setAttribute('role', 'group');
+    tbMenu.setAttribute('aria-label', '更多操作');
+
+    tbToggle = document.createElement('button');
+    tbToggle.type = 'button';
+    tbToggle.className = 'btn btn-more';
+    tbToggle.id = 'tbMoreBtn';
+    tbToggle.setAttribute('aria-expanded', 'false');
+    tbToggle.setAttribute('aria-label', '更多操作');
+    tbToggle.innerHTML = '更多<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9.5l6 6 6-6"/></svg>';
+
+    bar.appendChild(tbToggle);
+    bar.appendChild(tbMenu);
+
+    function close() {
+      tbMenu.classList.remove('show');
+      tbToggle.setAttribute('aria-expanded', 'false');
+    }
+    tbToggle.addEventListener('click', function (e) {
+      e.stopPropagation();
+      var on = !tbMenu.classList.contains('show');
+      tbMenu.classList.toggle('show', on);
+      tbToggle.setAttribute('aria-expanded', on ? 'true' : 'false');
+    });
+    /* 菜单里点任何一项就收起来：按钮自己的监听已经先跑完（冒泡到这里只是关菜单）。
+       顺手把「自测模式」的开关状态同步到「更多」按钮上 —— 菜单收起后，
+       用户仍要能看出自己还在自测模式里。 */
+    tbMenu.addEventListener('click', function () {
+      var st = document.getElementById('selftest');
+      if (st) { tbToggle.classList.toggle('on', st.classList.contains('on')); }
+      close();
+    });
+    document.addEventListener('click', function (e) {
+      if (!e.target.closest || !e.target.closest('.toolbar')) { close(); }
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') { close(); }
+    });
+
+    var mq = window.matchMedia('(max-width:720px)');
+    function apply() {
+      var narrow = mq.matches;
+      var anchor = document.querySelector('.btn-toc') || tbToggle;
+      if (narrow) {
+        tbMoved.forEach(function (b) { tbMenu.appendChild(b); });
+      } else {
+        close();
+        tbMoved.forEach(function (b) { if (b.parentNode !== bar) { bar.insertBefore(b, anchor); } });
+      }
+    }
+    apply();
+    if (mq.addEventListener) { mq.addEventListener('change', apply); }
+    else if (mq.addListener) { mq.addListener(apply); }
+  })();
+
+  /* ================= 阅读进度条 =================
+     【性能】只用一层 transform 的宽度变化，不读布局属性（避免强制同步布局），
+     并以 rAF 合并同一帧内的多次 scroll 事件。 */
+  (function progressBar(){
+    var el = document.createElement('div');
+    el.className = 'xz-progress';
+    el.setAttribute('aria-hidden', 'true');
+    el.innerHTML = '<i></i>';
+    document.body.appendChild(el);
+    var inner = el.firstChild;
+    var ticking = false;
+    function update(){
+      ticking = false;
+      var d = document.documentElement;
+      var max = (d.scrollHeight - d.clientHeight);
+      var pct = max > 0 ? Math.min(100, Math.max(0, (window.scrollY || d.scrollTop) / max * 100)) : 0;
+      inner.style.width = pct.toFixed(2) + '%';
+    }
+    window.addEventListener('scroll', function () {
+      if (!ticking) { ticking = true; requestAnimationFrame(update); }
+    }, { passive: true });
+    window.addEventListener('resize', update, { passive: true });
+    update();
+  })();
+
+  /* ================= 图片懒加载兜底 =================
+     【性能】板块页里有大量讲义截图：默认全部立即解码会占用几十兆位图内存。
+     统一补 loading=lazy + decoding=async（已有显式设置的不动），
+     并把尺寸未知的图交给浏览器按原比例占位，避免滚动时反复回流。 */
+  (function lazyImages(){
+    var imgs = document.images;
+    for (var i = 0; i < imgs.length; i++) {
+      var im = imgs[i];
+      if (!im.getAttribute('loading')) { im.setAttribute('loading', 'lazy'); }
+      if (!im.getAttribute('decoding')) { im.setAttribute('decoding', 'async'); }
+    }
+  })();
+
   /* ================= 卡片集合自动探测 ================= */
   /* 顺序即优先级：先看知识点/单元卡片（行测六大板块），再看题目卡（模考题本），
      最后看申论大题卡。取到第一个非空组合就用它，避免把嵌套的题目卡当成卡片。 */
@@ -345,6 +481,24 @@
     if (!toc || !window.IntersectionObserver) { return; }
     var links = Array.prototype.slice.call(toc.querySelectorAll('a[href^="#"]'));
     if (!links.length) { return; }
+    /* 【需求】长目录（常识判断 117 条、目录自身可滚动 4500px）里，一旦用户手动滚过目录，
+       或者阅读位置跑到目录可视区之外，就再也找不到「我在哪」了。
+       所以：① 每条目录项补 title，长标题被省略号截断时悬停能看全；
+               ② 当前项变化时把它滚进目录自己的可视区。
+       【易错】这里绝对不能用 link.scrollIntoView()：assets/定位层.js 覆写了
+       Element.prototype.scrollIntoView 用来接管页面跳转，调用它会去滚整个页面。
+       必须自己算偏移、只改目录容器的 scrollTop。 */
+    links.forEach(function (l) {
+      if (!l.getAttribute('title')) { l.setAttribute('title', (l.textContent || '').trim()); }
+    });
+    var EDGE = 10;   /* 目录可视区上下各留 10px 呼吸 */
+    function revealInToc(link) {
+      var tr = toc.getBoundingClientRect(), lr = link.getBoundingClientRect();
+      if (!tr.height || !lr.height) { return; }
+      if (lr.top < tr.top + EDGE) { toc.scrollTop -= (tr.top + EDGE - lr.top); }
+      else if (lr.bottom > tr.bottom - EDGE) { toc.scrollTop += (lr.bottom - tr.bottom + EDGE); }
+    }
+    var lastActive = null;
     var byId = {};
     links.forEach(function (l) { byId[l.getAttribute('href').slice(1)] = l; });
     var watched = cardList().filter(function (c) { return c.id && byId[c.id]; });
@@ -354,7 +508,10 @@
         if (!en.isIntersecting) { return; }
         links.forEach(function (l) { l.classList.remove('active'); });
         var cur = byId[en.target.id];
-        if (cur) { cur.classList.add('active'); }
+        if (cur) {
+          cur.classList.add('active');
+          if (cur !== lastActive) { lastActive = cur; revealInToc(cur); }
+        }
       });
     }, { rootMargin: '-20% 0px -70% 0px' });
     watched.forEach(function (c) { io.observe(c); });

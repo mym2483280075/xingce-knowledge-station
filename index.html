@@ -9,426 +9,406 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>行测知识工作站 · 行测 / 申论 / 日常积累 / 模考真题</title>
-<script src="assets/%E4%B8%BB%E9%A2%98.js?v=20260913b"></script>
+<script src="assets/%E4%B8%BB%E9%A2%98.js?v=20260920f"></script>
+<link rel="stylesheet" href="assets/design-tokens.css?v=20260920f">
 <style>
+/* ===================================================================
+   工作站外壳样式（index.html 专用）
+   ---------------------------------------------------------------
+   【风格】冷静的文档工作站：实色面板 + 1px 分隔线 + 单一强调色，
+     去掉满屏渐变与常驻毛玻璃（backdrop-filter 在长文滚动时会反复采样，
+     是 iPad 上最实在的耗电来源之一）。
+   【约定】颜色一律走 assets/design-tokens.css 的 --xz-* / --sp-* / --r-*。
+     板块色（--c）只用于图标、左侧色条与选中态，不铺大面积底色。
+   【易错】
+     · 搜索索引与跳转逻辑全在页面底部的脚本里，这里只负责「长什么样」；
+       命令面板的 DOM id（#palette / #globalQ / #drop）是与脚本的接口，改名要同步。
+     · .timer-* 的颜色用 iOS 动态系统色（--tm-*），不要图省事改成 --xz-brand，
+       否则夜晚模式绿/红会串色。
+   =================================================================== */
+
 :root{
-  --rail:#0b1220;
-  --rail-2:#111a2e;
-  --rail-line:rgba(255,255,255,.07);
-  --ink:#0f172a;
-  --muted:#64748b;
-  --bg:#f4f6fb;
-  --panel:#ffffff;
-  --rule:#e2e8f0;
-  --brand:#4f7cff;
-  --brand-2:#7c5cff;
-  --warn:#f59e0b;
-  --good:#10b981;
-  --shadow:0 2px 8px rgba(15,23,42,.06),0 18px 40px -20px rgba(15,23,42,.22);
-}
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%}
-body{
-  font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans CJK SC",sans-serif;
-  color:var(--ink);font-size:14.5px;line-height:1.6;
-  -webkit-font-smoothing:antialiased;overflow:hidden;
-  background:linear-gradient(165deg,#f8fafc 0%,#eef3fb 32%,#f2f0f9 66%,#f8f6f3 100%);
-  background-attachment:fixed;
-}
-button{font-family:inherit;cursor:pointer}
-input{font-family:inherit}
-
-/* ===== App shell ===== */
-.app{display:flex;height:100vh;width:100vw}
-
-/* ===== Sidebar（iOS 毛玻璃面板 · 左实右透） ===== */
-.sidebar{
-  width:316px;flex:none;color:var(--ink);display:flex;flex-direction:column;position:relative;z-index:2;
-  border-radius:0 26px 26px 0;
-  background:linear-gradient(90deg,rgba(255,255,255,.88) 0%,rgba(255,255,255,.72) 30%,rgba(255,255,255,.46) 62%,rgba(255,255,255,.20) 100%);
-  -webkit-backdrop-filter:blur(30px) saturate(180%);
-  backdrop-filter:blur(30px) saturate(180%);
-  box-shadow:0 0 0 .5px rgba(15,23,42,.06),inset 0 1px 0 rgba(255,255,255,.75),18px 0 48px -36px rgba(15,23,42,.4);
-}
-@supports not ((backdrop-filter:blur(4px)) or (-webkit-backdrop-filter:blur(4px))){
-  .sidebar{background:linear-gradient(180deg,#ffffff 0%,#f3f7fd 100%)}
-}
-.brand{padding:24px 22px 16px;border-bottom:1px solid rgba(15,23,42,.05)}
-.brand .logo{display:flex;align-items:center;gap:12px}
-.brand .mark{
-  width:46px;height:46px;flex:none;border-radius:14px;display:flex;align-items:center;justify-content:center;
-  background:linear-gradient(150deg,color-mix(in srgb,var(--brand) 58%,#fff) 0%,var(--brand) 52%,var(--brand-2) 128%);
-  font-size:22px;font-weight:800;color:#fff;line-height:1;
-  box-shadow:0 12px 22px -12px color-mix(in srgb,var(--brand) 80%,transparent),inset 0 1px 0 rgba(255,255,255,.5);
-}
-.brand h1{font-size:18px;font-weight:800;letter-spacing:.01em;color:var(--ink)}
-.brand .tag{font-size:10px;color:#9aa7ba;letter-spacing:.16em;margin-top:3px;font-weight:600}
-.brand .desc{font-size:12px;color:#7b8798;margin-top:10px;line-height:1.6}
-
-.nav{flex:1;overflow-y:auto;padding:10px 12px 14px}
-.nav .group{font-size:10.5px;letter-spacing:.16em;color:#93a1b5;font-weight:700;margin:10px 10px 6px;text-transform:uppercase}
-.nav-item{
-  display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:transparent;border:0;
-  padding:10px 12px;margin-bottom:8px;border-radius:16px;color:#3f4d63;position:relative;
-  transition:background .18s ease,box-shadow .18s ease,transform .16s cubic-bezier(.3,.8,.4,1);
-}
-.nav-item:active{transform:scale(.985)}
-.nav-item:hover{background:rgba(255,255,255,.62)}
-.nav-item.active{
-  background:rgba(255,255,255,.8);
-  box-shadow:0 0 0 .5px rgba(15,23,42,.05),0 10px 22px -16px rgba(15,23,42,.45),inset 0 1px 0 rgba(255,255,255,.9);
-}
-.nav-item.active::before{
-  content:"";position:absolute;left:0;top:12px;bottom:12px;width:3px;border-radius:2px;
-  background:linear-gradient(180deg,var(--c,var(--brand)),color-mix(in srgb,var(--c,var(--brand)) 55%,#fff));
-}
-.nav-item .ico{
-  width:34px;height:34px;flex:none;border-radius:50%;background:var(--c,var(--brand));
-  -webkit-mask-image:radial-gradient(circle 13px at 50% 50%,#000 0%,rgba(0,0,0,.85) 30%,rgba(0,0,0,.40) 62%,rgba(0,0,0,.12) 86%,rgba(0,0,0,0) 100%);
-  mask-image:radial-gradient(circle 13px at 50% 50%,#000 0%,rgba(0,0,0,.85) 30%,rgba(0,0,0,.40) 62%,rgba(0,0,0,.12) 86%,rgba(0,0,0,0) 100%);
-}
-.nav-item.active .ico{
-  -webkit-mask-image:radial-gradient(circle 14px at 50% 50%,#000 0%,rgba(0,0,0,.95) 34%,rgba(0,0,0,.48) 66%,rgba(0,0,0,.16) 88%,rgba(0,0,0,0) 100%);
-  mask-image:radial-gradient(circle 14px at 50% 50%,#000 0%,rgba(0,0,0,.95) 34%,rgba(0,0,0,.48) 66%,rgba(0,0,0,.16) 88%,rgba(0,0,0,0) 100%);
-}
-.nav-item .txt{min-width:0;flex:1;overflow:hidden}
-.nav-item .nm{font-size:15px;font-weight:600;display:flex;align-items:center;min-width:0;white-space:nowrap}
-.nav-item .nm .cn{flex:none;white-space:nowrap;letter-spacing:.02em;color:color-mix(in srgb,var(--c,var(--brand)) 42%,#1e293b)}
-.nav-item .cnt{flex:none;font-size:10.5px;color:#5b6675;background:rgba(255,255,255,.62);border:.5px solid rgba(15,23,42,.06);box-shadow:inset 0 1px 0 rgba(255,255,255,.9);padding:2px 8px;border-radius:999px;white-space:nowrap}
-.nav-item.active .nm .cn{font-weight:700}
-.nav-item.active .cnt{color:#3f4d63;background:rgba(255,255,255,.85)}
-
-.sidebar-foot{padding:14px 18px;border-top:1px solid rgba(15,23,42,.05);font-size:11.5px;color:#7b8798;line-height:1.7}
-.sidebar-foot b{color:#3f4d63}
-.sidebar-foot .ver{margin-top:8px;font-size:10.5px;color:#9aa7ba;letter-spacing:.02em}
-.nav::-webkit-scrollbar{width:8px}
-.nav::-webkit-scrollbar-track{background:transparent}
-.nav::-webkit-scrollbar-thumb{background:rgba(15,23,42,.13);border-radius:999px;border:2px solid transparent;background-clip:content-box}
-.nav::-webkit-scrollbar-thumb:hover{background:rgba(15,23,42,.24);background-clip:content-box}
-
-/* ===== Main ===== */
-.main{flex:1;min-width:0;display:flex;flex-direction:column;background:var(--bg)}
-
-.topbar{
-  height:60px;flex:none;display:flex;align-items:center;gap:14px;padding:0 18px;
-  background:var(--panel);border-bottom:1px solid var(--rule);
-}
-.crumb{display:flex;align-items:center;gap:8px;min-width:0}
-.crumb .bar{width:10px;height:26px;border-radius:3px;background:var(--c,var(--brand))}
-.crumb .tt{font-size:15.5px;font-weight:700;color:var(--ink);white-space:nowrap}
-.crumb .en{font-size:10.5px;color:var(--muted);letter-spacing:.08em}
-.vbadge{margin-left:6px;font-size:10px;color:#7b8798;background:rgba(255,255,255,.75);border:.5px solid rgba(15,23,42,.08);border-radius:999px;padding:1px 8px;letter-spacing:.02em;white-space:nowrap}
-
-.searchbox{
-  flex:1;max-width:520px;margin-left:auto;position:relative;display:flex;align-items:center;
-  background:var(--bg);border:1px solid var(--rule);border-radius:10px;transition:border .15s,box-shadow .15s;
-}
-.searchbox:focus-within{border-color:var(--brand);box-shadow:0 0 0 3px rgba(79,124,255,.12);background:#fff}
-.searchbox .ic{color:var(--muted);padding-left:12px;font-size:15px}
-.searchbox input{flex:1;border:0;background:transparent;outline:none;padding:9px 10px;font-size:13.5px;color:var(--ink)}
-.searchbox .kbd{margin-right:9px;font-size:10.5px;color:var(--muted);border:1px solid var(--rule);border-radius:5px;padding:1px 6px;background:#fff}
-.search-drop{
-  position:absolute;top:44px;left:0;right:0;background:#fff;border:1px solid var(--rule);border-radius:12px;
-  box-shadow:var(--shadow);max-height:320px;overflow:auto;z-index:60;display:none;
-}
-.search-drop.show{display:block}
-.search-drop .row{display:flex;align-items:center;gap:10px;padding:10px 13px;cursor:pointer;border-bottom:1px solid #f1f5f9}
-.search-drop .row:last-child{border-bottom:0}
-.search-drop .row:hover{background:#f8fafc}
-.search-drop .dot{width:8px;height:8px;border-radius:50%;flex:none;background:var(--c)}
-.search-drop .row .t1{font-size:13px;font-weight:600}
-.search-drop .row .t2{font-size:11.5px;color:var(--muted)}
-.search-drop .empty{padding:16px;text-align:center;color:var(--muted);font-size:12.5px}
-
-.content{flex:1;position:relative;min-height:0}
-.content iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#fff}
-.empty{
-  position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;gap:14px;
-  color:var(--muted);text-align:center;padding:24px;
-}
-.empty.show{display:flex}
-
-/* ===== 全文模糊搜索 ===== */
-.search-drop .ghead{padding:8px 13px;font-size:11px;color:var(--muted);border-bottom:1px solid #f1f5f9;background:#fafbfe}
-.search-drop .sc{flex:none;font-size:10px;color:#475569;background:#eef2ff;border-radius:999px;padding:2px 8px}
-.search-drop .t2 b,.search-drop .t2 mark{background:#fff3bf;color:#92400e;font-weight:700;border-radius:2px;padding:0 1px}
-/* 键盘选中的那一行（↑↓ 切换）与“全文索引加载进度”提示条 */
-.search-drop .row.sel{background:#eef2ff}
-.search-drop .row.sel .t1{color:var(--brand)}
-.search-drop .stat{display:flex;align-items:center;gap:8px;padding:8px 13px;font-size:11px;color:var(--muted);border-bottom:1px solid #f1f5f9}
-.search-drop .stat .bar{flex:1;height:3px;border-radius:2px;background:#e8edf6;overflow:hidden}
-.search-drop .stat .bar i{display:block;height:100%;background:var(--brand);transition:width .25s}
-html.xz-dark .search-drop .row.sel{background:#1e2a44}
-html.xz-dark .search-drop .stat .bar{background:#26324c}
-
-/* ===== Responsive ===== */
-@media(max-width:860px){
-  .sidebar{width:min(316px,90vw);border-radius:0 22px 22px 0;position:fixed;left:0;top:0;bottom:0;z-index:90;transform:translateX(-100%);transition:transform .2s;box-shadow:0 0 44px rgba(15,23,42,.2)}
-  .sidebar.open{transform:none}
-  .menu-btn{display:flex!important}
-}
-.menu-btn{display:none;border:0;background:transparent;font-size:20px;color:var(--ink);padding:4px;align-items:center;justify-content:center;width:36px;height:36px;border-radius:9px}
-
-/* ===== 显示模式开关（自动 / 白天 / 夜晚） ===== */
-.themeseg{display:flex;align-items:center;gap:2px;padding:3px;border-radius:11px;background:var(--bg);border:1px solid var(--rule);flex:none}
-.themeseg button{border:0;background:transparent;color:var(--muted);font-size:12px;font-weight:600;line-height:1;padding:7px 9px;border-radius:8px;cursor:pointer;display:flex;align-items:center;gap:5px;white-space:nowrap;-webkit-tap-highlight-color:transparent;font-family:inherit}
-.themeseg button:hover{background:var(--panel);color:var(--ink)}
-.themeseg button.on{background:var(--panel);color:var(--brand);box-shadow:0 1px 3px rgba(15,23,42,.14)}
-.themeseg svg{width:14px;height:14px;flex:none;display:block}
-html.xz-dark .themeseg button.on{background:#24314b;box-shadow:0 1px 3px rgba(0,0,0,.4)}
-@media(max-width:1080px){.themeseg button .tx{display:none}.themeseg button{padding:8px}}
-
-/* ===== iOS 风格计时器（秒表 · 分段 · 面板/全屏双模式） =====
-   【需求】顶栏常驻入口 + 弹出面板，行为对齐 iOS「时钟 · 秒表」：
-     初始＝左「复位」+ 右「启动」；启动后＝左「分段」+ 右「停止」；停止后回到「复位」+「启动」。
-     停止只是暂停（再次「启动」从上一次的值继续），只有「复位」才回到 00:00:00 并清空分段。
-   【需求】显示模式两种（顶部胶囊分段控件切换，同一份 DOM，只换类名）：
-     · 面板＝顶栏下方的弹层，不挡内容（现在这个样子）
-     · 全屏＝铺满整屏的 iOS 秒表（白底黑字 / 夜晚黑底白字），大字 + 双圆钮 + 分段列表
-   【需求】计时显示只保留 时:分:秒，不加毫秒/百分秒；大字细体 + 双圆钮的比例按 iOS 秒表排。
-   【坑】颜色必须用 Apple 动态系统色：绿 #34C759（夜晚 #30D158）、红 #FF3B30（夜晚 #FF453A），
-     次级圆钮取 systemGray（rgba(120,120,128,*)）。别图省事写成主题的 --brand，
-     否则夜晚模式会串色。--tm-* 在下面 :root / html.xz-dark 里定义，
-     面板底色仍旧走 --panel / --rule，跟着主题层换肤，不要在这里写死颜色。
-   【坑】全屏的呈现方式是“同一个面板加 .full 类后 position:fixed 铺满”，不要再复制一份 DOM：
-     两份 DOM 会让计时状态、分段列表出现两套，必然对不上。
-     所以全屏规则一律写成 .timer-panel.full.show，避免面板收起（去掉 .show）后还残留全屏铺满。 */
-:root{
+  /* 计时器专用（iOS 动态系统色） */
   --tm-green:#34c759;--tm-red:#ff3b30;
-  --tm-fill:rgba(120,120,128,.16);--tm-ring:rgba(120,120,128,.36);--tm-label:#0f172a;
-  --tm-seg-track:rgba(120,120,128,.14);--tm-seg-thumb:#fff;
+  --tm-fill:rgba(120,120,128,.16);--tm-ring:rgba(120,120,128,.36);--tm-label:var(--xz-ink);
+  --tm-seg-track:rgba(120,120,128,.14);--tm-seg-thumb:var(--xz-surface);
 }
 html.xz-dark{
   --tm-green:#30d158;--tm-red:#ff453a;
-  --tm-fill:rgba(120,120,128,.24);--tm-ring:rgba(120,120,128,.5);--tm-label:#f3f6fb;
+  --tm-fill:rgba(120,120,128,.24);--tm-ring:rgba(120,120,128,.5);--tm-label:var(--xz-ink);
   --tm-seg-track:rgba(120,120,128,.24);--tm-seg-thumb:#636366;
 }
+
+html,body{height:100%}
+body{
+  margin:0;overflow:hidden;color:var(--xz-ink);background:var(--xz-bg);
+  font-family:var(--font-sans);font-size:var(--fs-base);line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+
+.app{display:flex;height:100vh;height:100dvh;width:100vw}
+
+/* ================= 侧栏 ================= */
+.sidebar{
+  width:272px;flex:none;display:flex;flex-direction:column;
+  background:var(--xz-surface);border-right:1px solid var(--xz-line);z-index:2;
+}
+.brand{padding:14px 16px 12px;border-bottom:1px solid var(--xz-line)}
+.brand .logo{display:flex;align-items:center;gap:10px;min-width:0}
+.brand .mark{
+  width:30px;height:30px;flex:none;border-radius:9px;display:flex;align-items:center;justify-content:center;
+  background:var(--xz-brand-ink);color:#fff;font-size:15px;font-weight:800;line-height:1;
+}
+.brand h1{margin:0;font-size:14.5px;font-weight:750;color:var(--xz-ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand .sub{margin:2px 0 0;font-size:var(--fs-xs);color:var(--xz-ink-4);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+.nav{flex:1;overflow-y:auto;padding:8px 8px 12px;overscroll-behavior:contain}
+.nav .group{
+  font-size:10.5px;letter-spacing:.12em;color:var(--xz-ink-4);font-weight:700;
+  margin:12px 8px 6px;text-transform:uppercase;
+}
+.nav-item{
+  display:flex;align-items:center;gap:9px;width:100%;text-align:left;
+  background:transparent;border:0;color:var(--xz-ink-2);position:relative;
+  border-radius:var(--r-sm);padding:9px 10px;margin-bottom:2px;cursor:pointer;
+  transition:background var(--dur) var(--ease),color var(--dur) var(--ease);
+}
+.nav-item:hover{background:var(--xz-surface-2);color:var(--xz-ink)}
+.nav-item.active{background:var(--xz-surface-2);color:var(--xz-ink);font-weight:700}
+.nav-item.active::before{
+  content:"";position:absolute;left:0;top:8px;bottom:8px;width:3px;border-radius:2px;
+  background:var(--c,var(--xz-brand));
+}
+/* 一级：图标 + 名称 + 计数 + 展开箭头 */
+.nav-parent{padding:10px;margin-bottom:4px}
+.nav-parent .ico,.nav-leaf .ico{
+  width:20px;height:20px;flex:none;display:flex;align-items:center;justify-content:center;
+  color:var(--c,var(--xz-brand));
+}
+.nav-parent .ico svg,.nav-leaf .ico svg{width:18px;height:18px;display:block}
+.nav-parent .txt,.nav-leaf .txt{min-width:0;flex:1;overflow:hidden}
+.nav-item .nm{font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
+.nav-parent.has-active .nm{font-weight:750}
+.nav-item .cnt{
+  flex:none;font-size:10.5px;font-weight:600;color:var(--xz-ink-4);
+  white-space:nowrap;
+}
+.nav-parent .chev{flex:none;width:16px;height:16px;display:flex;align-items:center;justify-content:center;color:var(--xz-ink-4);transition:transform var(--dur) var(--ease)}
+.nav-parent .chev svg{width:14px;height:14px;display:block}
+.nav-parent.open .chev{transform:rotate(180deg)}
+.nav-parent.open{background:var(--xz-surface-2)}
+
+/* 二级：缩进 + 圆点 */
+.nav-sub{display:none;margin:0 0 6px 14px;padding-left:10px;border-left:1px solid var(--xz-line)}
+.nav-sub.open{display:block}
+.nav-sub .nav-item{padding:9px 10px;border-radius:var(--r-sm)}
+.nav-sub .nav-item .dot{
+  width:6px;height:6px;flex:none;border-radius:50%;background:var(--c,var(--xz-brand));opacity:.55;
+  transition:opacity var(--dur) var(--ease),box-shadow var(--dur) var(--ease);
+}
+.nav-sub .nav-item.active .dot{opacity:1;box-shadow:0 0 0 3px color-mix(in srgb,var(--c,var(--xz-brand)) 20%,transparent)}
+.nav-sub .nav-item .nm{font-size:13.5px;font-weight:500}
+.nav-sub .nav-item.active .nm{font-weight:700}
+
+/* 侧栏底部：一行工具入口，不再堆说明文字（说明移到「关于」弹层） */
+.sidebar-foot{
+  border-top:1px solid var(--xz-line);padding:8px;
+  display:flex;gap:6px;align-items:center;flex-wrap:wrap;
+}
+.sidebar-foot .foot-btn{
+  flex:1 1 auto;display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  border:1px solid transparent;background:transparent;color:var(--xz-ink-3);
+  border-radius:var(--r-sm);padding:7px 8px;font-size:var(--fs-sm);font-weight:600;cursor:pointer;
+  white-space:nowrap;
+}
+.sidebar-foot .foot-btn:hover{background:var(--xz-surface-2);color:var(--xz-ink)}
+.sidebar-foot .foot-btn svg{width:15px;height:15px;flex:none}
+
+/* ================= 主区 ================= */
+.main{flex:1;min-width:0;display:flex;flex-direction:column;background:var(--xz-bg)}
+.topbar{
+  height:52px;flex:none;display:flex;align-items:center;gap:10px;padding:0 12px;
+  background:var(--xz-surface);border-bottom:1px solid var(--xz-line);position:relative;z-index:40;
+}
+.menu-btn{display:none}
+.crumb{display:flex;align-items:center;gap:8px;min-width:0;flex:0 1 auto}
+.crumb .bar{width:3px;height:18px;border-radius:2px;background:var(--c,var(--xz-brand));flex:none}
+.crumb .tt{font-size:14.5px;font-weight:700;color:var(--xz-ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.crumb .en{font-size:10.5px;color:var(--xz-ink-4);letter-spacing:.1em;white-space:nowrap}
+@media(max-width:1100px){.crumb .en{display:none}}
+
+/* 搜索触发条：长得像输入框，点开的是命令面板（不是下拉） */
+.search-trigger{
+  display:flex;align-items:center;gap:8px;flex:1 1 auto;max-width:420px;margin-left:auto;
+  border:1px solid var(--xz-line-2);background:var(--xz-surface-2);color:var(--xz-ink-3);
+  border-radius:var(--r-sm);padding:0 10px;height:34px;cursor:text;
+  transition:border-color var(--dur) var(--ease),background var(--dur) var(--ease);
+}
+.search-trigger:hover{border-color:var(--xz-brand);background:var(--xz-surface)}
+.search-trigger svg{width:15px;height:15px;flex:none;color:var(--xz-ink-4)}
+.search-trigger .ph{flex:1;text-align:left;font-size:var(--fs-base);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.search-trigger .kbd{
+  flex:none;font-size:10.5px;font-weight:600;color:var(--xz-ink-4);
+  border:1px solid var(--xz-line);background:var(--xz-surface);border-radius:5px;padding:1px 6px;
+}
+@media(max-width:720px){
+  .search-trigger{max-width:none;flex:0 0 auto;border-color:transparent;background:transparent;padding:0}
+  .search-trigger .ph,.search-trigger .kbd{display:none}
+}
+
+/* 显示模式：三个图标按钮的紧凑分段控件（原来带文字，窄屏要吃掉 195px） */
+.themeseg{
+  display:flex;align-items:center;gap:2px;padding:2px;flex:none;
+  border:1px solid var(--xz-line);background:var(--xz-surface-2);border-radius:var(--r-sm);
+}
+.themeseg button{
+  display:flex;align-items:center;justify-content:center;
+  width:28px;height:28px;padding:0;border:0;border-radius:6px;background:transparent;
+  color:var(--xz-ink-3);cursor:pointer;
+}
+.themeseg button:hover{color:var(--xz-ink)}
+.themeseg button.on{background:var(--xz-surface);color:var(--xz-brand-ink);box-shadow:var(--sh-1)}
+.themeseg svg{width:15px;height:15px;display:block}
+
+.content{flex:1;position:relative;min-height:0}
+.content iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:var(--xz-surface)}
+.empty{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:var(--xz-ink-3);text-align:center;padding:24px}
+.empty.show{display:flex}
+
+/* ================= 命令面板（⌘K / Ctrl+K） ================= */
+.palette{
+  position:fixed;inset:0;z-index:220;display:none;
+  align-items:flex-start;justify-content:center;padding:min(12vh,110px) 16px 16px;
+}
+.palette.show{display:flex}
+.palette .scrim{position:absolute;inset:0;background:rgba(12,18,26,.42)}
+html.xz-dark .palette .scrim{background:rgba(0,0,0,.6)}
+.palette .panel{
+  position:relative;width:min(640px,100%);max-height:min(72vh,680px);display:flex;flex-direction:column;
+  background:var(--xz-elev);border:1px solid var(--xz-line);border-radius:var(--r-md);
+  box-shadow:var(--sh-3);overflow:hidden;
+  animation:palIn .16s var(--ease) both;
+}
+@keyframes palIn{from{opacity:0;transform:translateY(-6px) scale(.99)}to{opacity:1;transform:none}}
+.palette .ph{
+  display:flex;align-items:center;gap:10px;flex:none;
+  padding:12px 14px;border-bottom:1px solid var(--xz-line);
+}
+.palette .ph svg{width:17px;height:17px;flex:none;color:var(--xz-ink-4)}
+.palette input{
+  flex:1;border:0;background:transparent;outline:none;color:var(--xz-ink);
+  font-size:15px;font-family:inherit;min-width:0;
+}
+.palette input::placeholder{color:var(--xz-ink-4)}
+.palette .esc{flex:none;font-size:10.5px;color:var(--xz-ink-4);border:1px solid var(--xz-line);border-radius:5px;padding:1px 6px}
+.palette .results{flex:1 1 auto;min-height:0;overflow:auto;overscroll-behavior:contain;padding:4px}
+.palette .ghead{
+  padding:8px 10px 6px;font-size:11px;font-weight:700;color:var(--xz-ink-4);
+  letter-spacing:.04em;
+}
+.palette .stat{display:flex;align-items:center;gap:8px;padding:6px 10px 10px;font-size:11.5px;color:var(--xz-ink-3)}
+.palette .stat .bar{flex:1;height:3px;border-radius:2px;background:var(--xz-surface-3);overflow:hidden}
+.palette .stat .bar i{display:block;height:100%;background:var(--xz-brand);transition:width .2s}
+.palette .row{
+  display:flex;align-items:flex-start;gap:10px;padding:9px 10px;border-radius:var(--r-sm);
+  cursor:pointer;
+}
+.palette .row:hover,.palette .row.sel{background:var(--xz-surface-2)}
+.palette .row .dot{width:7px;height:7px;flex:none;border-radius:50%;background:var(--c);margin-top:6px}
+.palette .row .t1{font-size:13.5px;font-weight:600;color:var(--xz-ink);line-height:1.5}
+.palette .row .t2{font-size:12px;color:var(--xz-ink-3);line-height:1.55;margin-top:2px}
+.palette .row .t2 b,.palette .row .t2 mark{background:var(--xz-mark-bg);color:var(--xz-mark-ink);font-weight:700;border-radius:2px;padding:0 1px}
+.palette .row .sc{
+  flex:none;font-size:10.5px;color:var(--xz-ink-3);background:var(--xz-surface-2);
+  border:1px solid var(--xz-line);border-radius:var(--r-pill);padding:1px 8px;margin-left:auto;white-space:nowrap;
+}
+.palette .empty{padding:26px 16px;text-align:center;color:var(--xz-ink-3);font-size:13px;position:static}
+.palette .foot{
+  flex:none;display:flex;gap:12px;align-items:center;flex-wrap:wrap;
+  padding:8px 12px;border-top:1px solid var(--xz-line);background:var(--xz-surface-2);
+  font-size:11px;color:var(--xz-ink-4);
+}
+.palette .foot kbd{
+  font-family:inherit;font-size:10.5px;font-weight:700;color:var(--xz-ink-3);
+  border:1px solid var(--xz-line);background:var(--xz-surface);border-radius:4px;padding:0 5px;margin-right:4px;
+}
+
+/* ================= 「关于 / 快捷键」弹层 ================= */
+.modal{position:fixed;inset:0;z-index:230;display:none;align-items:center;justify-content:center;padding:20px}
+.modal.show{display:flex}
+.modal .scrim{position:absolute;inset:0;background:rgba(12,18,26,.42)}
+html.xz-dark .modal .scrim{background:rgba(0,0,0,.6)}
+.modal .panel{
+  position:relative;width:min(560px,100%);max-height:82vh;overflow:auto;
+  background:var(--xz-elev);border:1px solid var(--xz-line);border-radius:var(--r-md);
+  box-shadow:var(--sh-3);padding:var(--sp-5);
+}
+.modal h2{margin:0 0 4px;font-size:var(--fs-lg);color:var(--xz-ink)}
+.modal .ver{font-size:var(--fs-xs);color:var(--xz-ink-4);margin-bottom:var(--sp-4)}
+.modal .kv{display:grid;grid-template-columns:150px 1fr;gap:6px 14px;font-size:var(--fs-base);color:var(--xz-ink-2)}
+.modal .kv dt{color:var(--xz-ink-3)}
+.modal .kv dd{margin:0}
+.modal kbd{
+  font-family:inherit;font-size:var(--fs-xs);font-weight:700;color:var(--xz-ink);
+  border:1px solid var(--xz-line);background:var(--xz-surface-2);border-radius:5px;padding:1px 6px;
+}
+.modal .close{margin-top:var(--sp-5)}
+
+/* ================= 计时器（iOS 秒表） ================= */
 .timerwrap{position:relative;flex:none;display:flex;align-items:center}
-
-/* 顶栏入口：与「显示模式」分段控件同一套浅底 + 细边 + 小圆角语言 */
-.timer-trigger{
-  display:flex;align-items:center;gap:7px;height:36px;padding:0 12px;
-  border:1px solid var(--rule);border-radius:11px;background:var(--bg);color:var(--muted);
-  font-size:12px;font-weight:600;line-height:1;-webkit-tap-highlight-color:transparent;
-  transition:background .18s ease,border-color .18s ease,color .18s ease;
-}
-.timer-trigger:hover{background:var(--panel);color:var(--ink)}
-.timer-trigger svg{width:16px;height:16px;flex:none;display:block}
-.timer-trigger .tx{font-variant-numeric:tabular-nums;font-feature-settings:"tnum" 1;letter-spacing:.01em}
-.timer-trigger.run{color:var(--tm-green);border-color:color-mix(in srgb,var(--tm-green) 45%,transparent);background:color-mix(in srgb,var(--tm-green) 12%,transparent)}
-.timer-trigger.paused{color:var(--ink)}
-
-/* 面板：iOS 弹层（毛玻璃 + 大圆角 + 顶部缩放弹入） */
-.timer-panel{
-  display:none;position:absolute;top:calc(100% + 10px);right:0;z-index:70;
-  width:352px;max-width:calc(100vw - 24px);padding:14px 16px 12px;border-radius:24px;
-  background:color-mix(in srgb,var(--panel) 90%,transparent);
-  -webkit-backdrop-filter:blur(30px) saturate(180%);backdrop-filter:blur(30px) saturate(180%);
-  border:.5px solid color-mix(in srgb,var(--rule) 85%,transparent);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.55),0 24px 60px -26px rgba(15,23,42,.5),0 2px 10px rgba(15,23,42,.06);
-  transform-origin:top right;
-}
-.timer-panel.show{display:block;animation:tmIn .24s cubic-bezier(.22,1,.36,1) both}
-@keyframes tmIn{from{opacity:0;transform:translateY(-8px) scale(.96)}to{opacity:1;transform:none}}
-
-/* 大号计时数字：SF Pro 细体 + 等宽数字（冒号不跳字） */
 .timer-display{
-  padding:10px 0 16px;text-align:center;white-space:nowrap;
-  font-family:-apple-system,"SF Pro Display","SF Pro Text","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
-  font-size:44px;font-weight:200;line-height:1.08;letter-spacing:.005em;color:var(--tm-label);
+  font-family:-apple-system,"SF Pro Display","PingFang SC",var(--font-sans);
   font-variant-numeric:tabular-nums;font-feature-settings:"tnum" 1;
 }
-
-/* 双圆钮：2px 圆环 + 半透明填充，文字与圆环同色 */
-.timer-actions{display:flex;justify-content:center;gap:60px;padding:2px 0 14px}
+.timer-panel{
+  display:none;position:absolute;top:calc(100% + 10px);right:0;z-index:210;
+  width:344px;max-width:calc(100vw - 24px);padding:12px 14px 10px;
+  border-radius:var(--r-lg);background:var(--xz-elev);
+  border:1px solid var(--xz-line);box-shadow:var(--sh-3);
+}
+.timer-panel.show{display:block;animation:tmIn .18s var(--ease) both}
+@keyframes tmIn{from{opacity:0;transform:translateY(-6px) scale(.98)}to{opacity:1;transform:none}}
+.timer-display{padding:8px 0 14px;text-align:center;white-space:nowrap;font-size:42px;font-weight:200;line-height:1.08;letter-spacing:.005em;color:var(--tm-label)}
+.timer-actions{display:flex;justify-content:center;gap:56px;padding:2px 0 12px}
 .timer-btn{
-  width:76px;height:76px;border-radius:50%;flex:none;
+  width:72px;height:72px;border-radius:50%;flex:none;
   border:2px solid var(--tm-ring);background:var(--tm-fill);color:var(--tm-label);
-  font-size:17px;font-weight:400;line-height:1;display:flex;align-items:center;justify-content:center;
-  -webkit-tap-highlight-color:transparent;
-  transition:background .18s ease,border-color .18s ease,color .18s ease,transform .12s ease,opacity .18s ease;
+  font-size:16px;font-weight:400;line-height:1;display:flex;align-items:center;justify-content:center;
+  transition:background var(--dur) var(--ease),border-color var(--dur) var(--ease),color var(--dur) var(--ease),transform .12s var(--ease);
 }
 .timer-btn:active{transform:scale(.96)}
 .timer-btn.go{border-color:var(--tm-green);background:color-mix(in srgb,var(--tm-green) 15%,transparent);color:var(--tm-green)}
 .timer-btn.go.stop{border-color:var(--tm-red);background:color-mix(in srgb,var(--tm-red) 15%,transparent);color:var(--tm-red)}
 .timer-btn:disabled{opacity:.42;cursor:default}
 .timer-btn:disabled:active{transform:none}
-
-/* 分段列表：最新一条在最上，三列（第 N 次 / 分段 / 总计） */
-.timer-laps{display:none;max-height:176px;overflow-y:auto;-webkit-overflow-scrolling:touch;border-top:.5px solid color-mix(in srgb,var(--rule) 75%,transparent)}
+.timer-laps{display:none;max-height:168px;overflow-y:auto;border-top:1px solid var(--xz-line)}
 .timer-laps.show{display:block}
-.timer-laps .row{display:flex;align-items:center;gap:10px;padding:9px 2px;border-bottom:.5px solid color-mix(in srgb,var(--rule) 55%,transparent);font-size:13px;color:var(--ink);font-variant-numeric:tabular-nums;font-feature-settings:"tnum" 1}
+.timer-laps .row{display:flex;align-items:center;gap:10px;padding:8px 2px;border-bottom:1px solid var(--xz-line);font-size:12.5px;color:var(--xz-ink);font-variant-numeric:tabular-nums}
 .timer-laps .row:last-child{border-bottom:0}
-.timer-laps .n{flex:none;width:58px;color:var(--muted)}
+.timer-laps .n{flex:none;width:56px;color:var(--xz-ink-3)}
 .timer-laps .seg{flex:1;text-align:right}
-.timer-laps .tot{flex:1;text-align:right;color:var(--muted)}
-.timer-note{padding:8px 2px 2px;text-align:center;font-size:11.5px;line-height:1.6;color:var(--muted)}
-
-/* 模式切换：iOS 胶囊分段控件（跟在面板顶部；全屏时留在同一位，作为“退回面板”的唯一出口，
-   所以它必须常驻、不能只在某一种模式里出现） */
-.timer-modebar{display:flex;justify-content:center;padding:0 0 10px}
+.timer-laps .tot{flex:1;text-align:right;color:var(--xz-ink-3)}
+.timer-note{padding:8px 2px 2px;text-align:center;font-size:11.5px;line-height:1.6;color:var(--xz-ink-3)}
+.timer-modebar{display:flex;justify-content:center;padding:0 0 8px}
 .timer-modeseg{display:flex;align-items:center;gap:2px;padding:2px;border-radius:9px;background:var(--tm-seg-track);flex:none}
 .timer-modeseg button{
-  border:0;background:transparent;color:var(--muted);font-family:inherit;font-size:12px;font-weight:600;line-height:1;
-  padding:6px 14px;border-radius:7px;cursor:pointer;white-space:nowrap;-webkit-tap-highlight-color:transparent;
-  transition:background .18s ease,color .18s ease,box-shadow .18s ease;
+  border:0;background:transparent;color:var(--xz-ink-3);font-family:inherit;font-size:12px;font-weight:600;
+  line-height:1;padding:6px 14px;border-radius:7px;cursor:pointer;white-space:nowrap;
+  transition:background var(--dur) var(--ease),color var(--dur) var(--ease);
 }
-.timer-modeseg button.on{background:var(--tm-seg-thumb);color:var(--tm-label);box-shadow:0 1px 3px rgba(15,23,42,.16)}
-
-/* ---------- 全屏模式：同一个面板铺满整屏，按 iOS「时钟 · 秒表」整屏排版 ---------- */
+.timer-modeseg button.on{background:var(--tm-seg-thumb);color:var(--tm-label);box-shadow:var(--sh-1)}
 .timer-panel.full.show{
-  display:flex;flex-direction:column;position:fixed;inset:0;top:0;right:0;bottom:0;left:0;
-  width:auto;max-width:none;height:100vh;height:100dvh;padding:0;border:0;border-radius:0;z-index:200;
-  background:#fff;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none;
-  --tm-label:#000;--muted:#8e8e93;--rule:#e5e5ea;
-  animation:tmFullIn .34s cubic-bezier(.22,1,.36,1) both;
+  display:flex;flex-direction:column;position:fixed;inset:0;width:auto;max-width:none;height:100vh;height:100dvh;
+  padding:0;border:0;border-radius:0;z-index:240;background:var(--xz-surface);box-shadow:none;
+  --tm-label:var(--xz-ink);
+  animation:tmFullIn .24s var(--ease) both;
 }
-html.xz-dark .timer-panel.full.show{background:#000;--tm-label:#fff;--muted:#98989f;--rule:#38383a}
-@keyframes tmFullIn{from{opacity:0;transform:translateY(10px) scale(.975)}to{opacity:1;transform:none}}
+@keyframes tmFullIn{from{opacity:0;transform:translateY(8px) scale(.985)}to{opacity:1;transform:none}}
 .timer-panel.full .timer-modebar{padding:calc(16px + env(safe-area-inset-top)) 20px 0}
-
-/* 【需求】全屏下「时间 + 双圆钮」整体落在整屏正中，并明显放大：
-   居中是靠 .timer-stage 的 margin:auto 0 吃满上下留白，不是 flex:1 撑开
-   （撑开会让它紧贴顶部的分段控件、落回页面上半部）。
-   分段列表与底部提示放进 .timer-bottom 贴底，两者互不干扰。
-   【坑】每个尺寸都用 min(宽 → 高) 双重约束：只看 vw 的话，矮屏（横屏 iPad、笔记本小窗）
-   会把大字和圆钮顶出屏幕；只用 vmin 又会在带鱼屏上不够大。 */
 .timer-panel.full .timer-stage{margin:auto 0;display:flex;flex-direction:column;align-items:center;padding:0 14px}
-.timer-panel.full .timer-display{padding:0;font-size:clamp(46px,min(14vw,17vh),160px)}
-.timer-panel.full .timer-actions{margin-top:clamp(28px,6vh,76px);padding:0;gap:clamp(48px,min(16vw,18vh),190px)}
-.timer-panel.full .timer-btn{
-  width:clamp(84px,min(13vmin,15vh),132px);height:clamp(84px,min(13vmin,15vh),132px);
-  font-size:clamp(19px,2.2vmin,24px);
-}
+.timer-panel.full .timer-display{padding:0;font-size:clamp(44px,min(14vw,17vh),154px)}
+.timer-panel.full .timer-actions{margin-top:clamp(26px,6vh,72px);padding:0;gap:clamp(46px,min(16vw,18vh),186px)}
+.timer-panel.full .timer-btn{width:clamp(82px,min(13vmin,15vh),128px);height:clamp(82px,min(13vmin,15vh),128px);font-size:clamp(18px,2.2vmin,23px)}
 .timer-panel.full .timer-bottom{flex:none;display:flex;flex-direction:column;padding:0 14px calc(14px + env(safe-area-inset-bottom))}
 .timer-panel.full .timer-laps{flex:0 1 auto;min-height:0;max-height:min(30vh,300px);width:min(620px,100%);margin:0 auto;border-top:0}
-.timer-panel.full .timer-laps .row{padding:15px 2px;font-size:16px}
+.timer-panel.full .timer-laps .row{padding:14px 2px;font-size:15.5px}
 .timer-panel.full .timer-note{padding:8px 0 0;font-size:12px}
 
-@media(max-width:1080px){
-  .timer-trigger{padding:0 10px}
-  .timer-trigger:not(.run):not(.paused) .tx{display:none}
-}
-@media(max-width:860px){
-  .timer-panel{width:min(340px,calc(100vw - 20px));right:-4px;padding:12px 14px 10px;border-radius:22px}
-  .timer-display{font-size:40px;padding:8px 0 14px}
-  .timer-actions{gap:44px}
-}
-
-/* ===== 移动端侧边栏遮罩 ===== */
-.backdrop{position:fixed;inset:0;z-index:85;background:rgba(15,23,42,.45);opacity:0;pointer-events:none;transition:opacity .2s}
+/* ================= 移动端 ================= */
+.backdrop{position:fixed;inset:0;z-index:190;background:rgba(12,18,26,.44);opacity:0;pointer-events:none;transition:opacity var(--dur) var(--ease)}
 .backdrop.show{opacity:1;pointer-events:auto}
-
-/* ===== 侧边栏二级导航（行测 / 申论 / 模考真题 可展开）=====
-    【需求】一级是四大专区（行测 · 申论 · 日常积累 · 模考真题），点一级展开二级，
-   二级才是真正的页面入口；「日常积累」是单页，直接点即打开，没有二级。 */
-.nav-parent .chev{
-  flex:none;width:18px;height:18px;display:flex;align-items:center;justify-content:center;
-  color:#9aa7ba;transition:transform .2s cubic-bezier(.3,.8,.4,1),color .18s ease;
-}
-.nav-parent .chev svg{width:14px;height:14px;display:block}
-.nav-parent.open .chev{transform:rotate(180deg);color:color-mix(in srgb,var(--c,var(--brand)) 70%,#64748b)}
-.nav-parent.has-active{
-  background:rgba(255,255,255,.72);
-  box-shadow:0 0 0 .5px rgba(15,23,42,.05),0 10px 22px -18px rgba(15,23,42,.4),inset 0 1px 0 rgba(255,255,255,.9);
-}
-.nav-sub{display:none;margin:0 0 10px 24px;padding-left:10px;border-left:1.5px solid rgba(15,23,42,.08)}
-.nav-sub.open{display:block;animation:subIn .2s cubic-bezier(.22,1,.36,1) both}
-@keyframes subIn{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:none}}
-.nav-sub .nav-item{padding:8px 10px;margin-bottom:4px;border-radius:13px;gap:9px}
-.nav-sub .nav-item .dot{width:7px;height:7px;flex:none;border-radius:50%;background:var(--c,var(--brand));opacity:.5;transition:opacity .18s ease,box-shadow .18s ease}
-.nav-sub .nav-item.active .dot{opacity:1;box-shadow:0 0 0 3px color-mix(in srgb,var(--c,var(--brand)) 18%,transparent)}
-.nav-sub .nav-item .nm{font-size:14px;font-weight:500}
-.nav-sub .nav-item.active .nm .cn{font-weight:700}
-.nav-sub .nav-item .cnt{font-size:10px;padding:1px 7px}
-.nav-sub .nav-item.active::before{top:8px;bottom:8px}
-
-/* ===== Main ===== */
-
-/* ===== 移动端外壳适配 ===== */
-@media(max-width:860px){
-  .topbar{height:auto;min-height:56px;flex-wrap:wrap;padding:8px 12px;gap:8px;row-gap:8px}
-  .crumb{flex:1 1 auto;min-width:0}
-  .crumb .tt{overflow:hidden;text-overflow:ellipsis}
-  .crumb .en,.crumb .vbadge{display:none}
-  .themeseg{margin-left:auto}
-  .searchbox{order:3;flex:1 0 100%;max-width:none;margin-left:0}
-  .search-drop{top:44px;max-height:56vh}
-  .nav-item{padding:12px}
-  .nav-sub .nav-item{padding:10px}
-  .empty{font-size:13.5px}
+@media(max-width:900px){
+  .sidebar{
+    position:fixed;left:0;top:0;bottom:0;width:min(280px,86vw);z-index:200;
+    transform:translateX(-100%);transition:transform var(--dur) var(--ease);
+    box-shadow:var(--sh-3);
+  }
+  .sidebar.open{transform:none}
+  .menu-btn{display:inline-flex}
+  .topbar{height:auto;min-height:52px;flex-wrap:wrap;padding:7px 10px;gap:8px}
+  .crumb{flex:1 1 auto}
+  .crumb .tt{font-size:14px}
+  .nav-item{padding:11px 10px}
+  .nav-sub .nav-item{padding:11px 10px}
 }
 @supports(padding:env(safe-area-inset-left)){
   .sidebar{padding-top:env(safe-area-inset-top);padding-left:env(safe-area-inset-left)}
-  .topbar{padding-left:calc(12px + env(safe-area-inset-left));padding-right:calc(12px + env(safe-area-inset-right))}
-  .sidebar-foot{padding-bottom:calc(14px + env(safe-area-inset-bottom))}
+  .sidebar-foot{padding-bottom:calc(8px + env(safe-area-inset-bottom))}
+  .topbar{padding-left:calc(10px + env(safe-area-inset-left));padding-right:calc(10px + env(safe-area-inset-right))}
+}
+
+/* ---------- 打印：只留正文 ----------
+   外壳的侧栏/顶栏/弹层都不该出现在纸上；正文在 iframe 里，
+   由各板块页自己的 print 规则负责排版。 */
+@media print{
+  body{overflow:visible;background:#fff}
+  .sidebar,.topbar,.backdrop,.palette,.modal{display:none!important}
+  .main{display:block}
+  .content{position:static;height:auto}
+  .content iframe{position:static;width:100%;height:auto;min-height:100vh;border:0}
 }
 </style>
 </head>
 <body>
 <div class="app">
-  <!-- 侧边栏 -->
+  <!-- 侧边栏：四大专区导航 -->
   <aside class="sidebar" id="sidebar">
     <div class="brand">
       <div class="logo">
         <div class="mark">测</div>
-        <div>
+        <div style="min-width:0">
           <h1>行测知识工作站</h1>
-          <div class="tag">ADMINISTRATIVE APTITUDE · HUB</div>
+          <div class="sub">行测 · 申论 · 积累 · 模考</div>
         </div>
       </div>
-      <div class="desc">行测 · 申论 · 日常积累 · 模考真题，四大专区一个入口。行测六大板块与申论五大题型分置呈现，支持全局检索与关键词定位。</div>
     </div>
     <div class="nav" id="nav"></div>
     <div class="sidebar-foot">
-      <b>快捷键</b><br>按 <b>/</b> 聚焦搜索 · 按 <b>Esc</b> 收起结果<br>
-      侧栏：点「行测 / 申论 / 模考真题」展开二级，再点具体板块进入<br>
-      计时器：顶栏时钟入口 · 启动 / 分段 / 停止 / 复位 · 面板与全屏两种模式<br>
-      演算画布：右手写字的「演算」按钮 · 支持 Apple Pencil 压感与粗细自选<br>
-      内容来源：个人备考整理
-      <div class="ver">界面版本 2026-09-19 · 全文检索覆盖全站正文与模考真题 · 顶栏搜索支持 ↑↓ 选择 / 回车直达</div>
+      <button class="foot-btn" id="footSearch" type="button" title="全站搜索（/ 或 Ctrl/⌘ + K）">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/></svg>
+        搜索
+        <span class="kbd" style="font-size:10px;color:var(--xz-ink-4);border:1px solid var(--xz-line);border-radius:4px;padding:0 4px">⌘K</span>
+      </button>
+      <button class="foot-btn" id="aboutBtn" type="button" title="关于与快捷键（?）">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M9.6 9.2a2.5 2.5 0 1 1 3.4 2.3c-.7.3-1 .9-1 1.6v.3"/><path d="M12 17.2h.01"/></svg>
+        关于
+      </button>
     </div>
   </aside>
   <div class="backdrop" id="backdrop"></div>
 
-  <!-- 主区域 -->
+  <!-- 主区域：顶栏 + 内容 iframe -->
   <div class="main">
     <header class="topbar">
-      <button class="menu-btn" id="menuBtn" title="菜单">☰</button>
+      <button class="menu-btn xz-ibtn" id="menuBtn" type="button" title="菜单" aria-label="打开菜单">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
       <div class="crumb">
         <span class="bar" id="crumbBar"></span>
         <span class="tt" id="crumbTitle">行测知识工作站</span>
         <span class="en" id="crumbEn"></span>
-        <span class="vbadge">版本 2026-09-19 · 全文检索覆盖全站</span>
       </div>
-      <!-- 【易错】搜索框的可访问性契约：role=combobox + aria-expanded 由 renderSearch 同步，
-           结果面板 role=listbox，每行 role=option（↑↓ 选中、Enter 进入）。
-           这几处属性是键盘与读屏可用的前提，改 DOM 结构时别丢。 -->
-      <div class="searchbox" role="search">
-        <span class="ic" aria-hidden="true">🔍</span>
-        <input id="globalQ" placeholder="搜索板块或知识点，例如：图形推理 / 剩余价值 / 比重差…" autocomplete="off"
-               role="combobox" aria-expanded="false" aria-controls="drop" aria-autocomplete="list" aria-label="全站搜索">
-        <span class="kbd" aria-hidden="true">/</span>
-        <div class="search-drop" id="drop" role="listbox" aria-label="搜索结果"></div>
-      </div>
-      <!-- 计时器（iOS 秒表）：入口常驻顶栏，运行中直接显示时:分:秒，面板不挡内容 -->
+
+      <!-- 搜索触发条：点它（或按 / ⌘K）打开命令面板 -->
+      <button class="search-trigger" id="searchTrigger" type="button" aria-label="全站搜索">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/></svg>
+        <span class="ph">搜索板块或知识点…</span>
+        <span class="kbd" id="searchKbd">⌘K</span>
+      </button>
+
+      <!-- 计时器（iOS 秒表）：入口常驻顶栏，面板/全屏两种模式共用一份 DOM -->
       <div class="timerwrap" id="timerWrap">
-        <button class="timer-trigger" id="timerBtn" type="button" aria-expanded="false" aria-label="计时器" title="计时器（iOS 秒表 · 时/分/秒 · 分段）">
+        <button class="timer-trigger xz-ibtn wide" id="timerBtn" type="button" aria-expanded="false" aria-label="计时器" title="计时器（iOS 秒表 · 时/分/秒 · 分段）">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13.6" r="7.4"/><path d="M12 10.4v3.4l2.3 1.7"/><path d="M9.3 2.9h5.4"/><path d="M12 2.9v2.6"/></svg>
-          <span class="tx" id="timerBtnTx">计时</span>
+          <span id="timerBtnTx" style="font-variant-numeric:tabular-nums">计时</span>
         </button>
         <div class="timer-panel" id="timerPanel" role="dialog" aria-label="计时器">
-          <!-- 模式切换（iOS 分段控件）：面板 = 现在这个样子；全屏 = 铺满整屏的秒表 -->
           <div class="timer-modebar">
             <div class="timer-modeseg" id="timerModeSeg" role="group" aria-label="计时器显示模式">
               <button type="button" data-tm-mode="panel" class="on">面板</button>
               <button type="button" data-tm-mode="full">全屏</button>
             </div>
           </div>
-          <!-- 【易错】stage / bottom 两层包裹是全屏居中的关键：
-               全屏下 .timer-stage 用 margin:auto 0 把「时间 + 双圆钮」顶到整屏正中，
-               .timer-bottom（分段列表 + 提示）贴底；面板模式下两者只是普通块级容器，
-               不产生任何样式影响。删掉任一层，全屏的居中与贴底就会失效。 -->
           <div class="timer-stage">
             <div class="timer-display" id="timerDisplay">00:00:00</div>
             <div class="timer-actions">
@@ -442,18 +422,17 @@ html.xz-dark .timer-panel.full.show{background:#000;--tm-label:#fff;--muted:#989
           </div>
         </div>
       </div>
+
+      <!-- 显示模式：三个图标按钮（原来带文字，占 195px；窄屏更挤） -->
       <div class="themeseg" id="themeSeg" role="group" aria-label="显示模式">
-        <button type="button" data-xz-theme-set="auto" class="on" title="跟随系统深色模式">
+        <button type="button" data-xz-theme-set="auto" class="on" title="跟随系统" aria-label="跟随系统深浅色">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="12" cy="12" r="8.2"/><path d="M12 3.8v16.4"/><path d="M12 6.4a5.6 5.6 0 0 1 0 11.2z" fill="currentColor" stroke="none"/></svg>
-          <span class="tx">自动</span>
         </button>
-        <button type="button" data-xz-theme-set="light" title="白天模式">
+        <button type="button" data-xz-theme-set="light" title="白天模式" aria-label="白天模式">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="12" cy="12" r="4.6"/><path d="M12 2.6v2.2M12 19.2v2.2M2.6 12h2.2M19.2 12h2.2M5.4 5.4l1.6 1.6M17 17l1.6 1.6M18.6 5.4L17 7M7 17l-1.6 1.6"/></svg>
-          <span class="tx">白天</span>
         </button>
-        <button type="button" data-xz-theme-set="dark" title="夜晚模式">
+        <button type="button" data-xz-theme-set="dark" title="夜晚模式" aria-label="夜晚模式">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 14.6A8.6 8.6 0 1 1 9.4 3.5a6.9 6.9 0 0 0 11.1 11.1z"/></svg>
-          <span class="tx">夜晚</span>
         </button>
       </div>
     </header>
@@ -461,6 +440,49 @@ html.xz-dark .timer-panel.full.show{background:#000;--tm-label:#fff;--muted:#989
       <iframe id="frame" title="板块内容"></iframe>
       <div class="empty" id="empty"></div>
     </div>
+  </div>
+</div>
+
+<!-- ================= 命令面板 =================
+     可访问性契约：input 是 role=combobox + aria-expanded（renderSearch 同步），
+     结果容器 role=listbox、每行 role=option。改 DOM 结构时这几处别丢。 -->
+<div class="palette" id="palette" role="dialog" aria-modal="true" aria-label="全站搜索">
+  <div class="scrim" data-palette-close></div>
+  <div class="panel">
+    <div class="ph">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/></svg>
+      <input id="globalQ" placeholder="搜索板块或知识点，例如：图形推理 / 剩余价值 / 比重差…" autocomplete="off"
+             role="combobox" aria-expanded="false" aria-controls="drop" aria-autocomplete="list" aria-label="全站搜索">
+      <span class="esc">Esc</span>
+    </div>
+    <div class="results search-drop" id="drop" role="listbox" aria-label="搜索结果"></div>
+    <div class="foot">
+      <span><kbd>↑</kbd><kbd>↓</kbd>选择</span>
+      <span><kbd>↵</kbd>打开</span>
+      <span><kbd>Esc</kbd>关闭</span>
+      <span style="margin-left:auto">覆盖板块标题与全站正文</span>
+    </div>
+  </div>
+</div>
+
+<!-- ================= 关于 / 快捷键 ================= -->
+<div class="modal" id="about" role="dialog" aria-modal="true" aria-label="关于与快捷键">
+  <div class="scrim" data-about-close></div>
+  <div class="panel">
+    <h2>行测知识工作站</h2>
+    <div class="ver">界面版本 2026-09-20 · 全文检索覆盖全站正文与模考真题</div>
+    <dl class="kv">
+      <dt><kbd>/</kbd> 或 <kbd>⌘K</kbd></dt><dd>打开全站搜索</dd>
+      <dt><kbd>↑</kbd> <kbd>↓</kbd></dt><dd>在搜索结果里切换</dd>
+      <dt><kbd>Enter</kbd></dt><dd>打开选中的结果</dd>
+      <dt><kbd>Esc</kbd></dt><dd>关闭搜索 / 弹层</dd>
+      <dt><kbd>?</kbd></dt><dd>打开这张说明</dd>
+      <dt>侧栏</dt><dd>点「行测 / 申论 / 模考真题」展开二级，再点具体板块进入</dd>
+      <dt>计时器</dt><dd>顶栏时钟入口 · 启动 / 分段 / 停止 / 复位 · 面板与全屏两种模式</dd>
+      <dt>演算画布</dt><dd>右下角「演算」按钮 · 支持 Apple Pencil 压感与粗细自选</dd>
+      <dt>内容来源</dt><dd>个人备考整理（讲义与真题资料）</dd>
+    </dl>
+    <button class="xz-btn close" data-about-close type="button">关闭</button>
   </div>
 </div>
 
@@ -634,28 +656,58 @@ function getSection(id){ for(var i=0;i<PAGES.length;i++){ if(PAGES[i].id===id) r
    叶子 = .nav-item[data-id]。展开状态只靠 .open 类，不要用内联 style 控制高度。
    改文案时注意：name/cnt 直接拼进 innerHTML，不要引入未转义的尖括号。 */
 var CHEV_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5l6 6 6-6"/></svg>';
+/* 【需求】侧栏图标：每个板块一个语义化线性图标（Lucide 风格）。
+   以前是「径向渐变遮罩出来的模糊色块」，除了颜色没有任何信息量；
+   现在颜色只在图标和左侧色条上出现，形状本身说明这是什么板块。
+   【易错】找不到 id 时用 ICON_MORE 兜底，别让 innerHTML 里出现 undefined。 */
+var ICON_MORE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"/><circle cx="12" cy="12" r="8.4" opacity=".38"/></svg>';
+var ICONS = {
+  /* 一级专区 */
+  xc:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H10v16H5.5A1.5 1.5 0 0 1 4 18.5z"/><path d="M10 4h8.5A1.5 1.5 0 0 1 20 5.5v13a1.5 1.5 0 0 1-1.5 1.5H10"/><path d="M13 8h4M13 12h4"/></svg>',
+  sn:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M15.5 3.5l5 5L9 20H4v-5z"/><path d="M13.5 5.5l5 5"/></svg>',
+  rj:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3M8 13.5h3M8 17h6"/></svg>',
+  mkx:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.4"/><path d="M12 7.4V12l3.2 2"/></svg>',
+  /* 行测六板块 */
+  cs:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.2l7 3.3v5c0 4.1-2.9 7.4-7 8.3-4.1-.9-7-4.2-7-8.3v-5z"/><path d="M9.3 11.8l1.9 1.9 3.5-3.6"/></svg>',
+  zz:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h16M6 20V9.6M10 20V9.6M14 20V9.6M18 20V9.6M3 9.6h18L12 3.5z"/></svg>',
+  yy:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6.6C10.6 5.2 8.7 4.5 6.2 4.5H4v13.2h2.4c2.4 0 4.3.7 5.6 2.1 1.3-1.4 3.2-2.1 5.6-2.1H20V4.5h-2.2c-2.5 0-4.4.7-5.8 2.1z"/><path d="M12 6.6v13.2"/></svg>',
+  sl:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3.5" width="16" height="17" rx="2.4"/><path d="M8 8h8M8 12h3M8 16h3M14.4 11.6l1.4 1.4 2.2-2.4" stroke-width="1.7"/></svg>',
+  pd:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M10.2 4.2a2 2 0 0 1 3.6 0l.6 1.3 1.4-.3a2 2 0 0 1 2.3 2.4l-.3 1.4 1.3.6a2 2 0 0 1 0 3.6l-1.3.6.3 1.4a2 2 0 0 1-2.4 2.3l-1.4-.3-.6 1.3a2 2 0 0 1-3.6 0l-.6-1.3-1.4.3a2 2 0 0 1-2.3-2.4l.3-1.4-1.3-.6a2 2 0 0 1 0-3.6l1.3-.6-.3-1.4A2 2 0 0 1 8.2 5.2l1.4.3z"/><circle cx="12" cy="12" r="2.6"/></svg>',
+  zl:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V4M4 20h16"/><rect x="7.5" y="12" width="3" height="5.5" rx="1"/><rect x="12.5" y="8.5" width="3" height="9" rx="1"/><rect x="17.5" y="14.5" width="3" height="3" rx="1"/></svg>',
+  /* 申论五题型 + 范文 */
+  sngk:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M7 6h13M7 12h13M7 18h8"/><path d="M3.6 6h.01M3.6 12h.01M3.6 18h.01"/></svg>',
+  snfx:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.6" cy="10.6" r="6.1"/><path d="M15.2 15.2L20 20"/></svg>',
+  sndc:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9.2 18h5.6M10 21h4"/><path d="M12 3.2a6 6 0 0 1 3.4 10.9c-.5.4-.8 1-.8 1.7H9.4c0-.7-.3-1.3-.8-1.7A6 6 0 0 1 12 3.2z"/></svg>',
+  sngw:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.5h8.5L19 8v12.5H6z"/><path d="M14 3.6V8h4.6M9 12.5h7M9 16h5"/></svg>',
+  sndz:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 19.5l3.6-1 10-10a1.6 1.6 0 0 0 0-2.3l-.3-.3a1.6 1.6 0 0 0-2.3 0l-10 10z"/><path d="M14.2 6.6l3.2 3.2"/></svg>',
+  snfw:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 3.5h11v17l-5.5-3.6-5.5 3.6z"/></svg>'
+};
+function iconFor(id){
+  var svg = ICONS[id] || ICON_MORE;
+  return svg.replace('<svg ', '<svg aria-hidden="true" ');
+}
 var nav = document.getElementById('nav');
 (function(){
   var html = '';
   NAV.forEach(function(n){
     if(n.children && n.children.length){
       html += '<button class="nav-item nav-parent" data-parent="'+n.id+'" style="--c:'+n.color+'" aria-expanded="false" title="'+n.name+'：'+(n.desc||'')+'">'+
-        '<span class="ico"></span>'+
-        '<span class="txt"><span class="nm"><span class="cn">'+n.name+'</span></span></span>'+
+        '<span class="ico">'+iconFor(n.id)+'</span>'+
+        '<span class="txt"><span class="nm">'+n.name+'</span></span>'+
         '<span class="cnt">'+n.cnt+'</span>'+
         '<span class="chev">'+CHEV_SVG+'</span></button>';
       html += '<div class="nav-sub" data-sub="'+n.id+'">';
       n.children.forEach(function(c){
         html += '<button class="nav-item nav-child" data-id="'+c.id+'" data-pid="'+n.id+'" style="--c:'+c.color+'" title="'+c.name+'：'+(c.desc||'')+'">'+
           '<span class="dot"></span>'+
-          '<span class="txt"><span class="nm"><span class="cn">'+c.name+'</span></span></span>'+
+          '<span class="txt"><span class="nm">'+c.name+'</span></span>'+
           '<span class="cnt">'+c.cnt+'</span></button>';
       });
       html += '</div>';
     } else {
       html += '<button class="nav-item nav-leaf" data-id="'+n.id+'" style="--c:'+n.color+'" title="'+n.name+'：'+(n.desc||'')+'">'+
-        '<span class="ico"></span>'+
-        '<span class="txt"><span class="nm"><span class="cn">'+n.name+'</span></span></span>'+
+        '<span class="ico">'+iconFor(n.id)+'</span>'+
+        '<span class="txt"><span class="nm">'+n.name+'</span></span>'+
         '<span class="cnt">'+n.cnt+'</span></button>';
     }
   });
@@ -709,7 +761,22 @@ var pendingQuery = null;
    （2026-09-20 每周模考新增第四入口「成绩分析」：各期次页面（行测 / 申论 / 错题集合）
      的 subnav 与 sections/每周模考.html 都改了 —— 升到 v20260920a，
      否则 iPad 上仍是旧 HTML，看不到「成绩分析」这个入口。） */
-var CACHE_V = 'v20260920a';
+var CACHE_V = 'v20260920f';
+/* ===================================================================
+   2026-09-20 界面重构：从「iOS 毛玻璃」转为「冷静的文档工作站」
+   ---------------------------------------------------------------
+   【配色】不再由主题层用 200 行 !important 逐选择器覆盖，改为两层：
+     · assets/design-tokens.css —— 亮/暗两套变量（--xz-* 中性色 + --accent-* 主色派生层）
+     · 各页面只声明 --primary / --primary2 / --accent
+   所以：组件样式里不要再写十六进制颜色，暗色模式自动生效。
+   【外壳】侧栏 272px 实色面板（原来 316px 毛玻璃 + 底部 249px 说明书），
+   说明与快捷键移进「关于」弹层；顶栏 52px，版本徽章下线，显示模式三按钮只留图标。
+   【搜索】顶栏内联下拉 → ⌘K / Ctrl+K 命令面板（空查询列快速跳转，不加载索引）。
+   【导航】侧栏图标改为语义化线性图标（原来是径向渐变遮罩出来的模糊色块）。
+   【性能】计时器只在运行时按整秒 setTimeout；去掉常驻毛玻璃与 body 渐变背景。
+   【易错】改 shell 样式时注意：.palette / .modal 的 DOM 在 .app 之外，
+   命令面板的 id 契约是 #palette / #globalQ / #drop（脚本与样式都依赖）。
+   =================================================================== */
 
 /* 【易错】切换板块后要把待发的搜索转发给新页面：必须等 iframe 的 load 事件再 postMessage，
    抢在前面发会被丢弃（目标页还没绑定监听）。pendingQuery 就是为这个“等一手”存在的，别删。 */
@@ -772,7 +839,7 @@ function openSection(id, query){
   crumbBar.style.background = s.color;
   crumbTitle.textContent = s.name;
   crumbEn.textContent = s.en;
-  if(window.innerWidth <= 860){ closeSidebar(); }
+  if(window.innerWidth <= 900){ closeSidebar(); }
 }
 
 /* 移动端侧边栏开关（带遮罩，点遮罩也能收起） */
@@ -784,6 +851,85 @@ function closeSidebar(){ sidebarEl.classList.remove('open'); backdropEl.classLis
 /* ================= 全局搜索 ================= */
 var globalQ = document.getElementById('globalQ');
 var drop = document.getElementById('drop');
+
+/* ================= 命令面板（⌘K / Ctrl+K） =================
+   【需求】搜索从「顶栏内联下拉」升级为居中命令面板：
+     · 触发方式三种：顶栏搜索条、侧栏「搜索」按钮、快捷键 / 与 Ctrl(⌘)+K；
+     · 空查询时列出四大专区的快速跳转（不发任何索引请求）；
+     · 有关键词才加载索引（wsInit/wsPlan/wsRank 原样复用），结果渲染进 #drop。
+   【易错】wsPump() 用 drop.classList.contains('show') 判断「面板是否展开」来决定要不要下全文索引，
+     所以：空查询的快速跳转列表绝不能给它加 .show，否则一打开面板就会把整站索引拖下来。
+   【易错】Esc 要分三级处理：全屏计时器 > 命令面板 > 其它弹层；顺序反了会「按一次关掉两层」。 */
+var paletteEl = document.getElementById('palette');
+var aboutEl = document.getElementById('about');
+var isPaletteOpen = function(){ return paletteEl.classList.contains('show'); };
+/* 【无障碍】两个弹层都要做「焦点陷阱」和「关闭后焦点归位」：
+   否则按 Tab 会跑到面板背后的侧栏/顶栏上，键盘用户会看不见自己在哪。 */
+var lastFocus = null;
+function trapFocus(box, e){
+  var items = box.querySelectorAll('a[href],button:not([disabled]),input:not([disabled]),select,textarea,[tabindex]:not([tabindex="-1"])');
+  if(!items.length){ return; }
+  var first = items[0], last = items[items.length - 1];
+  if(e.shiftKey && document.activeElement === first){ e.preventDefault(); last.focus(); }
+  else if(!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
+}
+document.addEventListener('keydown', function(e){
+  if(e.key !== 'Tab'){ return; }
+  if(isPaletteOpen()){ trapFocus(paletteEl, e); }
+  else if(aboutEl.classList.contains('show')){ trapFocus(aboutEl, e); }
+});
+function restoreFocus(){
+  if(!lastFocus || !lastFocus.focus){ return; }
+  try{ lastFocus.focus({ preventScroll:true }); }catch(e){ try{ lastFocus.focus(); }catch(e2){} }
+  lastFocus = null;
+}
+/* 【易错】用 file:// 直接打开 index.html 时，浏览器不允许页面 fetch 本地 JSON，
+   所以 assets/search-index.json 一定读不到、全文检索必然退化。
+   这不是坏了，但要在面板里说清楚，否则会被当成 bug —— 见下面两处提示。 */
+var IS_FILE_MODE = (location.protocol === 'file:');
+var FILE_HINT = '<div class="stat">本地文件模式（file://）：浏览器禁止网页读取本地检索索引，' +
+  '现在只能按板块关键词跳转。用 http:// 打开（或在线上地址打开）才有全文检索。</div>';
+
+/* 空查询时的「快速跳转」：直接用 NAV 数据，不碰索引 */
+function renderQuickList(){
+  var html = (IS_FILE_MODE ? FILE_HINT : '') + '<div class="ghead">快速跳转</div>';
+  NAV.forEach(function(n){
+    if(n.children && n.children.length){
+      n.children.forEach(function(c){
+        html += '<div class="row" data-id="'+c.id+'" style="--c:'+c.color+'">'+
+          '<span class="dot"></span><div style="min-width:0"><div class="t1">'+wsEsc(c.name)+'</div>'+
+          '<div class="t2">'+wsEsc(n.name)+' · '+wsEsc(c.cnt||'')+'</div></div></div>';
+      });
+    } else {
+      html += '<div class="row" data-id="'+n.id+'" style="--c:'+n.color+'">'+
+        '<span class="dot"></span><div style="min-width:0"><div class="t1">'+wsEsc(n.name)+'</div>'+
+        '<div class="t2">'+wsEsc(n.sub||n.cnt||'')+'</div></div></div>';
+    }
+  });
+  drop.innerHTML = html;
+  wsRows = [];
+  wsSel = -1;
+}
+function openPalette(){
+  if(isPaletteOpen()){ globalQ.focus(); globalQ.select(); return; }
+  lastFocus = document.activeElement;
+  paletteEl.classList.add('show');
+  document.documentElement.classList.add('xz-pal');
+  warmIndex();
+  if(globalQ.value.trim()){ renderSearch(globalQ.value); } else { renderQuickList(); }
+  setTimeout(function(){ try{ globalQ.focus(); }catch(e){} }, 0);
+}
+function closePalette(){
+  paletteEl.classList.remove('show');
+  document.documentElement.classList.remove('xz-pal');
+  drop.classList.remove('show');
+  globalQ.setAttribute('aria-expanded','false');
+  wsRows = []; wsSel = -1;
+  try{ globalQ.blur(); }catch(e){}
+  restoreFocus();
+}
+function openAbout(){ lastFocus = document.activeElement; aboutEl.classList.add('show'); }
+function closeAbout(){ aboutEl.classList.remove('show'); restoreFocus(); }
 
 function findMatches(q){
   var out = [];
@@ -1115,7 +1261,7 @@ function wsOpen(it, q){
   /* 模考子页的标题用索引里的显示名（如「模考 · 9月18日 · 行测」），否则读者分不清在看哪一页 */
   crumbTitle.textContent = it.n || (sec ? sec.name : '');
   crumbEn.textContent = sec ? sec.en : '';
-  if(window.innerWidth <= 860){ closeSidebar(); }
+  if(window.innerWidth <= 900){ closeSidebar(); }
 }
 
 /* 【易错】渲染完不要再逐行绑 click —— 面板上的点击统一交给下面的委托监听，
@@ -1126,6 +1272,8 @@ function renderSearch(q){
     drop.classList.remove('show');
     globalQ.setAttribute('aria-expanded','false');
     wsRows = []; wsSel = -1;
+    /* 空查询：退回「快速跳转」列表（不加载索引，不加 .show —— 见 openPalette 的注释） */
+    if(isPaletteOpen()){ renderQuickList(); }
     return;
   }
   wsInit();
@@ -1133,7 +1281,8 @@ function renderSearch(q){
     /* 加载失败与加载中要分开说：前者给可行动的提示（离线仍能用关键词与侧边栏），
        后者只是等一会儿，混在一起会让人以为卡死了。 */
     drop.innerHTML = wsCoreFailed
-      ? '<div class="stat">检索索引没加载成功（多半是离线或代理不通）· 现在按板块关键词匹配，回车仍可跳到对应板块</div>'
+      ? (IS_FILE_MODE ? FILE_HINT
+        : '<div class="stat">检索索引没加载成功（多半是离线或代理不通）· 现在按板块关键词匹配，回车仍可跳到对应板块</div>')
       : '<div class="stat">正在加载检索索引…</div>';
     drop.classList.add('show');
     globalQ.setAttribute('aria-expanded','true');
@@ -1200,9 +1349,7 @@ drop.addEventListener('click', function(e){
   var idx = row.getAttribute('data-idx');
   if(idx != null && wsRows[Number(idx)]){ wsOpen(wsRows[Number(idx)], globalQ.value.trim()); }
   else if(row.getAttribute('data-id')){ openSection(row.getAttribute('data-id'), {q: row.getAttribute('data-q'), id:null}); }
-  drop.classList.remove('show');
-  globalQ.setAttribute('aria-expanded','false');
-  globalQ.blur();
+  closePalette();
 });
 
 /* 【需求】搜索交互约定：输入即搜（不按回车也出结果）；↑↓ 选择、回车进入
@@ -1237,8 +1384,16 @@ globalQ.addEventListener('keydown', function(e){
     else { renderSearch(q); }
   }
 });
+/* 【易错】命令面板的「点到外面就关」不能把触发按钮也算作外面：
+   点 #searchTrigger 时它自己的 click 会先打开面板，紧接着这个冒泡监听又会把面板关掉
+   （实测表现为「点一下闪一下就没了」）。所以这里显式放过两个触发入口。 */
 document.addEventListener('click', function(e){
-  if(!e.target.closest('.searchbox')) drop.classList.remove('show');
+  if(!paletteEl.classList.contains('show')){ return; }
+  var t = e.target;
+  if(!t || !t.closest){ return; }
+  if(t.closest('.palette .panel')){ return; }
+  if(t.closest('#searchTrigger') || t.closest('#footSearch')){ return; }
+  closePalette();
 });
 
 /* ================= 助手已下线（2026-09 清理） ================= */
@@ -1265,20 +1420,51 @@ function routeBest(q){
 }
 
 /* ================= 快捷键 & 移动端 ================= */
-/* 【需求】快捷键与移动端：/ 聚焦搜索、Esc 收结果；菜单按钮切换侧栏，点遮罩也能收起，
-   窗口变宽（>860）时自动收起侧栏，避免“桌面端残留抽屉状态”。 */
+/* 【需求】快捷键：/ 或 Ctrl(⌘)+K 打开命令面板、? 打开说明、Esc 逐层关闭。
+   【易错】输入框里按 / 不应该触发（用户可能在正文搜索框里打斜杠），
+   所以统一用 isTyping() 判断焦点，而不是只看 document.activeElement.tagName。 */
+function isTyping(){
+  var el = document.activeElement;
+  if(!el){ return false; }
+  var tag = el.tagName;
+  return tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || el.isContentEditable;
+}
 document.addEventListener('keydown', function(e){
-  if(e.key==='/' && !['INPUT','TEXTAREA'].includes(document.activeElement.tagName)){
-    e.preventDefault(); globalQ.focus();
+  var k = e.key;
+  if((e.metaKey || e.ctrlKey) && (k === 'k' || k === 'K')){
+    e.preventDefault();
+    if(isPaletteOpen()){ closePalette(); } else { openPalette(); }
+    return;
   }
-  if(e.key==='Escape'){ drop.classList.remove('show'); }
+  if(k === '/' && !isTyping()){ e.preventDefault(); openPalette(); return; }
+  if(k === '?' && !isTyping()){ e.preventDefault(); aboutEl.classList.contains('show') ? closeAbout() : openAbout(); return; }
+  if(k === 'Escape'){
+    if(isPaletteOpen()){ closePalette(); return; }
+    if(aboutEl.classList.contains('show')){ closeAbout(); return; }
+    drop.classList.remove('show');
+  }
 });
+/* 命令面板与「关于」的打开入口 + 关闭入口（data-* 委托，避免逐个绑定） */
+document.getElementById('searchTrigger').addEventListener('click', openPalette);
+document.getElementById('footSearch').addEventListener('click', openPalette);
+document.getElementById('aboutBtn').addEventListener('click', openAbout);
+document.addEventListener('click', function(e){
+  if(!e.target.closest){ return; }
+  if(e.target.closest('[data-palette-close]')){ closePalette(); }
+  if(e.target.closest('[data-about-close]')){ closeAbout(); }
+});
+/* 快捷键提示：Mac 显示 ⌘K，其它平台显示 Ctrl K（只是文案，两个键都能用） */
+(function(){
+  var mac = /Mac|iPhone|iPad|iPod/.test(navigator.platform || navigator.userAgent || '');
+  var kbd = document.getElementById('searchKbd');
+  if(kbd){ kbd.textContent = mac ? '⌘K' : 'Ctrl K'; }
+})();
 document.getElementById('menuBtn').addEventListener('click', function(){
   if(sidebarEl.classList.contains('open')) closeSidebar(); else openSidebar();
 });
 backdropEl.addEventListener('click', closeSidebar);
 window.addEventListener('resize', function(){
-  if(window.innerWidth > 860) closeSidebar();
+  if(window.innerWidth > 900) closeSidebar();
 });
 
 /* ================= 显示模式（白天 / 夜晚 / 跟随系统） =================
@@ -1334,7 +1520,7 @@ window.addEventListener('message', function(e){
   var running = false;
   var mode = 'panel';   /* 显示模式：panel＝弹层（现在这个样子）· full＝铺满整屏 */
   var laps = [];
-  var rafId = 0, lastShownSec = -1;
+  var tickId = 0, lastShownSec = -1;
 
   function total(){ return elapsed + (running ? (Date.now() - startedAt) : 0); }
   function pad2(n){ return (n < 10 ? '0' : '') + n; }
@@ -1386,15 +1572,36 @@ window.addEventListener('message', function(e){
     }
   }
 
+  /* 【性能】计时显示只精确到秒，所以完全不需要每帧跑一次：
+     改成「对齐到下一个整秒」的单次 setTimeout —— 运行中每秒唤醒 1 次（原来是 60 次），
+     暂停时一次都不唤醒；页面被切到后台（document.hidden）时直接停摆，
+     回到前台再用 Date.now() 差值一次性对齐（total() 本来就是差值累计，不会丢时间）。 */
+  function scheduleTick(){
+    if(tickId || !running || document.hidden){ return; }
+    var wait = 1000 - (total() % 1000);
+    if(!(wait > 0) || wait > 1000){ wait = 1000; }
+    tickId = setTimeout(function(){ tickId = 0; tick(); }, Math.max(80, wait));
+  }
   function tick(){
-    rafId = 0;
+    if(!running){ return; }
     var sec = Math.floor(total() / 1000);
     if(sec !== lastShownSec){ lastShownSec = sec; render(); }
-    if(running){ rafId = requestAnimationFrame(tick); }
+    scheduleTick();
   }
   function kick(){
-    if(!rafId && running){ lastShownSec = -1; rafId = requestAnimationFrame(tick); }
+    if(!running){ return; }
+    lastShownSec = -1;
+    if(tickId){ clearTimeout(tickId); tickId = 0; }
+    tick();
   }
+  /* 切后台停摆、回前台立刻对齐（省电的关键一条：隐藏时不留任何定时器） */
+  document.addEventListener('visibilitychange', function(){
+    if(document.hidden){
+      if(tickId){ clearTimeout(tickId); tickId = 0; }
+    } else if(running){
+      kick();
+    }
+  });
 
   elGo.addEventListener('click', function(){
     if(running){                 /* 停止：暂停并保留数值，左键随 render() 变回「复位」 */

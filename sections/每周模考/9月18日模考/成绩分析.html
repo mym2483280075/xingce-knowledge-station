@@ -2,117 +2,79 @@
 <html lang="zh-CN" data-theme="mock">
 <head><style id="xz-perf">/* 长页面打开提速：屏幕外的知识点块不做排版与绘制 */section.scard{content-visibility:auto;contain-intrinsic-size:auto 500px}</style>
 <meta charset="UTF-8">
-<link rel="icon" href="data:,"><script src="../../../assets/%E4%B8%BB%E9%A2%98.js?v=20260913b"></script><script src="../../../assets/%E6%BC%94%E7%AE%97%E5%B1%82.js?v=20260913b"></script><script src="../../../assets/%E5%AE%9A%E4%BD%8D%E5%B1%82.js?v=20260914a"></script>
+<link rel="icon" href="data:,"><script src="../../../assets/%E4%B8%BB%E9%A2%98.js?v=20260920f"></script><script src="../../../assets/%E6%BC%94%E7%AE%97%E5%B1%82.js?v=20260920f"></script><script src="../../../assets/%E5%AE%9A%E4%BD%8D%E5%B1%82.js?v=20260914a"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>9月18日模考 · 成绩分析 · 行测知识工作站</title>
+<title>9月18日模考 · 成绩分析 · 行测知识工作站</title><link rel="stylesheet" href="../../../assets/design-tokens.css?v=20260920f"><link rel="stylesheet" href="../../../assets/%E6%9D%BF%E5%9D%97%E9%A1%B5%E6%A0%B7%E5%BC%8F.css?v=20260920f">
 <style>
-:root{
-  --primary:#b91c1c; --primary2:#dc2626; --accent:#f87171; --bg:#fbf3f3;
-  --ok:#15803d; --mid:#b45309; --bad:#b91c1c;
-}
+/* 本页专属样式（骨架与通用组件来自 assets/板块页样式.css，颜色一律走令牌） */
+:root{--primary:#b91c1c; --primary2:#dc2626; --accent:#f87171; --bg:#fbf3f3;
+  --ok:#15803d; --mid:#b45309; --bad:#b91c1c;}
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;font-family:"PingFang SC","Microsoft YaHei","Noto Sans CJK SC","Hiragino Sans GB",sans-serif;color:#1f2937;background:var(--bg);line-height:1.8;font-size:15px}
-header{background:linear-gradient(135deg,#7f1d1d 0%,var(--primary2) 62%,var(--accent) 135%);color:#fff;padding:30px 26px 24px;text-align:center}
-header h1{margin:0;font-size:27px;letter-spacing:1px}
-header .en{margin-top:3px;font-size:11.5px;letter-spacing:.22em;opacity:.82}
-header .intro{margin:12px auto 0;max-width:880px;font-size:13px;opacity:.94;line-height:1.75}
-header .meta{margin-top:12px;display:flex;gap:9px;justify-content:center;flex-wrap:wrap;font-size:12px}
-header .meta span{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:2px 13px}
-.subnav{position:sticky;top:0;z-index:60;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-bottom:1px solid #f5dcdc;padding:8px 16px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-.subnav a{text-decoration:none;font-size:12.5px;border:1px solid #f0cece;background:#fff;color:#a03030;border-radius:999px;padding:5px 14px;white-space:nowrap}
+.subnav{position:sticky;top:0;z-index:60;background:var(--xz-surface);backdrop-filter:blur(8px);border-bottom:1px solid var(--accent-line);padding:8px 16px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.subnav a{text-decoration:none;font-size:12.5px;border:1px solid var(--accent-line);background:var(--xz-surface);color:var(--accent-ink);border-radius:999px;padding:5px 14px;var(--xz-surface)-space:nowrap}
 .subnav a:hover{border-color:var(--primary2);color:var(--primary2)}
-.subnav a.on{background:linear-gradient(135deg,var(--primary),var(--primary2));border-color:transparent;color:#fff;font-weight:700}
-main{max-width:1000px;margin:0 auto;padding:18px 18px 80px}
-.scard{background:#fff;border:1px solid #f5dcdc;border-radius:14px;padding:16px 20px 18px;margin:0 0 16px;scroll-margin-top:64px}
+.subnav a.on{background:linear-gradient(135deg,var(--primary),var(--primary2));border-color:transparent;color:var(--xz-surface);font-weight:700}
+.scard{background:var(--xz-surface);border:1px solid var(--accent-line);border-radius:14px;padding:16px 20px 18px;margin:0 0 16px;scroll-margin-top:64px}
 .scard>h2{margin:0 0 12px;font-size:17px;color:var(--primary);display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
-.scard>h2 em{font-style:normal;font-size:11.5px;font-weight:600;color:#a16262;background:#fdf1f1;border-radius:999px;padding:1px 10px}
-.lead{font-size:13.5px;color:#4b5563;background:#fdf5f6;border-left:3px solid var(--accent);border-radius:0 8px 8px 0;padding:9px 14px;margin:0 0 14px;line-height:1.85}
-.lead b{color:#9f1239}
+.scard>h2 em{font-style:normal;font-size:11.5px;font-weight:600;color:var(--accent-ink);background:var(--xz-warn-bg);border-radius:999px;padding:1px 10px}
+.lead{font-size:13.5px;color:var(--xz-ink-2);background:var(--xz-warn-bg);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;padding:9px 14px;margin:0 0 14px;line-height:1.85}
+.lead b{color:var(--accent-ink-2)}
 .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
-.kpi{border:1px solid #f0dbe0;border-radius:13px;background:linear-gradient(180deg,#fff,#fdf5f6);padding:12px 15px}
-.kpi .k{font-size:11.5px;color:#a16262;letter-spacing:.03em}
+.kpi{border:1px solid var(--accent-line);border-radius:13px;background:linear-gradient(180deg,var(--xz-surface),var(--xz-warn-bg));padding:12px 15px}
+.kpi .k{font-size:11.5px;color:var(--accent-ink);letter-spacing:.03em}
 .kpi .v{font-size:25px;font-weight:800;color:var(--primary);line-height:1.35;margin-top:2px}
-.kpi .v small{font-size:12px;font-weight:600;color:#a16262;margin-left:4px}
-.kpi .n{font-size:11.5px;color:#7a6b73;margin-top:2px}
+.kpi .v small{font-size:12px;font-weight:600;color:var(--accent-ink);margin-left:4px}
+.kpi .n{font-size:11.5px;color:var(--xz-ink-3);margin-top:2px}
 table.mod{width:100%;border-collapse:collapse;font-size:13px}
-table.mod th{background:#fdf1f3;color:#9f1239;font-size:12px;font-weight:700;text-align:center;padding:7px 6px;border-bottom:1px solid #f3d7dd;white-space:nowrap}
-table.mod td{padding:7px 6px;border-bottom:1px solid #f7ecee;text-align:center;color:#374151}
-table.mod td.nm{text-align:left;font-weight:700;color:#1f2937}
+table.mod th{background:var(--xz-warn-bg);color:var(--accent-ink);font-size:12px;font-weight:700;text-align:center;padding:7px 6px;border-bottom:1px solid var(--accent-line);var(--xz-surface)-space:nowrap}
+table.mod td{padding:7px 6px;border-bottom:1px solid var(--xz-warn-bg);text-align:center;color:var(--xz-ink-2)}
+table.mod td.nm{text-align:left;font-weight:700;color:var(--xz-ink)}
 table.mod tr:last-child td{border-bottom:0}
-table.mod tr.hi td{background:#fef7f7}
-.bar{position:relative;height:8px;border-radius:999px;background:#f1e4e7;overflow:hidden;min-width:56px;margin-bottom:3px}
-.bar i{position:absolute;left:0;top:0;bottom:0;border-radius:999px;background:linear-gradient(90deg,#f87171,#b91c1c)}
-.bar.ok i{background:linear-gradient(90deg,#4ade80,#15803d)}
-.bar.mid i{background:linear-gradient(90deg,#fbbf24,#b45309)}
-.tag{display:inline-block;font-size:11px;border-radius:999px;padding:1px 9px;white-space:nowrap}
-.tag.ok{color:var(--ok);background:#f0fdf4;border:1px solid #bbf7d0}
-.tag.mid{color:var(--mid);background:#fffbeb;border:1px solid #fde68a}
-.tag.bad{color:var(--bad);background:#fef2f2;border:1px solid #fecaca}
+table.mod tr.hi td{background:var(--xz-warn-bg)}
+.bar{position:relative;height:8px;border-radius:999px;background:var(--accent-line);overflow:hidden;min-width:56px;margin-bottom:3px}
+.bar i{position:absolute;left:0;top:0;bottom:0;border-radius:999px;background:linear-gradient(90deg,var(--xz-danger-ink),var(--xz-danger-ink))}
+.bar.ok i{background:linear-gradient(90deg,var(--xz-good-ink),var(--xz-good-ink))}
+.bar.mid i{background:linear-gradient(90deg,var(--xz-warn-line),var(--xz-warn-ink))}
+.tag{display:inline-block;font-size:11px;border-radius:999px;padding:1px 9px;var(--xz-surface)-space:nowrap}
+.tag.ok{color:var(--ok);background:var(--xz-good-bg);border:1px solid var(--xz-good-line)}
+.tag.mid{color:var(--mid);background:var(--xz-warn-bg);border:1px solid var(--xz-warn-line)}
+.tag.bad{color:var(--bad);background:var(--xz-danger-bg);border:1px solid var(--xz-danger-line)}
 td.num{font-variant-numeric:tabular-nums}
 td.d{font-weight:700}
-td.d.ok{color:var(--ok)} td.d.bad{color:var(--bad)}
-.tnote{margin:10px 0 0;font-size:12px;color:#7a6b73;line-height:1.75}
-.pintro{margin:0 0 12px;font-size:12.5px;color:#7a6b73;line-height:1.75}
+td.d.ok{color:var(--ok)}
+td.d.bad{color:var(--bad)}
+.tnote{margin:10px 0 0;font-size:12px;color:var(--xz-ink-3);line-height:1.75}
+.pintro{margin:0 0 12px;font-size:12.5px;color:var(--xz-ink-3);line-height:1.75}
 .diag{display:grid;gap:10px}
-.ditem{border:1px solid #f0dbe0;border-radius:12px;padding:11px 14px;background:#fffafb}
-.ditem b{display:block;font-size:13.5px;color:#9f1239;margin-bottom:3px}
-.ditem p{margin:0;font-size:13px;color:#4b5563;line-height:1.8}
-.wrow{display:flex;gap:10px;align-items:flex-start;padding:9px 4px;border-bottom:1px dashed #f3dbe0;font-size:13px}
+.ditem{border:1px solid var(--accent-line);border-radius:12px;padding:11px 14px;background:var(--xz-surface-2)}
+.ditem b{display:block;font-size:13.5px;color:var(--accent-ink);margin-bottom:3px}
+.ditem p{margin:0;font-size:13px;color:var(--xz-ink-2);line-height:1.8}
+.wrow{display:flex;gap:10px;align-items:flex-start;padding:9px 4px;border-bottom:1px dashed var(--accent-line);font-size:13px}
 .wrow:last-child{border-bottom:0}
 .wrow .wn{flex:none;width:78px;font-weight:800;color:var(--primary)}
-.wrow .wn i{display:block;font-style:normal;font-size:11px;font-weight:600;color:#a16262}
-.wrow .wd{color:#4b5563;line-height:1.8}
-.wrow code{background:#fdf1f1;color:#9f1239;border-radius:5px;padding:0 5px;font-size:12px}
-.wrow.hi{background:#fef7f7;border-radius:10px}
-ol.plan{margin:0;padding-left:22px;font-size:13.5px;color:#3f4653}
+.wrow .wn i{display:block;font-style:normal;font-size:11px;font-weight:600;color:var(--accent-ink)}
+.wrow .wd{color:var(--xz-ink-2);line-height:1.8}
+.wrow code{background:var(--xz-warn-bg);color:var(--accent-ink);border-radius:5px;padding:0 5px;font-size:12px}
+.wrow.hi{background:var(--xz-warn-bg);border-radius:10px}
+ol.plan{margin:0;padding-left:22px;font-size:13.5px;color:var(--xz-ink-2)}
 ol.plan li{margin:8px 0;line-height:1.85}
-ol.plan li b{color:#9f1239}
-ol.plan code{background:#fdf1f1;color:#9f1239;border-radius:5px;padding:0 5px;font-size:12px}
-.goal{margin:14px 0 0;border:1px dashed var(--accent);border-radius:12px;background:#fffafa;padding:10px 14px;font-size:13px;color:#7f1d1d;line-height:1.85}
-.note{font-size:12.5px;color:#7a6b73;line-height:1.85;margin:0;padding-left:20px}
+ol.plan li b{color:var(--accent-ink-2)}
+ol.plan code{background:var(--xz-warn-bg);color:var(--accent-ink);border-radius:5px;padding:0 5px;font-size:12px}
+.goal{margin:14px 0 0;border:1px dashed var(--accent);border-radius:12px;background:var(--xz-warn-bg);padding:10px 14px;font-size:13px;color:var(--xz-danger-ink);line-height:1.85}
 .note li{margin:5px 0}
-.backtop{position:fixed;right:18px;bottom:18px;z-index:70;border:0;border-radius:50%;width:44px;height:44px;background:var(--primary2);color:#fff;font-size:18px;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.22);display:none}
-.backtop.show{display:block}
-@media(max-width:720px){ main{padding:14px 12px 72px} .scard{padding:14px 14px 16px} .kpi .v{font-size:22px} table.mod{font-size:12.5px} }
-@media print{ .subnav,.backtop{display:none} body{background:#fff} }
-/* ===== iOS 毛玻璃顶栏（统一设计） ===== */
-body{background:linear-gradient(180deg,color-mix(in srgb,var(--accent) 10%,#fff) 0%,var(--bg) 46%,var(--bg) 100%)}
-header{
-  display:grid;grid-template-columns:46px 1fr;column-gap:14px;align-items:center;
-  width:calc(100% - 36px);max-width:1204px;margin:16px auto 0;padding:20px 24px 18px;border-radius:24px;
-  text-align:left;color:#0f172a;
-  background:linear-gradient(180deg,rgba(255,255,255,.92),rgba(255,255,255,.68));
-  -webkit-backdrop-filter:blur(30px) saturate(180%);
-  backdrop-filter:blur(30px) saturate(180%);
-  border:1px solid rgba(255,255,255,.75);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 24px 50px -34px rgba(15,23,42,.45);
+@media(max-width:720px){
+.scard{padding:14px 14px 16px}
+.kpi .v{font-size:22px}
+table.mod{font-size:12.5px}
 }
-header::before{
-  content:"";grid-column:1;grid-row:1 / span 2;width:46px;height:46px;border-radius:50%;
-  background:var(--primary2);
-  -webkit-mask-image:radial-gradient(circle 18px at 50% 50%,#000 0%,rgba(0,0,0,.85) 30%,rgba(0,0,0,.40) 62%,rgba(0,0,0,.12) 86%,rgba(0,0,0,0) 100%);
-  mask-image:radial-gradient(circle 18px at 50% 50%,#000 0%,rgba(0,0,0,.85) 30%,rgba(0,0,0,.40) 62%,rgba(0,0,0,.12) 86%,rgba(0,0,0,0) 100%);
+@media print{
+.subnav,.backtop{display:none}
 }
-header h1{grid-column:2;grid-row:1;margin:0;font-size:25px;font-weight:800;letter-spacing:.01em;color:#0f172a}
-header .en{grid-column:2;grid-row:2;margin-top:3px;font-size:10.5px;font-weight:600;letter-spacing:.2em;opacity:1;color:color-mix(in srgb,var(--primary2) 55%,#7b8798)}
-header .intro{grid-column:1 / -1;margin:16px 0 0;max-width:none;font-size:13px;opacity:1;color:#5b6675;line-height:1.75;text-align:left}
-header .meta{grid-column:1 / -1;margin-top:13px;display:flex;gap:8px;justify-content:flex-start;flex-wrap:wrap;font-size:12px}
-header .meta span{background:color-mix(in srgb,var(--primary2) 10%,rgba(255,255,255,.8));border:1px solid color-mix(in srgb,var(--primary2) 16%,rgba(255,255,255,.7));border-radius:999px;padding:3px 12px;color:color-mix(in srgb,var(--primary) 55%,#3f4d63);font-weight:600}
-@media(max-width:900px){header{grid-template-columns:40px 1fr;column-gap:12px;width:calc(100% - 24px);margin:12px auto 0;padding:18px 18px 16px;border-radius:20px}header::before{width:40px;height:40px;border-radius:50%;-webkit-mask-image:radial-gradient(circle 15px at 50% 50%,#000 0%,rgba(0,0,0,.85) 30%,rgba(0,0,0,.40) 62%,rgba(0,0,0,.12) 86%,rgba(0,0,0,0) 100%);mask-image:radial-gradient(circle 15px at 50% 50%,#000 0%,rgba(0,0,0,.85) 30%,rgba(0,0,0,.40) 62%,rgba(0,0,0,.12) 86%,rgba(0,0,0,0) 100%)}header h1{font-size:21px}}
-@media print{body{background:#fff}}
-/* ===== 顶部卡片：图标与板块名称同一行 · 整行居中 ===== */
-header{--mc:#f43f5e;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;column-gap:12px;row-gap:4px;text-align:center;padding:22px 24px 20px}
-header::before{flex:none;margin:0}
-header h1{flex:none;margin:0;max-width:100%;font-size:28px;font-weight:800;letter-spacing:.01em;color:color-mix(in srgb,var(--mc) 42%,#1e293b)}
-header .en{flex:none;margin-top:0;max-width:100%}
-header .intro{flex:1 0 100%;margin:16px auto 0;max-width:min(820px,100%);text-align:center}
-header .meta{flex:1 0 100%;margin-top:14px;max-width:100%;justify-content:center}
-@media(max-width:900px){header{column-gap:10px;padding:20px 18px 18px}header h1{font-size:23px}}
 </style>
+
 </head>
 <body>
 <header>
@@ -167,15 +129,15 @@ header .meta{flex:1 0 100%;margin-top:14px;max-width:100%;justify-content:center
       <tr><th>模块</th><th>满分</th><th>我的</th><th>得分率</th><th>对比年级榜均</th><th>年级榜内名次</th><th>定位</th></tr>
     </thead>
     <tbody>
-      <tr><td class="nm">逻辑判断</td><td class="num">9</td><td class="num d ok">9</td><td><div class="bar ok"><i style="width:100%"></i></div><span style="font-size:11.5px;color:#7a6b73">100%</span></td><td class="num">+1.96</td><td class="num">1 / 185</td><td><span class="tag ok">强项</span></td></tr>
-      <tr><td class="nm">政治理论</td><td class="num">8</td><td class="num d ok">6.4</td><td><div class="bar ok"><i style="width:80%"></i></div><span style="font-size:11.5px;color:#7a6b73">80%</span></td><td class="num">+1.81</td><td class="num">6 / 185</td><td><span class="tag ok">强项</span></td></tr>
-      <tr><td class="nm">定义判断</td><td class="num">8</td><td class="num d ok">6.4</td><td><div class="bar ok"><i style="width:80%"></i></div><span style="font-size:11.5px;color:#7a6b73">80%</span></td><td class="num">+0.40</td><td class="num">31 / 185</td><td><span class="tag ok">强项</span></td></tr>
-      <tr><td class="nm">类比推理</td><td class="num">7</td><td class="num">4.9</td><td><div class="bar mid"><i style="width:70%"></i></div><span style="font-size:11.5px;color:#7a6b73">70%</span></td><td class="num">-0.28</td><td class="num">93 / 185</td><td><span class="tag mid">持平</span></td></tr>
-      <tr><td class="nm">常识判断</td><td class="num">8</td><td class="num">4</td><td><div class="bar mid"><i style="width:50%"></i></div><span style="font-size:11.5px;color:#7a6b73">50%</span></td><td class="num">-0.36</td><td class="num">92 / 185</td><td><span class="tag mid">持平</span></td></tr>
-      <tr><td class="nm">言语理解</td><td class="num">24</td><td class="num">16</td><td><div class="bar mid"><i style="width:67%"></i></div><span style="font-size:11.5px;color:#7a6b73">67%</span></td><td class="num">-0.49</td><td class="num">96 / 185</td><td><span class="tag mid">持平</span></td></tr>
-      <tr><td class="nm">数量关系</td><td class="num">9</td><td class="num">3.6</td><td><div class="bar mid"><i style="width:40%"></i></div><span style="font-size:11.5px;color:#7a6b73">40%</span></td><td class="num">-0.74</td><td class="num">96 / 185</td><td><span class="tag mid">持平</span></td></tr>
-      <tr class="hi"><td class="nm">图形推理</td><td class="num">9</td><td class="num d bad">5.4</td><td><div class="bar"><i style="width:60%"></i></div><span style="font-size:11.5px;color:#7a6b73">60%</span></td><td class="num">-1.06</td><td class="num">131 / 185</td><td><span class="tag bad">短板</span></td></tr>
-      <tr class="hi"><td class="nm">资料分析</td><td class="num">18</td><td class="num d bad">13.5</td><td><div class="bar"><i style="width:75%"></i></div><span style="font-size:11.5px;color:#7a6b73">75%</span></td><td class="num">-2.21</td><td class="num">165 / 185</td><td><span class="tag bad">短板</span></td></tr>
+      <tr><td class="nm">逻辑判断</td><td class="num">9</td><td class="num d ok">9</td><td><div class="bar ok"><i style="width:100%"></i></div><span class="t-note">100%</span></td><td class="num">+1.96</td><td class="num">1 / 185</td><td><span class="tag ok">强项</span></td></tr>
+      <tr><td class="nm">政治理论</td><td class="num">8</td><td class="num d ok">6.4</td><td><div class="bar ok"><i style="width:80%"></i></div><span class="t-note">80%</span></td><td class="num">+1.81</td><td class="num">6 / 185</td><td><span class="tag ok">强项</span></td></tr>
+      <tr><td class="nm">定义判断</td><td class="num">8</td><td class="num d ok">6.4</td><td><div class="bar ok"><i style="width:80%"></i></div><span class="t-note">80%</span></td><td class="num">+0.40</td><td class="num">31 / 185</td><td><span class="tag ok">强项</span></td></tr>
+      <tr><td class="nm">类比推理</td><td class="num">7</td><td class="num">4.9</td><td><div class="bar mid"><i style="width:70%"></i></div><span class="t-note">70%</span></td><td class="num">-0.28</td><td class="num">93 / 185</td><td><span class="tag mid">持平</span></td></tr>
+      <tr><td class="nm">常识判断</td><td class="num">8</td><td class="num">4</td><td><div class="bar mid"><i style="width:50%"></i></div><span class="t-note">50%</span></td><td class="num">-0.36</td><td class="num">92 / 185</td><td><span class="tag mid">持平</span></td></tr>
+      <tr><td class="nm">言语理解</td><td class="num">24</td><td class="num">16</td><td><div class="bar mid"><i style="width:67%"></i></div><span class="t-note">67%</span></td><td class="num">-0.49</td><td class="num">96 / 185</td><td><span class="tag mid">持平</span></td></tr>
+      <tr><td class="nm">数量关系</td><td class="num">9</td><td class="num">3.6</td><td><div class="bar mid"><i style="width:40%"></i></div><span class="t-note">40%</span></td><td class="num">-0.74</td><td class="num">96 / 185</td><td><span class="tag mid">持平</span></td></tr>
+      <tr class="hi"><td class="nm">图形推理</td><td class="num">9</td><td class="num d bad">5.4</td><td><div class="bar"><i style="width:60%"></i></div><span class="t-note">60%</span></td><td class="num">-1.06</td><td class="num">131 / 185</td><td><span class="tag bad">短板</span></td></tr>
+      <tr class="hi"><td class="nm">资料分析</td><td class="num">18</td><td class="num d bad">13.5</td><td><div class="bar"><i style="width:75%"></i></div><span class="t-note">75%</span></td><td class="num">-2.21</td><td class="num">165 / 185</td><td><span class="tag bad">短板</span></td></tr>
     </tbody>
   </table>
   <p class="tnote">「年级榜内名次」= 在可见的年级榜 185 行里，该模块分数比我高的人数 +1。「定位」不看绝对分数，只看与年级榜平均的差距：领先为强项，落后且名次靠后为短板。资料分析是本卷单模块分值最高的一块（20 题 18 分），恰好也是最靠后的一块。</p>
