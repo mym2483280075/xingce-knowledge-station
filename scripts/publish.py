@@ -23,8 +23,15 @@ import sys, io, os, re, json, time, base64, hashlib, argparse, urllib.parse
 import urllib.request, urllib.error
 
 # ---------- 输出与配置 ----------
+# 【易错 · 2026-09-20 排查结论】必须带 line_buffering=True。
+# 这里把 sys.stdout 换成新的 TextIOWrapper，是为了在 Windows 上强制 UTF-8 输出；
+# 但新建的 TextIOWrapper 默认是 8KB 块缓冲，而且**不受 -u / PYTHONUNBUFFERED 影响**
+# ——那个开关只作用于解释器启动时的原始 stdout。结果：整个发布过程一句都不打印，
+# 一直到进程退出才一次性倒出来，看起来就像卡死（实测：全部输出集中在退出的那一刻，
+# 61.62s / 61.67s）。改成逐行刷新后，进度就是实时的。
 try:
-    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace",
+                                  line_buffering=True, write_through=True)
 except Exception:
     pass
 
