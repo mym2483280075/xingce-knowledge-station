@@ -45,7 +45,15 @@ API = "https://api.github.com"
 
 
 # ---------- HTTP ----------
-def api(method, path, body=None, retries=4, timeout=180):
+def api(method, path, body=None, retries=3, timeout=30):
+    """GitHub REST 调用。
+
+    【为什么默认超时只有 30s】实测本机到 GitHub 各域名只有 20~35 KB/s
+    （api.github.com / raw.githubusercontent.com / *.github.io 都一样，
+    同时刻 speed.cloudflare.com 有 200 KB/s），连接还偶尔半开卡住。
+    原来默认 timeout=180，一次卡死就要等 3 分钟才发现，还会连带 4 次重试。
+    现在小请求 30s 就判失败重来；只有要传大 body 的调用才单独放宽（见 blob 上传）。
+    """
     data = json.dumps(body).encode("utf-8") if body is not None else None
     req = urllib.request.Request(
         API + path, data=data, method=method,
@@ -64,7 +72,7 @@ def api(method, path, body=None, retries=4, timeout=180):
                 break
         except Exception as e:
             last = f"{type(e).__name__}: {e}"
-        time.sleep(3 * (i + 1))
+        time.sleep(2 * (i + 1))
     raise RuntimeError(f"{method} {path} 失败 → {last}")
 
 
@@ -79,6 +87,22 @@ def fetch(url, timeout=60, tries=1):
             last = e
             time.sleep(5)
     raise RuntimeError(f"抓取失败 {url} → {type(last).__name__}: {last}")
+
+
+def head_len(url, timeout=45, tries=3):
+    """只取 Content-Length，不下载正文。用于大文件的廉价校验：GitHub Pages 的 HEAD 会带精确字节数。"""
+    last = None
+    for _ in range(tries):
+        try:
+            req = urllib.request.Request(
+                url + "?__cb=" + str(int(time.time() * 1000)),
+                headers={"User-Agent": "xs-publish", "Cache-Control": "no-cache"}, method="HEAD")
+            with urllib.request.urlopen(req, timeout=timeout) as r:
+                return r.headers.get("Content-Length")
+        except Exception as e:
+            last = e
+            time.sleep(3)
+    raise RuntimeError(f"HEAD 失败 {url} → {type(last).__name__}: {last}")
 
 
 # ---------- 哈希 ----------
@@ -153,6 +177,8 @@ def main():
     ap.add_argument("-m", "--message", default="", help="自定义提交信息")
     ap.add_argument("--allow-delete", action="store_true", help="允许删除线上多出来的文件")
     ap.add_argument("--timeout", type=int, default=300, help="等构建/验证的超时秒数")
+    ap.add_argument("--verify-full", action="store_true",
+                    help="所有文件都逐字节校验（默认大索引只比 Content-Length）")
     args = ap.parse_args()
 
     if not TOKEN:
@@ -186,6 +212,10 @@ def main():
         print("    如确属误建，请先删除再发布，或用 --check 复核。")
     if crlf_only:
         print(f"  仅换行符差异（忽略）: {len(crlf_only)} 个")
+    up = sum(s for _, s in changed + added)
+    if up:
+        print(f"  需上传   : {up / 1048576:.2f} MB"
+              f"（本机到 GitHub 实测 20~35 KB/s，约 {up / 1024 / 28 / 60:.1f} 分钟）")
     if deleted:
         tag = "将删除" if args.allow_delete else "线上多出（默认保留）"
         print(f"  {tag}: {len(deleted)} 个")
@@ -206,7 +236,8 @@ def main():
     for rel, _ in changed + added:
         data = payload_bytes(os.path.join(LOCAL, rel.replace("/", os.sep)), rel, rel in remote)
         blob = api("POST", f"/repos/{REPO}/git/blobs",
-                   {"content": base64.b64encode(data).decode("ascii"), "encoding": "base64"})
+                   {"content": base64.b64encode(data).decode("ascii"), "encoding": "base64"},
+                   timeout=300)   # 单个 blob 最大约 1MB，base64 后 1.33MB，实测 25KB/s 要 50s+
         entries.append({"path": rel, "mode": "100644", "type": "blob", "sha": blob["sha"]})
         print(f"    blob {rel}  {blob['sha'][:10]}")
     if args.allow_delete:
@@ -256,26 +287,57 @@ def main():
         print("    ! 超时未确认构建完成，仍尝试验证线上。")
 
     print("\n[4/4] 验证线上 …")
-    verify([r for r, _ in changed + added])
+    verify([r for r, _ in changed + added], full=args.verify_full)
 
 
 def live_url(rel):
     return SITE + "/".join(urllib.parse.quote(seg) for seg in rel.split("/"))
 
 
-def verify(rels, published=True):
+HEAD_ONLY = 256 * 1024      # 超过这个尺寸的索引文件默认不做整份下载校验
+
+
+def verify(rels, published=True, full=False):
+    """校验线上文件。
+
+    【为什么大文件改成只比大小】实测本机到 *.github.io 只有 20~35 KB/s，
+    21 个全文索引合计 3.9MB，整份下载再算 sha256 光传输就要 2~3 分钟，
+    而这批文件每次重建都会整体重写（见 build-index.js），等于每次发布都白等。
+    现在：页面等小文件仍然逐字节 sha256 比对；超过 HEAD_ONLY 的索引文件只比对
+    Content-Length（GitHub Pages 的 HEAD 带精确字节数，实测与本地一致）。
+    要恢复逐字节校验就加 --verify-full。
+    """
     targets = [r for r in rels if os.path.splitext(r)[1].lower() in VERIFY_EXT]
     if not targets:
         targets = ["index.html"]
-    ok, fail = [], []
+    ok, fail, headok = [], [], []
     for rel in targets:
         path = os.path.join(LOCAL, rel.replace("/", os.sep))
         if not os.path.exists(path):
             continue
-        want = hashlib.sha256(payload_bytes(path, rel, True)).hexdigest()
+        raw = payload_bytes(path, rel, True)
         url = live_url(rel)
+        if not full and len(raw) > HEAD_ONLY:
+            want_len = str(len(raw))
+            got_len = None
+            for _ in range(3):
+                try:
+                    got_len = head_len(url)
+                    if got_len == want_len:
+                        break
+                except Exception as e:
+                    got_len = f"ERR {e}"
+                time.sleep(5)
+            if got_len == want_len:
+                headok.append(rel)
+                print(f"    ✓ {rel}  (HEAD 大小一致 {want_len} B，跳过整份下载)")
+            else:
+                fail.append(rel)
+                print(f"    ✗ {rel}  期望 {want_len} B 实际 {got_len}")
+            continue
+        want = hashlib.sha256(raw).hexdigest()
         got = None
-        for _ in range(8):
+        for _ in range(5):
             try:
                 body = fetch(url + "?__cb=" + str(int(time.time() * 1000)))
                 got = hashlib.sha256(body).hexdigest()
@@ -283,7 +345,7 @@ def verify(rels, published=True):
                     break
             except Exception as e:
                 got = f"ERR {e}"
-            time.sleep(10)
+            time.sleep(5)
         if got == want:
             ok.append(rel)
             print(f"    ✓ {rel}")
@@ -297,7 +359,7 @@ def verify(rels, published=True):
             print("   ", live_url(r))
     elif published:
         print(f"✓ 发布完成并验证通过：{SITE}")
-        print(f"  本次校验 {len(ok)} 个文件，字节级一致。")
+        print(f"  逐字节校验 {len(ok)} 个，HEAD 大小校验 {len(headok)} 个。")
     else:
         print(f"✓ 线上内容与本地一致：{SITE}")
 

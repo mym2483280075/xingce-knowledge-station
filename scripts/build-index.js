@@ -29,6 +29,7 @@
 // index.html 的 wsSearch / wsSnippet / openTarget 直接吃这些字段，改名要同时改前端。
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
 
 const ROOT = path.join(__dirname, '..');
 const CHUNK = 900;          // 每片正文的目标长度（字符）
@@ -250,25 +251,65 @@ if (fs.existsSync(MK_ROOT)) {
 
 const outDir = path.join(ROOT, 'assets');
 fs.mkdirSync(outDir, { recursive: true });
-const rev = new Date().toISOString().replace(/[-:T]/g, '').slice(0, 12);   // yyyyMMddHHmm，作为缓存版本
+const today = new Date().toISOString().slice(0, 10);
+const sha12 = (s) => crypto.createHash('sha1').update(s).digest('hex').slice(0, 12);
+const sameJSON = (a, b) => JSON.stringify(a) === JSON.stringify(b);
 
-/* 【易错】每次重建都会整目录重写 search-full：老文件留着会让前端加载到过期切片
-   （症状是“刚补的内容搜不到，重新输入又有了”）。 */
+/* 【为什么 rev 不再是时间戳】原来 rev = new Date() 派生的 yyyyMMddHHmm，全库共用一个值：
+   只要重跑一次构建，21 个全文索引 + 核心索引的字节全变，发布时 4.5MB 全部重传。
+   而本机到 GitHub 各域名实测只有 20~35 KB/s（同时刻 speed.cloudflare.com 有 200 KB/s），
+   一次发布光传输就要 7~8 分钟。
+   现在改成内容哈希：每个板块的 rev = 自己 items 的 sha1 前 12 位；
+   核心索引的 rev = 全部板块哈希再哈希一次，所以任何板块的正文改动都会换掉它，
+   前端 fetch('assets/search-full/<k>.json?v=' + wsCore.rev) 的破缓存语义不变。
+   配合下面的「内容没变就不重写」，只改一个板块时发布只传 1 个板块 + 核心索引。 */
+const boardRev = {};
+for (const f of fullFiles) {
+  boardRev[f.k] = sha12(JSON.stringify(f.items));
+}
+const rev = sha12(fullFiles.map((f) => f.k + ':' + boardRev[f.k]).sort().join('|'));
+
 const fullDir = path.join(outDir, FULL_DIR);
-fs.rmSync(fullDir, { recursive: true, force: true });
 fs.mkdirSync(fullDir, { recursive: true });
 let fullBytes = 0;
+let fullChanged = 0;
+const keep = new Set();
 for (const f of fullFiles) {
   const p = path.join(fullDir, f.k + '.json');
-  fs.writeFileSync(p, JSON.stringify({ v: 3, at: new Date().toISOString().slice(0, 10), rev, k: f.k, items: f.items }));
+  keep.add(f.k + '.json');
+  let old = null;
+  try { old = JSON.parse(fs.readFileSync(p, 'utf8')); } catch (e) { old = null; }
+  if (old && old.v === 3 && old.k === f.k && sameJSON(old.items, f.items)) {
+    // 内容与线上那份完全一致：保持原文件字节不动，发布时才不会被当成改动重传
+  } else {
+    fs.writeFileSync(p, JSON.stringify({ v: 3, at: today, rev: boardRev[f.k], k: f.k, items: f.items }));
+    fullChanged++;
+  }
   fullBytes += fs.statSync(p).size;
 }
+
+/* 【易错】板块改名或下线时，旧的 <key>.json 必须清掉，
+   否则前端按核心索引 files[] 加载时还会读到过期切片
+   （症状是“刚补的内容搜不到，重新输入又有了”）。
+   原来靠整目录 rmSync 兜住，现在改成按当前板块表做差集删除。 */
+const stale = fs.readdirSync(fullDir)
+  .filter((name) => name.endsWith('.json') && !keep.has(name));
+for (const name of stale) { fs.rmSync(path.join(fullDir, name)); }
+if (stale.length) { console.log('  清理过期切片:', stale.join(', ')); }
 
 // 【数据】核心索引由 index.html fetch('assets/search-index.json?v=rev') 消费；
 // 即使手工改这个 JSON，也要保持 { v, at, rev, files, items } 结构与 s/n/f/i/t 字段名不变。
 const outPath = path.join(outDir, 'search-index.json');
 const files = fullFiles.map((f) => ({ k: f.k, s: f.s, n: f.n, f: f.f, c: f.items.length }));
-fs.writeFileSync(outPath, JSON.stringify({ v: 3, at: new Date().toISOString().slice(0, 10), rev, files, items: coreItems }));
+let oldCore = null;
+try { oldCore = JSON.parse(fs.readFileSync(outPath, 'utf8')); } catch (e) { oldCore = null; }
+const coreSame = !!oldCore && oldCore.v === 3 && oldCore.rev === rev
+  && sameJSON(oldCore.files, files) && sameJSON(oldCore.items, coreItems);
+if (!coreSame) {
+  fs.writeFileSync(outPath, JSON.stringify({ v: 3, at: today, rev, files, items: coreItems }));
+}
 const kb = (n) => (n / 1024).toFixed(0) + ' KB';
-console.log('CORE:', coreItems.length, '张卡片 |', kb(fs.statSync(outPath).size), '->', path.relative(ROOT, outPath));
-console.log('FULL:', files.length, '个板块 |', kb(fullBytes), '->', path.relative(ROOT, fullDir) + '/');
+console.log('CORE:', coreItems.length, '张卡片 |', kb(fs.statSync(outPath).size),
+            coreSame ? '| 未变化，未重写' : '| 已更新', '->', path.relative(ROOT, outPath));
+console.log('FULL:', files.length, '个板块 |', kb(fullBytes),
+            '| 本次重写', fullChanged, '个 ->', path.relative(ROOT, fullDir) + '/');

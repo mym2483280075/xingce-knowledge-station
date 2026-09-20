@@ -50,17 +50,24 @@
 ## 日常维护三件事
 
 1. **加了内容 → 重建索引**：`node scripts/build-index.js`
-   （重写 `assets/search-index.json` 与 `assets/search-full/*.json`）
-2. **改了板块页 HTML → 升缓存版本号**：`index.html` 里的 `CACHE_V`（当前 `v20260920b`）
+   （写 `assets/search-index.json` 与 `assets/search-full/*.json`）。
+   索引现在是**内容哈希 + 无变化不重写**：只有真的改过的板块才会重新落盘，
+   发布时也只传那几个文件，不再是「重跑一次就全量重传 4.5MB」。
+2. **改了板块页 HTML → 升缓存版本号**：`index.html` 里的 `CACHE_V`（当前 `v20260920g`）
    否则 iPad 会继续用缓存里的旧页面。
-3. **发布**：`publish.cmd`（Codex 工作区里是 `deploy.ps1`）
-   流程是「比对差异 → 只提交变化的文件 → 等 GitHub Pages 构建 → 把改动的文件回抓做字节级校验」。
+3. **发布**：`publish.cmd`（Codex 工作区里是 `pwsh -NoProfile -File ..\deploy.ps1`）
+   流程是「比对差异 → 只提交变化的文件 → 等 GitHub Pages 构建 → 校验线上」；
+   页面等小文件逐字节 sha256 比对，超过 256KB 的索引文件只比对 Content-Length
+   ——本机到 GitHub 全域实测只有 20~35 KB/s（同时刻 Cloudflare 有 200 KB/s），
+   把 3.9MB 索引整份下载一遍纯属白等。要全量校验就加 `--verify-full`。
 
 > 改了 `assets/*.css` 或 `assets/*.js` 时，记得把各页面里的 `?v=` 一起升掉
 > （`design-tokens.css` / `板块页样式.css` / `主题.js` / `演算层.js` / `板块页脚本.js` 各自带版本号），
 > 否则 iPad 上会「HTML 更新了、样式和脚本还是旧的」。
 
 > 发布**不使用 git push**：本机 `github.com:443` 时通时不通，脚本改走 `api.github.com` 的 Git Data API。
+> 实测带宽：`api.github.com` / `raw.githubusercontent.com` / `*.github.io` 都是 20~35 KB/s，
+> 所以「少传文件」比「压小文件」更管用 —— 索引改成内容哈希就是为这件事。
 
 ## 全站搜索的两层索引
 
