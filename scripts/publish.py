@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-行测知识工作站 · 一键发布到 GitHub Pages
+公考工作站 · 一键发布到 GitHub Pages
 
 为什么不用 git push：
   本机 github.com:443 不通（api.github.com 可达），git clone/push 会 connection reset。
