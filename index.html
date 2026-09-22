@@ -798,9 +798,71 @@ var CACHE_V = 'v20260922c';
    命令面板的 id 契约是 #palette / #globalQ / #drop（脚本与样式都依赖）。
    =================================================================== */
 
+/* ================= iframe 当前文档记账 =================
+   【易错】“现在看的是哪一份文档”必须单独算准，不能只看 data-cur 属性 ——
+   板块页内部自己也会跳转（模考中心的期次卡片 → 行测 / 申论 / 行测错题集合 / 成绩分析，
+   四个子页的 subnav 之间还能互相跳、也能跳回模考中心），这些跳转不经过本文件，
+   data-cur 会一直停在上一次「由外壳打开」的那个文件上。
+   一旦它恰好等于这次要打开的文件（模考总览与各期次本来就共用 sections/每周模考.html），
+   openSection / wsOpen 就会误判成「同一页」，只 postMessage 一条 ws-search 把页内搜索
+   跑一遍 —— 真正的导航被整段跳过，症状就是「点板块切不过去 / 点了没反应」。
+   判断顺序（从准到粗，三层都要留着）：
+     ① 同源 http(s)：直接读 iframe 的真实 location，最准，内部跳转也认得出来；
+     ② file://：浏览器禁止读跨文档 location（抛 SecurityError），退回
+        「外壳自己发起的最后一次导航」这笔账（shellNavSeq / shellNavDone）；
+     ③ 只要发生一次「不是外壳发起的加载」，这笔账立刻作废（data-cur 清空）——
+        宁可多下载一次，也不能让点击变成没反应。 */
+function normFile(u){
+  var s = String(u == null ? '' : u);
+  try{ s = decodeURIComponent(s); }catch(e){}
+  s = s.split('#')[0].split('?')[0].replace(/\\/g, '/');
+  var i = s.lastIndexOf('/sections/');   /* 绝对路径（http 前缀 / file 盘符）收敛回相对路径 */
+  if(i > -1){ s = s.slice(i + 1); }
+  return s;
+}
+var shellNavSeq = 0;    /* 外壳主动设置 frame.src 的次数 */
+var shellNavDone = 0;   /* 已经到位的次数；两者相等＝最近这次加载是页面内部自己跳的 */
+function frameDoc(){
+  try{
+    var w = frame.contentWindow;
+    if(w && w.location && w.location.pathname){ return normFile(w.location.pathname); }
+  }catch(e){}
+  return normFile(frame.getAttribute('data-cur') || '');
+}
+/* 板块页内部跳转后，把侧栏高亮与面包条同步到「现在真正在看的这一页」。
+   模考四个子页共用「期次」这一层目录，靠文件夹名认人（文件夹名 = 期次叶子的 name）；
+   认不出来就什么都不动 —— 宁愿不更新，也不要指错地方。 */
+function syncNavToFrame(){
+  var f = frameDoc(), hit = null, i;
+  if(!f){ return; }
+  for(i=0;i<PAGES.length;i++){ if(PAGES[i].file === f){ hit = PAGES[i]; break; } }
+  if(!hit){
+    var base = '';
+    for(i=0;i<PAGES.length;i++){
+      if(PAGES[i].parent && PAGES[i].parent.id === 'mkx'){ base = PAGES[i].file.replace(/\.html$/, '') + '/'; break; }
+    }
+    if(base){
+      for(i=0;i<PAGES.length;i++){
+        if(f.indexOf(base + PAGES[i].name + '/') === 0){ hit = PAGES[i]; break; }
+      }
+    }
+  }
+  if(!hit){ return; }
+  setActive(hit.id);
+  crumbBar.style.background = hit.color;
+  crumbTitle.textContent = hit.name;
+  crumbEn.textContent = hit.en;
+}
+
 /* 【易错】切换板块后要把待发的搜索转发给新页面：必须等 iframe 的 load 事件再 postMessage，
    抢在前面发会被丢弃（目标页还没绑定监听）。pendingQuery 就是为这个“等一手”存在的，别删。 */
 frame.addEventListener('load', function(){
+  if(shellNavDone < shellNavSeq){
+    shellNavDone = shellNavSeq;           /* 这次加载是外壳自己发的：账目有效 */
+  }else{
+    frame.setAttribute('data-cur', '');   /* 页面内部自己跳的：记账作废，并按真实页面同步侧栏 */
+    syncNavToFrame();
+  }
   if(pendingQuery != null){
     try{
       frame.contentWindow.postMessage({type:'ws-search', q: pendingQuery.q, id: pendingQuery.id}, '*');
@@ -832,9 +894,12 @@ function setActive(id){
 
 /* query: 字符串(兼容旧调用) 或 {q, id}；id 为目标知识点/单元锚点 */
 /* 【易错】openSection 是导航的唯一入口，三处细节别动：
-   ① changed 判定改成看「目标文件」而不是板块 id：模考总览与各期次共用同一份
+   ① changed 判定看「目标文件」，而且是 iframe 里**真实打开的**那份（frameDoc()），
+      不是板块 id、也不是 data-cur 属性的值：模考总览与各期次共用同一份
       sections/每周模考.html，按 id 判定会在切期次时把整页重新下载一遍；
       按文件判定则同页只加载一次，再用 ws-search 高亮不同期次。
+      也不能只看 data-cur —— 板块页内部自己跳转（期次卡片 / 子页 subnav）之后
+      它还是旧值，会让「换一个板块」被误判成同页而只跑一遍页内搜索、根本不跳。
    ② 搜索跳转必须“先改 src、再把查询挂到 pendingQuery”，等 load 后由上面的监听转发。
    ③ 没带查询时，若该叶子配了 hit（模考期次），就用 hit 当关键词高亮对应卡片。
    这里还负责更新面包条颜色/标题、展开所属专区、窄屏自动收起侧栏，留意先后顺序。 */
@@ -846,9 +911,9 @@ function openSection(id, query){
   else { norm = {q: (query.q||''), id: (query.id||null)}; }
   if((!norm || !norm.q) && s.hit){ norm = {q: s.hit, id: null}; }
 
-  var changed = (frame.getAttribute('data-cur') !== s.file);
+  var changed = (frameDoc() !== s.file);
   frame.setAttribute('data-cur', s.file);
-  if(changed){ frame.src = s.file + '?' + CACHE_V; }
+  if(changed){ frame.src = s.file + '?' + CACHE_V; shellNavSeq++; }
   if(norm && norm.q){
     var send = function(){
       try{ frame.contentWindow.postMessage({type:'ws-search', q: norm.q, id: norm.id}, '*'); }catch(e){}
@@ -1132,7 +1197,7 @@ function wsPlan(q){
      5、6 次（实测发生过，直接把首条结果的等待时间拉长到十几秒）。 */
   if(wsPlanQ === q && (wsQueue.length || wsTail.length || wsInflight)){ return; }
   wsPlanQ = q;
-  var curKey = wsFileKey[frame.getAttribute('data-cur')] || '';
+  var curKey = wsFileKey[frameDoc()] || '';
   var hitSec = {};
   for(var i=0;i<wsCore.items.length;i++){
     var it = wsCore.items[i];
@@ -1193,7 +1258,7 @@ function wsFetchFull(k){
 }
 function wsLoadedCount(){ var n = 0; for(var k in wsLoaded){ if(wsLoaded[k] === true){ n++; } } return n; }
 function wsCurSecId(){
-  var f = frame.getAttribute('data-cur');
+  var f = frameDoc();
   return (f && wsFileSec[f]) ? wsFileSec[f] : null;
 }
 
@@ -1268,9 +1333,9 @@ function wsOpen(it, q){
   var sec = getSection(it.s);
   var file = it.f || (sec ? sec.file : null);
   if(!file){ return; }
-  var changed = (frame.getAttribute('data-cur') !== file);
+  var changed = (frameDoc() !== file);
   frame.setAttribute('data-cur', file);
-  if(changed){ frame.src = file + '?' + CACHE_V; }
+  if(changed){ frame.src = file + '?' + CACHE_V; shellNavSeq++; }
   var payload = { q: q, id: it.i || null };
   if(changed){ pendingQuery = payload; }
   else {
@@ -1390,18 +1455,21 @@ globalQ.addEventListener('keydown', function(e){
     var q = this.value.trim();
     if(!q) return;
     var pick = (wsSel >= 0 && wsRows[wsSel]) ? wsRows[wsSel] : (wsRows[0] || null);
+    /* 【需求】回车＝「打开结果 + 收起面板」，与直接点结果行完全一致：
+       原来只收起结果列表、面板还盖在上面，页面其实已经跳了也像是没反应。 */
     if(pick){
       wsOpen(pick, q);
-      drop.classList.remove('show');
-      globalQ.setAttribute('aria-expanded','false');
-      this.blur();
+      closePalette();
       return;
     }
     var best = routeBest(q);
-    drop.classList.remove('show');
-    globalQ.setAttribute('aria-expanded','false');
-    if(best){ openSection(best.id, {q: q, id: null}); this.blur(); }
-    else { renderSearch(q); }
+    if(best){
+      openSection(best.id, {q: q, id: null});
+      closePalette();
+      return;
+    }
+    /* 一条都没命中：面板留着，让人看到「未找到 / 还在检索」的提示，换个词再搜 */
+    renderSearch(q);
   }
 });
 /* 【易错】命令面板的「点到外面就关」不能把触发按钮也算作外面：
