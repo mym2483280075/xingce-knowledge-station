@@ -18,8 +18,16 @@
   python scripts\\publish.py -m "自定义提交信息"
   python scripts\\publish.py --allow-delete  # 允许把线上多余的文件删掉（默认只报告不删）
   python scripts\\publish.py --timeout 480   # 构建/验证的单步超时秒数（默认 300）
+  python scripts\\publish.py --no-netguard   # 关闭抗干扰层（默认开启，见 netguard.py）
+  python scripts\\publish.py --tries 6       # 单个 API 调用的重试次数（默认 4）
+
+网络抗干扰（默认开启）：
+  本机装了 Watt Toolkit 之类的加速器时，它们会往 hosts 里写
+  「api.github.com -> 127.0.0.1」。实测这种接管对小请求反而更快，但对 295KB 的
+  tree 响应必然 40s 超时，发布直接失败。所以本脚本默认用自建 DNS 解析真实 IP，
+  完全绕开 hosts，并在重试时轮换 IP，详见 scripts\\netguard.py。
 """
-import sys, io, os, re, json, time, base64, hashlib, argparse, urllib.parse
+import sys, io, os, re, json, time, socket, base64, hashlib, argparse, urllib.parse
 import urllib.request, urllib.error
 
 # ---------- 输出与配置 ----------
@@ -46,21 +54,49 @@ TEXT_EXT = {".html", ".htm", ".css", ".js", ".mjs", ".json", ".md", ".txt", ".sv
             ".xml", ".yml", ".yaml", ".csv", ".map", ".ts", ".jsx", ".tsx", ".py"}
 VERIFY_EXT = TEXT_EXT | {".cmd", ".bat", ".ps1", ".sh"}
 SKIP_DIRS = {".git", "__pycache__", "node_modules", ".idea", ".vscode"}
+# 备份/临时文件不进仓库：这类文件一旦落到站点目录里，会被当成「新增文件」发到线上
+SKIP_FILE_SUFFIX = (".bak", ".orig", ".tmp", ".swp", "~", ".save.bak")
+SKIP_FILE_PREFIX = ("~$",)
 SITE = f"https://{REPO.split('/')[0]}.github.io/{REPO.split('/')[1]}/"
 
 API = "https://api.github.com"
 
+# ---------- 网络抗干扰 ----------
+# netguard 用自建 DNS 直接解析真实 IP，绕开 hosts / 加速器 / IPv6 黑洞，
+# 并在重试时轮换 IP；详见 scripts\netguard.py。
+sys.path.insert(0, HERE)
+import netguard  # noqa: E402
 
 # ---------- HTTP ----------
-def api(method, path, body=None, retries=3, timeout=30):
+# tries      单个请求最多尝试几次
+# api_timeout 单次尝试的超时（不是总时长）——半开连接要尽快放弃、换条链路
+# deadline    单个请求的总时限，避免「重试次数 × 长超时」把一次发布拖成十分钟
+NET = {"tries": 6, "api_timeout": 25, "deadline": 120}
+_OPENER = urllib.request.build_opener(urllib.request.ProxyHandler({}))
+
+
+def _open(req, timeout):
+    """统一出口：显式不带任何环境代理。
+
+    本机历史上出现过「失效的代理变量拖垮 api.github.com 直连」的问题，
+    所以这里无视 HTTPS_PROXY/HTTP_PROXY。真要挂代理请显式改这里。
+    """
+    return _OPENER.open(req, timeout=timeout)
+
+
+def api(method, path, body=None, retries=None, timeout=None, deadline=None):
     """GitHub REST 调用。
 
-    【为什么默认超时只有 30s】实测本机到 GitHub 各域名只有 20~35 KB/s
-    （api.github.com / raw.githubusercontent.com / *.github.io 都一样，
-    同时刻 speed.cloudflare.com 有 200 KB/s），连接还偶尔半开卡住。
-    原来默认 timeout=180，一次卡死就要等 3 分钟才发现，还会连带 4 次重试。
-    现在小请求 30s 就判失败重来；只有要传大 body 的调用才单独放宽（见 blob 上传）。
+    【超时与重试的来历】本机到 GitHub 抖动极大：同一条链路能 10.6s 拿完 295KB，
+    也能 87s 一个字节都不回（半开）。所以策略是「单次短超时 + 总时限内反复换链路」：
+      · 单次 timeout=25s，半开连接最多浪费 25s 就换；
+      · 每次重试 rotate() 换下一个候选 IP（候选表里含系统解析给的地址）；
+      · 整个调用有 deadline=120s 兜底，不会因为重试次数把一次发布拖成十分钟。
+    大 body 的调用（blob 上传）单独放宽。
     """
+    retries = NET["tries"] if retries is None else retries
+    timeout = NET["api_timeout"] if timeout is None else timeout
+    deadline = NET["deadline"] if deadline is None else deadline
     data = json.dumps(body).encode("utf-8") if body is not None else None
     req = urllib.request.Request(
         API + path, data=data, method=method,
@@ -68,9 +104,14 @@ def api(method, path, body=None, retries=3, timeout=30):
                  "Accept": "application/vnd.github+json",
                  "Content-Type": "application/json; charset=utf-8"})
     last = None
+    started = time.time()
     for i in range(retries):
+        left = deadline - (time.time() - started)
+        if left <= 1:
+            last = f"{last}（已达总时限 {deadline}s）"
+            break
         try:
-            with urllib.request.urlopen(req, timeout=timeout) as r:
+            with _open(req, timeout=max(5.0, min(timeout, left))) as r:
                 return json.load(r)
         except urllib.error.HTTPError as e:
             detail = e.read().decode("utf-8", "replace")[:400]
@@ -79,37 +120,58 @@ def api(method, path, body=None, retries=3, timeout=30):
                 break
         except Exception as e:
             last = f"{type(e).__name__}: {e}"
-        time.sleep(2 * (i + 1))
-    raise RuntimeError(f"{method} {path} 失败 → {last}")
+        netguard.rotate("api.github.com")       # 下次重试换一条真实链路
+        if i + 1 < retries:
+            time.sleep(min(2 ** i, 8, max(0, deadline - (time.time() - started))))
+    raise RuntimeError(f"{method} {path} 失败（尝试 {retries} 次，耗时 {time.time() - started:.0f}s）→ {last}")
 
 
-def fetch(url, timeout=60, tries=1):
-    req = urllib.request.Request(url, headers={"User-Agent": "xs-publish", "Cache-Control": "no-cache"})
+def fetch(url, timeout=None, tries=None, deadline=None):
+    """取回正文。失败一律换链路重试（原来 tries=1，一次卡死就整条流水线失败）。"""
+    tries = NET["tries"] if tries is None else tries
+    timeout = NET["api_timeout"] if timeout is None else timeout
+    deadline = NET["deadline"] if deadline is None else deadline
+    host = urllib.parse.urlsplit(url).hostname or ""
     last = None
-    for _ in range(tries):
+    started = time.time()
+    for i in range(tries):
+        left = deadline - (time.time() - started)
+        if left <= 1:
+            break
+        req = urllib.request.Request(url, headers={"User-Agent": "xs-publish", "Cache-Control": "no-cache"})
         try:
-            with urllib.request.urlopen(req, timeout=timeout) as r:
+            with _open(req, timeout=max(5.0, min(timeout, left))) as r:
                 return r.read()
         except Exception as e:
             last = e
-            time.sleep(5)
-    raise RuntimeError(f"抓取失败 {url} → {type(last).__name__}: {last}")
+        netguard.rotate(host)
+        if i + 1 < tries:
+            time.sleep(min(2 ** i, 8, max(0, deadline - (time.time() - started))))
+    raise RuntimeError(f"抓取失败 {url}（尝试 {tries} 次 / {time.time() - started:.0f}s）→ {type(last).__name__}: {last}")
 
 
-def head_len(url, timeout=45, tries=3):
+def head_len(url, timeout=25, tries=None, deadline=60):
     """只取 Content-Length，不下载正文。用于大文件的廉价校验：GitHub Pages 的 HEAD 会带精确字节数。"""
+    tries = NET["tries"] if tries is None else tries
+    host = urllib.parse.urlsplit(url).hostname or ""
     last = None
-    for _ in range(tries):
+    started = time.time()
+    for i in range(tries):
+        left = deadline - (time.time() - started)
+        if left <= 1:
+            break
         try:
             req = urllib.request.Request(
                 url + "?__cb=" + str(int(time.time() * 1000)),
                 headers={"User-Agent": "xs-publish", "Cache-Control": "no-cache"}, method="HEAD")
-            with urllib.request.urlopen(req, timeout=timeout) as r:
+            with _open(req, timeout=max(5.0, min(timeout, left))) as r:
                 return r.headers.get("Content-Length")
         except Exception as e:
             last = e
-            time.sleep(3)
-    raise RuntimeError(f"HEAD 失败 {url} → {type(last).__name__}: {last}")
+        netguard.rotate(host)
+        if i + 1 < tries:
+            time.sleep(min(2 ** i, 8, max(0, deadline - (time.time() - started))))
+    raise RuntimeError(f"HEAD 失败 {url}（尝试 {tries} 次 / {time.time() - started:.0f}s）→ {type(last).__name__}: {last}")
 
 
 # ---------- 哈希 ----------
@@ -120,11 +182,25 @@ def blob_sha(data: bytes) -> str:
     return h.hexdigest()
 
 
+def _skip_file(name: str) -> bool:
+    """备份/临时文件不参与发布。
+
+    实例：改脚本时留下的 publish.py.bak-20260920-netguard 本来会被当成
+    「新增文件」推到线上，污染仓库。
+    """
+    if name.startswith(SKIP_FILE_PREFIX):
+        return True
+    lower = name.lower()
+    return lower.endswith(SKIP_FILE_SUFFIX) or ".bak-" in lower
+
+
 def local_files():
     out = {}
     for root, dirs, files in os.walk(LOCAL):
         dirs[:] = [d for d in dirs if d not in SKIP_DIRS]
         for f in files:
+            if _skip_file(f):
+                continue
             p = os.path.join(root, f)
             rel = os.path.relpath(p, LOCAL).replace("\\", "/")
             out[rel] = p
@@ -149,7 +225,10 @@ def diff():
     head = ref["object"]["sha"]
     commit = api("GET", f"/repos/{REPO}/git/commits/{head}")
     tree_sha = commit["tree"]["sha"]
-    tree = api("GET", f"/repos/{REPO}/git/trees/{tree_sha}?recursive=1")
+    # 295KB 的 tree 响应是全流程最容易卡住的一步（实测走加速器时 2/2 超时），
+    # 所以单独放宽：单次 45s，总时限 240s，期间可以换好几条链路。
+    tree = api("GET", f"/repos/{REPO}/git/trees/{tree_sha}?recursive=1",
+               timeout=45, deadline=240)
     if tree.get("truncated"):
         print("  ! 线上 tree 被截断，改为逐个比对可能不准")
     remote = {e["path"]: e["sha"] for e in tree["tree"] if e["type"] == "blob"}
@@ -186,7 +265,19 @@ def main():
     ap.add_argument("--timeout", type=int, default=300, help="等构建/验证的超时秒数")
     ap.add_argument("--verify-full", action="store_true",
                     help="所有文件都逐字节校验（默认大索引只比 Content-Length）")
+    ap.add_argument("--tries", type=int, default=6, help="单个请求最多尝试次数（默认 6）")
+    ap.add_argument("--api-timeout", type=int, default=25,
+                    help="单次尝试的超时秒数（默认 25，半开连接尽快放弃换链路）")
+    ap.add_argument("--api-deadline", type=int, default=120, help="单个请求的总时限秒数（默认 120）")
+    ap.add_argument("--no-netguard", action="store_true",
+                    help="关闭网络抗干扰层：不绕过 hosts/加速器，直接按系统解析连接")
+    ap.add_argument("--netguard-dns", default=",".join(netguard.DEFAULT_DNS),
+                    help="抗干扰层使用的 DNS 服务器，逗号分隔")
     args = ap.parse_args()
+
+    NET["tries"] = max(1, args.tries)
+    NET["api_timeout"] = max(10, args.api_timeout)
+    NET["deadline"] = max(30, args.api_deadline)
 
     if not TOKEN:
         print("✗ 没有找到 GH_TOKEN 环境变量。请先设置，例如：")
@@ -196,6 +287,24 @@ def main():
     print(f"仓库   : {REPO}  ({BRANCH})")
     print(f"本地   : {LOCAL}")
     print(f"站点   : {SITE}")
+
+    site_host = SITE.split("//", 1)[1].split("/", 1)[0]
+    if args.no_netguard:
+        print("抗干扰 : 已关闭（--no-netguard），按系统解析连接")
+    else:
+        servers = tuple(s.strip() for s in args.netguard_dns.split(",") if s.strip())
+        rows = netguard.install(extra=(site_host,), servers=servers or netguard.DEFAULT_DNS)
+        print("抗干扰 : 已启用（自建 DNS 解析真实 IP，绕开 hosts / 加速器 / IPv6 黑洞）")
+        for host, ips, _system in rows:
+            shown = ", ".join(ips[:3]) + (" …" if len(ips) > 3 else "")
+            flag = "   ← 系统解析已被接管，已绕过" if netguard.hijacked(host) else ""
+            print(f"         {host:<28} -> {shown}{flag}")
+        for host in ("api.github.com", site_host):
+            if not netguard.resolved(host):
+                print(f"         ! {host} 拿不到真实 IP，将回退到系统解析（可能被加速器接管）")
+        for warn in netguard.warnings():
+            print(f"         ! {warn}")
+
     print("\n[1/4] 比对差异 …")
     head, tree_sha, remote, changed, added, crlf_only, deleted, too_big = diff()
     print(f"  线上 HEAD {head[:10]}   线上文件 {len(remote)} 个")
@@ -222,7 +331,7 @@ def main():
     up = sum(s for _, s in changed + added)
     if up:
         print(f"  需上传   : {up / 1048576:.2f} MB"
-              f"（本机到 GitHub 实测 20~35 KB/s，约 {up / 1024 / 28 / 60:.1f} 分钟）")
+              f"（实测上行 20~140 KB/s，约 {up / 1024 / 100 / 60:.1f} 分钟）")
     if deleted:
         tag = "将删除" if args.allow_delete else "线上多出（默认保留）"
         print(f"  {tag}: {len(deleted)} 个")
@@ -244,7 +353,7 @@ def main():
         data = payload_bytes(os.path.join(LOCAL, rel.replace("/", os.sep)), rel, rel in remote)
         blob = api("POST", f"/repos/{REPO}/git/blobs",
                    {"content": base64.b64encode(data).decode("ascii"), "encoding": "base64"},
-                   timeout=300)   # 单个 blob 最大约 1MB，base64 后 1.33MB，实测 25KB/s 要 50s+
+                   timeout=300, deadline=900)   # 单个 blob 最大约 1MB，base64 后 1.33MB
         entries.append({"path": rel, "mode": "100644", "type": "blob", "sha": blob["sha"]})
         print(f"    blob {rel}  {blob['sha'][:10]}")
     if args.allow_delete:
@@ -334,7 +443,7 @@ def verify(rels, published=True, full=False):
                         break
                 except Exception as e:
                     got_len = f"ERR {e}"
-                time.sleep(5)
+                time.sleep(3)
             if got_len == want_len:
                 headok.append(rel)
                 print(f"    ✓ {rel}  (HEAD 大小一致 {want_len} B，跳过整份下载)")
@@ -344,7 +453,7 @@ def verify(rels, published=True, full=False):
             continue
         want = hashlib.sha256(raw).hexdigest()
         got = None
-        for _ in range(5):
+        for _ in range(2):
             try:
                 body = fetch(url + "?__cb=" + str(int(time.time() * 1000)))
                 got = hashlib.sha256(body).hexdigest()

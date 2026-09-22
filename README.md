@@ -21,6 +21,8 @@
 | `assets/fuse.basic.min.mjs` | 本地检索库（Fuse 7），CDN 仅作兜底 |
 | `scripts/build-index.js` | 检索索引构建器 |
 | `scripts/publish.py` | 发布脚本（GitHub Git Data API：比对 → 提交 → 等构建 → 回抓校验） |
+| `scripts/netguard.py` | **网络抗干扰层**：自建 DNS 拿真实 IP，绕开 hosts / 加速器 / IPv6 黑洞，重试时轮换 IP |
+| `scripts/gfetch.py` | 抗干扰下载器：绕开 hosts 直连 + 换 IP 重试 + Range 断点续传 |
 
 ## 界面设计约定（2026-09-20 重构）
 
@@ -60,6 +62,13 @@
    页面等小文件逐字节 sha256 比对，超过 256KB 的索引文件只比对 Content-Length
    ——本机到 GitHub 全域实测只有 20~35 KB/s（同时刻 Cloudflare 有 200 KB/s），
    把 3.9MB 索引整份下载一遍纯属白等。要全量校验就加 `--verify-full`。
+   **网络抗干扰**：发布默认启用 `scripts/netguard.py`——自己用 UDP 问公共 DNS 拿真实 IP，
+   绕开 Watt Toolkit 这类加速器写进 hosts 的「域名 → 127.0.0.1」接管，重试时还会换一条 IP。
+   实测加速器开着时，加速前 `--check` 是 105.5s 失败，加了这层是 10.8s 成功。
+   要按系统解析连接（例如真的想走加速器）就加 `--no-netguard`；
+   重试策略是「单次尝试 25s + 换候选 IP + 总时限 120s 兜底」（tree 请求 240s、blob 900s），
+   可用 `--tries` / `--api-timeout` / `--api-deadline` 调整。
+   下载大文件用 `python scripts\gfetch.py <url> -o 目标路径`（支持断点续传）。
 
 > 改了 `assets/*.css` 或 `assets/*.js` 时，记得把各页面里的 `?v=` 一起升掉
 > （`design-tokens.css` / `板块页样式.css` / `主题.js` / `演算层.js` / `板块页脚本.js` 各自带版本号），
