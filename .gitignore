@@ -1,0 +1,10 @@
+# 运行时产物：不进仓库（publish.py 也会跳过 __pycache__，这里再兜一道）
+__pycache__/
+*.pyc
+
+# 编辑器 / 系统垃圾
+.DS_Store
+Thumbs.db
+*.swp
+*~
+*.bak
