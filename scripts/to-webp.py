@@ -11,18 +11,21 @@
   · PNG  → 无损 WebP：像素完全一致，省约 45%。
            板块页里大量是公式 / 表格 / 电路图截图，有损会把细线与文字边缘糊掉
            （实测同一批 PNG 用 q=92 有图 PSNR 掉到 27 dB，肉眼可见毛边）。
-  · JPEG → 有损 WebP q=90：实测 PSNR 均值 43.6 dB、最小 36.2 dB，肉眼无差别，省约 34%。
-           （q=85 起 PSNR 均值掉到 39 dB 档，省得也不多，不划算。）
-  · 一张图若 q=90 的 PSNR 掉到 38 dB 以下（实测「公文格式·占格规范」那几条细长条会），
-    自动改用 q=95；连 35 dB 都够不着的（细线稿重编码天生吃亏），直接保留原图 ——
-    宁可大一点，也不让页面上的细线糊掉。
-  · 转完反而更大的，原地保留原格式（不硬换），报告里单列。
+  · JPEG → 有损 WebP 档位择优：q75–q95 逐档评估，
+           优先在 PSNR ≥ 38 dB 的档位里选体积最小；没有就在 ≥ 35 dB 的档位里选体积最小；
+           连 35 dB 都够不着的（细线稿重编码天生吃亏），才改用无损 WebP ——
+           宁可大一点，也不让页面上的细线糊掉。
+  · 转完反而更大的，当前兼容策略是原地保留原格式（不硬换），报告里单列。
+  ·【2026-10-01 规范】页面最终引用一律 WebP。上面两条“保留原图”只算兼容兜底；
+    报告出现“保留原格式”时，必须按严格 WebP 要求逐项处理，不能当作已完成。
   · 分辨率不动：输出宽高必须与原图完全相等，不等直接报错退出。
   · 无损图额外解码回来逐像素比对；有损图算 PSNR，低于 35 dB 报警。
 
 用法：
   python scripts\to-webp.py                 # 只体检 + 预估，不写任何文件
   python scripts\to-webp.py --apply         # 转换 + 改写 HTML 里的引用
+  python scripts\to-webp.py --apply --force-webp
+                                            # 严格 WebP：即使 WebP 比原图大也输出 WebP
   python scripts\to-webp.py --apply --delete-originals    # 转换后再删掉原图
   python scripts\to-webp.py --check         # 只查引用：有没有 404 / 有没有漏转
   python scripts\to-webp.py --apply --redo  # 改了策略后，把已有 WebP 按新策略重编一遍
@@ -103,10 +106,19 @@ def references():
 
 
 def candidates(src_path):
-    """按「先省、再保真」排列的编码候选：PNG 只有无损一档，JPEG 是 q90 → q95 → 无损。"""
+    """编码候选：PNG 只有无损一档；JPEG 从低到高试有损档，最后留无损兜底。
+
+    JPEG 不能只试 q90 / q95：很多随堂笔记原图很小，低一档的 WebP
+    反而更接近“体积最小”，所以从 q75 开始逐档评估，再按 PSNR 阈值挑选。
+    """
     if os.path.splitext(src_path)[1].lower() == ".png":
         return [("lossless", {"lossless": True, "method": 6})]
-    return [("q90", {"quality": 90, "method": 6}),
+    return [("q75", {"quality": 75, "method": 6}),
+            ("q80", {"quality": 80, "method": 6}),
+            ("q85", {"quality": 85, "method": 6}),
+            ("q88", {"quality": 88, "method": 6}),
+            ("q90", {"quality": 90, "method": 6}),
+            ("q92", {"quality": 92, "method": 6}),
             ("q95", {"quality": 95, "method": 6}),
             ("lossless", {"lossless": True, "method": 6})]
 
@@ -119,15 +131,21 @@ def psnr(a, b):
     return None if mse == 0 else 10 * np.log10(255.0 ** 2 / mse)
 
 
-def encode_best(src):
-    """挑一个「比原图小、又够清楚」的编码。
+def encode_best(src, force_webp=False):
+    """挑一个「又清楚、体积又合适」的编码。
 
     返回 (webp字节 或 None, 原大小, 新大小, psnr 或 None, 档位, 说明)
     —— None 表示候选都不合适，调用方应保留原图。
+    force_webp=True 时，即使 WebP 比原图大也返回 WebP（用于“最终引用一律 WebP”）。
+
+    选择顺序：
+      ① 有损档里，PSNR ≥ 38 dB 的候选中取体积最小；
+      ② 没有 ①，则 PSNR ≥ 35 dB 的候选中取体积最小；
+      ③ 连 35 dB 都没有，才用无损 WebP；
+      ④ force_webp=False 时，如果所有候选都不比原图小，返回 None（保留原图）。
     """
     size0 = os.path.getsize(src)
-    notes = []
-    fallback = None  # 够用但不算好的：留着，万无一失比硬塞一张糊图强
+    evaluated = []
     with Image.open(src) as im:
         im.load()
         wh = (im.width, im.height)
@@ -148,26 +166,40 @@ def encode_best(src):
                     v = 99.0  # 无损：像素一致，按满分记账
                 else:
                     v = psnr(ref, dec)
-            if size1 >= size0:
-                notes.append("%s 反而更大（%d→%d）" % (label, size0, size1))
-                continue
-            if v is None or v >= PSNR_GOOD:
-                return buf.getvalue(), size0, size1, v, label, "；".join(notes)
-            if v >= PSNR_WARN:
-                # 够看，但不如理想 —— 记下来，继续试更高档位
-                fallback = (buf.getvalue(), size0, size1, v, label, "；".join(notes))
-                notes.append("%s 只 %.2f dB，继续提档" % (label, v))
-                continue
-            notes.append("%s 只 %.2f dB，提档重编" % (label, v))
-    if fallback:
-        return fallback
-    return None, size0, size0, None, "-", "；".join(notes) or "无可用档位"
+            evaluated.append({
+                "data": buf.getvalue(), "size": size1, "psnr": v,
+                "label": label, "lossless": bool(kw.get("lossless")),
+            })
+
+    allowed = [c for c in evaluated if force_webp or c["size"] < size0]
+    lossy = [c for c in allowed if not c["lossless"]]
+    lossless = [c for c in allowed if c["lossless"]]
+    good = [c for c in lossy if c["psnr"] is None or c["psnr"] >= PSNR_GOOD]
+    ok = [c for c in lossy if c["psnr"] is not None and c["psnr"] >= PSNR_WARN]
+    if good:
+        pick, why = min(good, key=lambda c: c["size"]), "在 ≥38 dB 档位中取最小体积"
+    elif ok:
+        pick, why = min(ok, key=lambda c: c["size"]), "无 ≥38 dB 档位，在 ≥35 dB 档位中取最小体积"
+    elif lossless:
+        pick = lossless[0]
+        why = "PNG 保真优先，使用无损 WebP" if not lossy else "有损档都低于 35 dB，改用无损 WebP"
+    else:
+        return None, size0, size0, None, "-", "所有候选都不比原图小"
+
+    notes = [why]
+    if pick["size"] >= size0:
+        notes.append("严格 WebP：比原图大（%d→%d）" % (size0, pick["size"]))
+    if pick["psnr"] is not None and pick["psnr"] < 90:
+        notes.append("PSNR %.2f dB" % pick["psnr"])
+    return pick["data"], size0, pick["size"], pick["psnr"], pick["label"], "；".join(notes)
 
 
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--apply", action="store_true", help="真的写盘（缺省只报告）")
     ap.add_argument("--check", action="store_true", help="只查引用完整性与转换覆盖")
+    ap.add_argument("--force-webp", action="store_true",
+                    help="严格 WebP：即使 WebP 比原图大也输出 WebP")
     ap.add_argument("--delete-originals", action="store_true", help="转换成功后删掉原图")
     ap.add_argument("--redo", action="store_true", help="把已有 WebP 按当前策略重编一遍（原图还在才重编）")
     args = ap.parse_args()
@@ -187,6 +219,8 @@ def main():
     print("  已是 WebP: %d" % len(already))
     print("  待转换   : %d（%.2f MB）" % (len(existing), sum(os.path.getsize(p) for p in existing) / 1048576))
     print("  引用不到 : %d" % len(missing))
+    if args.force_webp:
+        print("  严格模式 : 开启（WebP 比原图大也输出 WebP）")
     for path, uses in missing:
         print("    ✗ %s  ← %s" % (rel(path), rel(uses[0][0])))
         print("      （若是模板示例文本，忽略即可）")
@@ -219,7 +253,7 @@ def main():
     before = after = 0
     for i, src in enumerate(todos, 1):
         try:
-            data, size0, size1, v, label, why = encode_best(src)
+            data, size0, size1, v, label, why = encode_best(src, args.force_webp)
             if data is None:
                 skipped.append((src, size0, size1, why))
                 continue
