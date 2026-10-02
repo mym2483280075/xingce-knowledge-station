@@ -171,8 +171,136 @@ body{
 
 .content{flex:1;position:relative;min-height:0}
 .content iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:var(--xz-surface)}
-.empty{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:var(--xz-ink-3);text-align:center;padding:24px}
-.empty.show{display:flex}
+
+/* ================= 首页封面（外壳自渲染，不进 iframe） =================
+   【需求】打开网站先落在封面：站点定位 +「继续上次」+ 搜索入口 + 四大专区 + 最近模考。
+     点任意入口进入板块页（封面收起），点侧栏「首页」或左上角品牌区回到封面。
+   【约定】专区色只用内联 --c 传进卡片，卡片自己派生 --c-soft / --c-line / --c-ink。
+     不要借用 --accent-*：那组变量在 :root 上就已经算好，改 --primary 不会重算。
+   【易错】封面入口全部由 NAV / PAGES / MK_SECTIONS 渲染，禁止写死板块清单，
+     否则加板块、加期次时封面会漏项。 */
+.cover{position:absolute;inset:0;z-index:5;overflow:auto;background:var(--xz-bg);display:none;overscroll-behavior:contain}
+.cover.show{display:block}
+.cover-in{max-width:78em;margin:0 auto;padding:clamp(18px,2.6vw,30px) clamp(14px,2.2vw,26px) 64px}
+
+/* —— 封面头部 —— */
+.cv-hero{position:relative;display:grid;grid-template-columns:minmax(0,1fr);gap:22px;
+  overflow:hidden;border:1px solid var(--xz-line);border-radius:var(--r-lg);
+  background:var(--xz-surface);padding:clamp(20px,2.8vw,32px) clamp(18px,2.8vw,34px) clamp(34px,3.6vw,46px)}
+.cv-hero::before{
+  content:"";position:absolute;inset:0;pointer-events:none;opacity:.62;
+  background-image:
+    repeating-linear-gradient(90deg,color-mix(in srgb,var(--xz-ink) 6%,transparent) 0 1px,transparent 1px 24px),
+    repeating-linear-gradient(180deg,color-mix(in srgb,var(--xz-ink) 6%,transparent) 0 1px,transparent 1px 24px);
+  -webkit-mask-image:linear-gradient(104deg,#000,rgba(0,0,0,.28) 48%,transparent 76%);
+  mask-image:linear-gradient(104deg,#000,rgba(0,0,0,.28) 48%,transparent 76%);
+}
+.cv-eyebrow{display:flex;align-items:center;gap:9px;font-size:var(--fs-xs);font-weight:650;color:var(--xz-ink-4);letter-spacing:.04em}
+.cv-eyebrow i{width:4px;height:4px;border-radius:50%;background:var(--xz-line-2)}
+.cv-title{display:flex;align-items:center;gap:12px;margin:14px 0 0;
+  font-size:clamp(26px,3.3vw,36px);font-weight:800;line-height:1.2;letter-spacing:-.02em;color:var(--xz-ink)}
+.cv-seal{flex:none;width:42px;height:42px;border-radius:12px;background:var(--xz-brand-ink);color:#fff;
+  display:flex;align-items:center;justify-content:center;font-size:21px;font-weight:800}
+.cv-lede{margin:11px 0 0;max-width:46em;font-size:var(--fs-body);line-height:1.7;color:var(--xz-ink-2)}
+.cv-lede b{color:var(--xz-ink);font-weight:700}
+.cv-acts{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:20px}
+.cv-btn{display:inline-flex;align-items:center;gap:8px;border:1px solid transparent;border-radius:var(--r-pill);
+  padding:9px 18px;font-size:var(--fs-lg);font-weight:700;cursor:pointer;
+  transition:background var(--dur) var(--ease),border-color var(--dur) var(--ease),color var(--dur) var(--ease)}
+.cv-btn.go{background:var(--xz-brand-ink);color:#fff;box-shadow:var(--sh-2)}
+.cv-btn.go:hover{background:var(--xz-brand)}
+.cv-btn.alt{border-color:var(--xz-line-2);background:var(--xz-surface);color:var(--xz-ink-2);
+  font-size:var(--fs-base);font-weight:650;padding:10px 15px}
+.cv-btn.alt:hover{border-color:var(--xz-brand);color:var(--xz-brand-ink)}
+.cv-btn svg{width:16px;height:16px;flex:none}
+.cv-btn kbd{font-family:inherit;font-size:var(--fs-xs);font-weight:700;color:var(--xz-ink-3);
+  border:1px solid var(--xz-line);background:var(--xz-surface-2);border-radius:5px;padding:1px 6px}
+.cv-stats{display:flex;flex-wrap:wrap;gap:12px 26px;margin:0;padding:0;list-style:none}
+.cv-stats li{display:flex;align-items:baseline;gap:7px}
+.cv-stats b{font-size:var(--fs-2xl);font-weight:800;color:var(--xz-ink);font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.cv-stats span{font-size:var(--fs-sm);font-weight:600;color:var(--xz-ink-4)}
+.cv-strip{position:absolute;left:0;right:0;bottom:0;height:3px;display:flex}
+.cv-strip i{flex:1}
+
+/* —— 小节标题 —— */
+.cv-h{display:flex;align-items:baseline;gap:10px;margin:30px 0 12px;font-size:var(--fs-lg);font-weight:750;color:var(--xz-ink)}
+.cv-h em{font-style:normal;font-size:var(--fs-sm);font-weight:600;color:var(--xz-ink-4)}
+
+/* —— 专区卡片（颜色只在图标 / 顶边 / 悬停上用，不铺底色） —— */
+.cv-zone,.cv-rec{
+  --c-soft:color-mix(in srgb,var(--c,#4f7cff) 9%,var(--xz-surface));
+  --c-line:color-mix(in srgb,var(--c,#4f7cff) 26%,var(--xz-line));
+  --c-ink:color-mix(in srgb,var(--c,#4f7cff) 74%,var(--xz-ink));
+}
+.cv-zones{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(16em,1fr))}
+.cv-zone{display:flex;flex-direction:column;gap:9px;padding:14px 16px 15px;
+  border:1px solid var(--xz-line);border-top:3px solid var(--c);border-radius:var(--r-md);background:var(--xz-surface)}
+.cv-zone-hd{display:flex;align-items:center;gap:8px;width:100%;padding:0;border:0;background:transparent;cursor:pointer;text-align:left}
+.cv-zone-hd .ico{width:22px;height:22px;flex:none;display:flex;align-items:center;justify-content:center;color:var(--c)}
+.cv-zone-hd .ico svg{width:20px;height:20px;display:block}
+.cv-zone-hd .nm{flex:none;font-size:16px;font-weight:750;color:var(--xz-ink);letter-spacing:-.01em}
+.cv-zone-hd .cnt{flex:none;font-size:10.5px;font-weight:650;color:var(--xz-ink-4);
+  background:var(--xz-surface-2);border:1px solid var(--xz-line);border-radius:var(--r-pill);padding:1px 8px;white-space:nowrap}
+.cv-zone-hd .ar{flex:none;margin-left:auto;font-size:14px;color:var(--xz-ink-4);transition:transform var(--dur) var(--ease),color var(--dur) var(--ease)}
+.cv-zone-hd:hover .nm{color:var(--c-ink)}
+.cv-zone-hd:hover .ar{color:var(--c-ink);transform:translateX(2px)}
+.cv-zone-sub{margin:0;font-size:var(--fs-sm);line-height:1.6;color:var(--xz-ink-3)}
+.cv-chips{display:flex;flex-wrap:wrap;gap:6px;padding-top:2px}
+.cv-chip{border:1px solid var(--xz-line);background:var(--xz-surface-2);color:var(--xz-ink-2);
+  border-radius:var(--r-pill);padding:3px 11px;font-size:var(--fs-sm);font-weight:600;cursor:pointer;
+  transition:background var(--dur) var(--ease),border-color var(--dur) var(--ease),color var(--dur) var(--ease)}
+.cv-chip:hover{background:var(--c-soft);border-color:var(--c-line);color:var(--c-ink)}
+/* 只读标签：说明这一页里有什么，点了不会跳（与实心可点的 .cv-chip 在观感上分开） */
+.cv-tag{display:inline-flex;align-items:center;border:1px solid var(--xz-line);background:transparent;color:var(--xz-ink-4);
+  border-radius:var(--r-pill);padding:3px 11px;font-size:var(--fs-sm);font-weight:600}
+
+/* —— 最近模考 —— */
+.cv-recent{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(17em,1fr))}
+.cv-rec{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:11px 13px;
+  border:1px solid var(--xz-line);border-radius:var(--r-md);background:var(--xz-surface);cursor:pointer;
+  transition:border-color var(--dur) var(--ease),background var(--dur) var(--ease)}
+.cv-rec:hover{border-color:var(--c-line);background:var(--c-soft)}
+.cv-rec .d{flex:none;width:46px;font-size:var(--fs-base);font-weight:800;color:var(--c-ink);
+  font-variant-numeric:tabular-nums;line-height:1.25;text-align:center}
+.cv-rec .d small{display:block;font-size:10px;font-weight:650;color:var(--xz-ink-4);letter-spacing:.02em}
+.cv-rec .b{min-width:0;flex:1}
+.cv-rec .b b{display:block;font-size:var(--fs-base);font-weight:700;color:var(--xz-ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cv-rec .b i{display:block;margin-top:2px;font-style:normal;font-size:var(--fs-xs);color:var(--xz-ink-4);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cv-rec .ar{flex:none;font-size:14px;color:var(--xz-ink-4)}
+.cv-rec:hover .ar{color:var(--c-ink)}
+
+/* —— 底部快捷键 —— */
+.cv-foot{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:30px;padding-top:16px;
+  border-top:1px solid var(--xz-line);font-size:var(--fs-sm);color:var(--xz-ink-4)}
+.cv-foot span{display:inline-flex;align-items:center;gap:6px}
+.cv-foot kbd{font-family:inherit;font-size:var(--fs-xs);font-weight:700;color:var(--xz-ink-3);
+  border:1px solid var(--xz-line);background:var(--xz-surface-2);border-radius:5px;padding:1px 6px}
+
+/* 侧栏「首页」入口与品牌区：回到封面 */
+.nav-home .ico{color:var(--xz-brand)}
+.brand{cursor:pointer}
+.brand:hover .mark{background:var(--xz-brand)}
+
+@media(max-width:1100px){
+  .cv-stats b{font-size:var(--fs-xl)}
+}
+/* 宽屏：头部变两栏 —— 左边是定位与入口，右边是数字块。
+   不加这一段的话 1440px 上右半边会空掉一大块，封面显得只有半张。 */
+@media(min-width:1040px){
+  .cv-hero{grid-template-columns:minmax(0,1fr) auto;column-gap:clamp(28px,4vw,62px);align-items:center}
+  .cv-stats{display:grid;grid-template-columns:auto auto;gap:16px 30px;
+    padding-left:clamp(20px,2.4vw,32px);border-left:1px solid var(--xz-line)}
+}
+@media(max-width:700px){
+  .cv-title{gap:10px;font-size:24px}
+  .cv-seal{width:36px;height:36px;border-radius:10px;font-size:18px}
+  .cv-lede{font-size:var(--fs-base)}
+  .cv-btn.go{font-size:var(--fs-base);padding:9px 15px}
+  .cv-h{margin-top:24px}
+  .cv-h em{display:none}
+  /* 窄屏数字块排成 2×2：四个数字铺满两行，不然「⌘K 全站检索」会单独掉到第三行 */
+  .cv-stats{display:grid;grid-template-columns:1fr 1fr;gap:12px 16px}
+}
 
 /* ================= 命令面板（⌘K / Ctrl+K） ================= */
 .palette{
@@ -221,7 +349,9 @@ html.xz-dark .palette .scrim{background:rgba(0,0,0,.6)}
   flex:none;font-size:10.5px;color:var(--xz-ink-3);background:var(--xz-surface-2);
   border:1px solid var(--xz-line);border-radius:var(--r-pill);padding:1px 8px;margin-left:auto;white-space:nowrap;
 }
-.palette .empty{padding:26px 16px;text-align:center;color:var(--xz-ink-3);font-size:13px;position:static}
+/* 【易错】必须显式 display:block：这条以前靠 .empty{display:none} 兜底，
+   结果是「未找到匹配知识点」这句提示被一起隐藏了，面板空白得像卡住。 */
+.palette .empty{display:block;padding:26px 16px;text-align:center;color:var(--xz-ink-3);font-size:13px;position:static}
 .palette .foot{
   flex:none;display:flex;gap:12px;align-items:center;flex-wrap:wrap;
   padding:8px 12px;border-top:1px solid var(--xz-line);background:var(--xz-surface-2);
@@ -341,7 +471,7 @@ html.xz-dark .modal .scrim{background:rgba(0,0,0,.6)}
    由各板块页自己的 print 规则负责排版。 */
 @media print{
   body{overflow:visible;background:#fff}
-  .sidebar,.topbar,.backdrop,.palette,.modal{display:none!important}
+  .sidebar,.topbar,.backdrop,.palette,.modal,.cover{display:none!important}
   .main{display:block}
   .content{position:static;height:auto}
   .content iframe{position:static;width:100%;height:auto;min-height:100vh;border:0}
@@ -352,7 +482,7 @@ html.xz-dark .modal .scrim{background:rgba(0,0,0,.6)}
 <div class="app">
   <!-- 侧边栏：四大专区导航 -->
   <aside class="sidebar" id="sidebar">
-    <div class="brand">
+    <div class="brand" id="brand" role="button" tabindex="0" title="回到首页封面">
       <div class="logo">
         <div class="mark">公</div>
         <div style="min-width:0">
@@ -437,7 +567,42 @@ html.xz-dark .modal .scrim{background:rgba(0,0,0,.6)}
     </header>
     <div class="content">
       <iframe id="frame" title="板块内容"></iframe>
-      <div class="empty" id="empty"></div>
+
+      <!-- 首页封面：外壳自己渲染（不进 iframe）。入口全部由 NAV / PAGES / MK_SECTIONS 生成，
+           所以加板块、加期次时这里会自动跟上；封面本身不进搜索索引。 -->
+      <div class="cover" id="cover">
+        <div class="cover-in">
+          <section class="cv-hero" aria-labelledby="cvTitle">
+            <div class="cv-main">
+              <div class="cv-eyebrow"><span id="cvDate"></span><i aria-hidden="true"></i><span id="cvGreet"></span></div>
+              <h2 class="cv-title" id="cvTitle"><span class="cv-seal" aria-hidden="true">公</span>公考工作站</h2>
+              <p class="cv-lede">行测 · 申论 · 日常积累 · 模考真题 —— 一个站装下整套备考：<b>知识梳理</b>、<b>真题归档</b>、<b>错题复盘</b>与<b>成绩分析</b>。</p>
+              <div class="cv-acts">
+                <button class="cv-btn go" id="cvGo" type="button"></button>
+                <button class="cv-btn alt" id="cvSearch" type="button" title="全站搜索（/ 或 Ctrl/⌘ + K）">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/></svg>
+                  搜索知识点 <kbd>⌘K</kbd>
+                </button>
+              </div>
+            </div>
+            <ul class="cv-stats" id="cvStats"></ul>
+            <div class="cv-strip" id="cvStrip" aria-hidden="true"></div>
+          </section>
+
+          <h3 class="cv-h">四大专区<em>点专区名进入首板块，点标签直达具体板块</em></h3>
+          <div class="cv-zones" id="cvZones"></div>
+
+          <h3 class="cv-h">最近模考<em>按期次归档 · 点开直达该期</em></h3>
+          <div class="cv-recent" id="cvRecent"></div>
+
+          <div class="cv-foot">
+            <span><kbd>/</kbd><kbd>⌘K</kbd>全站搜索</span>
+            <span><kbd>?</kbd>关于与快捷键</span>
+            <span>顶栏 · 计时器 / 显示模式</span>
+            <span>板块页右下角 · 演算画布</span>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -589,6 +754,9 @@ var SN_SECTIONS = [
 var RJ_SECTION =
   { id:'rj', name:'日常积累', en:'DAILY ACCUMULATION', file:'sections/日常积累.html', color:'#f59e0b',
     sub:'时政 · 金句 · 素材 · 常识速记', cnt:'框架已就绪',
+    /* slots 只给首页封面用：单页专区没有二级条目，卡片上用它说明页里有哪几个输入位
+       （渲染成不可点的 .cv-tag）。改了日常积累页的槽位，这里跟着改。 */
+    slots:['时政热点','金句名言','成语好句','常识速记','案例素材'],
     desc:'时政热点、金句名言、成语好句、常识速记、案例素材五个槽位，内容自行录入。',
     keywords:['积累','日常积累','时政','热点','金句','名言','素材','案例','好词好句','成语积累','速记','摘抄'] };
 
@@ -600,10 +768,10 @@ var MK_SECTIONS = [
     desc:'按期次分册：每期下设行测、申论、行测错题集合、成绩分析四大入口，行测与错题按六大板块分置。',
     keywords:['模考','每周模考','模考真题','期次','整卷','复盘'] },
   { id:'mk-261002', name:'10月2日行测模考（上午）', en:'2026-10-02', file:'sections/每周模考.html', color:'#f43f5e',
-    sub:'行测 130 题题本 + 53 道错题分置 · 成绩已分析 · 答案版待入站', cnt:'第 7 期',
-    desc:'2026 年 10 月 2 日上午场行测整卷（《行政职业能力测验》31 页、130 题）：行测六个部分的题干与选项已逐页与卷面核对并文字化，图形推理第 76～85 题、资料分析第 112 题四张饼形图选项、第 120 题柱状图与资料三的稻谷单位面积产量图保留卷面原图（WebP，宽高与原扫描一致），数量关系的快递收费表、资料分析的两张表格按原表重排并逐格核对；本次 53 道错题已按六大板块沉淀（我的答案逐题录入，数量关系第 66～75 题按原清单「都选 c」记 C；第 83 题未写所选项先记待补）；本批素材只有题本、没有官方答案版，答案与解析、错题的正确答案待官方答案版入站后补录；成绩分析已上线：行测 60.8、班内 55 / 98、年级榜单 304（三场连续回升：49.2 → 60.2 → 60.8；常识判断班内第 3、类比推理满分并列第 1，图形推理 50%、定义判断 60% 为短板），53 道错题清单里 50 道与九模块失分吻合、3 道按得分反推应为蒙对；申论页暂为待录入槽位。',
+    sub:'行测 130 题 + 官方答案版 · 错题与侥幸题已分置 · 成绩已分析', cnt:'第 7 期',
+    desc:'2026 年 10 月 2 日上午场行测整卷（《行政职业能力测验》31 页、130 题）：行测六个部分的题干与选项已逐页与卷面核对并文字化，图形推理第 76～85 题、资料分析第 112 题四张饼形图选项、第 120 题柱状图与资料三的稻谷单位面积产量图保留卷面原图（WebP，宽高与原扫描一致），数量关系的快递收费表、资料分析的两张表格按原表重排并逐格核对；官方答案版《强化卷三参考答案及解析》（25 页）已入站，130 题的答案与解析逐题录入（数学题的分数与上下标按原卷重排成一行式写法，数值未改）；53 道错题清单经逐题比对：48 道确实做错、5 道「不确定但答对」（政治第 3 题、数量第 69 / 75 题、资料第 129 / 130 题）已单列，对照成绩表九模块失分另有 2 道未列入清单（政治、资料各 1）；成绩分析已上线：行测 60.8、班内 55 / 98、年级榜单 304（三场连续回升：49.2 → 60.2 → 60.8；常识判断班内第 3、类比推理满分并列第 1，图形推理 50%、定义判断 60% 为短板）；申论页暂为待录入槽位。',
     hit:'10月2日行测模考（上午）',
-    keywords:['10月2日','10月2日模考','10月2日行测模考','第七期','第7期','模考','题本','130题','上午','错题','成绩','成绩分析','60.8','班内 55'] },
+    keywords:['10月2日','10月2日模考','10月2日行测模考','第七期','第7期','模考','题本','答案','解析','130题','上午','错题','侥幸','成绩','成绩分析','60.8','班内 55'] },
   { id:'mk-261001b', name:'10月1日行测模考（下午）', en:'2026-10-01', file:'sections/每周模考.html', color:'#f43f5e',
     sub:'行测 120 题 + 官方答案版 · 错题已分置 · 成绩已分析', cnt:'第 6 期',
     desc:'2026 年 10 月 1 日下午场行测整卷（《行政职业能力测验》30 页、120 题）：行测六个部分的题干与选项已逐页与卷面核对并文字化，图形推理第 61～70 题、数量关系第 60 题示意图、定义判断第 80 题叶片图、资料分析第 109 / 112 题图表选项与三张统计图保留卷面原图，资料分析的三张表格按原表重排并逐格核对；官方答案版《强化卷二参考答案及解析》（21 页）已入站，120 题的答案与解析逐题录入；本次 51 道错题与 3 道「不确定但答对」的侥幸题已按六大板块沉淀，错题集合带上四组共用材料与官方解析；308 班成绩表（行测 60.2 + 九模块，96 人）本地留存、未入站，成绩分析给出班内名次（59 / 96）、九模块失分去向与下一阶段动作；申论页待后续素材入站。',
@@ -652,7 +820,7 @@ var NAV = [
     children: SN_SECTIONS },
   RJ_SECTION,
   { id:'mkx', name:'模考真题', en:'MOCK EXAMS', color:'#f43f5e',
-    sub:'整卷模考 · 按期次归档', cnt:'3 期',
+    sub:'整卷模考 · 按期次归档', cnt:'7 期',
     desc:'整卷模考的复盘归档中心：按期次分册，每期下设行测、申论、行测错题集合三大入口。',
     children: MK_SECTIONS }
 ];
@@ -685,6 +853,7 @@ var CHEV_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strok
    现在颜色只在图标和左侧色条上出现，形状本身说明这是什么板块。
    【易错】找不到 id 时用 ICON_MORE 兜底，别让 innerHTML 里出现 undefined。 */
 var ICON_MORE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"/><circle cx="12" cy="12" r="8.4" opacity=".38"/></svg>';
+var ICON_HOME = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.7L12 4l8 6.7V19a1.4 1.4 0 0 1-1.4 1.4h-3.1V14H8.5v6.4H5.4A1.4 1.4 0 0 1 4 19z"/></svg>';
 var ICONS = {
   /* 一级专区 */
   xc:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H10v16H5.5A1.5 1.5 0 0 1 4 18.5z"/><path d="M10 4h8.5A1.5 1.5 0 0 1 20 5.5v13a1.5 1.5 0 0 1-1.5 1.5H10"/><path d="M13 8h4M13 12h4"/></svg>',
@@ -712,7 +881,11 @@ function iconFor(id){
 }
 var nav = document.getElementById('nav');
 (function(){
-  var html = '';
+  /* 侧栏第一项固定是「首页」（封面不是板块页，只有它走 openCover，不参与 PAGES） */
+  var html = '<button class="nav-item nav-leaf nav-home" data-home="1" type="button" title="首页封面：四大专区、最近模考与继续上次">'+
+    '<span class="ico">'+ICON_HOME+'</span>'+
+    '<span class="txt"><span class="nm">首页</span></span>'+
+    '<span class="cnt">封面</span></button>';
   NAV.forEach(function(n){
     if(n.children && n.children.length){
       html += '<button class="nav-item nav-parent" data-parent="'+n.id+'" style="--c:'+n.color+'" aria-expanded="false" title="'+n.name+'：'+(n.desc||'')+'">'+
@@ -754,6 +927,7 @@ function toggleParent(pid){
 
 /* 侧边栏点击：一级＝展开收起，叶子＝打开页面 */
 nav.addEventListener('click', function(e){
+  if(e.target.closest('[data-home]')){ openCover(); return; }
   var par = e.target.closest('.nav-parent');
   if(par){ toggleParent(par.getAttribute('data-parent')); return; }
   var item = e.target.closest('.nav-item[data-id]');
@@ -814,7 +988,7 @@ var pendingQuery = null;
       上午 49.2 · 班内 82/92；下午 60.2 · 班内 59/96，含九模块定位、两场对照与补分情景），
       并同步 sections/每周模考.html 的期次卡片与本文件的 MK_SECTIONS 描述 —— 升到 v20261001e，
       否则 iPad 上模考中心仍是「待成绩表入站」的占位页。） */
-var CACHE_V = 'v20261002b';
+var CACHE_V = 'v20261002c';
 /* ===================================================================
    2026-09-20 界面重构：从「iOS 毛玻璃」转为「冷静的文档工作站」
    ---------------------------------------------------------------
@@ -921,8 +1095,15 @@ function setActive(id){
     ps[j].classList.toggle('has-active', has);
   }
   /* 打开叶子时自动展开它所属的专区 —— 否则从搜索跳过去，二级是收起的会看不到选中项 */
-  var sec = getSection(id);
-  if(sec && sec.parent){ setParentOpen(sec.parent.id, true); }
+  /* 【易错】必须判 id：封面走 setActive(null)，而 getSection(null) 会兜底成 PAGES[0]，
+     不判就会在封面上白展开一次「行测」。 */
+  if(id){
+    var sec = getSection(id);
+    if(sec && sec.parent){ setParentOpen(sec.parent.id, true); }
+  }
+  /* 封面态：侧栏「首页」高亮，所有叶子取消高亮（curId 为 null） */
+  var home = nav.querySelector('[data-home]');
+  if(home){ home.classList.toggle('active', !id); }
 }
 
 /* query: 字符串(兼容旧调用) 或 {q, id}；id 为目标知识点/单元锚点 */
@@ -938,6 +1119,8 @@ function setActive(id){
    这里还负责更新面包条颜色/标题、展开所属专区、窄屏自动收起侧栏，留意先后顺序。 */
 function openSection(id, query){
   var s = getSection(id);
+  hideCover();
+  saveLast(s.id);       /* 「继续上次」认的是真实落地的板块（id 拼错时记兜底那一页） */
   var norm;
   if(query == null){ norm = null; }
   else if(typeof query === 'string'){ norm = {q: query, id: null}; }
@@ -1803,6 +1986,130 @@ window.addEventListener('message', function(e){
   render();
 })();
 
+/* ================= 首页封面 ================= */
+/* 【接口】封面上的入口一律带 data-id（叶子 id），点击统一走 openSection；
+   侧栏「首页」与左上角品牌区走 openCover()。它和板块页之间只靠这两个函数来往。
+   【数据】localStorage 只存一个叶子 id（xz-last-section），前缀沿用主题层的 xz-；
+     读写都包 try：Safari 无痕模式会直接抛。读回来还要用 PAGES 校验一次 ——
+     板块改名/删除后旧值会指向不存在的 id，不能让「继续上次」跳到兜底页。
+   【易错】封面是外壳的一部分（iframe 里没有对应页面），所以它不进搜索索引，
+     不要给它编 id 塞进 PAGES，也不要写死文案清单：全部由 NAV/MK_SECTIONS 渲染。 */
+var coverEl = document.getElementById('cover');
+var coverBuilt = false;
+var LAST_KEY = 'xz-last-section';
+
+function lastId(){
+  try{
+    var v = localStorage.getItem(LAST_KEY);
+    if(!v){ return null; }
+    for(var i=0;i<PAGES.length;i++){ if(PAGES[i].id === v){ return v; } }
+    return null;
+  }catch(e){ return null; }
+}
+function saveLast(id){
+  try{ localStorage.setItem(LAST_KEY, id); }catch(e){}
+}
+/* 「10/02」这种短日期：直接切 en 字段（模考期次的 en 就是 ISO 日期），不解析 Date */
+function cvShortDate(en){
+  var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(en || '');
+  return m ? (m[2] + '/' + m[3]) : (en || '');
+}
+
+function buildCover(){
+  if(coverBuilt){ return; }
+  coverBuilt = true;
+
+  var d = new Date(), hh = d.getHours();
+  var wd = ['日','一','二','三','四','五','六'][d.getDay()];
+  document.getElementById('cvDate').textContent =
+    d.getFullYear() + ' 年 ' + (d.getMonth()+1) + ' 月 ' + d.getDate() + ' 日 · 星期' + wd;
+  document.getElementById('cvGreet').textContent =
+    hh < 5 ? '夜深了，收个尾就休息' : hh < 11 ? '早上好，先把手感热起来' :
+    hh < 13 ? '中午好，抽十分钟过一张卡' : hh < 18 ? '下午好，适合啃一整块' :
+    hh < 23 ? '晚上好，今天再推一块' : '夜深了，收个尾就休息';
+
+  /* 统计条：数字全部现算，不写死 —— 加板块、加期次后自动变 */
+  var mkCnt = 0;
+  MK_SECTIONS.forEach(function(s){ if(s.id !== 'mk'){ mkCnt++; } });
+  document.getElementById('cvStats').innerHTML = [
+    [NAV.length, '大分区'],
+    [PAGES.length, '个板块页'],
+    [mkCnt, '期模考归档'],
+    ['⌘K', '全站检索']
+  ].map(function(x){ return '<li><b>'+wsEsc(x[0])+'</b><span>'+wsEsc(x[1])+'</span></li>'; }).join('');
+  document.getElementById('cvStrip').innerHTML = NAV.map(function(n){
+    return '<i style="background:'+n.color+'"></i>';
+  }).join('');
+
+  /* 四大专区：卡片标题行＝进入该专区首板块，下面的标签直达具体板块。
+     标签最多 5 个，多出来的折成「全部 N 项」跳到该专区首项（模考就是总览页）。 */
+  document.getElementById('cvZones').innerHTML = NAV.map(function(n){
+    var kids = (n.children && n.children.length) ? n.children : [n];
+    var chips = kids.slice(0, kids.length > 6 ? 3 : 6).map(function(c){
+      return '<button class="cv-chip" type="button" data-id="'+wsEsc(c.id)+'">'+wsEsc(c.name)+'</button>';
+    });
+    if(kids.length > 6){
+      chips.push('<button class="cv-chip" type="button" data-id="'+wsEsc(kids[0].id)+'">查看全部</button>');
+    }
+    /* 单页专区（日常积累）没有可点的二级条目，用只读标签说明页里的槽位，别让卡片空着 */
+    if(n.slots){
+      chips = n.slots.map(function(t){ return '<span class="cv-tag">'+wsEsc(t)+'</span>'; });
+    }
+    return '<article class="cv-zone" style="--c:'+n.color+'">'+
+      '<button class="cv-zone-hd" type="button" data-id="'+wsEsc(kids[0].id)+'" title="进入 '+wsEsc(n.name)+' · '+wsEsc(kids[0].name)+'">'+
+        '<span class="ico">'+iconFor(n.id)+'</span>'+
+        '<span class="nm">'+wsEsc(n.name)+'</span>'+
+        '<span class="cnt">'+wsEsc(n.cnt)+'</span>'+
+        '<span class="ar" aria-hidden="true">→</span>'+
+      '</button>'+
+      '<p class="cv-zone-sub">'+wsEsc(n.sub)+'</p>'+
+      '<div class="cv-chips">'+chips.join('')+'</div>'+
+    '</article>';
+  }).join('');
+
+  /* 最近模考：取归档里最新三期（MK_SECTIONS[0] 是总览，不是期次） */
+  document.getElementById('cvRecent').innerHTML = MK_SECTIONS.filter(function(s){
+    return s.id !== 'mk';
+  }).slice(0,3).map(function(s){
+    return '<button class="cv-rec" type="button" data-id="'+wsEsc(s.id)+'" style="--c:'+s.color+'">'+
+      '<span class="d">'+wsEsc(cvShortDate(s.en))+'<small>'+wsEsc(s.cnt)+'</small></span>'+
+      '<span class="b"><b>'+wsEsc(s.name)+'</b><i>'+wsEsc(s.sub)+'</i></span>'+
+      '<span class="ar" aria-hidden="true">→</span>'+
+    '</button>';
+  }).join('');
+
+  coverEl.addEventListener('click', function(e){
+    var t = e.target.closest ? e.target.closest('[data-id]') : null;
+    if(t){ openSection(t.getAttribute('data-id'), null); }
+  });
+  document.getElementById('cvSearch').addEventListener('click', function(){ openPalette(); });
+  var brandEl = document.getElementById('brand');
+  brandEl.addEventListener('click', function(){ openCover(); });
+  brandEl.addEventListener('keydown', function(e){
+    if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); openCover(); }
+  });
+}
+
+/* 主按钮：有上次记录就「继续 · 判断推理」，没有就从第一个板块起 */
+function refreshGo(){
+  var id = lastId();
+  var s = id ? getSection(id) : null;
+  document.getElementById('cvGo').innerHTML = (s ? '继续 · ' + wsEsc(s.name) : '开始 · ' + wsEsc(PAGES[0].name)) +
+    ' <span aria-hidden="true">→</span>';
+  document.getElementById('cvGo').title = s ? '回到上次打开的板块' : '从第一个板块开始';
+}
+
+function openCover(){
+  buildCover();
+  refreshGo();
+  coverEl.classList.add('show');
+  crumbBar.style.background = 'var(--xz-brand)';
+  crumbTitle.textContent = '首页';
+  crumbEn.textContent = 'COVER';
+  setActive(null);
+}
+function hideCover(){ coverEl.classList.remove('show'); }
+
 /* ================= 启动 ================= */
 /* 【性能】两级索引都不做后台预热：聚焦/输入搜索框时才加载核心索引（约 17KB gzip），
    全文切片再按“当前板块优先”逐步补齐；首屏带宽全部留给板块内容。
@@ -1815,7 +2122,9 @@ function warmIndex(){
 }
 globalQ.addEventListener('focus', warmIndex);
 globalQ.addEventListener('input', warmIndex);
-openSection('cs', null);
+/* 【需求】首屏落在封面（不再直接进常识判断）：封面本身就是导航，
+   想直接进板块点一下即可，「继续上次」由 cvGo 负责。 */
+openCover();
 </script>
 </body>
 </html>
