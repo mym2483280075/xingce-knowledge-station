@@ -21,17 +21,55 @@ nav.toc .t-cat:hover{background:var(--xz-surface-2);color:var(--primary)}
 nav.toc .t-cat b{font-weight:700;color:var(--primary)}
 nav.toc .t-cat .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);flex:none}
 nav.toc .t-cat i{font-style:normal;font-size:10.5px;color:var(--xz-ink-4);margin-left:auto;background:var(--accent-soft-2);border-radius:999px;padding:0 7px}
+.mod-banner .num{font-size:11px;background:var(--accent-soft-2);border:1px solid rgba(255,255,255,.3);border-radius:999px;padding:1px 11px}
+.mod-body{background:var(--xz-surface);border:1px solid var(--accent-line);border-radius:0 0 14px 14px;border-top:0;padding:16px 20px 10px;margin-top:-6px}
+.qcard .stem{font-size:15px;color:var(--xz-ink);line-height:1.9;margin:6px 0 4px}
+.qcard .opt{font-size:14.5px;color:var(--xz-ink-2);line-height:1.8;margin:2px 0;padding-left:0;text-indent:0}
+.matcard{margin:14px 0;border:1px solid var(--xz-info-line);border-radius:12px;background:var(--xz-surface-2);padding:11px 16px 12px}
+.mathead span{font-size:11px;font-weight:600;color:color-mix(in srgb,var(--primary) 88%,var(--xz-ink));background:var(--xz-info-bg);border-radius:999px;padding:1px 10px}
+.matcard .fig img{border-color:var(--xz-info-line)}
+details.ansbox{margin-top:8px;border:1px solid var(--xz-good-line);border-radius:8px;background:var(--xz-good-bg)}
+details.ansbox summary{cursor:pointer;list-style:none;padding:6px 12px;font-size:13.5px;color:var(--xz-good-ink);font-weight:600;display:flex;align-items:center;gap:6px;user-select:none}
+details.ansbox summary::-webkit-details-marker{display:none}
+details.ansbox summary::after{content:"▸";margin-left:auto;color:var(--xz-good-ink);transition:transform .15s}
+details.ansbox[open] summary::after{transform:rotate(90deg)}
+details.ansbox summary:hover{background:var(--xz-good-bg);border-radius:8px}
+.ansline b{color:var(--xz-good-ink);font-size:15px}
+.module.hidden,.qcard.hidden,.matcard.hidden{display:none}
 @media print{
 nav.toc,.toolbar,.subnav,.backtop{display:none}
+details.ansbox{display:block}
 }
+.subhead{margin:16px 0 8px;padding:8px 14px;border-radius:10px;background:var(--accent-soft-2);border:1px solid var(--accent-line);color:var(--accent-ink);font-size:13.5px;font-weight:800;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.subhead span{font-size:11.5px;font-weight:600;color:var(--accent-ink);background:var(--xz-surface);border-radius:999px;padding:1px 10px}
+.pintro{margin:2px 0 10px;font-size:12.5px;color:var(--xz-ink-3);background:var(--xz-surface-2);border-radius:8px;padding:6px 12px;line-height:1.75}
+.bannote{margin:0 0 12px;font-size:12.5px;color:var(--xz-warn-ink);background:var(--xz-warn-bg);border:1px dashed var(--xz-warn-line);border-radius:10px;padding:8px 13px;line-height:1.7}
+.refbd p{margin:5px 0;line-height:1.9}
+.refbd .sh{font-weight:800;color:color-mix(in srgb,var(--primary) 88%,var(--xz-ink));margin:9px 0 3px}
+.refbd .pt{color:var(--xz-danger-ink);font-size:12.5px;font-weight:700;white-space:nowrap}
+.bdtitle{font-weight:800;color:color-mix(in srgb,var(--primary) 88%,var(--xz-ink));font-size:14.5px;margin:9px 0 4px;padding-left:9px;border-left:4px solid var(--xz-info-line);line-height:1.6}
+.fw{margin-top:4px}
+.fw p{text-indent:2em;margin:8px 0;line-height:1.95;font-size:14px;color:var(--xz-ink-2)}
+.fw p.fwtitle{text-indent:0;text-align:center;font-weight:800;font-size:16.5px;color:color-mix(in srgb,var(--primary) 88%,var(--xz-ink));margin:8px 0 2px}
+.fw p.fwsub{text-indent:0;text-align:center;font-weight:700;font-size:13px;color:color-mix(in srgb,var(--primary) 88%,var(--xz-ink));margin:0 0 10px}
+.matnote{margin:6px 0 10px;border:1px solid var(--xz-info-line);border-radius:10px;background:var(--xz-surface-2);padding:8px 12px}
+.matnote .mh{font-size:12px;font-weight:800;color:color-mix(in srgb,var(--primary) 88%,var(--xz-ink));margin:0 0 5px}
+.matnote p{font-size:13px;color:var(--xz-ink-2);margin:4px 0}
+.mine{margin-top:8px;background:var(--xz-danger-bg);border:1px solid var(--xz-danger-line);border-radius:8px;padding:5px 12px;font-size:14px}
+.mine b{color:var(--xz-danger-ink);font-size:15px}
+.mine .todo{color:var(--xz-ink-4)}
+.rtags{margin-top:6px;display:flex;gap:6px;flex-wrap:wrap}
+.rtag{font-size:11px;background:var(--xz-danger-bg);border:1px solid var(--xz-danger-line);color:var(--xz-danger-ink);border-radius:999px;padding:0 10px}
+.kp-tag{font-size:11px;background:var(--xz-info-bg);border:1px solid var(--xz-info-bg);color:var(--xz-info-ink);border-radius:999px;padding:0 10px}
+.qcard .opt p{margin:2px 0}
 </style>
 
 </head>
 <body>
 <header>
   <h1>10月3日行测模考（下午） · 申论</h1>
-  <div class="intro">10月3日下午场申论页尚未录入：本批素材只有行测题本与答案版，申论卷面（给定资料与 5 道大题）、参考答案与评分标准待到齐后补录在本页。</div>
-  <div class="meta"><span>待录入</span><span>行测题本待入站</span><span>成绩已分析</span><span>四大入口之一</span></div>
+  <div class="intro">10月3日模考（下午）申论页尚未录入：本批素材只有行测题本（30 页、120 题），申论卷面（给定资料与 5 道大题）、参考答案与评分标准待到齐后补录在本页。</div>
+  <div class="meta"><span>待录入</span><span>行测已录入</span><span>四大入口之一</span></div>
 </header>
 <div class="subnav">
   <a href="../../每周模考.html">← 模考中心</a>
