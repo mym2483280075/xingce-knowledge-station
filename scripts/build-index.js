@@ -10,10 +10,14 @@
 //      旧版每条只留 900 字符，实测判断推理板块的索引覆盖率只有 10%（正文 185.8 千字 →
 //      索引 19.1 千字），"一笔画""横竖线"这类正文里反复出现的概念根本搜不到。
 //      切片后每片都带所属卡片的锚点 id，命中即可直达原卡片并由板块页高亮。
-//   ③ 模考子页（行测 / 申论 / 行测错题集合）也会入库：它们不是 <section> 而是
-//      <div class="qcard" id="q061"> / <div class="shen" id="sq1"> 结构，所以块提取器
-//      同时支持 section 与 div 两种容器（见 extractBlocks）。它们有自己的文件路径，
-//      前端用 item.f 直接打开子页，而不是回到模考总览页。
+//   ③ 模考子页（行测 / 申论 / 行测错题集合 / 成绩分析）也会入库：它们不是 <section> 而是
+//      <div class="qcard" id="q061"> / <div class="shen" id="sq1"> / <section class="scard" id="cj-modules">
+//      结构，所以块提取器同时支持 section 与 div 两种容器（见 extractBlocks）。它们有自己的
+//      文件路径，前端用 item.f 直接打开子页，而不是回到模考总览页。
+//   ④ 【易错】行测页的「资料/材料」卡（.matcard，如资料一～资料四）必须带 id
+//      （约定 mat-111-115 这种「起止题号」写法），否则材料正文（统计表、图注、题干材料）
+//      既进不了索引、也没有可跳转的锚点 —— 用户搜材料里的词会直接“搜不到”。
+//      新增模考页时记得补 id（见 操作说明-新增题目识别与入库.md）。
 //
 // 【产物】分两个文件族，解决“要全覆盖”与“首屏要轻”的矛盾：
 //   ① assets/search-index.json —— 核心索引：每张卡片一条，只有标题（无正文），约 30KB gzip。
@@ -85,7 +89,16 @@ function readNavSections() {
     const file = (body.match(/file:\s*'([^']+)'/) || [])[1] || '';
     if (!id || !name || file.indexOf('sections/') !== 0) { continue; }
     const hit = (body.match(/hit:\s*'([^']+)'/) || [])[1] || '';
-    list.push({ id: id, name: name, file: file.replace('sections/', ''), hit: hit });
+    /* 【需求】NAV 里的 sub / cnt / desc / keywords 也是站点正文的一部分
+       （模考期次的 desc 会写「资料一“旅游业统计”表」这类内容说明，用户会直接搜它），
+       所以一并摘出来当“板块说明”入索引 —— 见下面的 indexNavMeta。 */
+    const sub = (body.match(/sub:\s*'([^']*)'/) || [])[1] || '';
+    const cnt = (body.match(/cnt:\s*'([^']*)'/) || [])[1] || '';
+    const desc = (body.match(/desc:\s*'([^']*)'/) || [])[1] || '';
+    const kw = (body.match(/keywords:\s*\[([\s\S]*?)\]/) || [])[1] || '';
+    const keywords = (kw.match(/'([^']*)'/g) || []).map((s) => s.slice(1, -1));
+    list.push({ id: id, name: name, file: file.replace('sections/', ''), hit: hit,
+                sub: sub, cnt: cnt, desc: desc, keywords: keywords });
   }
   return list;
 }
@@ -120,7 +133,9 @@ function extractBlocks(html, wanted) {
     const start = m.index + m[0].length;
     const end = findClose(html, tag, start);
     if (end < 0) { continue; }
-    out.push({ cls: hit, id, attrs, html: html.slice(start, end) });
+    /* start/end 是“卡片内部内容”的偏移（不含标签本身）。外面的 indexPageText
+       靠它们把「卡片以外的正文」扣出来单独入索引。 */
+    out.push({ cls: hit, id, attrs, html: html.slice(start, end), start, end });
     tagRe.lastIndex = end;
   }
   return out;
@@ -203,17 +218,135 @@ function indexFile(fileRel, secId, secName, wanted, key) {
       full.push({ s: secId, n: secName, f: 'sections/' + fileRel, i: b.id, t: title, x: part });
     }
   }
+  /* 卡片以外的正文（页头简介 / meta / 模块横幅 / 工具条 / 页脚）也要进索引：
+     用户会搜「行政职业能力测验」这类只在页头出现的词 —— 之前这些内容一律搜不到。
+     落点用“下一张卡片的 id”，跳过去就停在正文附近。 */
+  const residue = indexPageText(html, blocks, fileRel, secId, secName, seenChunks);
+  for (const it of residue) { full.push(it); }
   if (!full.length) { console.log('  ' + fileRel + ' -> 0 张卡片（空槽位页面，可忽略）'); return; }
   fullFiles.push({ k: key, s: secId, n: secName, f: 'sections/' + fileRel, items: full });
-  console.log('  ' + fileRel + ' -> ' + blocks.length + ' 张卡片 / ' + full.length + ' 片');
+  console.log('  ' + fileRel + ' -> ' + blocks.length + ' 张卡片 / ' + full.length + ' 片'
+              + (residue.length ? '（含 ' + residue.length + ' 片卡片外正文）' : ''));
+}
+
+/* ========== 卡片外正文：页头 / 说明 / 工具条 / 页脚 ==========
+   做法：按卡片的位置把整份 HTML 切成若干「gap」，逐段 clean 后切片。
+   段内若本身没有卡片，就把落点挂到「下一张卡片的 id」（没有下一张就挂上一张）——
+   这样命中的结果跳过去会停在正文附近，而不是停在没有锚点的页首。 */
+function indexPageText(html, blocks, fileRel, secId, secName, seenChunks) {
+  const out = [];
+  let cursor = 0;
+  const gaps = [];
+  for (const b of blocks) {
+    const gapStart = cursor, gapEnd = b.start;
+    if (gapEnd > gapStart) { gaps.push({ from: gapStart, to: gapEnd, anchor: b.id || '' }); }
+    cursor = Math.max(cursor, b.end);
+  }
+  if (cursor < html.length) { gaps.push({ from: cursor, to: html.length, anchor: '' }); }
+  /* 最后的 gap 没有“下一张卡片”，退回最后一张卡片的 id（页脚/工具条文字跳到最后一张卡） */
+  const lastId = blocks.length ? (blocks[blocks.length - 1].id || '') : '';
+  let n = 0;
+  for (const g of gaps) {
+    const text = clean(html.slice(g.from, g.to));
+    const anchor = g.anchor || lastId;
+    /* 太短的碎片（分隔符、空白）不用入库 */
+    if (clean(text).length < 12) { continue; }
+    for (const part of splitChunks(text, CHUNK)) {
+      const ck = 'PAGE|' + part.slice(0, 60);
+      if (seenChunks.has(ck)) { continue; }
+      seenChunks.add(ck);
+      n++;
+      const title = secName + ' · 本页说明' + (n > 1 ? ' ' + n : '');
+      out.push({ s: secId, n: secName, f: 'sections/' + fileRel, i: anchor, t: title, x: part });
+      /* 核心索引补一条标题（不带正文）：片段正文随该板块的全文索引一起下发，
+         核心索引要保持轻量（聚焦搜索框就要下载它）。 */
+      coreItems.push({ s: secId, n: secName, f: 'sections/' + fileRel, i: anchor, t: title });
+    }
+  }
+  return out;
+}
+
+/* ========== 板块说明（NAV 的 sub / cnt / desc / keywords） ==========
+   模考中心页的期次卡片是前端渲染的，静态 HTML 里只有空 #wrap；可它的期次说明
+   （desc）里写着「资料一“旅游业统计”表」这类内容线索，用户会直接搜。
+   所以把 NAV 里的文案摘出来当正文入库：模考期次挂到模考中心页，其余挂各自的板块页。 */
+function indexNavMeta(sections) {
+  let n = 0;
+  for (const s of sections) {
+    const text = [s.sub, s.cnt, s.desc, (s.keywords || []).join(' ')]
+      .filter(Boolean).join(' ').trim();
+    if (text.length < 8) { continue; }
+    n++;
+    const f = 'sections/' + s.file;
+    const t = s.name + ' · 板块说明';
+    const item = { s: s.id, n: s.name, f: f, i: '', t: t, x: text.slice(0, CHUNK) };
+    coreItems.push(item);
+    /* 【易错】同时写进该板块的全文文件：只放核心索引的话，它会在该板块全文索引
+       下载完成后被 wsSearchSet 过滤掉（核心条目按 k 去重），那句说明就再也搜不到。 */
+    const full = fullFiles.find((x) => x.f === f);
+    if (full) { full.items.push(item); }
+  }
+  console.log('板块说明 ' + n + ' 条已入索引（模考中心页只进核心索引）');
+}
+
+/* ========== 脚本模板里的正文（模考中心页专用） ==========
+   每周模考.html 的期次卡片与「如何新增一期模考」说明都写在 JS 模板字符串里，
+   静态 HTML 里只有一个空 #wrap —— 页面上的字一个都进不了索引，用户搜「如何新增一期模考」
+   永远搜不到。这里把 <script> 里的中文串抽出来当正文（只收含 ≥6 个汉字、长度 ≥8 的片段，
+   顺手剥掉内嵌的 HTML 标签），避免把代码当正文。 */
+function indexScriptText(html, fileRel, secId, secName, key, seenChunks) {
+  const out = [];
+  let n = 0;
+  for (const m of html.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/gi)) {
+    const code = m[1];
+    for (const s of code.matchAll(/'((?:[^'\\]|\\.)*)'|"((?:[^"\\]|\\.)*)"/g)) {
+      const lit = (s[1] !== undefined ? s[1] : s[2]) || '';
+      const text = clean(lit.replace(/\\'/g, "'").replace(/\\"/g, '"'));
+      if (text.length < 8) { continue; }
+      if ((text.match(/[\u4e00-\u9fa5]/g) || []).length < 6) { continue; }
+      const ck = 'JS|' + text.slice(0, 60);
+      if (seenChunks.has(ck)) { continue; }
+      seenChunks.add(ck);
+      n++;
+      /* 标题用片段开头的十几个字：用户在结果里看到的是「模考总览 · 2026年10月4日上午场…」，
+         比一排「本页说明 3 / 本页说明 4」有用得多。 */
+      const label = text.replace(/\s+/g, '').slice(0, 12);
+      const title = secName + ' · ' + (label || ('本页说明 ' + n)) + (text.length > label.length ? '…' : '');
+      out.push({ s: secId, n: secName, f: 'sections/' + fileRel, i: '', t: title, x: text.slice(0, CHUNK) });
+    }
+  }
+  return out;
 }
 
 console.log('=== 板块页 ===');
 const DEFAULT_WANTED = new Set(['kp', 'unit']);
+let hubIndexed = false;
 for (const sec of sections) {
-  /* 每周模考总览页的正文是前端拼出来的（HTML 里只有一个空 #wrap），没有可索引的卡片；
+  /* 每周模考总览页的正文是前端拼出来的（HTML 里只有一个空 #wrap）：卡片没有可索引的容器，
+     但脚本模板里的期次说明与「如何新增一期模考」都是真内容。给它也建一份全文索引
+     （k='mk'，与它的板块 id 一致），页面上的字就能和别的板块一样被搜到；
      各期次的正文在子页里，见下面的「模考子页」。 */
-  if (sec.file === '每周模考.html') { continue; }
+  if (sec.file === '每周模考.html') {
+    /* 【易错】模考的期次条目共用这一份页面（file 都一样），这里只能建一次索引；
+       否则每个期次都会塞一份同内容的全文文件（11 份 60 片），索引体积白涨一大截。 */
+    if (hubIndexed) { continue; }
+    hubIndexed = true;
+    const abs = path.join(ROOT, 'sections', sec.file);
+    if (fs.existsSync(abs)) {
+      const html = fs.readFileSync(abs, 'utf8');
+      const seen = new Set();
+      const items = [];
+      /* ① 页头 / meta 等卡片外正文（这一页没有卡片，整页正文都在 gap 里） */
+      for (const it of indexPageText(html, [], sec.file, sec.id, sec.name, seen)) { items.push(it); }
+      /* ② 脚本模板里的期次说明与新增期次指引 */
+      for (const it of indexScriptText(html, sec.file, sec.id, sec.name, sec.id, seen)) { items.push(it); }
+      if (items.length) {
+        fullFiles.push({ k: sec.id, s: sec.id, n: sec.name, f: 'sections/' + sec.file, items });
+      }
+      console.log('  ' + sec.file + ' -> ' + items.length + ' 片（页头 + 脚本说明）');
+    }
+    continue;
+  }
   indexFile(sec.file, sec.id, sec.name, DEFAULT_WANTED, sec.id);
 }
 
@@ -229,9 +362,11 @@ const MK_ROOT = path.join(ROOT, 'sections', '每周模考');
 const hitMap = {};
 for (const s of sections) { if (s.hit) { hitMap[s.hit] = s.id; } }
 const MK_FILES = [
-  { f: '行测.html', tag: '行测', sfx: 'xc', wanted: new Set(['qcard']) },
+  /* 行测页除了每道题的 .qcard，还有资料分析/逻辑等共用材料 .matcard
+     （id 形如 mat-111-115）：材料正文（表格、图注、共用题干）同样要能被搜到并直达。 */
+  { f: '行测.html', tag: '行测', sfx: 'xc', wanted: new Set(['qcard', 'matcard']) },
   { f: '申论.html', tag: '申论', sfx: 'sn', wanted: new Set(['shen', 'matcard']) },
-  { f: '行测错题集合.html', tag: '行测错题', sfx: 'ct', wanted: new Set(['qcard']) },
+  { f: '行测错题集合.html', tag: '行测错题', sfx: 'ct', wanted: new Set(['qcard', 'matcard']) },
   /* 成绩分析页的正文块统一用 class="scard"（卡片 id 形如 cj-modules），
      与错题集合的 qcard 分开，避免两种卡片互相污染索引。 */
   { f: '成绩分析.html', tag: '成绩分析', sfx: 'cj', wanted: new Set(['scard']) }
@@ -248,6 +383,10 @@ if (fs.existsSync(MK_ROOT)) {
     }
   }
 }
+
+/* 板块说明（含模考中心的期次说明）补进索引 —— 必须等 fullFiles 建完再跑 */
+console.log('=== 板块说明 ===');
+indexNavMeta(sections);
 
 const outDir = path.join(ROOT, 'assets');
 fs.mkdirSync(outDir, { recursive: true });

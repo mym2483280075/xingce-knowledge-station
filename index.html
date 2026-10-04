@@ -8,8 +8,8 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>公考工作站 · 行测 / 申论 / 日常积累 / 模考真题 / 考场流程卡</title>
-<script src="assets/%E4%B8%BB%E9%A2%98.js?v=20260922b"></script>
-<link rel="stylesheet" href="assets/design-tokens.css?v=20260920f">
+<script src="assets/%E4%B8%BB%E9%A2%98.js?v=f38968bc"></script>
+<link rel="stylesheet" href="assets/design-tokens.css?v=2604fc33">
 <style>
 /* ===================================================================
    工作站外壳样式（index.html 专用）
@@ -171,6 +171,18 @@ body{
 
 .content{flex:1;position:relative;min-height:0}
 .content iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:var(--xz-surface)}
+
+/* ================= 板块页加载进度条 =================
+   【需求】大板块页（言语理解 1.2MB）在慢网络下要等好几秒，原来切换时是一片空白，
+     看起来像“点了没反应”。这里给外壳加一条不确定进度条：开始切换就出现，iframe
+     load 后消失 —— 不改板块页、不影响任何既有点击逻辑。 */
+.loadbar{position:absolute;top:0;left:0;right:0;height:2px;z-index:6;overflow:hidden;opacity:0;
+  transition:opacity .18s var(--ease);pointer-events:none}
+.loadbar.show{opacity:1}
+.loadbar i{display:block;height:100%;width:38%;background:var(--xz-brand);
+  animation:xz-loadbar 1.1s ease-in-out infinite}
+@keyframes xz-loadbar{0%{transform:translateX(-110%)}100%{transform:translateX(290%)}}
+@media (prefers-reduced-motion:reduce){.loadbar i{animation-duration:2.4s}}
 
 /* ================= 首页封面（外壳自渲染，不进 iframe） =================
    【需求】打开网站先落在封面：站点定位 +「继续上次」+ 搜索入口 + 五大专区 + 最近模考。
@@ -567,6 +579,7 @@ html.xz-dark .modal .scrim{background:rgba(0,0,0,.6)}
     </header>
     <div class="content">
       <iframe id="frame" title="板块内容"></iframe>
+      <div class="loadbar" id="loadBar" aria-hidden="true"><i></i></div>
 
       <!-- 首页封面：外壳自己渲染（不进 iframe）。入口全部由 NAV / PAGES / MK_SECTIONS 生成，
            所以加板块、加期次时这里会自动跟上；封面本身不进搜索索引。 -->
@@ -668,7 +681,7 @@ html.xz-dark .modal .scrim{background:rgba(0,0,0,.6)}
         主题层还有 'xz-theme-set' / 'xz-theme-query'（见 assets/主题.js）。
      ③ 两个缓存版本号必须同时更新（用户要求“改了就要立刻生效”）：
         · CACHE_V = 本文件里给 iframe 板块页 HTML 去缓存的版本号
-        · 各板块页里的 assets/演算层.js?v=...
+        · 各板块页里的 assets/演算层.js
         漏改任何一个，iPad 上都会继续跑缓存里的旧文件，等于没改。
    ---------------------------------------------------------------
    （2026-09-15 顶栏新增 iOS 风格计时器：只动本文件，iframe 里的板块页一字未改，
@@ -784,10 +797,10 @@ var MK_SECTIONS = [
     desc:'按期次分册：每期下设行测、申论、行测错题集合、成绩分析四大入口，行测与错题按六大板块分置。',
     keywords:['模考','每周模考','模考真题','期次','整卷','复盘'] },
   { id:'mk-261004', name:'10月4日行测模考（上午）', en:'2026-10-04', file:'sections/每周模考.html', color:'#f43f5e',
-    sub:'行测 130 题 + 官方答案版《强化卷六》 · 成绩已分析（66.0 · 班内 42 / 91）', cnt:'第 10 期',
-    desc:'2026 年 10 月 4 日上午场（模考六 · 130 题）：308 班行测成绩排名（91 人）逐格识别校验后完成成绩分析——66.0 分、班内 42 / 91、年级榜单 244，六期最强（年级比上一场前进 175 名、班内名次首次过半、与班均差首次转正 +1.29）；判断推理是发动机（类比 5 / 5、逻辑 10 / 10 两块满分并列班内第 1，定义 8 / 10 班内第 2）；失分口收窄到资料分析（−2.22）、图形推理（−1.85）、数量关系（−0.66）三块。行测题本（32 页 / 130 题）与官方答案版《强化卷六参考答案及解析》（23 页）已完成 OCR 与逐题核对并入站：130 题卡片、17 张图形 / 图表保留卷面原图、每题附答案与解析折叠，资料一“旅游业统计”与资料四“快递业务结构”两张表按原表重排并逐格核对；申论、行测错题集合待素材。',
+    sub:'行测 130 题 + 官方答案版《强化卷六》 · 错题已录入（43 + 14 侥幸） · 成绩 66.0（班内 42 / 91）', cnt:'第 10 期',
+    desc:'2026 年 10 月 4 日上午场（模考六 · 130 题）：308 班行测成绩排名（91 人）逐格识别校验后完成成绩分析——66.0 分、班内 42 / 91、年级榜单 244，六期最强（年级比上一场前进 175 名、班内名次首次过半、与班均差首次转正 +1.29）；判断推理是发动机（类比 5 / 5、逻辑 10 / 10 两块满分并列班内第 1，定义 8 / 10 班内第 2）；失分口收窄到资料分析（−2.22）、图形推理（−1.85）、数量关系（−0.66）三块。行测题本（32 页 / 130 题）与官方答案版《强化卷六参考答案及解析》（23 页）已完成 OCR 与逐题核对并入站：130 题卡片、17 张图形 / 图表保留卷面原图、每题附答案与解析折叠，资料一“旅游业统计”与资料四“快递业务结构”两张表按原表重排并逐格核对；行测错题集合已录入 43 道错题 + 14 道侥幸题（对照成绩表反推的 44 道，剩言语 1 道疑似答题卡涂错）。申论待素材。',
     hit:'10月4日行测模考（上午）',
-    keywords:['10月4日','10月4日行测模考（上午）','10月4日上午','第十期','第10期','模考六','模考','行测','130题','130 题','题本','答案','解析','强化卷六','成绩','成绩分析','66.0','班内 42','年级 244','资料分析','图形推理','数量关系'] },
+    keywords:['10月4日','10月4日行测模考（上午）','10月4日上午','第十期','第10期','模考六','模考','行测','130题','130 题','题本','答案','解析','强化卷六','错题','错题集合','侥幸','侥幸题','我的答案','成绩','成绩分析','66.0','班内 42','年级 244','资料分析','图形推理','数量关系'] },
   { id:'mk-261003b', name:'10月3日行测模考（下午）', en:'2026-10-03', file:'sections/每周模考.html', color:'#f43f5e',
     sub:'行测 120 题 + 官方答案版 · 错题已分置 · 成绩已分析（61.7 · 班内 72 / 94）', cnt:'第 9 期',
     desc:'2026 年 10 月 3 日下午场（模考五 / 强化卷五，120 题）：行测题本（30 页扫描件）与官方答案版《强化卷五参考答案及解析》（23 页、120 题答案齐全）已完成本地识别与核对，题目页面已入站（120 题 + 官方答案与解析折叠）；错题集合已按本次作答清单录入 54 道（做错 43 道——政治理论 4 · 常识判断 4 · 言语理解 4 · 数量关系 9 · 判断推理 11 · 资料分析 11——+ 不确定但答对 11 道），每题记「我的答案 / 正确答案 / 考点 / 错因」并可回刷题本原题，资料分析四组共用材料随题带上，正确答案与官方解析取自《强化卷五》；资料 11 错、数量 9 错与成绩表模块得分（9 / 20、1 / 10）逐项吻合。成绩分析：行测 61.7、班内 72 / 94、年级榜单 419——五期最高绝对分（上一场 57.9，+3.8 分，与卷二同配分可直接对比），但本场班均抬升到 66.07（+4.54），名次基本原地；资料分析 80% → 45%（失 9.9 分）为五期最大回撤、数量关系 1 / 10（失 8.1 分）为第二大失分口，言语理解 87%（五期最高、班内 12 / 94）与逻辑 / 定义 80% 为亮点；申论待素材入站。',
@@ -972,11 +985,15 @@ var frame = document.getElementById('frame');
 var crumbBar = document.getElementById('crumbBar');
 var crumbTitle = document.getElementById('crumbTitle');
 var crumbEn = document.getElementById('crumbEn');
+var loadBar = document.getElementById('loadBar');
+/* 进度条只跟“外壳发起的一次切换”走：show 之后由下面的 frame load 收掉 */
+function showLoadBar(){ if(loadBar){ loadBar.classList.add('show'); } }
+function hideLoadBar(){ if(loadBar){ loadBar.classList.remove('show'); } }
 var curId = null;
 var pendingQuery = null;
 /* 板块页版本号：只在“本次部署有内容更新”时改这里，平时让浏览器直接用缓存（走 ETag 校验），
    不再用 Date.now()，否则每次切换板块都要重新下载整份 HTML（最大 1.2MB）。
-   【易错】【需求】改这个版本号时，别忘了同时改各板块页里 assets/演算层.js?v=...：
+   【易错】【需求】改这个版本号时，别忘了同时改各板块页里 assets/演算层.js
    两者共同决定 iPad 上看到的到底是新代码还是缓存里的旧代码。
    （2026-09-14 重构 sections/言语理解.html 的 800 词库：由「8 讲」改为「77 组」，
      两处版本号同时升到 v20260914a。）
@@ -987,7 +1004,7 @@ var pendingQuery = null;
      这三页的 HTML 变了 —— 按同一规则把 CACHE_V 升到 v20260919a，
      否则 iPad 上仍是旧 HTML，图片依旧会在懒加载时把后面的内容顶下去。）
    （2026-09-19 内联脚本统一：12 个板块页的内联「页内交互脚本」全部换成
-     assets/板块页脚本.js?v=20260919b，页面 HTML 变了 —— 升到 v20260919b，
+     assets/板块页脚本.js HTML 变了 —— 升到 v20260919b，
      否则 iPad 会继续用缓存里的旧页面（旧页面里还带着那份内联脚本）。
     （2026-09-20 每周模考新增第四入口「成绩分析」：各期次页面（行测 / 申论 / 错题集合）
       的 subnav 与 sections/每周模考.html 都改了 —— 升到 v20260920a，
@@ -1029,8 +1046,18 @@ var pendingQuery = null;
       四个页面落地（成绩分析由成绩表 94 人重写为完整分析：行测 61.7 · 班内 72/94 · 年级 419，
       含九模块定位、45 道错题反推失分去向、五期对照与补分情景；行测 / 申论 / 错题集合为占位），
       sections/每周模考.html 的 MOCK_DATES 与本文件的 MK_SECTIONS 各加一条 —— 升到 v20261003e，
-      否则 iPad 上模考中心仍是旧的 8 期列表，看不到第 9 期。） */
-var CACHE_V = 'v20261004c';
+      否则 iPad 上模考中心仍是旧的 8 期列表，看不到第 9 期。）
+      （2026-10-04 搜索与跳转修复：① 10 个模考「成绩分析」页补上 assets/板块页脚本.js
+      （此前搜索结果落到这些页时无人响应 ws-search，页面停在顶部、看不到命中内容）；
+      ② 模考行测页的资料/材料卡（.matcard）补 id 并纳入全文索引（此前材料正文搜不到）；
+      ③ 搜索索引改为「立即批 + 没有命中才扫兜底批」，且命令面板关闭即停止下载
+      （此前一次搜索会在后台把 3.9MB 全站索引拖完，抢带宽导致翻页/跳转变慢）。
+      三件事都改了板块页 HTML 或 assets/板块页脚本.js —— 升到 v20261004d。
+      同日第二轮（搜索覆盖面 + 词形）：把「卡片以外的整页正文」（页头简介 / meta / 模块横幅 /
+      工具条 / 页脚）与模考中心页的脚本模板文案全部纳入索引，标题/正文改走「归一化 + 分词 AND +
+      跳字兜底」，页内搜索一个字没命中时不再把整页筛空 —— 又改了索引与 assets/板块页脚本.js，
+      升到 v20261004e，否则 iPad 会继续用缓存里的旧页面与旧脚本。） */
+var CACHE_V = 'v5285abcf';
 /* ===================================================================
    2026-09-20 界面重构：从「iOS 毛玻璃」转为「冷静的文档工作站」
    ---------------------------------------------------------------
@@ -1106,6 +1133,7 @@ function syncNavToFrame(){
 /* 【易错】切换板块后要把待发的搜索转发给新页面：必须等 iframe 的 load 事件再 postMessage，
    抢在前面发会被丢弃（目标页还没绑定监听）。pendingQuery 就是为这个“等一手”存在的，别删。 */
 frame.addEventListener('load', function(){
+  hideLoadBar();
   if(shellNavDone < shellNavSeq){
     shellNavDone = shellNavSeq;           /* 这次加载是外壳自己发的：账目有效 */
   }else{
@@ -1167,11 +1195,14 @@ function openSection(id, query){
   if(query == null){ norm = null; }
   else if(typeof query === 'string'){ norm = {q: query, id: null}; }
   else { norm = {q: (query.q||''), id: (query.id||null)}; }
-  if((!norm || !norm.q) && s.hit){ norm = {q: s.hit, id: null}; }
+  /* 【需求】模考期次共用模考中心这一页，页面上用来定位的是「期次名」（如 10月4日行测模考（上午））。
+     搜索关键词（「第十期」「模考六」）在页面上一个字都不出现，直接用它会“跳过去但不高亮”。
+     所以只要这个叶子配了 hit，就统一用 hit 定位 —— 它同时是「模考中心滚动到哪张卡」的锚点。 */
+  if(s.hit){ norm = {q: s.hit, id: null}; }
 
   var changed = (frameDoc() !== s.file);
   frame.setAttribute('data-cur', s.file);
-  if(changed){ frame.src = s.file + '?' + CACHE_V; shellNavSeq++; }
+  if(changed){ showLoadBar(); frame.src = s.file + '?' + CACHE_V; shellNavSeq++; }
   if(norm && norm.q){
     var send = function(){
       try{ frame.contentWindow.postMessage({type:'ws-search', q: norm.q, id: norm.id}, '*'); }catch(e){}
@@ -1314,8 +1345,11 @@ function renderDrop(matches){
      所以索引拆两层（构建见 scripts/build-index.js）：
        ① assets/search-index.json —— 核心索引：每张卡片一条，只有标题，gzip 约 17KB；
           聚焦搜索框即加载，标题级命中立刻可见，也是“回车永远有反应”的兜底。
-       ② assets/search-full/<key>.json —— 每板块一份全文切片：先加载“当前正在看的板块”，
-          其余在面板展开且有查询时按 2 并发慢慢补齐，结果随到随更新（wsPump）。
+       ② assets/search-full/<key>.json —— 每板块一份全文切片：先按相关性下载“立即批”（当前正在看的
+          板块 ＋ 标题/板块名/关键词命中的板块，2 并发，一条没命中时 4），下完接着扫“兜底批”
+          （其余板块，见 wsScanTail），保证全站正文都能搜到。
+   【性能】不管下到哪一批，面板一关就停止下载（wsPump 只认 isPaletteOpen），重新打开自动接着下：
+     慢链路上最怕“搜一下把 3.9MB 全站索引拖在后台”，翻页会被抢带宽 —— 用户反馈的「跳转慢」。
    【坑】Fuse 走本地文件 assets/fuse.basic.min.mjs，CDN 只作为兜底：
      本机 jsdelivr 的解析时通时不通，一旦失败旧实现会静默退化成“只匹配关键词”，
      用户看到的是「未找到匹配知识点」，完全不知道是索引没加载 —— 所以现在会在面板里
@@ -1328,9 +1362,8 @@ var wsFuseLib;              // Fuse 构造函数：undefined=未加载 / null=�
 var wsFuseCount = -1;       // wsFuse 建立时的条目数，用于判断是否需要重建
 var wsInitBusy = false;     // 核心索引加载中
 var wsCoreFailed = false;   // 核心索引加载失败（离线 / 请求被拦）：面板给出可行动的降级提示
-var wsQueue = [];           // 待加载的全文索引 key（当前板块优先）
-var wsTail = [];            // 低优先级的其余板块：查询稳定一会儿后才开始下（见 wsScheduleTail）
-var wsTailTimer = null;
+var wsQueue = [];           // 待加载的全文索引 key（当前板块 + 标题/关键词命中的板块优先）
+var wsTail = [];            // 低优先级的其余板块：只有“立即批跑完仍然一条没命中”才继续扫（见 wsScanTail）
 var wsLoaded = {};          // key -> true（已加载）/ 'fail'
 var wsPending = {};         // key -> true（正在下载）：防止同一次搜索里把同一个板块重复排队
 var wsInflight = 0;
@@ -1339,6 +1372,7 @@ var wsFileKey = {};         // 页面文件 -> 全文索引 key
 var wsFileSec = {};         // 页面文件 -> 板块 id（用于结果排序时优先当前板块）
 var wsRows = [];            // 当前结果列表（键盘上下键用）
 var wsSel = -1;             // 当前选中行
+var wsKwStrong = [];        // 与查询词完全一致的板块关键词（「第十期」「倡议书」）—— 回车优先走它
 var wsUrgent = false;       // 当前查询暂无结果：提高并发，尽快把兜底批拉进来
 var wsPlanQ = null;         // 上一次规划对应的查询词（避免同一句查询反复重排队列）
 var WS_FULL_DIR = 'assets/search-full/';
@@ -1357,13 +1391,27 @@ function wsSnippet(it, q){
   /* 【坑】核心索引里的条目只有标题、没有正文（全文切片还在后台加载）。
      这里必须容忍 it.x 缺失，否则首屏搜索结果会直接抛异常、整个面板空白。 */
   if(!it || !it.x){ return '<span style="color:#94a3b8">正文索引加载中…</span>'; }
-  var idx = it.x.indexOf(q);
-  if(idx < 0){ return wsEsc(it.x.slice(0, 42)); }
-  var a = idx - 14; if(a < 0){ a = 0; }
-  var pre = (a > 0 ? '…' : '') + wsEsc(it.x.slice(a, idx));
-  var hit = it.x.slice(idx, idx + q.length);
-  var tail = it.x.slice(idx + q.length, idx + q.length + 26) + (idx + q.length < it.x.length ? '…' : '');
-  return pre + '<b>' + wsEsc(hit) + '</b>' + wsEsc(tail);
+  var text = it.x, at = text.indexOf(q), len = q.length, i;
+  /* 原样找不到时按“归一化/分词”再找一遍：用户搜「第106题」，原文是「第 106 题」，
+     摘要也要把命中那一截高亮出来，而不是干巴巴地显示开头 42 个字。 */
+  if(at < 0){
+    var nq = wsSig(q);
+    var hit = nq ? wsFind(text, nq) : null;
+    if(hit){ at = hit.at; len = hit.len; }
+    if(at < 0){
+      var terms = wsTerms(q);
+      for(i = 0; i < terms.length && at < 0; i++){
+        var h2 = wsFind(text, terms[i]);
+        if(h2){ at = h2.at; len = h2.len; }
+      }
+    }
+    if(at < 0){ return wsEsc(text.slice(0, 42)); }
+  }
+  var a = at - 14; if(a < 0){ a = 0; }
+  var pre = (a > 0 ? '…' : '') + wsEsc(text.slice(a, at));
+  var hitTxt = text.slice(at, at + len);
+  var tail = text.slice(at + len, at + len + 26) + (at + len < text.length ? '…' : '');
+  return pre + '<b>' + wsEsc(hitTxt) + '</b>' + wsEsc(tail);
 }
 /* 【坑】Fuse 优先用本地文件，CDN 只作兜底：任何一步失败都只降级、绝不抛错拦住搜索框。
    本地路径 './assets/fuse.basic.min.mjs' 是相对文档（内联脚本的 base 就是文档 URL）解析的。 */
@@ -1444,9 +1492,10 @@ function wsInit(){
 }
 
 /* 【性能】全文索引按相关性分两批加载，避免“随便搜一下就把整站索引拖下来”：
-   ① 立即批（wsQueue）＝ 当前正在看的板块 + 标题命中的板块 —— 命中率高，几乎总是够用；
-   ② 兜底批（wsTail）＝ 其余板块 —— 只有在查询稳定停留一段时间后才开始下，
-      期间用户若改了关键词就重新规划（wsPlan），下到一半也不会白下：已加载的会留着复用。 */
+    ① 立即批（wsQueue）＝ 当前正在看的板块 + 标题命中的板块 + 板块名/关键词命中的板块；
+    ② 兜底批（wsTail）＝ 其余板块 —— 立即批下完接上（wsScanTail），保证全站都能搜到；
+       但只在命令面板展开时下载，面板一关立即停（这是“跳转慢”的修复点）。
+    列表一直排到本次会话结束（已加载的会复用），用户换关键词就重新规划（wsPlan）。 */
 function wsPlan(q){
   if(!wsCore){ return; }
   q = (q||'').trim();
@@ -1456,40 +1505,59 @@ function wsPlan(q){
   if(wsPlanQ === q && (wsQueue.length || wsTail.length || wsInflight)){ return; }
   wsPlanQ = q;
   var curKey = wsFileKey[frameDoc()] || '';
-  var hitSec = {};
+  var priKey = {};
   for(var i=0;i<wsCore.items.length;i++){
     var it = wsCore.items[i];
-    if(it.t && it.t.indexOf(q) > -1){ hitSec[it.s] = true; }
+    if(it.t && q && it.t.indexOf(q) > -1){ priKey[it.k] = true; }
   }
+  /* 板块名与关键词命中的板块同样算“立即批”：用户搜「资料分析」「倡议书」这类词时，
+     要的就是那个板块本身，别让它跟着兜底批慢慢排队。 */
+  PAGES.forEach(function(s){
+    if(!q){ return; }
+    var k = wsFileKey[s.file];
+    if(!k){ return; }
+    if(s.name.indexOf(q) > -1 || (s.keywords || []).some(function(kw){ return kw.indexOf(q) > -1; })){
+      priKey[k] = true;
+    }
+  });
   var pri = [], tail = [];
   (wsCore.files || []).forEach(function(f){
     if(wsLoaded[f.k] || wsPending[f.k]){ return; }
-    if(f.k === curKey || hitSec[f.s]){ pri.push(f.k); } else { tail.push(f.k); }
+    (priKey[f.k] ? pri : tail).push(f.k);
   });
+  /* 当前正在看的板块永远排第一：切到哪个板块就优先把哪个板块搜全 */
+  if(curKey){
+    var at = pri.indexOf(curKey);
+    if(at > 0){ pri.splice(at, 1); pri.unshift(curKey); }
+  }
   wsQueue = pri;
   wsTail = tail;
-  if(wsTailTimer){ clearTimeout(wsTailTimer); wsTailTimer = null; }
-  if(wsTail.length && q){
-    wsTailTimer = setTimeout(function(){
-      wsTailTimer = null;
-      /* 查询没变才继续：用户换了词就走新一轮 wsPlan */
-      if(globalQ.value.trim() === q && (drop.classList.contains('show') || globalQ.value.trim())){
-        wsQueue = wsQueue.concat(wsTail);
-        wsTail = [];
-        wsPump();
-      }
-    }, 400);
-  }
 }
 
-/* 全文索引按需补齐：面板展开且有查询时才下载，并发 2 */
+/* 立即批下完（队列空、无在途）就把兜底批接上 —— 全站搜索要能搜到任何板块的正文，
+   所以有命中时也继续扫，只是顺序按相关性排（当前板块 → 标题命中 → 关键词命中 → 其余），
+   用户真正想要的多半在第一批里就已经出现。
+   【性能】唯一的前置条件是「命令面板还开着」：面板一关就停，重新打开再接着下，
+   不会出现“人在翻页、索引在后台拖 3.9MB”的情况（见 wsPump 的注释）。 */
+function wsScanTail(){
+  if(!wsTail.length || wsQueue.length || wsInflight || !isPaletteOpen()){ return false; }
+  wsQueue = wsQueue.concat(wsTail);
+  wsTail = [];
+  wsPump();
+  return true;
+}
+
+/* 全文索引按需补齐：只在命令面板展开时下载，并发 2（一条没命中时 4）。
+   【易错】不能用 globalQ.value 判断“还要不要下”：关闭面板不会清空输入框，
+    旧写法（drop.show || globalQ.value）会让整站 3.9MB 索引在后台继续下载，
+    把带宽吃满，翻页/跳转随之变慢 —— 这正是「跳转慢」的根因之一。
+    面板关掉即停，重新打开会自动接着下（队列还在）。 */
 function wsPump(){
-  if(!wsCore){ return; }
-  if(!(drop.classList.contains('show') || globalQ.value.trim())){ return; }
+  if(!wsCore || !isPaletteOpen()){ return; }
   /* 【需求】有关键词却一条都没命中时不再“省流量”：并发提到 4，
      否则搜一个只出现在正文里的短语（例如模考题解析里的原句）会干等好几秒 ——
      这正是“搜得到”体验最脆弱的地方。 */
-  var limit = wsUrgent ? 6 : 2;
+  var limit = wsUrgent ? 4 : 2;
   while(wsInflight < limit && wsQueue.length){
     var k = wsQueue.shift();
     if(wsLoaded[k] || wsPending[k]){ continue; }
@@ -1510,11 +1578,13 @@ function wsFetchFull(k){
       wsInflight--;
       delete wsPending[k];
       wsBuild();
-      if(globalQ.value.trim()){ renderSearch(globalQ.value); }
-      wsPump();
+      /* 面板关掉后不要再做无谓的重渲染；wsPump 自己会判断面板是否还开着 */
+      if(isPaletteOpen() && globalQ.value.trim()){ renderSearch(globalQ.value); }
+      else { wsPump(); }
     });
 }
 function wsLoadedCount(){ var n = 0; for(var k in wsLoaded){ if(wsLoaded[k] === true){ n++; } } return n; }
+function wsFailedCount(){ var n = 0; for(var k in wsLoaded){ if(wsLoaded[k] === 'fail'){ n++; } } return n; }
 function wsCurSecId(){
   var f = frameDoc();
   return (f && wsFileSec[f]) ? wsFileSec[f] : null;
@@ -1524,14 +1594,95 @@ function wsCurSecId(){
    【易错】不要把顺序交回给 Fuse 的 score：实测搜「一笔画」时模糊第一名是
    「言语理解 · 实词第2组 · 集中到一起」，而回车取的是第一条，于是人被送去别的板块。
    同样分数的再按“当前正在看的板块优先 → 标题更短优先 → 所属板块名”稳定排序。 */
+/* ===== 归一化 / 分词匹配（2026-10-04 起）=====
+   【需求】中文检索里最常见的三种“搜不到”：
+     ① 原文带空格或标点、用户不打（「第 106 题」vs「第106题」、「点、线、面」vs「点线面」）；
+     ② 用户打多个词（「资料分析 增长率」），而两词在原文里并不相邻；
+     ③ 用户跳字（「旅游业统计」对应原文「旅游业情况统计」）。
+   做法沿用成熟全文检索引擎的常规组合（归一化 + 分词 AND + n-gram 兜底）：
+     · wsSig   —— 小写、去掉空白与标点，只留汉字 / 字母 / 数字；
+     · wsTerms —— 查询按空白与标点拆成词，逐词再做归一化；
+     · wsFind  —— 在原文里定位归一化后的词，返回 {at,len} 供摘要高亮。
+   【性能】归一化结果缓存在条目上（_nt 标题 / _nx 正文），只有新到达的切片需要算一次。 */
+function wsSig(s){
+  return String(s == null ? '' : s).toLowerCase().replace(/[^0-9a-z\u4e00-\u9fa5]+/g, '');
+}
+function wsSigT(it){
+  if(it._nt === undefined){ it._nt = wsSig(it.t); }
+  return it._nt;
+}
+function wsSigX(it){
+  if(it._nx === undefined){ it._nx = wsSig(it.x); }
+  return it._nx;
+}
+function wsTerms(q){
+  var parts = String(q == null ? '' : q).toLowerCase().split(/[^0-9a-z\u4e00-\u9fa5]+/);
+  var out = [];
+  for(var i=0;i<parts.length;i++){
+    if(parts[i] && out.indexOf(parts[i]) < 0){ out.push(parts[i]); }
+  }
+  return out;
+}
+/* 在原文里找归一化词（允许词内夹空白/标点）：命中返回 {at,len}（原文坐标，便于高亮） */
+function wsFind(text, term){
+  if(!text || !term){ return null; }
+  var ti = 0, start = -1;
+  for(var i=0;i<text.length;i++){
+    var ch = text.charAt(i).toLowerCase();
+    if(!/[0-9a-z\u4e00-\u9fa5]/.test(ch)){ continue; }
+    if(ch === term.charAt(ti)){
+      if(start < 0){ start = i; }
+      ti++;
+      if(ti >= term.length){ return { at: start, len: i + 1 - start }; }
+    }else if(start >= 0){
+      i = start; start = -1; ti = 0;   /* 断掉就从头再来，避免把隔很远的字凑成一个词 */
+    }
+  }
+  return null;
+}
+function wsCountIn(hay, needle, cap){
+  if(!hay || !needle){ return 0; }
+  var n = 0, from = 0, at;
+  while((at = hay.indexOf(needle, from)) > -1){ n++; from = at + needle.length; if(n >= cap){ break; } }
+  return n;
+}
+/* 【需求】中文检索里用户常凭记忆“跳字”输入：把「2017-2023H 我国旅游业情况统计」
+   输成「旅游业统计」。精确子串和 Fuse 都盖不住“中间夹着别的字”这种情况，
+   所以补一层“按顺序命中、跨度受限”的兜底（子序列匹配）：
+   只在精确命中不足 3 条时才跑，跨度越紧越靠前，避免把整页字都凑上来的噪音排在前面。 */
+/* 【易错】取“最小窗口”而不是“每个字第一次出现”：正文里同一个字往往先出现在别的句子里
+   （例：「……入境旅游 6923 万人次……表 2017-2023H 我国旅游业情况统计」里，贪心取第一次
+   出现会把窗口撑到 137 字，结果被跨度上限否掉）。所以对每个起点贪心匹配一遍，取最紧的窗口。 */
+function wsSpan(text, q){
+  if(!text || !q){ return -1; }
+  var best = -1, m = q.length;
+  for(var s = text.indexOf(q.charAt(0)); s > -1; s = text.indexOf(q.charAt(0), s + 1)){
+    var at = s + 1, ok = true;
+    for(var i = 1; i < m; i++){
+      at = text.indexOf(q.charAt(i), at);
+      if(at < 0){ ok = false; break; }
+      at++;
+    }
+    if(!ok){ continue; }
+    var span = at - s;
+    if(best < 0 || span < best){ best = span; }
+    if(best === m){ break; }    /* 连续命中，不可能更紧 */
+  }
+  return best;
+}
 function wsRank(q){
   var pool = wsSearchSet();
   var byCard = {}, list = [];
+  var nq = wsSig(q), terms = wsTerms(q), multi = terms.length > 1;
   function add(it, tier, score){
+    /* 「板块说明 / 本页说明」是索引里补的元信息条目（不是卡片）：多词命中时让位给真卡片，
+       否则「资料分析 增长率」的第一条会是板块说明而不是讲增长率的卡片。 */
+    if(tier >= 2 && /·\s*(板块说明|本页说明)/.test(it.t || '')){ score += 0.01; }
     var id = it.f + '#' + (it.i || it.t);
     var cur = byCard[id];
     if(cur){
       if(tier < cur.tier){ cur.tier = tier; cur.score = score; }
+      else if(tier === cur.tier && score < cur.score){ cur.score = score; }  /* 同档取更好的分（正文命中数） */
       if(it.x && !cur.it.x){ cur.it = it; }   // 有正文切片的条目更适合展示摘要
       return;
     }
@@ -1541,13 +1692,43 @@ function wsRank(q){
   for(var i=0;i<pool.length;i++){
     var it = pool[i];
     if(!it){ continue; }
-    if((it.t || '').indexOf(q) > -1){ add(it, 0, 0); continue; }
-    if(it.x && it.x.indexOf(q) > -1){ add(it, 1, 0); }
+    var tt = it.t || '', xx = it.x || '';
+    /* ① 标题：原样子串 → 归一化子串（「第106题」=「第 106 题」） */
+    if(tt.indexOf(q) > -1){ add(it, 0, 0); continue; }
+    if(nq && wsSigT(it).indexOf(nq) > -1){ add(it, 0, 0.0005); continue; }
+    /* ② 正文：原样子串 → 归一化子串；同一卡里出现次数多的更可能是主题内容
+       （搜「一笔画」时，判断推理里讲它的卡片要排在常识判断顺带提一句的绘画卡前面）。 */
+    if(xx.indexOf(q) > -1){ add(it, 1, 1 / (1 + wsCountIn(xx, q, 9))); continue; }
+    if(nq && xx){
+      var xs = wsSigX(it), cxs = wsCountIn(xs, nq, 9);
+      if(cxs){ add(it, 1, 1 / (1 + cxs)); continue; }
+    }
+    /* ③ 多词查询：每一段都要出现（顺序不限）——「资料分析 增长率」不该因为两词不相邻就搜不到。
+       全中的排一档，只差一个词的排下一档（当作“可能相关”的兜底）。 */
+    if(multi){
+      var hay = wsSigT(it) + '\u0000' + wsSigX(it), hits = 0;
+      for(var k=0;k<terms.length;k++){ if(hay.indexOf(terms[k]) > -1){ hits++; } }
+      if(hits === terms.length){ add(it, 2, 0.002 * hits); continue; }
+      if(terms.length >= 3 && hits >= 2 && hits === terms.length - 1){ add(it, 3, 0.02); continue; }
+    }
   }
-  if(wsFuse){
+  /* 【性能】面板只显示 12 条，所以前面几档已经凑够 12 条时不必再跑模糊检索：
+     Fuse 在全量 4500 条切片上要几十毫秒，iPad 上更贵（实测多词查询 280ms）。
+     低档位的结果不可能挤进前 12，所以这一步省得完全安全。 */
+  if(wsFuse && list.length < 12){
     var res = [];
     try{ res = wsFuse.search(q, { limit: 40 }); }catch(e){ res = []; }
-    for(var j=0;j<res.length;j++){ add(res[j].item, 2, res[j].score || 0); }
+    for(var j=0;j<res.length;j++){ add(res[j].item, 4, res[j].score || 0); }
+  }
+  /* 跳字兜底：精确/模糊都没凑够结果时，再按“顺序命中且跨度受限”补一批（tier 5，排在最后） */
+  if(list.length < 12 && q.length >= 3){
+    var spanLimit = q.length + Math.max(2, Math.ceil(q.length / 2));
+    for(var k=0;k<pool.length && list.length<40;k++){
+      var it2 = pool[k];
+      var span = wsSpan(it2.t, q);
+      if(span < 0){ span = wsSpan(it2.x, q); }
+      if(span > 0 && span <= spanLimit){ add(it2, 5, span / 100); }
+    }
   }
   var curSec = wsCurSecId();
   /* 【需求】查询词正好是某个板块名或该板块的关键词时（例如「资料分析」「倡议书」），
@@ -1593,7 +1774,7 @@ function wsOpen(it, q){
   if(!file){ return; }
   var changed = (frameDoc() !== file);
   frame.setAttribute('data-cur', file);
-  if(changed){ frame.src = file + '?' + CACHE_V; shellNavSeq++; }
+  if(changed){ showLoadBar(); frame.src = file + '?' + CACHE_V; shellNavSeq++; }
   var payload = { q: q, id: it.i || null };
   if(changed){ pendingQuery = payload; }
   else {
@@ -1635,25 +1816,38 @@ function renderSearch(q){
   wsPump();
   var ranked = wsRank(q);
   var kw = findMatches(q);
+  /* 【需求】查询词正好等于板块名或某个关键词时（「资料分析」「倡议书」「第十期」），
+     这一行必须出现，而且要放在最上面：否则会被一堆模糊命中淹掉 ——
+     实测搜「第十期」，前 12 条全是政治理论/数量关系的「第十节…」，用户想要的模考期次反而不见。
+     非精确的关键词命中仍然只在结果很少时作为兜底出现（原来就是这个行为）。 */
+  var kwStrong = kw.filter(function(m){ return m.kw === q || m.sec.name === q; });
+  var kwWeak = kw.filter(function(m){ return kwStrong.indexOf(m) < 0; });
   var readyN = wsLoadedCount();
-  /* 【需求】一条都没命中时：把还没排队的兜底板块立刻拉进来，并让面板明确说“还在找”，
-     否则用户看到的是一个空面板，会以为坏了。 */
-  if(!ranked.length && wsTail.length){
-    if(wsTailTimer){ clearTimeout(wsTailTimer); wsTailTimer = null; }
-    wsQueue = wsQueue.concat(wsTail);
-    wsTail = [];
-  }
+  var failedN = wsFailedCount();
+  /* 【需求】立即批跑完就接着扫兜底批（面板关掉即停）：一条没命中时是“正在检索其余板块”，
+     已经命中时是“结果还会随索引到达而补充”。两种都要在面板里说清楚，免得被当成坏了。 */
+  wsScanTail();
   wsUrgent = !ranked.length;
   /* 【易错】把兜底批并进队列后必须再 pump 一次：否则“队列里有活、却没人在下载、
      定时器也已被清掉”，整批索引就永远停在那里（实测症状：搜「殷墟」一直空面板）。 */
   if(wsQueue.length && !wsInflight){ wsPump(); }
   var html = '';
+  function kwRowHtml(m){
+    return '<div class="row" data-id="'+wsEsc(m.sec.id)+'" data-q="'+wsEsc(m.kw)+'" style="--c:'+m.sec.color+'">'+
+      '<span class="dot"></span><div><div class="t1">'+wsEsc(m.sec.name)+' · '+wsEsc(m.kw)+'</div>'+
+      '<div class="t2">'+wsEsc(m.sec.sub)+'</div></div></div>';
+  }
+  if(kwStrong.length){
+    html += '<div class="ghead">板块直达</div>' + kwStrong.map(kwRowHtml).join('');
+  }
   if(ranked.length){
     html += '<div class="ghead">搜索命中 '+ranked.length+' 条 · ↑↓ 选择 / 回车进入 / Esc 收起</div>';
   }
-  if(readyN < wsTotalFiles){
-    var pct = wsTotalFiles ? Math.round(readyN / wsTotalFiles * 100) : 0;
-    var label = ranked.length ? ('全文索引 ' + readyN + '/' + wsTotalFiles + ' 个板块') : ('还没找到，正在检索其余板块 ' + readyN + '/' + wsTotalFiles);
+  /* 【需求】进度条只在“还在找”时出现：已有命中且立即批跑完就停下来了（兜底批不下载），
+     这时再显示“索引 N/54”会让人以为后台还在拖整站索引。 */
+  if(ranked.length ? (wsQueue.length || wsInflight) : (readyN + failedN < wsTotalFiles)){
+    var pct = wsTotalFiles ? Math.round((readyN + failedN) / wsTotalFiles * 100) : 0;
+    var label = ranked.length ? ('继续检索其余板块 ' + readyN + '/' + wsTotalFiles) : ('还没找到，正在检索其余板块 ' + readyN + '/' + wsTotalFiles);
     html += '<div class="stat"><span>'+label+'</span>'+
             '<span class="bar"><i style="width:'+pct+'%"></i></span></div>';
   }
@@ -1668,18 +1862,19 @@ function renderSearch(q){
       '<div class="t2">'+wsSnippet(it, q)+'</div></div>'+
       '<span class="sc">'+wsEsc(it.n)+'</span></div>';
   }).join('');
-  if(kw.length && ranked.length < 3){
-    html += '<div class="ghead">板块关键词命中</div>' + kw.map(function(m){
-      return '<div class="row" data-id="'+wsEsc(m.sec.id)+'" data-q="'+wsEsc(m.kw)+'" style="--c:'+m.sec.color+'">'+
-        '<span class="dot"></span><div><div class="t1">'+wsEsc(m.sec.name)+' · '+wsEsc(m.kw)+'</div>'+
-        '<div class="t2">'+wsEsc(m.sec.sub)+'</div></div></div>';
-    }).join('');
+  if(kwWeak.length && ranked.length < 3){
+    html += '<div class="ghead">板块关键词命中</div>' + kwWeak.map(kwRowHtml).join('');
   }
-  if(!ranked.length && !kw.length && readyN >= wsTotalFiles){
+  if(!ranked.length && !kw.length && !wsQueue.length && !wsTail.length && !wsInflight){
     html += '<div class="empty">未找到与「'+wsEsc(q)+'」相关的内容，可换个关键词试试</div>';
+  }
+  /* 全文索引有取不到的板块时要说清楚：结果可能不全，别让用户以为“搜不到就是没有” */
+  if(failedN){
+    html += '<div class="stat">有 '+failedN+' 个板块的全文索引没取到（离线或网络不稳），结果可能不全</div>';
   }
   drop.innerHTML = html;
   wsRows = ranked.map(function(r){ return r.it; });
+  wsKwStrong = kwStrong;
   wsSel = -1;
   drop.classList.add('show');
   globalQ.setAttribute('aria-expanded','true');
@@ -1712,6 +1907,13 @@ globalQ.addEventListener('keydown', function(e){
   if(e.key === 'Enter'){
     var q = this.value.trim();
     if(!q) return;
+    /* 【需求】查询词正好是板块关键词时（「第十期」「倡议书」），回车应直达那个板块/期次 ——
+       否则会被模糊命中的第一条（「第十节…」）带走。↑↓ 选过行时以用户的选择为准。 */
+    if(wsSel < 0 && wsKwStrong.length){
+      openSection(wsKwStrong[0].sec.id, {q: wsKwStrong[0].kw, id: null});
+      closePalette();
+      return;
+    }
     var pick = (wsSel >= 0 && wsRows[wsSel]) ? wsRows[wsSel] : (wsRows[0] || null);
     /* 【需求】回车＝「打开结果 + 收起面板」，与直接点结果行完全一致：
        原来只收起结果列表、面板还盖在上面，页面其实已经跳了也像是没反应。 */
@@ -2144,6 +2346,7 @@ function refreshGo(){
 function openCover(){
   buildCover();
   refreshGo();
+  hideLoadBar();
   coverEl.classList.add('show');
   crumbBar.style.background = 'var(--xz-brand)';
   crumbTitle.textContent = '首页';

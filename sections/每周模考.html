@@ -2,12 +2,12 @@
 <html lang="zh-CN" data-theme="mock">
 <head><style id="xz-perf">/* 长页面打开提速：屏幕外的知识点块不做排版与绘制 */section.kp,section.unit{content-visibility:auto;contain-intrinsic-size:auto 700px}</style>
 <meta charset="UTF-8">
-<link rel="icon" href="data:,"><script src="../assets/%E4%B8%BB%E9%A2%98.js?v=20260922b"></script><script src="../assets/%E6%BC%94%E7%AE%97%E5%B1%82.js?v=20260922b"></script><script src="../assets/%E5%AE%9A%E4%BD%8D%E5%B1%82.js?v=20260922b"></script>
+<link rel="icon" href="data:,"><script src="../assets/%E4%B8%BB%E9%A2%98.js?v=f38968bc"></script><script src="../assets/%E6%BC%94%E7%AE%97%E5%B1%82.js?v=a132b1de"></script><script src="../assets/%E5%AE%9A%E4%BD%8D%E5%B1%82.js?v=a3907880"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>每周模考 · 公考工作站</title><link rel="stylesheet" href="../assets/design-tokens.css?v=20260920f"><link rel="stylesheet" href="../assets/%E6%9D%BF%E5%9D%97%E9%A1%B5%E6%A0%B7%E5%BC%8F.css?v=20260920f">
+<title>每周模考 · 公考工作站</title><link rel="stylesheet" href="../assets/design-tokens.css?v=2604fc33"><link rel="stylesheet" href="../assets/%E6%9D%BF%E5%9D%97%E9%A1%B5%E6%A0%B7%E5%BC%8F.css?v=c92fd385">
 <style>
 /* 本页专属样式（骨架与通用组件来自 assets/板块页样式.css，颜色一律走令牌） */
 :root{--primary:#be185d; --primary2:#e11d48; --accent:#fb7185; --bg:#fbf2f6;}
@@ -39,8 +39,8 @@
 .wrap{padding:0 12px}
 .exam{padding:14px 14px 12px}
 }
-.exam.ws-hit{outline:2px solid var(--primary2);outline-offset:2px;background:color-mix(in srgb,var(--primary2) 7%,var(--xz-surface))}
-html.xz-dark .exam.ws-hit{background:color-mix(in srgb,var(--primary2) 20%,var(--xz-surface))}
+.exam.ws-hit,.guide.ws-hit{outline:2px solid var(--primary2);outline-offset:2px;background:color-mix(in srgb,var(--primary2) 7%,var(--xz-surface))}
+html.xz-dark .exam.ws-hit,html.xz-dark .guide.ws-hit{background:color-mix(in srgb,var(--primary2) 20%,var(--xz-surface))}
 </style>
 
 </head>
@@ -68,9 +68,9 @@ html.xz-dark .exam.ws-hit{background:color-mix(in srgb,var(--primary2) 20%,var(-
    【易错】render() 把这些字段直接拼进 innerHTML 与 href（没有转义）：
    期次名里若出现空格、引号、斜杠会让链接失效，命名请严格用「M月D日模考」。 */
 var MOCK_DATES = [
-  { t:'10月4日行测模考（上午）', no:'第 10 期', state:'行测 130 题题本 + 官方答案版已录入 · 错题待作答清单 · 成绩已分析',
-    desc:'2026 年 10 月 4 日上午场（模考六 · 130 题）308 班行测成绩排名（91 人）截图已逐格识别校验：66.0 分、班内 42 / 91、年级榜单 244——六期最强的一场（年级从 419 前进 175 名、班内名次首次过半、与班均差首次转正 +1.29，班均 64.71）；类比 5 / 5 与逻辑 10 / 10 两块满分并列班内第 1，定义 8 / 10 班内第 2、常识 9 / 15 班内第 9；失分口收窄到资料分析（−2.22）、图形推理（−1.85）、数量关系（−0.66）三块，合计缺口 4.73 分（上一场三块缺口 8.67）。成绩分析页含九模块明细、六期（卷一 → 模考六）得分率曲线、失分去向与下一步计划。行测题本（32 页 / 130 题）与官方答案版《强化卷六参考答案及解析》（23 页）已完成 OCR 与逐题核对并入站：六板块 130 题卡片、17 张图形 / 图表保留卷面原图、每题附答案与解析折叠（数学题的分数与上下标按原卷重排成一行式），资料一“旅游业统计”与资料四“快递业务结构”两张表按原表重排并逐格核对；行测错题集合待「我的作答清单」入站，申论待素材。',
-    qc:'130 题 · 含 17 张原图 · 答案与解析已录入', sc:'待录入', cc:'待作答清单入站', cj:'行测 66.0 · 班内 42 / 91' },
+  { t:'10月4日行测模考（上午）', no:'第 10 期', state:'行测 130 题题本 + 官方答案版已录入 · 错题与侥幸题已分置 · 成绩已分析',
+    desc:'2026 年 10 月 4 日上午场（模考六 · 130 题）308 班行测成绩排名（91 人）截图已逐格识别校验：66.0 分、班内 42 / 91、年级榜单 244——六期最强的一场（年级从 419 前进 175 名、班内名次首次过半、与班均差首次转正 +1.29，班均 64.71）；类比 5 / 5 与逻辑 10 / 10 两块满分并列班内第 1，定义 8 / 10 班内第 2、常识 9 / 15 班内第 9；失分口收窄到资料分析（−2.22）、图形推理（−1.85）、数量关系（−0.66）三块，合计缺口 4.73 分（上一场三块缺口 8.67）。成绩分析页含九模块明细、六期（卷一 → 模考六）得分率曲线、失分去向与下一步计划。行测题本（32 页 / 130 题）与官方答案版《强化卷六参考答案及解析》（23 页）已完成 OCR 与逐题核对并入站：六板块 130 题卡片、17 张图形 / 图表保留卷面原图、每题附答案与解析折叠（数学题的分数与上下标按原卷重排成一行式），资料一“旅游业统计”与资料四“快递业务结构”两张表按原表重排并逐格核对；行测错题集合已按本次作答清单录入 43 道错题（政治理论 8 · 常识判断 6 · 言语理解 8 · 数量关系 7 · 判断推理 7 · 资料分析 7）+ 14 道「不确定但答对」的侥幸题，每题记「我的答案 / 正确答案 / 考点 / 错因」，正确答案与官方解析取自《强化卷六》，资料分析四组共用材料与逻辑 106～110 题组材料随题带上；对照成绩表九模块得分反推的 44 道错题，剩言语理解 1 道疑似答题卡涂错（清单里没有对应题目，找到题号可随时补录）。申论待素材。',
+    qc:'130 题 · 含 17 张原图 · 答案与解析已录入', sc:'待录入', cc:'43 道错题 + 14 道侥幸题（言语 1 道疑答题卡涂错待确认）', cj:'行测 66.0 · 班内 42 / 91' },
   { t:'10月3日行测模考（下午）', no:'第 9 期', state:'行测 120 题题本 + 官方答案版已录入 · 错题与侥幸题已分置 · 成绩已分析',
     desc:'2026 年 10 月 3 日下午场（模考五 / 强化卷五）行测整卷 120 题：本批素材为微信图片扫描件 30 页（页脚 1–30 页逐页核对），题本（政治理论 1–10、常识判断 11–20、言语理解与表达 21–50、数量关系 51–60、判断推理 61–100、资料分析 101–120）与官方答案版《强化卷五参考答案及解析》（23 页、120 题答案齐全）已完成本地 OCR 与逐题核对，题目页面已入站（六板块 120 题卡片、图形与图表保留卷面原图、每题附答案与解析折叠）；成绩分析已上线：行测 61.7、班内 72 / 94、年级榜单 419——五期最高绝对分（上一场 57.9，+3.8 分，且与卷二同为 120 题、同配分可直接对比），但本场班均抬升到 66.07（+4.54），名次基本原地（与班均差 −3.63 → −4.37）；资料分析从 80% 掉到 45%（9 / 20、失 9.9 分）是五期最大回撤，数量关系 1 / 10（失 8.1 分）为第二大失分口，言语理解 87%（五期最高、班内 12 / 94）与逻辑 / 定义 80% 是本场亮点；错题集合已按本次作答清单录入 54 道——做错 43 道（政治理论 4 · 常识判断 4 · 言语理解 4 · 数量关系 9 · 判断推理 11 · 资料分析 11）+ 不确定但答对 11 道，每题记「我的答案 / 正确答案 / 考点 / 错因」，正确答案与官方解析取自《强化卷五》，资料分析四组共用材料随题带上；其中资料 11 错、数量 9 错与成绩表模块得分（9 / 20、1 / 10）逐项吻合，51～60 与 116～120「均选 C」已逐题记 C。申论待素材入站。',
     qc:'120 题 · 含 13 张原图 · 答案与解析已录入', sc:'待录入', cc:'43 道错题 + 11 侥幸题', cj:'行测 61.7 · 班内 72 / 94' },
@@ -152,6 +152,14 @@ window.addEventListener('message', function(e){
       card.classList.toggle('ws-hit', hit);
       if(hit){ card.scrollIntoView({ behavior:'smooth', block:'center' }); }
     });
+    /* 「如何新增一期模考」这类说明文字在 .guide 里（全站索引也收进来了）：
+       命中就滚过去并描边，别让读者自己找。 */
+    var guide = document.querySelector('.guide');
+    if(guide){
+      var gHit = guide.textContent.indexOf(q) > -1;
+      guide.classList.toggle('ws-hit', gHit);
+      if(gHit){ guide.scrollIntoView({ behavior:'smooth', block:'center' }); }
+    }
   }
 });
 </script>

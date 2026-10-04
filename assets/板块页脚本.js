@@ -23,7 +23,8 @@
      #q 搜索框 · #hitcount 命中数 · #hideans 隐藏/展开答案 · #closeall 收起/展开卡片
      #openans 展开全部答案（details.ans）· #selftest 自测模式 · #backtop 回到顶部
    【易错】卡片选择器按数组顺序取第一个“页面上存在”的组合，与
-     scripts/build-index.js 的索引粒度保持一致：.kp/.unit → .qcard/.matcard → .shen/.matcard。
+     scripts/build-index.js 的索引粒度保持一致：
+     .kp/.unit → .qcard/.matcard → .shen/.matcard → .scard（模考成绩分析）→ .slot。
      新增卡片类型时，这里的 CARD_SETS 与构建脚本要一起改，否则搜索会静默漏内容。
    【坑】注入的面板样式自带 html.xz-dark 覆盖，夜间模式不是白块；调色用
      --xz-surface / --xz-line / --xz-ink / --xz-a1 这些主题层变量，不要写死颜色。
@@ -179,11 +180,23 @@
      最后看申论大题卡。取到第一个非空组合就用它，避免把嵌套的题目卡当成卡片。 */
   /* 【坑】最后一档是「空槽位」页（如 9月7日模考·行测错题集合：六个分类只有 .slot 占位，
      还没有任何题目）。没有这一档时 CARD_SEL 会是空串，后面用它去 querySelectorAll
-     会直接抛 DOMException，整页脚本失效 —— 页面看上去“能打开但按钮全没反应”。 */
-  var CARD_SETS = ['.kp,.unit', '.qcard,.matcard', '.shen,.matcard', '.slot'];
+     会直接抛 DOMException，整页脚本失效 —— 页面看上去“能打开但按钮全没反应”。
+   【易错】按“主类名”（probe）探测，不能像以前那样“组合里任意一个类命中就选它”：
+     模考申论页只有 .shen + .matcard、没有 .qcard，旧写法会选中 '.qcard,.matcard'，
+     于是 5 道大题全被排除在页内搜索之外（搜大题里的词什么也不高亮）。
+   【易错】.scard 是模考「成绩分析」页的卡片（id 形如 cj-modules）：没有它时这些页面的
+     CARD_SEL 是空串，搜索结果落进来只会停在页面顶部、连高亮都没有。 */
+  var CARD_SETS = [
+    { probe: '.kp, .unit', sel: '.kp,.unit' },        /* 行测六大板块 / 占位单元页 */
+    { probe: '.qcard', sel: '.qcard,.matcard' },      /* 模考题本 / 错题集合 */
+    { probe: '.shen', sel: '.shen,.matcard' },        /* 模考申论（大题 + 给定资料） */
+    { probe: '.scard', sel: '.scard' },               /* 模考成绩分析 */
+    { probe: '.matcard', sel: '.matcard' },           /* 只有材料的页 */
+    { probe: '.slot', sel: '.slot' }                  /* 纯占位页 */
+  ];
   function pickCardSel() {
     for (var i = 0; i < CARD_SETS.length; i++) {
-      if (document.querySelector(CARD_SETS[i])) { return CARD_SETS[i]; }
+      if (document.querySelector(CARD_SETS[i].probe)) { return CARD_SETS[i].sel; }
     }
     return '';
   }
@@ -249,6 +262,8 @@
       'mark.shl{background:#ffe066;border-radius:2px}' +
       'mark.shl._cur{outline:2px solid #f59e0b;outline-offset:1px;animation:_wsb 1.8s ease-out 1}' +
       '@keyframes _wsb{0%{box-shadow:0 0 0 0 rgba(245,158,11,.55)}70%{box-shadow:0 0 0 13px rgba(245,158,11,0)}100%{box-shadow:0 0 0 0 rgba(245,158,11,0)}}' +
+      /* 直达落点：模糊/跳字命中时正文里没有可高亮的字串，用一圈描边告诉用户“就是这一条” */
+      '.xz-jump{outline:2px solid #f59e0b!important;outline-offset:3px;border-radius:10px}' +
       'html.xz-dark #_wsPanel{background:var(--xz-surface,#141d2e);border-color:var(--xz-line,#28344a);color:var(--xz-ink,#e8eff9)}' +
       'html.xz-dark #_wsPanel ._hd{background:var(--xz-surface2,#1a2434);border-bottom-color:var(--xz-line,#28344a)}' +
       'html.xz-dark #_wsPanel ._hd em{color:var(--xz-a1,#7fb2ff)}' +
@@ -298,7 +313,10 @@
     }
   }
 
-  function doSearch(word) {
+  /* noFilter: 只高亮/计数，不把没命中的卡片藏起来。
+     页面没有页内搜索框时（成绩分析页）由外壳直达调用：那里没有“清空搜索”的入口，
+     把整页筛掉会让用户回不到完整页面，所以只做落位。 */
+  function doSearch(word, noFilter) {
     word = (word || '').trim();
     ensureStyle();
     closePanel();
@@ -312,7 +330,7 @@
     var occs = [], hitCards = 0, LIM = 120;
     for (var k = 0; k < cards.length; k++) {
       var card = cards[k];
-      if (card.textContent.indexOf(word) === -1) { card.classList.add('hidden'); continue; }
+      if (card.textContent.indexOf(word) === -1) { if (!noFilter) { card.classList.add('hidden'); } continue; }
       hitCards++;
       revealDetails(card, word);
       if (occs.length >= LIM) { continue; }
@@ -348,18 +366,26 @@
 
     /* 分组容器（.module）里一张命中的卡片都没有，就把整个分组收起来 ——
        否则筛完之后会看到一堆空标题，读者要一直往下划。 */
-    var mods = document.querySelectorAll('.module');
-    for (var mm = 0; mm < mods.length; mm++) {
-      var inner = mods[mm].querySelectorAll(CARD_SEL);
-      if (!inner.length) { continue; }
-      var any = false;
-      for (var ii = 0; ii < inner.length; ii++) {
-        if (inner[ii].textContent.indexOf(word) !== -1) { any = true; break; }
+    if (!noFilter) {
+      var mods = document.querySelectorAll('.module');
+      for (var mm = 0; mm < mods.length; mm++) {
+        var inner = mods[mm].querySelectorAll(CARD_SEL);
+        if (!inner.length) { continue; }
+        var any = false;
+        for (var ii = 0; ii < inner.length; ii++) {
+          if (inner[ii].textContent.indexOf(word) !== -1) { any = true; break; }
+        }
+        if (!any) { mods[mm].classList.add('hidden'); }
       }
-      if (!any) { mods[mm].classList.add('hidden'); }
     }
 
-    if (!occs.length) { if (hit) { hit.textContent = '未命中「' + word + '」'; } return; }
+    /* 【需求】一个字都没命中时不要把整页藏起来：读者看到的应该是原文 + 一句提示，
+       而不是空白页。外壳用“本页说明”这类没有锚点的条目跳过来时也会走到这里。 */
+    if (!occs.length) {
+      resetView();
+      if (hit) { hit.textContent = '本页未找到「' + word + '」'; }
+      return;
+    }
     if (hit) { hit.textContent = '命中 ' + occs.length + ' 处 · 分布于 ' + hitCards + ' 个位置'; }
     if (occs.length === 1) { gotoMark(occs[0]); return; }
 
@@ -524,10 +550,21 @@
     var qq = (d.q || '').trim();
     if (!qq) { return; }
     if (q) { q.value = qq; }
-    doSearch(qq);
+    /* 没有页内搜索框的页面（成绩分析）不做筛选，只高亮 + 落位 */
+    doSearch(qq, !q);
     var el = d.id ? document.getElementById(d.id) : null;
     if (!el) { return; }
     closePanel();
+    /* 【易错】外壳的结果可能来自“模糊/跳字”命中（正文里并没有与查询词完全一致的字符串，
+       例：查「旅游业统计」命中「…我国旅游业情况统计…」）。此时 doSearch 会把所有卡片都筛掉，
+       目标卡一起被隐藏 —— 用户看到的是整页空白、位置也没动，像是“搜索坏了”。
+       目标卡被筛掉就恢复整页：只落位 + 描边，绝不留下空白页。 */
+    if (el.classList && el.classList.contains('hidden')) {
+      resetView();
+      if (hit) { hit.textContent = ''; }
+      try { el.classList.add('xz-jump'); } catch (e0) {}
+      window.setTimeout(function () { try { el.classList.remove('xz-jump'); } catch (e1) {} }, 2600);
+    }
     /* 直达时用定位层精确落位（吸顶条高度已知），落点后再闪一下命中的高亮 */
     goTo(el);
     try {

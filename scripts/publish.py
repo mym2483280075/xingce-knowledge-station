@@ -27,7 +27,7 @@
   tree 响应必然 40s 超时，发布直接失败。所以本脚本默认用自建 DNS 解析真实 IP，
   完全绕开 hosts，并在重试时轮换 IP，详见 scripts\\netguard.py。
 """
-import sys, io, os, re, json, time, socket, base64, hashlib, argparse, urllib.parse
+import sys, io, os, re, json, time, socket, base64, hashlib, argparse, shutil, subprocess, urllib.parse
 import urllib.request, urllib.error
 
 # ---------- 输出与配置 ----------
@@ -273,6 +273,8 @@ def main():
                     help="关闭网络抗干扰层：不绕过 hosts/加速器，直接按系统解析连接")
     ap.add_argument("--netguard-dns", default=",".join(netguard.DEFAULT_DNS),
                     help="抗干扰层使用的 DNS 服务器，逗号分隔")
+    ap.add_argument("--skip-index-check", action="store_true",
+                    help="跳过发布前的检索索引自检（默认不跳过：搜不到新内容就不该发布）")
     args = ap.parse_args()
 
     NET["tries"] = max(1, args.tries)
@@ -287,6 +289,26 @@ def main():
     print(f"仓库   : {REPO}  ({BRANCH})")
     print(f"本地   : {LOCAL}")
     print(f"站点   : {SITE}")
+
+    # ---------- 发布前自检：索引没跟上就不发布 ----------
+    # 【需求】新增板块 / 新增内容后最容易出的问题是「页面能打开、搜索却搜不到」，
+    # 而且不报错。scripts/check-index.js 把这类问题（漏索引、锚点失效、版本没升）查出来；
+    # 这里拦一道，避免把搜不到新内容的版本发上线。修法见 refresh-site.js 的输出提示。
+    if not args.skip_index_check:
+        print("\n[0/4] 检索索引自检 …")
+        node = shutil.which("node") or shutil.which("node.exe") or "node"
+        try:
+            r = subprocess.run([node, os.path.join(HERE, "check-index.js")], cwd=LOCAL)
+        except OSError as e:
+            print(f"   ! 起不了 node（{e}），跳过自检；要显式跳过请加 --skip-index-check")
+            r = None
+        if r is not None and r.returncode != 0:
+            print("\n✗ 索引自检未通过，已终止发布。")
+            print("  修法：node scripts/refresh-site.js（重建索引 + 自动打缓存版本 + 再自检）")
+            print("  确实要跳过：publish.cmd --skip-index-check")
+            sys.exit(2)
+        if r is not None:
+            print("  ✓ 自检通过")
 
     site_host = SITE.split("//", 1)[1].split("/", 1)[0]
     if args.no_netguard:
