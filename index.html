@@ -1057,7 +1057,7 @@ var pendingQuery = null;
       工具条 / 页脚）与模考中心页的脚本模板文案全部纳入索引，标题/正文改走「归一化 + 分词 AND +
       跳字兜底」，页内搜索一个字没命中时不再把整页筛空 —— 又改了索引与 assets/板块页脚本.js，
       升到 v20261004e，否则 iPad 会继续用缓存里的旧页面与旧脚本。） */
-var CACHE_V = 'v5285abcf';
+var CACHE_V = 'vc217c4c7';
 /* ===================================================================
    2026-09-20 界面重构：从「iOS 毛玻璃」转为「冷静的文档工作站」
    ---------------------------------------------------------------
@@ -1772,6 +1772,11 @@ function wsOpen(it, q){
   var sec = getSection(it.s);
   var file = it.f || (sec ? sec.file : null);
   if(!file){ return; }
+  /* 【易错】从封面（首页）里搜索是常见路径：封面是外壳自己的一层遮罩，
+     这里必须和 openSection 一样收起它、记下“继续上次”，否则页面已经换好了，
+     用户看到的还是封面 —— 表现为“搜了、点了、没反应”。 */
+  hideCover();
+  if(sec){ saveLast(sec.id); }
   var changed = (frameDoc() !== file);
   frame.setAttribute('data-cur', file);
   if(changed){ showLoadBar(); frame.src = file + '?' + CACHE_V; shellNavSeq++; }

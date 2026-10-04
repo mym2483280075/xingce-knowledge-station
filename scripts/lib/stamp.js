@@ -46,14 +46,20 @@ function assetVersions(root) {
 }
 
 function cacheVersion(root) {
+  /* CACHE_V 覆盖「板块页内容 + 所有资源版本」两件事：
+     · 页面内容变了 → 换新值（iPad 重新下载 iframe 里的页面）；
+     · 只改了 assets/*.js|css → 各页面的 ?v= 会变，但缓存里的旧页面 HTML 仍指向旧 URL，
+       浏览器会继续用旧脚本 —— 所以资源的哈希也必须进 CACHE_V，逼 iPad 重取页面 HTML。 */
   const parts = [];
   for (const p of pages(root)) {
     const rel = path.relative(root, p).replace(/\\/g, '/');
-    /* 【易错】先把 ?v=… 抹掉再算哈希：版本号本身就是由这份内容算出来的，
+    /* 【易错】把页面里的 ?v=… 抹掉再算：版本号本身就是由这份内容 + 资源哈希算出来的，
        不抹掉就会「打一次戳 → 哈希变化 → 下次又要打戳」，永远收敛不了。 */
     const text = fs.readFileSync(p, 'utf8').replace(/\?v=[^"'&\s>]*/g, '');
     parts.push(rel + ':' + sha(text));
   }
+  const av = assetVersions(root);
+  for (const name of Object.keys(av).sort()) { parts.push(name + ':' + av[name]); }
   return 'v' + sha(parts.join('|'));
 }
 

@@ -259,8 +259,15 @@
       '#_wsPanel ._tt{font-weight:600;color:#1e293b}' +
       '#_wsPanel ._tc{color:#64748b;font-size:11.5px;margin-top:2px;line-height:1.55;word-break:break-all;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}' +
       '#_wsPanel ._tc mark{background:transparent;color:#dc2626;font-weight:700}' +
-      'mark.shl{background:#ffe066;border-radius:2px}' +
-      'mark.shl._cur{outline:2px solid #f59e0b;outline-offset:1px;animation:_wsb 1.8s ease-out 1}' +
+      /* 【易错】高亮必须同时写死背景与文字色，而且要走主题令牌：
+         之前这里只写 background:#ffe066（亮黄），文字色仍按主题走 ——
+         深色模式下文字是 #ffe08a（浅黄），浅黄压亮黄，命中词直接“看不见”；
+         页面里文字本来就是浅色的地方（模块横幅等）也一样糊。
+         现在亮色 = 淡黄底 + 深棕字，深色 = 深棕底 + 浅黄字，两边都靠令牌自动切换。 */
+      'mark.shl{background:var(--xz-mark-bg,#fff3bf)!important;color:var(--xz-mark-ink,#7a4d05)!important;' +
+      'border-radius:3px;padding:0 2px;-webkit-box-decoration-break:clone;box-decoration-break:clone}' +
+      'mark.shl._cur{outline:2px solid #f59e0b!important;outline-offset:1px;' +
+      'box-shadow:0 0 0 3px rgba(245,158,11,.28);animation:_wsb 1.8s ease-out 1}' +
       '@keyframes _wsb{0%{box-shadow:0 0 0 0 rgba(245,158,11,.55)}70%{box-shadow:0 0 0 13px rgba(245,158,11,0)}100%{box-shadow:0 0 0 0 rgba(245,158,11,0)}}' +
       /* 直达落点：模糊/跳字命中时正文里没有可高亮的字串，用一圈描边告诉用户“就是这一条” */
       '.xz-jump{outline:2px solid #f59e0b!important;outline-offset:3px;border-radius:10px}' +
@@ -285,7 +292,8 @@
   function flash(mk) {
     if (!mk) { return; }
     try { mk.classList.add('_cur'); } catch (e) {}
-    window.setTimeout(function () { try { mk.classList.remove('_cur'); } catch (e) {} }, 1900);
+    /* 3.2s：外壳跳进来的落位会有一两秒的平滑滚动 + 布局修正，圈太早消失等于白闪 */
+    window.setTimeout(function () { try { mk.classList.remove('_cur'); } catch (e) {} }, 3200);
   }
 
   function gotoMark(o) { goTo(o.mk); flash(o.mk); }
