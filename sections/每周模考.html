@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN" data-theme="mock">
-<head><style id="xz-perf">/* 长页面打开提速：屏幕外的知识点块不做排版与绘制 */section.kp,section.unit{content-visibility:auto;contain-intrinsic-size:auto 700px}</style>
+<head><style id="xz-perf">/* 长页面打开提速：屏幕外的知识点块不做排版与绘制 */section.kp,section.unit{content-visibility:auto;contain-intrinsic-size:auto 700px}section.qcard,section.matcard,section.shen,section.slot{content-visibility:auto;contain-intrinsic-size:auto 320px}</style>
 <meta charset="UTF-8">
 <link rel="icon" href="data:,"><script src="../assets/%E4%B8%BB%E9%A2%98.js?v=f38968bc"></script><script src="../assets/%E6%BC%94%E7%AE%97%E5%B1%82.js?v=a132b1de"></script><script src="../assets/%E5%AE%9A%E4%BD%8D%E5%B1%82.js?v=a3907880"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
@@ -49,7 +49,7 @@ html.xz-dark .exam.ws-hit,html.xz-dark .guide.ws-hit{background:color-mix(in srg
   <h1>每周模考</h1>
   <div class="intro">整卷模考的复盘归档中心：按「期次」分册，每期下设行测、申论、行测错题集合、成绩分析四大入口；行测与错题集合内按政治理论、常识判断、言语理解、数量关系、判断推理、资料分析六类分置题目（与试卷部分顺序一致），成绩分析把成绩表与错题集合对齐，给出模块强弱与下一阶段补什么。</div>
   <div class="meta">
-<span id="mkCount">当前 9 期</span>
+<span id="mkCount">当前 10 期</span>
     <span>一期四入口</span>
     <span>六分类分置</span>
     <span>支持续增期次</span>
@@ -126,7 +126,7 @@ function render(){
             '<span>把本期成绩表与错题集合对齐：总分位置、模块强弱、失分去向与下一阶段补什么。</span><span class="cnt">' + (m.cj || '待录入') + '</span></a>' +
             '</div></div>';
   });
-  html += '<div class="guide"><h3>如何新增一期模考（例如 10月7日模考、11月20日模考）</h3>' +
+  html += '<div class="guide" id="guide-new-mock"><h3>如何新增一期模考（例如 10月7日模考、11月20日模考）</h3>' +
     '<ol><li>对工作站助手说「新增 10月7日模考」即可自动生成该期文件夹与四个页面；</li>' +
     '<li>或手动复制 <code>9月7日模考</code> 文件夹，改名为新期次（如 <code>10月7日模考</code>）后清空内容；</li>' +
     '<li>题图素材放入对应分类文件夹：<code>行测_assets/分类名/</code> 与 <code>行测错题集合_assets/分类名/</code>、<code>申论_assets/</code>；</li>' +
@@ -147,11 +147,28 @@ window.addEventListener('message', function(e){
   if(d.type === 'ws-search' && d.q){
     var q = String(d.q || '').trim();
     if(!q) return;
-    document.querySelectorAll('.exam').forEach(function(card){
-      var hit = card.textContent.indexOf(q) > -1;
+    /* 【易错】期次卡片的匹配必须用「期次名」而不是查询词：搜索命中的是往期说明，而卡片是按
+       期次名渲染的；直接用 q 去比 textContent 时，说明里提到的往期常常一个都匹配不上。 */
+    var cards = document.querySelectorAll('.exam');
+    cards.forEach(function(card){ card.classList.remove('ws-hit'); });
+    var guideEl = document.querySelector('.guide');
+    if(guideEl){ guideEl.classList.remove('ws-hit'); }
+    var matched = [];
+    cards.forEach(function(card){
+      var t = card.querySelector('h3');
+      var name = t ? t.textContent : '';
+      var hit = !!name && (q.indexOf(name) > -1 || name.indexOf(q) > -1);
       card.classList.toggle('ws-hit', hit);
-      if(hit){ card.scrollIntoView({ behavior:'smooth', block:'center' }); }
+      if(hit){ matched.push(card); }
     });
+    if(!matched.length){
+      cards.forEach(function(card){
+        var hit = card.textContent.indexOf(q) > -1;
+        card.classList.toggle('ws-hit', hit);
+        if(hit){ matched.push(card); }
+      });
+    }
+    if(matched.length){ matched[0].scrollIntoView({ behavior:'smooth', block:'center' }); }
     /* 「如何新增一期模考」这类说明文字在 .guide 里（全站索引也收进来了）：
        命中就滚过去并描边，别让读者自己找。 */
     var guide = document.querySelector('.guide');

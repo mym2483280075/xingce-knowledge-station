@@ -865,10 +865,19 @@ var NAV = [
     children: SN_SECTIONS },
   RJ_SECTION,
   { id:'mkx', name:'模考真题', en:'MOCK EXAMS', color:'#f43f5e',
-    sub:'整卷模考 · 按期次归档', cnt:'7 期',
+    sub:'整卷模考 · 按期次归档', cnt:'10 期模考',
     desc:'整卷模考的复盘归档中心：按期次分册，每期下设行测、申论、行测错题集合三大入口。',
     children: MK_SECTIONS }
 ];
+/* 【易错】模考期次会一直加，NAV 里的计数不能手写（这里曾写死「7 期」，实际已到第 10 期）。
+   统一现算，以后加期次不用再回来改文案。 */
+var MK_CNT = (function(){ var n = 0; MK_SECTIONS.forEach(function(s){ if(s.id !== 'mk'){ n++; } }); return n; })();
+NAV.forEach(function(n){
+  if(n.id === 'mkx'){
+    n.cnt = MK_CNT + ' 期模考';
+    n.sub = '整卷模考 · 按期次归档（' + MK_CNT + ' 期）';
+  }
+});
 
 /* 拍平成两张表：
    PAGES   = 所有可打开的叶子页面（搜索、跳转、计数都只认它）
@@ -1054,10 +1063,16 @@ var pendingQuery = null;
       （此前一次搜索会在后台把 3.9MB 全站索引拖完，抢带宽导致翻页/跳转变慢）。
       三件事都改了板块页 HTML 或 assets/板块页脚本.js —— 升到 v20261004d。
       同日第二轮（搜索覆盖面 + 词形）：把「卡片以外的整页正文」（页头简介 / meta / 模块横幅 /
-      工具条 / 页脚）与模考中心页的脚本模板文案全部纳入索引，标题/正文改走「归一化 + 分词 AND +
-      跳字兜底」，页内搜索一个字没命中时不再把整页筛空 —— 又改了索引与 assets/板块页脚本.js，
-      升到 v20261004e，否则 iPad 会继续用缓存里的旧页面与旧脚本。） */
-var CACHE_V = 'vc217c4c7';
+     工具条 / 页脚）与模考中心页的脚本模板文案全部纳入索引，标题/正文改走「归一化 + 分词 AND +
+     跳字兜底」，页内搜索一个字没命中时不再把整页筛空 —— 又改了索引与 assets/板块页脚本.js，
+     升到 v20261004e，否则 iPad 会继续用缓存里的旧页面与旧脚本。）
+    （2026-10-05 搜索性能与稳定性修复：① 兜底批只在「立即批下完、命中不足 12 条」时才继续下载，
+     高命中词从 55 个切片降到 1 个；② Fuse 模糊检索只索引标题 + 增量补建，单次从 ~80ms 降到 ~8ms，
+     正文扫描按游标分帧（每帧 10ms）；③ 输入防抖 80ms；④ 空闲预热核心索引；⑤ wsPlan 自己收口
+     wsPump（此前队列可能没人下载）；⑥ 板块说明不再排到真卡片前面；⑦ 模考卡片补
+     content-visibility；⑧ 侧栏/模考中心的期次计数改为现算。改了 index.html、板块页与索引，
+     CACHE_V 已由 refresh-site.js 自动打戳。） */
+var CACHE_V = 'vb21ae41d';
 /* ===================================================================
    2026-09-20 界面重构：从「iOS 毛玻璃」转为「冷静的文档工作站」
    ---------------------------------------------------------------
@@ -1290,6 +1305,9 @@ function openPalette(){
   paletteEl.classList.add('show');
   document.documentElement.classList.add('xz-pal');
   warmIndex();
+  /* 重新打开：把上次失败过的切片放开再试，并把还挂着的防抖一并冲掉 */
+  for(var k in wsLoaded){ if(wsLoaded[k] === 'fail'){ delete wsLoaded[k]; } }
+  if(wsRenderTimer){ clearTimeout(wsRenderTimer); wsRenderTimer = 0; }
   if(globalQ.value.trim()){ renderSearch(globalQ.value); } else { renderQuickList(); }
   setTimeout(function(){ try{ globalQ.focus(); }catch(e){} }, 0);
 }
@@ -1299,6 +1317,8 @@ function closePalette(){
   drop.classList.remove('show');
   globalQ.setAttribute('aria-expanded','false');
   wsRows = []; wsSel = -1;
+  /* 关面板 = 立即停：连没跑完的防抖也取消，避免面板已关还渲染一次 */
+  if(wsRenderTimer){ clearTimeout(wsRenderTimer); wsRenderTimer = 0; }
   try{ globalQ.blur(); }catch(e){}
   restoreFocus();
 }
@@ -1359,7 +1379,9 @@ var wsCore = null;          // 核心索引（每张卡片一条标题）
 var wsFull = [];            // 已加载的全文切片
 var wsFuse = null;          // 覆盖“核心索引 + 已加载全文”的模糊检索器实例
 var wsFuseLib;              // Fuse 构造函数：undefined=未加载 / null=加载失败
-var wsFuseCount = -1;       // wsFuse 建立时的条目数，用于判断是否需要重建
+var wsFuseCount = 0;        // wsFuse 已经索引的条目数（增量补建用）
+var wsFuseDirty = false;    // 条目有增减：下一次需要模糊检索时先补建（见 wsEnsureFuse）
+var wsFuseItems = [];       // 已索引的条目（判定池子是否变小/重排用）
 var wsInitBusy = false;     // 核心索引加载中
 var wsCoreFailed = false;   // 核心索引加载失败（离线 / 请求被拦）：面板给出可行动的降级提示
 var wsQueue = [];           // 待加载的全文索引 key（当前板块 + 标题/关键词命中的板块优先）
@@ -1375,6 +1397,10 @@ var wsSel = -1;             // 当前选中行
 var wsKwStrong = [];        // 与查询词完全一致的板块关键词（「第十期」「倡议书」）—— 回车优先走它
 var wsUrgent = false;       // 当前查询暂无结果：提高并发，尽快把兜底批拉进来
 var wsPlanQ = null;         // 上一次规划对应的查询词（避免同一句查询反复重排队列）
+var wsLowHits = false;      // 立即批下完仍不足 12 条：允许接兜底批（wsScanTail 的唯一开关）
+var wsRenderTimer = 0;      // 输入防抖定时器（renderSoon / renderSearchNow 用）
+var WS_ROW_CAP = 20;        // 结果面板最多渲染多少条（条数远超屏幕时多渲染只是白算 DOM）
+var wsScanCursor = 0;       // 正文扫描游标：一帧给 10ms，下次从断点接着扫（避免长尾永久搜不到）
 var WS_FULL_DIR = 'assets/search-full/';
 
 /* 【易错】凡是把内容拼进 innerHTML 的地方都必须先过这里（索引正文来自各板块页，
@@ -1390,7 +1416,9 @@ function wsSnippet(it, q){
      的那一句是裸露的 —— 一旦正文里有裸 < 或 &，结果面板就可能排版错乱甚至被截断。 */
   /* 【坑】核心索引里的条目只有标题、没有正文（全文切片还在后台加载）。
      这里必须容忍 it.x 缺失，否则首屏搜索结果会直接抛异常、整个面板空白。 */
-  if(!it || !it.x){ return '<span style="color:#94a3b8">正文索引加载中…</span>'; }
+  /* 核心索引只有标题：这条还没等到正文切片时，明确说是「标题命中」而不是转圈文案，
+     否则用户会以为搜索卡住了（正文切片只在需要时才继续下载）。 */
+  if(!it || !it.x){ return '标题命中 · 正文索引按需加载'; }
   var text = it.x, at = text.indexOf(q), len = q.length, i;
   /* 原样找不到时按“归一化/分词”再找一遍：用户搜「第106题」，原文是「第 106 题」，
      摘要也要把命中那一截高亮出来，而不是干巴巴地显示开头 42 个字。 */
@@ -1450,24 +1478,76 @@ function wsSearchSet(){
   return pending.concat(wsFull);
 }
 
-function wsBuild(){
+/* 【性能】模糊检索器改为「增量补建 + 时间预算」：
+   wsSearchSet() 的顺序是确定的（未加载板块的标题条目在前、已加载切片在后、切片按到达顺序），
+   所以索引长度就能当作已索引条目数；新到的切片用 setCollection 增量塞进去，
+   一次只做 8ms，剩下的留给后续查询继续补。
+   旧实现是每个切片到达都重建全量索引（6.2MB 文本全扫一遍），实测每次 60~170ms，
+   55 次累计十几秒的长任务 —— 这就是「搜索时页面发卡」的根因之一。 */
+/* 【性能·2026-10-05】模糊检索只索引「标题」，不再索引正文：
+   实测在 4500 条（6.2MB 正文）上 Fuse 的 search 单次要 ~80ms —— 这是按键卡顿的主因。
+   而模糊匹配的定位本来就是“标题打错字/记不全”的兜底：正文命中由前面几档精确扫描负责，
+   不需要再让 Fuse 扫一遍正文。搜索框同时只看 t / n 两个短字段，开销降到十分之一量级。
+   【坑】这里用 _ft / _fn 两个短字段，不直接拿 t / n 当 key：正文切片与核心索引里
+   同名条目共用同一对象时，Fuse 的 key 取了长文本会把收益吃掉。 */
+function wsFuseOpts(){
+  return { includeScore: true, ignoreLocation: true, threshold: 0.35,
+    minMatchCharLength: 2,
+    keys: [{ name: '_ft', weight: 3 }, { name: '_fn', weight: 2 }] };
+}
+function wsFuseLabel(it){
+  if(it._ft === undefined){
+    it._ft = String(it.t == null ? '' : it.t).slice(0, 120);
+    it._fn = String(it.n == null ? '' : it.n).slice(0, 40);
+  }
+  return it;
+}
+function wsEnsureFuse(){
   if(!wsFuseLib){ wsFuse = null; return; }
-  var items = wsSearchSet();
-  if(wsFuse && items.length === wsFuseCount){ return; }
-  try{
-    wsFuse = new wsFuseLib(items, {
-      includeScore: true, ignoreLocation: true,
-      threshold: 0.35,
-      keys: [{ name: 't', weight: 3 }, { name: 'n', weight: 1 }, { name: 'x', weight: 1 }]
-    });
-    wsFuseCount = items.length;
-  }catch(e){ wsFuse = null; }
+  var items = wsSearchSet().map(wsFuseLabel);
+  if(!items.length){ wsFuse = null; wsFuseCount = 0; wsFuseItems = []; wsFuseDirty = false; return; }
+  /* 池子前段是不是原样没动：动过（顺序变了）就整体重建，否则增量 add 的快路才成立 */
+  var prefixOk = true;
+  for(var p = 0; p < wsFuseItems.length; p++){
+    if(wsFuseItems[p] !== items[p]){ prefixOk = false; break; }
+  }
+  if(!prefixOk){ wsFuse = null; wsFuseCount = 0; wsFuseItems = []; }
+  if(items.length < wsFuseCount){          /* 池子缩小（换查询重排过）：只能重建，仍给时间预算 */
+    if(wsFuse && !wsFuseDirty && wsFuseCount === items.length){ return; }
+    try{
+      wsFuse = new wsFuseLib(items, wsFuseOpts());
+      wsFuseCount = items.length;
+    }catch(e){ wsFuse = null; wsFuseCount = 0; }
+    wsFuseItems = items.slice();
+    wsFuseDirty = false;
+    return;
+  }
+  if(wsFuse && !wsFuseDirty && wsFuseCount === items.length){ return; }
+  if(!wsFuse){ wsFuseCount = 0; }
+  var t0 = (window.performance && performance.now) ? performance.now() : 0;
+  while(wsFuseCount < items.length){
+    if(t0 && (performance.now() - t0) > 8){ break; }   /* 剩下的条目留给下一次查询继续补 */
+    try{
+      if(wsFuse && wsFuse.add){ wsFuse.add(items[wsFuseCount]); }
+      else if(wsFuse && typeof wsFuse.setCollection === 'function'){
+        wsFuse.setCollection(items.slice(0, wsFuseCount + 1));  /* 老版本兜底：整体替换 */
+      }else{
+        wsFuse = new wsFuseLib(items.slice(0, wsFuseCount + 1), wsFuseOpts());
+      }
+    }catch(e){ wsFuse = null; wsFuseCount = 0; break; }
+    wsFuseCount++;
+  }
+  wsFuseItems = items.slice(0, wsFuseCount);
+  if(wsFuseCount >= items.length){ wsFuseDirty = false; }
 }
 
 /* 核心索引：聚焦搜索框就加载（十几 KB），拿到后立刻可搜标题 */
 function wsInit(){
   if(wsInitBusy || wsCore || window.fetch == null){ return; }
   wsInitBusy = true;
+  /* 【坑】这里不能用 ?v= 或 ?r= 之类的查询串破缓存：stamp.js 给 assets 引用打版本号时
+     会把 CACHE_V 一起算进内容哈希，动态拼的查询串会让「打戳 → 哈希变化 → 再打戳」永不收敛。
+     索引自带 rev 字段，发布比对时逐字节算哈希，缓存交给 HTTP 协商缓存即可。 */
   fetch('assets/search-index.json').then(function(r){
     if(!r.ok){ throw new Error('no index'); }
     return r.json();
@@ -1480,7 +1560,6 @@ function wsInit(){
     wsCore.items.forEach(function(it){ it.k = wsFileKey[it.f] || ''; });
     return wsLoadFuse();
   }).then(function(){
-    wsBuild();
     if(globalQ.value.trim()){ renderSearch(globalQ.value); } else { wsPump(); }
   }).catch(function(){
     wsCore = null;      // 索引拿不到：renderSearch 会退回关键词分支
@@ -1504,11 +1583,37 @@ function wsPlan(q){
      5、6 次（实测发生过，直接把首条结果的等待时间拉长到十几秒）。 */
   if(wsPlanQ === q && (wsQueue.length || wsTail.length || wsInflight)){ return; }
   wsPlanQ = q;
+  wsScanCursor = 0;           /* 新查询：正文扫描从头开始 */
   var curKey = wsFileKey[frameDoc()] || '';
   var priKey = {};
+  /* 【性能·2026-10-05】立即批的判定从「只比标题」放宽到「标题 / NAV 里的说明与关键词 / 归一化标题」：
+     只比标题时，想搜「资料分析 增长率」这类词组必须先下完整站索引才可能命中；
+     放宽后用户要的那个板块会先到，既快又省流量。 */
+  /* 【易错】两级判定，别合并：
+     · 标题（2000+ 条）只认「整句 / 归一化整句」——按词 AND 会把所有「XX · 板块说明」
+       标题里各带一个词、全部判成立即批，等于又把整站索引拉下来；
+     · NAV 元信息（25 个板块）才允许分词 AND —— 搜「资料分析 增长率」时用户要的
+       就是同时提到这两个词的板块，这里的条数有上限，放宽不会失控。 */
+  var priNq = wsSig(q);
+  function priMatch(text){
+    if(!q || !text){ return false; }
+    if(text.indexOf(q) > -1){ return true; }
+    return !!(priNq && wsSig(text).indexOf(priNq) > -1);
+  }
+  var priTerms = wsTerms(q);
+  function priMetaMatch(text){
+    if(text.indexOf(q) > -1){ return true; }
+    var nt = wsSig(text);
+    if(priNq && nt.indexOf(priNq) > -1){ return true; }
+    if(priTerms.length <= 1){ return false; }
+    for(var i = 0; i < priTerms.length; i++){
+      if(nt.indexOf(priTerms[i]) < 0){ return false; }
+    }
+    return true;
+  }
   for(var i=0;i<wsCore.items.length;i++){
     var it = wsCore.items[i];
-    if(it.t && q && it.t.indexOf(q) > -1){ priKey[it.k] = true; }
+    if(it.t && it.k && priMatch(it.t)){ priKey[it.k] = true; }
   }
   /* 板块名与关键词命中的板块同样算“立即批”：用户搜「资料分析」「倡议书」这类词时，
      要的就是那个板块本身，别让它跟着兜底批慢慢排队。 */
@@ -1516,10 +1621,13 @@ function wsPlan(q){
     if(!q){ return; }
     var k = wsFileKey[s.file];
     if(!k){ return; }
-    if(s.name.indexOf(q) > -1 || (s.keywords || []).some(function(kw){ return kw.indexOf(q) > -1; })){
+    var meta = [s.name, s.sub, s.cnt, s.desc, (s.keywords || []).join(' ')].join(' ');
+    if(priMetaMatch(meta)){
       priKey[k] = true;
     }
   });
+  /* 当前正在看的板块的正文永远最先补全 */
+  if(curKey){ priKey[curKey] = true; }
   var pri = [], tail = [];
   (wsCore.files || []).forEach(function(f){
     if(wsLoaded[f.k] || wsPending[f.k]){ return; }
@@ -1532,15 +1640,24 @@ function wsPlan(q){
   }
   wsQueue = pri;
   wsTail = tail;
+  /* 【易错】算完必须交给 wsPump 干活。早先这里靠 renderSearch 后续补一次 wsPump，
+     只要中间有任何一步提前返回（例如同一句查询的索引到达回调），队列就永远没人下载 ——
+     实测表现为「搜很多词都只出标题级结果、永远不补正文」。现在把发起下载收口到这里，
+     wsPump 自己幂等（无队列 / 面板没开就空转），重复调用不产生重复请求。 */
+  wsPump();
 }
 
-/* 立即批下完（队列空、无在途）就把兜底批接上 —— 全站搜索要能搜到任何板块的正文，
-   所以有命中时也继续扫，只是顺序按相关性排（当前板块 → 标题命中 → 关键词命中 → 其余），
-   用户真正想要的多半在第一批里就已经出现。
-   【性能】唯一的前置条件是「命令面板还开着」：面板一关就停，重新打开再接着下，
-   不会出现“人在翻页、索引在后台拖 3.9MB”的情况（见 wsPump 的注释）。 */
+/* 兜底批（wsTail）只在「立即批全下完、而且现在这条查询命中不足」时才接上。
+   【性能·2026-10-05 修复】原实现在立即批下完就无条件扫全站：搜一个词条，面板开着不动
+   就会把 55 个切片（6.2MB）全部拖下来 —— 在 20~35KB/s 的慢链路上意味着好几分钟的带宽
+   被占满，翻页/跳转明显变慢（实测一次查询产生 55 个请求、52 次长任务，最长 169ms），
+   和 README 里「没有命中才扫兜底批」的约定也不一致。
+   现在：① 先只下立即批（当前板块 + 标题/关键词命中板块）；
+        ② 立即批下完若结果仍然 < 12 条，才把兜底批并入队列（搜索框还开着时）；
+        ③ 有新查询进来会重新规划，旧兜底批作废（wsPlan 重算 wsTail）。 */
 function wsScanTail(){
-  if(!wsTail.length || wsQueue.length || wsInflight || !isPaletteOpen()){ return false; }
+  if(!wsTail.length || wsQueue.length || wsInflight) return false;
+  if(!isPaletteOpen() || !wsLowHits) return false;
   wsQueue = wsQueue.concat(wsTail);
   wsTail = [];
   wsPump();
@@ -1577,9 +1694,12 @@ function wsFetchFull(k){
     .then(function(){
       wsInflight--;
       delete wsPending[k];
-      wsBuild();
+      /* 【性能】这里不再同步重建模糊索引：那是一次全量 O(N) 扫描（实测每个切片到达都要
+         100ms 上下，55 次就是十几秒的卡顿）。改为标脏，等真正需要模糊兜底时用
+         wsEnsureFuse 增量补建，每次最多 8ms。 */
+      wsFuseDirty = true;
       /* 面板关掉后不要再做无谓的重渲染；wsPump 自己会判断面板是否还开着 */
-      if(isPaletteOpen() && globalQ.value.trim()){ renderSearch(globalQ.value); }
+      if(isPaletteOpen() && globalQ.value.trim()){ renderSoon(); }
       else { wsPump(); }
     });
 }
@@ -1672,61 +1792,100 @@ function wsSpan(text, q){
 }
 function wsRank(q){
   var pool = wsSearchSet();
+  var corePool = wsCore ? wsCore.items : [];
   var byCard = {}, list = [];
   var nq = wsSig(q), terms = wsTerms(q), multi = terms.length > 1;
+  var t0 = (window.performance && performance.now) ? performance.now() : 0;
+  var metaRe = /·\s*(板块说明|本页说明)/;
   function add(it, tier, score){
     /* 「板块说明 / 本页说明」是索引里补的元信息条目（不是卡片）：多词命中时让位给真卡片，
        否则「资料分析 增长率」的第一条会是板块说明而不是讲增长率的卡片。 */
-    if(tier >= 2 && /·\s*(板块说明|本页说明)/.test(it.t || '')){ score += 0.01; }
+    if(tier >= 2 && metaRe.test(it.t || '')){ score += 0.01; }
     var id = it.f + '#' + (it.i || it.t);
     var cur = byCard[id];
     if(cur){
       if(tier < cur.tier){ cur.tier = tier; cur.score = score; }
       else if(tier === cur.tier && score < cur.score){ cur.score = score; }  /* 同档取更好的分（正文命中数） */
       if(it.x && !cur.it.x){ cur.it = it; }   // 有正文切片的条目更适合展示摘要
-      return;
+      return list.length >= 24;
     }
     var rec = { it: it, tier: tier, score: score };
     byCard[id] = rec; list.push(rec);
+    return list.length >= 24;   /* 够渲染了：停止继续扫，剩下的留给下次 */
   }
-  for(var i=0;i<pool.length;i++){
-    var it = pool[i];
-    if(!it){ continue; }
-    var tt = it.t || '', xx = it.x || '';
-    /* ① 标题：原样子串 → 归一化子串（「第106题」=「第 106 题」） */
-    if(tt.indexOf(q) > -1){ add(it, 0, 0); continue; }
-    if(nq && wsSigT(it).indexOf(nq) > -1){ add(it, 0, 0.0005); continue; }
-    /* ② 正文：原样子串 → 归一化子串；同一卡里出现次数多的更可能是主题内容
-       （搜「一笔画」时，判断推理里讲它的卡片要排在常识判断顺带提一句的绘画卡前面）。 */
-    if(xx.indexOf(q) > -1){ add(it, 1, 1 / (1 + wsCountIn(xx, q, 9))); continue; }
-    if(nq && xx){
-      var xs = wsSigX(it), cxs = wsCountIn(xs, nq, 9);
-      if(cxs){ add(it, 1, 1 / (1 + cxs)); continue; }
+  /* 【性能】分两遍扫，先轻后重：
+     ① A 遍只扫「核心索引（标题）+ 当前板块已加载的正文切片」——
+        标题命中、当前板块的正文命中都在这一遍出全，是绝大多数搜索的主要命中来源；
+     ② B 遍在其后扫「其余板块的正文切片」，多词 AND 的命中通常只需要几十条，
+        所以给它 10ms 预算：够 12 条直接收工，超预算剩下的下次（或换词）再补。
+     这样渲染耗时不再随「已下载的索引总量」线性增长 —— 原来 6.2MB 全下完后
+     每次按键都要把全部正文扫一遍（实测一次渲染 ~83ms）。 */
+  function scanItems(arr, budgetMs){
+    var tStart = budgetMs ? ((window.performance && performance.now) ? performance.now() : 0) : 0;
+    for(var i=0;i<arr.length;i++){
+      var it = arr[i];
+      if(!it){ continue; }
+      if(tStart && (i & 63) === 0 && (performance.now() - tStart) > budgetMs){ return; }
+      var tt = it.t || '', xx = it.x || '';
+      /* ① 标题：原样子串 → 归一化子串（「第106题」=「第 106 题」） */
+      if(tt.indexOf(q) > -1){ if(add(it, 0, 0)){ return; } continue; }
+      if(nq && wsSigT(it).indexOf(nq) > -1){ if(add(it, 0, 0.0005)){ return; } continue; }
+      /* ② 正文：原样子串 → 归一化子串；同一卡里出现次数多的更可能是主题内容
+         （搜「一笔画」时，判断推理里讲它的卡片要排在常识判断顺带提一句的绘画卡前面）。 */
+      if(xx){
+        if(xx.indexOf(q) > -1){ if(add(it, 1, 1 / (1 + wsCountIn(xx, q, 9)))){ return; } continue; }
+        if(nq){
+          var xs = wsSigX(it), cxs = wsCountIn(xs, nq, 9);
+          if(cxs){ if(add(it, 1, 1 / (1 + cxs))){ return; } continue; }
+        }
+      }
+      /* ③ 多词查询：每一段都要出现（顺序不限）。按词逐段查签名，不拼接大字符串。 */
+      if(multi){
+        var nt = wsSigT(it), nx = xx ? wsSigX(it) : '', hits = 0;
+        for(var k=0;k<terms.length;k++){
+          if(nt.indexOf(terms[k]) > -1 || (nx && nx.indexOf(terms[k]) > -1)){ hits++; }
+        }
+        if(hits === terms.length){ if(add(it, 2, 0.002 * hits)){ return; } continue; }
+        if(terms.length >= 3 && hits >= 2 && hits === terms.length - 1){ if(add(it, 3, 0.02)){ return; } continue; }
+      }
     }
-    /* ③ 多词查询：每一段都要出现（顺序不限）——「资料分析 增长率」不该因为两词不相邻就搜不到。
-       全中的排一档，只差一个词的排下一档（当作“可能相关”的兜底）。 */
-    if(multi){
-      var hay = wsSigT(it) + '\u0000' + wsSigX(it), hits = 0;
-      for(var k=0;k<terms.length;k++){ if(hay.indexOf(terms[k]) > -1){ hits++; } }
-      if(hits === terms.length){ add(it, 2, 0.002 * hits); continue; }
-      if(terms.length >= 3 && hits >= 2 && hits === terms.length - 1){ add(it, 3, 0.02); continue; }
+  }
+  scanItems(corePool, 0);            /* A：标题（2 千多条，很快）——保证任何板块的卡片都能被搜到 */
+  /* B：正文按游标推进，每帧最多 10ms（游标下次接着走，避免长尾永久搜不到）。
+     只有 A 没凑够 12 条时才需要扫正文。 */
+  if(list.length < 12){
+    var all = wsSearchSet();
+    var tB = (window.performance && performance.now) ? performance.now() : 0;
+    while(wsScanCursor < all.length && list.length < 12){
+      var stepStart = wsScanCursor;
+      scanItems(all.slice(stepStart, stepStart + 100), 0);
+      wsScanCursor += 100;
+      if(tB && (performance.now() - tB) > 6){ break; }
     }
   }
-  /* 【性能】面板只显示 12 条，所以前面几档已经凑够 12 条时不必再跑模糊检索：
-     Fuse 在全量 4500 条切片上要几十毫秒，iPad 上更贵（实测多词查询 280ms）。
-     低档位的结果不可能挤进前 12，所以这一步省得完全安全。 */
-  if(wsFuse && list.length < 12){
-    var res = [];
-    try{ res = wsFuse.search(q, { limit: 40 }); }catch(e){ res = []; }
-    for(var j=0;j<res.length;j++){ add(res[j].item, 4, res[j].score || 0); }
+  /* 面板只显示 WS_ROW_CAP 条，所以前面几档已经凑够的条数时不必再跑模糊检索：
+     Fuse 在全量切片上要几十毫秒，iPad 上更贵。低档位不可能挤进前面的名次，省得安全。 */
+  if(list.length < 12){
+    wsEnsureFuse();
+    if(wsFuse){
+      var res = [];
+      try{ res = wsFuse.search(q, { limit: 40 }); }catch(e){ res = []; }
+      for(var j=0;j<res.length;j++){ add(res[j].item, 4, res[j].score || 0); }
+    }
   }
-  /* 跳字兜底：精确/模糊都没凑够结果时，再按“顺序命中且跨度受限”补一批（tier 5，排在最后） */
+  /* 跳字兜底：精确/模糊都没凑够结果时，再按“顺序命中且跨度受限”补一批（tier 5，排在最后）。
+     【性能】wsSpan 对长正文是逐字扫描（最坏 O(n²) 量级），所以加 12ms 时间预算，
+     超时就停下 —— 再加一条「够 12 条就不继续扫」的早停，宁可少几条兜底结果，也不让按键卡顿。 */
   if(list.length < 12 && q.length >= 3){
     var spanLimit = q.length + Math.max(2, Math.ceil(q.length / 2));
-    for(var k=0;k<pool.length && list.length<40;k++){
-      var it2 = pool[k];
+    var sBudget = 12;
+    for(var k2=0;k2<pool.length && list.length<12;k2++){
+      if(sBudget <= 0){ break; }
+      var it2 = pool[k2];
+      var ts = (window.performance && performance.now) ? performance.now() : 0;
       var span = wsSpan(it2.t, q);
       if(span < 0){ span = wsSpan(it2.x, q); }
+      if(ts && window.performance && performance.now){ sBudget -= (performance.now() - ts); }
       if(span > 0 && span <= spanLimit){ add(it2, 5, span / 100); }
     }
   }
@@ -1743,6 +1902,11 @@ function wsRank(q){
     if(a.tier !== b.tier){ return a.tier - b.tier; }
     var ab = boostSec[a.it.s] ? 0 : 1, bb = boostSec[b.it.s] ? 0 : 1;
     if(ab !== bb){ return ab - bb; }
+    /* 同档里「板块说明 / 本页说明」排在真卡片后面：搜「资料分析」时用户要的是板块本身，
+       而不是说明文字（说明条目只用来保证这句话还能被搜到）。 */
+    var am = a.it.i ? 0 : (metaRe.test(a.it.t || '') ? 1 : 0);
+    var bm = b.it.i ? 0 : (metaRe.test(b.it.t || '') ? 1 : 0);
+    if(am !== bm){ return am - bm; }
     var ac = (curSec && a.it.s === curSec) ? 0 : 1, bc = (curSec && b.it.s === curSec) ? 0 : 1;
     if(ac !== bc){ return ac - bc; }
     if(Math.abs(a.score - b.score) > 0.001){ return a.score - b.score; }
@@ -1750,7 +1914,7 @@ function wsRank(q){
     if(an !== bn){ return an - bn; }
     return String(a.it.n||'').localeCompare(String(b.it.n||''));
   });
-  return list.slice(0, 12);
+  return list.slice(0, WS_ROW_CAP);
 }
 
 function wsMove(step){
@@ -1793,6 +1957,14 @@ function wsOpen(it, q){
   if(window.innerWidth <= 900){ closeSidebar(); }
 }
 
+/* 【性能】输入防抖：每敲一个字都重跑一遍 wsRank（全量精确匹配）没有必要，
+   iPad 上连续输入时尤其明显。80ms 只影响连打，停顿后立刻出结果；
+   Esc/回车/等一拍之后再手动触发都走 renderSearch 本体（立即执行）。 */
+function renderSoon(){
+  if(wsRenderTimer){ clearTimeout(wsRenderTimer); }
+  wsRenderTimer = setTimeout(function(){ wsRenderTimer = 0; renderSearch(globalQ.value); }, 80);
+}
+
 /* 【易错】渲染完不要再逐行绑 click —— 面板上的点击统一交给下面的委托监听，
    否则键盘导航（↑↓ 改的是 DOM 上的 .sel）与点击会各走一套状态。 */
 function renderSearch(q){
@@ -1829,8 +2001,9 @@ function renderSearch(q){
   var kwWeak = kw.filter(function(m){ return kwStrong.indexOf(m) < 0; });
   var readyN = wsLoadedCount();
   var failedN = wsFailedCount();
-  /* 【需求】立即批跑完就接着扫兜底批（面板关掉即停）：一条没命中时是“正在检索其余板块”，
-     已经命中时是“结果还会随索引到达而补充”。两种都要在面板里说清楚，免得被当成坏了。 */
+  /* 【性能】兜底批的开关：立即批下完仍然不足 12 条才允许继续扫全站（面板关掉即停）。
+     命中已经够多时不下载其余板块 —— 慢链路上这一条就是「搜索时翻页变卡」的分界线。 */
+  wsLowHits = ranked.length < 12;
   wsScanTail();
   wsUrgent = !ranked.length;
   /* 【易错】把兜底批并进队列后必须再 pump 一次：否则“队列里有活、却没人在下载、
@@ -1852,14 +2025,15 @@ function renderSearch(q){
      这时再显示“索引 N/54”会让人以为后台还在拖整站索引。 */
   if(ranked.length ? (wsQueue.length || wsInflight) : (readyN + failedN < wsTotalFiles)){
     var pct = wsTotalFiles ? Math.round((readyN + failedN) / wsTotalFiles * 100) : 0;
-    var label = ranked.length ? ('继续检索其余板块 ' + readyN + '/' + wsTotalFiles) : ('还没找到，正在检索其余板块 ' + readyN + '/' + wsTotalFiles);
+    var label = ranked.length ? ('结果还会随索引到达补充 ' + readyN + '/' + wsTotalFiles)
+      : ('还没找到，正在检索其余板块 ' + readyN + '/' + wsTotalFiles);
     html += '<div class="stat"><span>'+label+'</span>'+
             '<span class="bar"><i style="width:'+pct+'%"></i></span></div>';
   }
   if(wsFuseLib === null){
     html += '<div class="stat">模糊检索库未加载（离线或 CDN 不可达），当前只按标题与关键词匹配</div>';
   }
-  html += ranked.map(function(r, idx){
+  html += ranked.slice(0, WS_ROW_CAP).map(function(r, idx){
     var it = r.it, sec = getSection(it.s);
     return '<div class="row" id="wsRow'+idx+'" role="option" data-idx="'+idx+'" style="--c:'+(sec?sec.color:'#4f7cff')+'">'+
       '<span class="dot"></span>'+
@@ -1900,7 +2074,7 @@ drop.addEventListener('click', function(e){
    【易错】回车取的是 wsRank 的结果而不是 wsFuse.search 的第一条：
    模糊命中可能把「一笔画」排到言语理解去，排序规则见 wsRank 的注释。 */
 globalQ.addEventListener('input', function(){
-  renderSearch(this.value);
+  renderSoon();
 });
 globalQ.addEventListener('keydown', function(e){
   if(e.key === 'ArrowDown' || e.key === 'ArrowUp'){
@@ -2361,8 +2535,11 @@ function openCover(){
 function hideCover(){ coverEl.classList.remove('show'); }
 
 /* ================= 启动 ================= */
-/* 【性能】两级索引都不做后台预热：聚焦/输入搜索框时才加载核心索引（约 17KB gzip），
-   全文切片再按“当前板块优先”逐步补齐；首屏带宽全部留给板块内容。
+/* 【性能】两级索引不做「阻塞式」预热：**首屏绝不下载索引**。
+   浏览器空下来之后（requestIdleCallback，最多等 2.5s）再拉核心索引（约 17KB gzip）
+   与本地 Fuse 库 —— 有这层预热，点开搜索就是「秒出标题级结果」，
+   不再出现「刚聚焦那一刻还在下载索引、看着像卡住」。
+   全文切片依旧只在搜索框有词、面板展开时按“当前板块优先”逐步补齐。
    索引未就绪时回车仍可用关键词兜底路由（routeBest）。 */
 var wsWarmed = false;
 function warmIndex(){
@@ -2372,6 +2549,14 @@ function warmIndex(){
 }
 globalQ.addEventListener('focus', warmIndex);
 globalQ.addEventListener('input', warmIndex);
+(function(){
+  function prewarm(){ try{ wsInit(); }catch(e){} }
+  if(window.requestIdleCallback){
+    window.requestIdleCallback(prewarm, { timeout: 2500 });
+  }else{
+    window.setTimeout(prewarm, 1200);
+  }
+})();
 /* 【需求】首屏落在封面（不再直接进常识判断）：封面本身就是导航，
    想直接进板块点一下即可，「继续上次」由 cvGo 负责。 */
 openCover();
