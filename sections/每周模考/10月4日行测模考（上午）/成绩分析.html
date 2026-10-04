@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="mock">
+<head><style id="xz-perf">/* 长页面打开提速：屏幕外的卡片不做排版与绘制 */section.scard{content-visibility:auto;contain-intrinsic-size:auto 500px}</style>
+<meta charset="UTF-8">
+<link rel="icon" href="data:,"><script src="../../../assets/%E4%B8%BB%E9%A2%98.js?v=20260922b"></script><script src="../../../assets/%E6%BC%94%E7%AE%97%E5%B1%82.js?v=20260922b"></script><script src="../../../assets/%E5%AE%9A%E4%BD%8D%E5%B1%82.js?v=20260922b"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>10月4日行测模考（上午） · 成绩分析 · 公考工作站</title><link rel="stylesheet" href="../../../assets/design-tokens.css?v=20260920f"><link rel="stylesheet" href="../../../assets/%E6%9D%BF%E5%9D%97%E9%A1%B5%E6%A0%B7%E5%BC%8F.css?v=20260920f">
+<style>
+/* 本页专属样式（骨架与通用组件来自 assets/板块页样式.css，颜色一律走令牌） */
+:root{--primary:#be185d; --primary2:#e11d48; --accent:#fb7185; --bg:#fbf2f6;
+  --ok:#15803d; --mid:#b45309; --bad:#b91c1c;}
+*{box-sizing:border-box}
+.subnav{position:sticky;top:0;z-index:60;background:var(--xz-surface);backdrop-filter:blur(8px);border-bottom:1px solid var(--accent-line);padding:8px 16px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.subnav a{text-decoration:none;font-size:12.5px;border:1px solid var(--accent-line);background:var(--xz-surface);color:var(--accent-ink);border-radius:999px;padding:5px 14px;white-space:nowrap}
+.subnav a:hover{border-color:var(--primary2);color:var(--primary2)}
+.subnav a.on{background:linear-gradient(135deg,var(--primary),var(--primary2));border-color:transparent;color:var(--xz-surface);font-weight:700}
+.scard{background:var(--xz-surface);border:1px solid var(--accent-line);border-radius:14px;padding:16px 20px 18px;margin:0 0 16px;scroll-margin-top:64px}
+.scard>h2{margin:0 0 12px;font-size:17px;color:var(--primary);display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.scard>h2 em{font-style:normal;font-size:11.5px;font-weight:600;color:var(--accent-ink);background:var(--xz-warn-bg);border-radius:999px;padding:1px 10px}
+.lead{font-size:13.5px;color:var(--xz-ink-2);background:var(--xz-warn-bg);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;padding:9px 14px;margin:0 0 14px;line-height:1.85}
+.lead b{color:var(--accent-ink-2)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.kpi{border:1px solid var(--accent-line);border-radius:13px;background:linear-gradient(180deg,var(--xz-surface),var(--xz-warn-bg));padding:12px 15px}
+.kpi .k{font-size:11.5px;color:var(--accent-ink);letter-spacing:.03em}
+.kpi .v{font-size:25px;font-weight:800;color:var(--primary);line-height:1.35;margin-top:2px}
+.kpi .v small{font-size:12px;font-weight:600;color:var(--accent-ink);margin-left:4px}
+.kpi .n{font-size:11.5px;color:var(--xz-ink-3);margin-top:2px}
+.kpi.good{border-color:var(--xz-good-line);background:linear-gradient(180deg,var(--xz-surface),var(--xz-good-bg))}
+.kpi.good .v{color:var(--xz-good-ink)}
+.kpi.warn{border-color:var(--xz-danger-line);background:linear-gradient(180deg,var(--xz-surface),var(--xz-danger-bg))}
+.kpi.warn .v{color:var(--xz-danger-ink)}
+.tblwrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table.mod{width:100%;border-collapse:collapse;font-size:13px}
+table.mod th{background:var(--xz-warn-bg);color:var(--accent-ink);font-size:12px;font-weight:700;text-align:center;padding:7px 6px;border-bottom:1px solid var(--accent-line);white-space:nowrap}
+table.mod td{padding:7px 6px;border-bottom:1px solid var(--xz-warn-bg);text-align:center;color:var(--xz-ink-2)}
+table.mod td.nm{text-align:left;font-weight:700;color:var(--xz-ink);white-space:nowrap}
+table.mod tr:last-child td{border-bottom:0}
+table.mod tr.hi td{background:var(--xz-warn-bg)}
+table.mod tr.big td{font-weight:700;color:var(--xz-ink)}
+table.mod small{color:var(--xz-ink-3);font-size:11px}
+.bar{position:relative;height:8px;border-radius:999px;background:var(--accent-line);overflow:hidden;min-width:56px;margin-bottom:3px}
+.bar i{position:absolute;left:0;top:0;bottom:0;border-radius:999px;background:linear-gradient(90deg,var(--xz-danger-ink),var(--xz-danger-ink))}
+.bar.ok i{background:linear-gradient(90deg,var(--xz-good-ink),var(--xz-good-ink))}
+.bar.mid i{background:linear-gradient(90deg,var(--xz-warn-line),var(--xz-warn-ink))}
+.rate{font-size:11px;color:var(--xz-ink-3);font-variant-numeric:tabular-nums}
+.tag{display:inline-block;font-size:11px;border-radius:999px;padding:1px 9px;white-space:nowrap}
+.tag.ok{color:var(--ok);background:var(--xz-good-bg);border:1px solid var(--xz-good-line)}
+.tag.mid{color:var(--mid);background:var(--xz-warn-bg);border:1px solid var(--xz-warn-line)}
+.tag.bad{color:var(--bad);background:var(--xz-danger-bg);border:1px solid var(--xz-danger-line)}
+td.num{font-variant-numeric:tabular-nums}
+td.d{font-weight:700}
+td.d.ok{color:var(--ok)}
+td.d.bad{color:var(--bad)}
+.tnote{margin:10px 0 0;font-size:12px;color:var(--xz-ink-3);line-height:1.75}
+.pintro{margin:0 0 12px;font-size:12.5px;color:var(--xz-ink-3);line-height:1.75}
+.diag{display:grid;gap:10px}
+.ditem{border:1px solid var(--accent-line);border-radius:12px;padding:11px 14px;background:var(--xz-surface-2)}
+.ditem>b{display:block;font-size:13.5px;color:var(--accent-ink);margin-bottom:3px}
+.ditem p b{color:var(--accent-ink-2)}
+.ditem p{margin:0;font-size:13px;color:var(--xz-ink-2);line-height:1.8}
+.ditem.good{border-color:var(--xz-good-line);background:var(--xz-good-bg)}
+.ditem.good>b{color:var(--xz-good-ink)}
+.ditem.two{border-color:var(--xz-danger-line);background:var(--xz-danger-bg)}
+.ditem.two>b{color:var(--xz-danger-ink)}
+.wrow{display:flex;gap:10px;align-items:flex-start;padding:9px 4px;border-bottom:1px dashed var(--accent-line);font-size:13px}
+.wrow:last-child{border-bottom:0}
+.wrow .wn{flex:none;width:78px;font-weight:800;color:var(--primary)}
+.wrow .wn i{display:block;font-style:normal;font-size:11px;font-weight:600;color:var(--accent-ink)}
+.wrow .wd{color:var(--xz-ink-2);line-height:1.8}
+.wrow code{background:var(--xz-warn-bg);color:var(--accent-ink);border-radius:5px;padding:0 5px;font-size:12px}
+.wrow.hi{background:var(--xz-warn-bg);border-radius:10px}
+.wrow.good{background:var(--xz-good-bg);border-radius:10px}
+ol.plan{margin:0;padding-left:22px;font-size:13.5px;color:var(--xz-ink-2)}
+ol.plan li{margin:8px 0;line-height:1.85}
+ol.plan li b{color:var(--accent-ink-2)}
+ol.plan code{background:var(--xz-warn-bg);color:var(--accent-ink);border-radius:5px;padding:0 5px;font-size:12px}
+.goal{margin:14px 0 0;border:1px dashed var(--accent);border-radius:12px;background:var(--xz-warn-bg);padding:10px 14px;font-size:13px;color:var(--xz-danger-ink);line-height:1.85}
+.note li{margin:5px 0}
+@media(max-width:720px){
+.scard{padding:14px 14px 16px}
+.kpi .v{font-size:22px}
+table.mod{font-size:12.5px}
+}
+@media print{
+.subnav,.backtop{display:none}
+}
+</style>
+
+</head>
+<body>
+<header>
+  <h1>10月4日行测模考（上午） · 成绩分析</h1>
+  <div class="intro">把「10月4日上午场（模考六 · 130 题）308 班行测成绩排名（91 人）」逐格识别校验后得出的结论：66.0 分落在班里什么位置、34.0 分失分去了哪九块、六期（10月1日上午 → 今天上午）哪些模块在涨、下一阶段先补什么。成绩表本地留存、未入站，本页只保留分数与排名，不含姓名与手机号。</div>
+  <div class="meta"><span>行测 66.0 · 班内 42 / 91</span><span>年级榜单 244</span><span>与班均 +1.29</span><span>上一场 61.7（+4.3）</span></div>
+</header>
+<div class="subnav">
+  <a href="../../每周模考.html">← 模考中心</a>
+  <a href="行测.html">行测</a>
+  <a href="申论.html">申论</a>
+  <a href="行测错题集合.html">行测错题集合</a>
+  <a class="on" href="成绩分析.html">成绩分析</a>
+</div>
+<main>
+
+<section class="scard" id="cj-jielun">
+  <h2>一句话结论 <em>上午场 · 308 班 91 人</em></h2>
+  <p class="lead">行测 <b>66.0</b> 分，班里第 <b>42 / 91</b>，年级榜单第 <b>244</b>——<b>六期最强的一场</b>：绝对分最高，而且本场与卷一 / 模考三 / 模考四同为 130 题、同配分，四场直接可比（49.2 → 60.8 → 57.9 → <b>66.0</b>）；年级名次从 419 一口气推进 <b>175 名</b>，班内名次也是六期最好，<b>第一次站到班均线上</b>（+1.29，上一场还是 −4.37）。撑住整卷的是判断推理——类比 5 / 5、逻辑 10 / 10 两块满分并列班内第 1，定义 8 / 10（班内 2 / 91），再加常识 9 / 15（班内 9 / 91）；主要口子只剩三块且都收窄了：资料分析 −2.22、图形推理 −1.85、数量关系 −0.66（对班均），三块合计缺口 4.73 分。</p>
+  <div class="kpis">
+    <div class="kpi good"><div class="k">行测成绩</div><div class="v">66.0<small>/ 100</small></div><div class="n">班内 42 / 91 · 年级榜单 244（六期最好）</div></div>
+    <div class="kpi good"><div class="k">与班均</div><div class="v">+1.29<small>分</small></div><div class="n">班均 64.71 · 班中位 64.4 · 班内最高 80.9</div></div>
+    <div class="kpi warn"><div class="k">三块缺口</div><div class="v">4.73<small>分</small></div><div class="n">资料 −2.22 · 图形 −1.85 · 数量 −0.66</div></div>
+    <div class="kpi good"><div class="k">年级对照</div><div class="v">−175<small>名</small></div><div class="n">上一场 419 → 今天 244（班内 72 / 94 → 42 / 91）</div></div>
+  </div>
+</section>
+
+<section class="scard" id="cj-zhenduan">
+  <h2>四条诊断 <em>结论先看这里</em></h2>
+  <div class="diag">
+    <div class="ditem good"><b>① 六期最强，名次第一次大步前进：66.0（42 / 91、年级 244）</b><p>六期整卷 49.2 → 60.2 → 60.8 → 57.9 → 61.7 → <b>66.0</b>；其中四场 130 题同配分的卷子是 49.2 → 60.8 → 57.9 → <b>66.0</b>。年级 419 → <b>244</b>（−175 名），首次进入年级前 250；班内 72 / 94 → <b>42 / 91</b>，第一次超过班里一半同学（52.7%）。更关键的是位置：与班均差 −4.37 → <b>+1.29</b>，六期第一次转正——分数涨、位置也真涨。同分段（65.0～67.0）7 人、段均 66.16；本场 60 分以上 69 / 91、70 分以上 24 / 91。</p></div>
+    <div class="ditem good"><b>② 判断推理是发动机：类比、逻辑两块满分，定义班内第 2</b><p>类比 4.0 / 4（100%、班内并列第 1、比上一场 +40pp）；逻辑 8.0 / 8（100%、班内并列第 1、+20pp）；定义 6.4 / 8（80%、班内 <b>2 / 91</b>、高于班均 +1.56）。三块合计高于班均 <b>+3.68 分</b>，是全卷位置前进的第一功臣。再加常识 5.4 / 9（60%、班内 9 / 91、+1.73）——判断推理四块里三块 + 常识，构成了本场的「得分底盘」。</p></div>
+    <div class="ditem two"><b>③ 失分口收窄到三块，但都还在班均线下：资料 −2.22、图形 −1.85、数量 −0.66</b><p>资料分析 11.7 / 18（65%、班内 68 / 91）比上一场 +20pp、多对 4 题，但仍是最大缺口；图形推理 3.5 / 7（50%、班内 <b>84 / 91</b>）已连续四场停在 40%～50%；数量关系 2.7 / 9（30%、六期最高）仍未到班均（3.36）。三块合计缺口 4.73 分——对比上一场三块缺口 8.67 分，收窄了 3.94 分，这正是本场超额进步的主要来源；但三块合计仍失 16.1 分，占全卷失分 34.0 分的 47%。</p></div>
+    <div class="ditem two"><b>④ 两个回落信号：言语 87% → 70%，政治 / 常识持平</b><p>言语理解 14.7 / 21（70%、班内 45 / 91）比上一场（87%、五期最高）回落 <b>−17pp</b>，刚好贴在班均线上（+0.02），是六期对照里唯一明显回落的一块；政治理论 9.6 / 16（60%）与常识 60% 都持平（政治五期连升后首次停涨，但两块仍都高于班均 +0.58 / +1.73）。判断推理把分数顶上来之后，言语别掉队、政治常识再加一点，就是下一场守住 66+ 的关键。</p></div>
+  </div>
+</section>
+
+<section class="scard" id="cj-modules">
+  <h2>行测九模块明细 <em>逐个定位</em></h2>
+  <p class="pintro">每条结论的原始数据都在这里：我的分数、得分率、折合题数、与班均的差距和班内名次，最后一列是上一场（10月3日下午 · 模考五）的得分率对照。排在后面、差值为负的，就是要动的地方。</p>
+  <div class="tblwrap">
+  <table class="mod">
+    <thead>
+      <tr><th>模块</th><th>满分</th><th>我的</th><th>得分率</th><th>折合题数</th><th>班均</th><th>与班均差</th><th>班内名次</th><th>上一场</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="nm">类比推理</td><td class="num">4</td><td class="num d ok">4.0</td><td><div class="bar ok"><i style="width:100%"></i></div><span class="rate">100%</span></td><td class="num">5 / 5</td><td class="num">3.42</td><td class="num">+0.58</td><td class="num">1 / 91</td><td class="num">60%</td></tr>
+      <tr><td class="nm">逻辑判断</td><td class="num">8</td><td class="num d ok">8.0</td><td><div class="bar ok"><i style="width:100%"></i></div><span class="rate">100%</span></td><td class="num">10 / 10</td><td class="num">6.46</td><td class="num">+1.54</td><td class="num">1 / 91</td><td class="num">80%</td></tr>
+      <tr><td class="nm">定义判断</td><td class="num">8</td><td class="num d ok">6.4</td><td><div class="bar ok"><i style="width:80%"></i></div><span class="rate">80%</span></td><td class="num">8 / 10</td><td class="num">4.84</td><td class="num">+1.56</td><td class="num">2 / 91</td><td class="num">80%</td></tr>
+      <tr><td class="nm">言语理解</td><td class="num">21</td><td class="num d ok">14.7</td><td><div class="bar mid"><i style="width:70%"></i></div><span class="rate">70%</span></td><td class="num">21 / 30</td><td class="num">14.69</td><td class="num">+0.02</td><td class="num">45 / 91</td><td class="num">87%</td></tr>
+      <tr class="hi"><td class="nm">资料分析</td><td class="num">18</td><td class="num d bad">11.7</td><td><div class="bar "><i style="width:65%"></i></div><span class="rate">65%</span></td><td class="num">13 / 20</td><td class="num">13.92</td><td class="num">−2.22</td><td class="num">68 / 91</td><td class="num">45%</td></tr>
+      <tr><td class="nm">政治理论</td><td class="num">16</td><td class="num d ok">9.6</td><td><div class="bar mid"><i style="width:60%"></i></div><span class="rate">60%</span></td><td class="num">12 / 20</td><td class="num">9.02</td><td class="num">+0.58</td><td class="num">31 / 91</td><td class="num">60%</td></tr>
+      <tr><td class="nm">常识判断</td><td class="num">9</td><td class="num d ok">5.4</td><td><div class="bar mid"><i style="width:60%"></i></div><span class="rate">60%</span></td><td class="num">9 / 15</td><td class="num">3.67</td><td class="num">+1.73</td><td class="num">9 / 91</td><td class="num">60%</td></tr>
+      <tr class="hi"><td class="nm">图形推理</td><td class="num">7</td><td class="num d bad">3.5</td><td><div class="bar "><i style="width:50%"></i></div><span class="rate">50%</span></td><td class="num">5 / 10</td><td class="num">5.35</td><td class="num">−1.85</td><td class="num">84 / 91</td><td class="num">50%</td></tr>
+      <tr class="hi"><td class="nm">数量关系</td><td class="num">9</td><td class="num d bad">2.7</td><td><div class="bar "><i style="width:30%"></i></div><span class="rate">30%</span></td><td class="num">3 / 10</td><td class="num">3.36</td><td class="num">−0.66</td><td class="num">38 / 91</td><td class="num">10%</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="tnote">满分一列合计 100 分（模考六 130 题，配分与卷一 / 模考三 / 模考四一致：政治 20 × 0.8、常识 15 × 0.6、言语 30 × 0.7、数量 10 × 0.9、图形 10 × 0.7、定义 10 × 0.8、类比 5 × 0.8、逻辑 10 × 0.8、资料 20 × 0.9）。全表 91 行逐行核对：「行测成绩 = 九模块之和」全部精确吻合，且每个模块分都是对应题分值的整数倍（如言语 14.7 = 21 × 0.7、资料 11.7 = 13 × 0.9），零处可疑。「定位」只看与班均的差距和班内名次。</p>
+</section>
+
+<section class="scard" id="cj-shifen">
+  <h2>失分去向 <em>按模块分反推 · 折 44 道错题</em></h2>
+  <p class="pintro">本场还没有「我的答案」清单，错题集合页暂为占位；下面不是逐题清单，而是按成绩表九模块得分反推的失分去向：100 − 66.0 = <b>34.0 分</b>，折合 <b>44 道错题</b>（130 − 86）。</p>
+  <div class="wrow hi"><div class="wn">资料分析<i>7 题 · 失 6.3 分</i></div><div class="wd">20 题对 13（65%），比上一场（9 / 20、45%）多对 4 题；但仍是全卷与班均差距最大的一块（−2.22），单科失分占全卷 19%。</div></div>
+  <div class="wrow hi"><div class="wn">图形推理<i>5 题 · 失 3.5 分</i></div><div class="wd">10 题对 5（50%），与上一场持平，近四场都停在 40%～50%（卷一 / 卷二曾到 70% / 60%）；班内 84 / 91，是班里倒数第二梯队。</div></div>
+  <div class="wrow hi"><div class="wn">数量关系<i>7 题 · 失 6.3 分</i></div><div class="wd">10 题对 3（30%、六期最高），比上一场多对 2 题；但班均 3.36 / 9（37%），仍在班均线下 0.66 分。</div></div>
+  <div class="wrow"><div class="wn">政治理论<i>8 题 · 失 6.4 分</i></div><div class="wd">20 题对 12（60%）——失分绝对数全卷最大，但比班均还高 0.58 分（班内 31 / 91），属于「全班都难」的部分。</div></div>
+  <div class="wrow"><div class="wn">言语理解<i>9 题 · 失 6.3 分</i></div><div class="wd">30 题对 21（70%），比上一场（26 / 30、87%）多错 5 题，刚好贴在班均线（+0.02）——本场最需要盯住的回落。</div></div>
+  <div class="wrow"><div class="wn">常识判断<i>6 题 · 失 3.6 分</i></div><div class="wd">15 题对 9（60%），高出班均 1.73 分（班内 9 / 91）——失分不多、位置很稳。</div></div>
+  <div class="wrow"><div class="wn">定义判断<i>2 题 · 失 1.6 分</i></div><div class="wd">10 题对 8（80%、班内 2 / 91、+1.56），判断推理里第四块也是稳定得分项。</div></div>
+  <div class="wrow good"><div class="wn">类比 · 逻辑<i>0 题 · 失 0 分</i></div><div class="wd">类比 5 / 5、逻辑 10 / 10——全卷唯一两块满分，且都是班内并列第 1。</div></div>
+  <p class="tnote">三块短板（资料 6.3 + 图形 3.5 + 数量 6.3 = 16.1 分）约占全卷失分的 47%，对应的 19 道题也占 44 道错题的 43%；而政治 + 言语的 12.7 分失分发生在班均线上或附近，属于「全班都不容易拿的分」。错题集合页等「我的答案」清单与答案版到位后逐题回填。</p>
+</section>
+
+<section class="scard" id="cj-duibi">
+  <h2>六期对照 <em>六张卷的得分率曲线</em></h2>
+  <p class="pintro">六场考试是同一批 308 班同学、不同试卷（卷一 / 模考三 / 模考四 / 模考六为 130 题；卷二 / 模考五为 120 题），模块配分不同，且每场在班人数略有变化；本场与卷一 / 模考三 / 模考四同配分可直接比绝对分，其余跨场只比得分率。整卷 49.2 → 60.2 → 60.8 → 57.9 → 61.7 → <b>66.0</b>，班内 82 / 92 → 59 / 96 → 55 / 98 → 64 / 93 → 72 / 94 → <b>42 / 91</b>，年级 512 → 341 → 304 → 422 → 419 → <b>244</b>。</p>
+  <div class="tblwrap">
+  <table class="mod">
+    <thead><tr><th>模块</th><th>卷一<br><small>10月1日上午</small></th><th>卷二<br><small>10月1日下午</small></th><th>模考三<br><small>10月2日上午</small></th><th>模考四<br><small>10月3日上午</small></th><th>模考五<br><small>10月3日下午</small></th><th>模考六<br><small>10月4日上午</small></th><th>上一场→本场</th><th>说明</th></tr></thead>
+    <tbody>
+      <tr><td class="nm">类比推理</td><td class="num">20%</td><td class="num">70%</td><td class="num">100%</td><td class="num">60%</td><td class="num">60%</td><td class="num d ok">100%</td><td class="num">+40pp</td><td class="num">六期第二次打满（班内第 1）</td></tr>
+      <tr><td class="nm">逻辑判断</td><td class="num">60%</td><td class="num">50%</td><td class="num">80%</td><td class="num">60%</td><td class="num">80%</td><td class="num d ok">100%</td><td class="num">+20pp</td><td class="num">六期第一次打满（班内第 1）</td></tr>
+      <tr><td class="nm">定义判断</td><td class="num">80%</td><td class="num">80%</td><td class="num">60%</td><td class="num">70%</td><td class="num">80%</td><td class="num d ok">80%</td><td class="num">±0pp</td><td class="num">稳定在 70%～80%（班内 2 / 91）</td></tr>
+      <tr><td class="nm">言语理解</td><td class="num">57%</td><td class="num">80%</td><td class="num">67%</td><td class="num">57%</td><td class="num">87%</td><td class="num d bad">70%</td><td class="num">−17pp</td><td class="num">六期最明显回落，回到班均线</td></tr>
+      <tr><td class="nm">资料分析</td><td class="num">40%</td><td class="num">55%</td><td class="num">65%</td><td class="num">80%</td><td class="num">45%</td><td class="num d ok">65%</td><td class="num">+20pp</td><td class="num">收复大半失地，仍差班均 2.22</td></tr>
+      <tr><td class="nm">政治理论</td><td class="num">45%</td><td class="num">30%</td><td class="num">50%</td><td class="num">55%</td><td class="num">60%</td><td class="num d ">60%</td><td class="num">±0pp</td><td class="num">五期连升后首次持平（班内 31 / 91）</td></tr>
+      <tr><td class="nm">常识判断</td><td class="num">47%</td><td class="num">60%</td><td class="num">73%</td><td class="num">60%</td><td class="num">60%</td><td class="num d ok">60%</td><td class="num">±0pp</td><td class="num">持平，班内 9 / 91、+1.73</td></tr>
+      <tr class="hi"><td class="nm">图形推理</td><td class="num">70%</td><td class="num">60%</td><td class="num">50%</td><td class="num">40%</td><td class="num">50%</td><td class="num d bad">50%</td><td class="num">±0pp</td><td class="num">六期停在 40%～50%（班内 84 / 91）</td></tr>
+      <tr class="hi"><td class="nm">数量关系</td><td class="num">20%</td><td class="num">30%</td><td class="num">20%</td><td class="num">20%</td><td class="num">10%</td><td class="num d ">30%</td><td class="num">+20pp</td><td class="num">六期最高，仍低于班均 0.66</td></tr>
+      <tr class="big"><td class="nm">整卷</td><td class="num">49.2%</td><td class="num">60.2%</td><td class="num">60.8%</td><td class="num">57.9%</td><td class="num">61.7%</td><td class="num d ok">66.0%</td><td class="num">+4.3pp</td><td class="num">年级 512 → 341 → 304 → 422 → 419 → 244</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="tnote">配分说明：模考六与卷一 / 模考三 / 模考四同配分（130 题，满分合计 100），这四场绝对分可直接比；卷二 / 模考五为 120 题（政治 10 × 0.8、常识 10 × 0.8、言语 30 × 0.8、数量 10 × 0.9、图形 10 × 0.9、定义 10 × 0.8、类比 10 × 0.7、逻辑 10 × 0.9、资料 20 × 0.9），跨场只比得分率。</p>
+</section>
+
+<section class="scard" id="cj-qingjing">
+  <h2>情景测算 <em>短板补到班均之后</em></h2>
+  <p class="pintro">只算「低于班均」的模块补到班均，不假设超常发挥。本场低于班均的只有资料、图形、数量三块。班内名次按 91 人表内实测（分数 ≥ 目标分的实际人数），年级名次用成绩表里「分数 → 年级名次」的对应关系分段线性插值估算。</p>
+  <div class="tblwrap">
+  <table class="mod">
+    <thead><tr><th>情景</th><th>加分</th><th>总分</th><th>班内名次</th><th>年级名次</th></tr></thead>
+    <tbody>
+      <tr><td class="nm">资料分析 → 班均（11.7 → 13.9）</td><td class="num">+2.22</td><td class="num d">68.2</td><td class="num">约 32 / 91</td><td class="num">约 182</td></tr>
+      <tr class="hi"><td class="nm">资料 + 图形 → 班均</td><td class="num">+4.06</td><td class="num d bad">70.1</td><td class="num">约 23 / 91</td><td class="num">约 117</td></tr>
+      <tr class="hi"><td class="nm">资料 + 图形 + 数量 → 班均</td><td class="num">+4.72</td><td class="num d bad">70.7</td><td class="num">约 22 / 91</td><td class="num">约 103</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="tnote">当前 66.0 分（班内 42 / 91、年级 244）。资料补到班均（+2.22 分）→ 68.2，班内约 32 / 91、年级约 182；再把图形补上（+4.06 分）→ 70.1，班内约 23 / 91、年级约 117，逼近年级前百。注意：班均本身会随下一场难度波动，这里只用来量化「先补哪块最划算」。</p>
+</section>
+
+<section class="scard" id="cj-lujing">
+  <h2>下一阶段补什么 <em>按性价比排序</em></h2>
+  <ol class="plan">
+    <li><b>资料分析（第一优先，可捞约 2.2 分）</b>：13 / 20（65%、班内 68 / 91）。六期曲线 40% → 55% → 65% → 80% → 45% → 65% 大起大落，说明方法与手感都在、稳定性不够——本卷四组材料限时重做（20 题 25 分钟），逐题标注错因类型（找数 / 列式 / 计算 / 比较大小），之后每天 1 组（5 题）保温。</li>
+    <li><b>图形推理（第二优先，可捞约 1.85 分）</b>：5 / 10（50%、班内 84 / 91），六期 70% → 60% → 50% → 40% → 50% → 50%，一直没有突破。每天 15 题按规律分块刷（点线面角素、对称、笔画奇点、立体展开），每周末回看一次错题规律小结；目标是先把正确率抬到 70%（7 / 10）。</li>
+    <li><b>数量关系（第三优先，可捞约 0.7 分）</b>：3 / 10（30%、六期最高），班均 3.36 / 9（37%）——这块是全班地板，先站上地板。只锁工程、利润、几何、和差倍比、容斥五类必拿题型，其余统一蒙一个选项；限时 15 分钟拿稳 4～5 题。</li>
+    <li><b>保基本盘（判断推理 + 常识，不加量）</b>：类比 5 / 5、逻辑 10 / 10、定义 8 / 10（三块合计 +3.68）、常识班内 9 / 91（+1.73）——每周各 20～30 题维持手感，把大块时间让给资料与图形。</li>
+    <li><b>盯回落（言语 + 政治）</b>：言语从 87% 回落到 70%（−17pp、刚好班均线）——用本卷错题回刷找节奏，每周 30 题保持；政治 60%（五期连升后持平、班内 31 / 91），每天 10 题时政 + 错题回看，不让它掉回 50% 区间。</li>
+  </ol>
+  <div class="goal"><b>目标换算：</b>资料 11.7 → 13.9（+2.22 分）+ 图形 3.5 → 5.35（+1.85 分），两项合计约 <b>+4.1 分</b>，总分约 <b>70.1</b>——班内约 23 / 91、年级约 117；再把数量补到班均（+0.66），总分约 <b>70.7</b>、年级约 103。</div>
+</section>
+
+<section class="scard" id="cj-shuoming">
+  <h2>数据口径 <em>看结论前请先读</em></h2>
+  <ul class="note">
+    <li><b>成绩来源</b>：10月4日上午场「2027向尚国考刷题全真模拟考六 行测成绩排名」截图（308 班视图，91 名学生），本地切格识别（3 张切片）后逐行校验；成绩表本地留存、未入站，本页只保留分数与排名，不记录姓名与手机号。</li>
+    <li><b>识别校验</b>：91 行数据「行测成绩 = 九模块之和」<b>全部精确吻合（0 处不符）</b>；每个模块分均为对应题分值的整数倍（如 14.7 = 21 × 0.7、11.7 = 13 × 0.9），且无超满分值；表内「行测排名」严格升序（5 → 565）、班级列全部为 308、准考证号无重复；表格横线逐条核对（94 条横线、行高均为 33px），无漏行。表头与标准分行、首行、我的那一行、末行已放大逐一目视复核。</li>
+    <li><b>标准卡满分</b>：16 / 9 / 21 / 9 / 7 / 8 / 4 / 8 / 18（合计 100）——模考六 130 题，配分与卷一 / 模考三 / 模考四一致，这四场绝对分可直接比。</li>
+    <li><b>本页的「我」</b>：成绩表里行测 66.0、年级名次 244 的那一行；上一场（10月3日下午）61.7 / 419，班内 72 / 94。</li>
+    <li><b>基准样本</b>：本页所有班均、班内名次都只基于这份 308 班名单（91 人），不是全年级；上一场同表为 94 人，班内名次不跨期直接比。</li>
+    <li><b>错题清单</b>：本场尚无「我的答案」清单，错题集合页为占位；「失分去向」按模块分反推，不是逐题结论。题本（130 题）与答案版到位后可逐题对照。</li>
+    <li><b>跨场不可直接比绝对分</b>：卷二 / 模考五为 120 题，卷一 / 模考三 / 模考四 / 模考六为 130 题，跨场对比一律用得分率（四场 130 题之间除外）。</li>
+    <li><b>AI 辅助分析，请结合备考实际判断。</b></li>
+  </ul>
+</section>
+
+</main>
+<button class="backtop" id="bt" title="回到顶部">↑</button>
+<script>
+(function(){
+  var bt = document.getElementById('bt');
+  function onScroll(){ if(bt){ bt.classList.toggle('show', window.scrollY > 500); } }
+  window.addEventListener('scroll', onScroll, { passive:true });
+  if(bt){ bt.addEventListener('click', function(){ window.scrollTo({ top:0, behavior:'smooth' }); }); }
+  onScroll();
+})();
+</script>
+</body>
+</html>
