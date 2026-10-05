@@ -1,75 +1,100 @@
 <!DOCTYPE html>
 <html lang="zh-CN" data-theme="mock">
-<head><style id="xz-perf">/* 长页面打开提速：屏幕外的知识点块不做排版与绘制 */section.kp,section.unit{content-visibility:auto;contain-intrinsic-size:auto 700px}section.qcard,section.matcard,section.shen,section.slot{content-visibility:auto;contain-intrinsic-size:auto 320px}</style>
+<head><style id="xz-perf">/* 长页面打开提速：屏幕外的卡片不做排版与绘制 */section.scard{content-visibility:auto;contain-intrinsic-size:auto 500px}section.slot{content-visibility:auto;contain-intrinsic-size:auto 220px}</style>
 <meta charset="UTF-8">
 <link rel="icon" href="data:,"><script src="../../../assets/%E4%B8%BB%E9%A2%98.js?v=f38968bc"></script><script src="../../../assets/%E6%BC%94%E7%AE%97%E5%B1%82.js?v=a132b1de"></script><script src="../../../assets/%E5%AE%9A%E4%BD%8D%E5%B1%82.js?v=a3907880"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>10月5日申论模考（上午） · 成绩分析 · 公考工作站</title><link rel="stylesheet" href="../../../assets/design-tokens.css?v=2604fc33"><link rel="stylesheet" href="../../../assets/%E6%9D%BF%E5%9D%97%E9%A1%B5%E6%A0%B7%E5%BC%8F.css?v=c92fd385">
+<title>强化卷1（10月5日申论模考上午） · 成绩分析 · 公考工作站</title><link rel="stylesheet" href="../../../assets/design-tokens.css?v=2604fc33"><link rel="stylesheet" href="../../../assets/%E6%9D%BF%E5%9D%97%E9%A1%B5%E6%A0%B7%E5%BC%8F.css?v=c92fd385">
 <style>
 /* 本页专属样式（骨架与通用组件来自 assets/板块页样式.css，颜色一律走令牌） */
-:root{--primary:#be185d; --primary2:#e11d48; --accent:#fb7185; --bg:#fbf2f6;}
-  *{box-sizing:border-box}
+:root{--primary:#be185d; --primary2:#e11d48; --accent:#fb7185; --bg:#fbf2f6;
+  --ok:#15803d; --mid:#b45309; --bad:#b91c1c;}
+*{box-sizing:border-box}
 .subnav{position:sticky;top:0;z-index:60;background:var(--xz-surface);backdrop-filter:blur(8px);border-bottom:1px solid var(--accent-line);padding:8px 16px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 .subnav a{text-decoration:none;font-size:12.5px;border:1px solid var(--accent-line);background:var(--xz-surface);color:var(--accent-ink);border-radius:999px;padding:5px 14px;white-space:nowrap}
 .subnav a:hover{border-color:var(--primary2);color:var(--primary2)}
 .subnav a.on{background:linear-gradient(135deg,var(--primary),var(--primary2));border-color:transparent;color:var(--xz-surface);font-weight:700}
-nav.toc .t-cat{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:9px;color:var(--xz-ink-3);text-decoration:none}
-nav.toc .t-cat:hover{background:var(--xz-surface-2);color:var(--primary)}
-nav.toc .t-cat b{font-weight:700;color:var(--primary)}
-nav.toc .t-cat .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);flex:none}
-nav.toc .t-cat i{font-style:normal;font-size:10.5px;color:var(--xz-ink-4);margin-left:auto;background:var(--accent-soft-2);border-radius:999px;padding:0 7px}
-.mod-banner .num{font-size:11px;background:var(--accent-soft-2);border:1px solid rgba(255,255,255,.3);border-radius:999px;padding:1px 11px}
-.mod-body{background:var(--xz-surface);border:1px solid var(--accent-line);border-radius:0 0 14px 14px;border-top:0;padding:16px 20px 10px;margin-top:-6px}
-.qcard .stem{font-size:15px;color:var(--xz-ink);line-height:1.9;margin:6px 0 4px}
-.qcard .opt{font-size:14.5px;color:var(--xz-ink-2);line-height:1.8;margin:2px 0;padding-left:0;text-indent:0}
-.matcard{margin:14px 0;border:1px solid var(--xz-info-line);border-radius:12px;background:var(--xz-surface-2);padding:11px 16px 12px}
-.mathead span{font-size:11px;font-weight:600;color:color-mix(in srgb,var(--primary) 88%,var(--xz-ink));background:var(--xz-info-bg);border-radius:999px;padding:1px 10px}
-.matcard .fig img{border-color:var(--xz-info-line)}
-details.ansbox{margin-top:8px;border:1px solid var(--xz-good-line);border-radius:8px;background:var(--xz-good-bg)}
-details.ansbox summary{cursor:pointer;list-style:none;padding:6px 12px;font-size:13.5px;color:var(--xz-good-ink);font-weight:600;display:flex;align-items:center;gap:6px;user-select:none}
-details.ansbox summary::-webkit-details-marker{display:none}
-details.ansbox summary::after{content:"▸";margin-left:auto;color:var(--xz-good-ink);transition:transform .15s}
-details.ansbox[open] summary::after{transform:rotate(90deg)}
-details.ansbox summary:hover{background:var(--xz-good-bg);border-radius:8px}
-.ansline b{color:var(--xz-good-ink);font-size:15px}
-.module.hidden,.qcard.hidden,.matcard.hidden{display:none}
-@media print{
-nav.toc,.toolbar,.subnav,.backtop{display:none}
-details.ansbox{display:block}
+.scard{background:var(--xz-surface);border:1px solid var(--accent-line);border-radius:14px;padding:16px 20px 18px;margin:0 0 16px;scroll-margin-top:64px}
+.scard>h2{margin:0 0 12px;font-size:17px;color:var(--primary);display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.scard>h2 em{font-style:normal;font-size:11.5px;font-weight:600;color:var(--accent-ink);background:var(--xz-warn-bg);border-radius:999px;padding:1px 10px}
+.lead{font-size:13.5px;color:var(--xz-ink-2);background:var(--xz-warn-bg);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;padding:9px 14px;margin:0 0 14px;line-height:1.85}
+.lead b{color:var(--accent-ink-2)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.kpi{border:1px solid var(--accent-line);border-radius:13px;background:linear-gradient(180deg,var(--xz-surface),var(--xz-warn-bg));padding:12px 15px}
+.kpi .k{font-size:11.5px;color:var(--accent-ink);letter-spacing:.03em}
+.kpi .v{font-size:25px;font-weight:800;color:var(--primary);line-height:1.35;margin-top:2px}
+.kpi .v small{font-size:12px;font-weight:600;color:var(--accent-ink);margin-left:4px}
+.kpi .n{font-size:11.5px;color:var(--xz-ink-3);margin-top:2px}
+.kpi.good{border-color:var(--xz-good-line);background:linear-gradient(180deg,var(--xz-surface),var(--xz-good-bg))}
+.kpi.good .v{color:var(--xz-good-ink)}
+.kpi.warn{border-color:var(--xz-danger-line);background:linear-gradient(180deg,var(--xz-surface),var(--xz-danger-bg))}
+.kpi.warn .v{color:var(--xz-danger-ink)}
+.tblwrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table.mod{width:100%;border-collapse:collapse;font-size:13px}
+table.mod th{background:var(--xz-warn-bg);color:var(--accent-ink);font-size:12px;font-weight:700;text-align:center;padding:7px 6px;border-bottom:1px solid var(--accent-line);white-space:nowrap}
+table.mod td{padding:7px 6px;border-bottom:1px solid var(--xz-warn-bg);text-align:center;color:var(--xz-ink-2)}
+table.mod td.nm{text-align:left;font-weight:700;color:var(--xz-ink);white-space:nowrap}
+table.mod tr:last-child td{border-bottom:0}
+table.mod tr.hi td{background:var(--xz-warn-bg)}
+table.mod tr.big td{font-weight:700;color:var(--xz-ink)}
+table.mod small{color:var(--xz-ink-3);font-size:11px}
+.bar{position:relative;height:8px;border-radius:999px;background:var(--accent-line);overflow:hidden;min-width:56px;margin-bottom:3px}
+.bar i{position:absolute;left:0;top:0;bottom:0;border-radius:999px;background:linear-gradient(90deg,var(--xz-danger-ink),var(--xz-danger-ink))}
+.bar.ok i{background:linear-gradient(90deg,var(--xz-good-ink),var(--xz-good-ink))}
+.bar.mid i{background:linear-gradient(90deg,var(--xz-warn-line),var(--xz-warn-ink))}
+.rate{font-size:11px;color:var(--xz-ink-3);font-variant-numeric:tabular-nums}
+.tag{display:inline-block;font-size:11px;border-radius:999px;padding:1px 9px;white-space:nowrap}
+.tag.ok{color:var(--ok);background:var(--xz-good-bg);border:1px solid var(--xz-good-line)}
+.tag.mid{color:var(--mid);background:var(--xz-warn-bg);border:1px solid var(--xz-warn-line)}
+.tag.bad{color:var(--bad);background:var(--xz-danger-bg);border:1px solid var(--xz-danger-line)}
+td.num{font-variant-numeric:tabular-nums}
+td.d{font-weight:700}
+td.d.ok{color:var(--ok)}
+td.d.bad{color:var(--bad)}
+.tnote{margin:10px 0 0;font-size:12px;color:var(--xz-ink-3);line-height:1.75}
+.pintro{margin:0 0 12px;font-size:12.5px;color:var(--xz-ink-3);line-height:1.75}
+.diag{display:grid;gap:10px}
+.ditem{border:1px solid var(--accent-line);border-radius:12px;padding:11px 14px;background:var(--xz-surface-2)}
+.ditem>b{display:block;font-size:13.5px;color:var(--accent-ink);margin-bottom:3px}
+.ditem p b{color:var(--accent-ink-2)}
+.ditem p{margin:0;font-size:13px;color:var(--xz-ink-2);line-height:1.8}
+.ditem.good{border-color:var(--xz-good-line);background:var(--xz-good-bg)}
+.ditem.good>b{color:var(--xz-good-ink)}
+.ditem.two{border-color:var(--xz-danger-line);background:var(--xz-danger-bg)}
+.ditem.two>b{color:var(--xz-danger-ink)}
+.wrow{display:flex;gap:10px;align-items:flex-start;padding:9px 4px;border-bottom:1px dashed var(--accent-line);font-size:13px}
+.wrow:last-child{border-bottom:0}
+.wrow .wn{flex:none;width:78px;font-weight:800;color:var(--primary)}
+.wrow .wn i{display:block;font-style:normal;font-size:11px;font-weight:600;color:var(--accent-ink)}
+.wrow .wd{color:var(--xz-ink-2);line-height:1.8}
+.wrow code{background:var(--xz-warn-bg);color:var(--accent-ink);border-radius:5px;padding:0 5px;font-size:12px}
+.wrow.hi{background:var(--xz-warn-bg);border-radius:10px}
+.wrow.good{background:var(--xz-good-bg);border-radius:10px}
+ol.plan{margin:0;padding-left:22px;font-size:13.5px;color:var(--xz-ink-2)}
+ol.plan li{margin:8px 0;line-height:1.85}
+ol.plan li b{color:var(--accent-ink-2)}
+ol.plan code{background:var(--xz-warn-bg);color:var(--accent-ink);border-radius:5px;padding:0 5px;font-size:12px}
+.goal{margin:14px 0 0;border:1px dashed var(--accent);border-radius:12px;background:var(--xz-warn-bg);padding:10px 14px;font-size:13px;color:var(--xz-danger-ink);line-height:1.85}
+.note li{margin:5px 0}
+@media(max-width:720px){
+.scard{padding:14px 14px 16px}
+.kpi .v{font-size:22px}
+table.mod{font-size:12.5px}
 }
-.subhead{margin:16px 0 8px;padding:8px 14px;border-radius:10px;background:var(--accent-soft-2);border:1px solid var(--accent-line);color:var(--accent-ink);font-size:13.5px;font-weight:800;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
-.subhead span{font-size:11.5px;font-weight:600;color:var(--accent-ink);background:var(--xz-surface);border-radius:999px;padding:1px 10px}
-.pintro{margin:2px 0 10px;font-size:12.5px;color:var(--xz-ink-3);background:var(--xz-surface-2);border-radius:8px;padding:6px 12px;line-height:1.75}
-.bannote{margin:0 0 12px;font-size:12.5px;color:var(--xz-warn-ink);background:var(--xz-warn-bg);border:1px dashed var(--xz-warn-line);border-radius:10px;padding:8px 13px;line-height:1.7}
-.refbd p{margin:5px 0;line-height:1.9}
-.refbd .sh{font-weight:800;color:color-mix(in srgb,var(--primary) 88%,var(--xz-ink));margin:9px 0 3px}
-.refbd .pt{color:var(--xz-danger-ink);font-size:12.5px;font-weight:700;white-space:nowrap}
-.bdtitle{font-weight:800;color:color-mix(in srgb,var(--primary) 88%,var(--xz-ink));font-size:14.5px;margin:9px 0 4px;padding-left:9px;border-left:4px solid var(--xz-info-line);line-height:1.6}
-.fw{margin-top:4px}
-.fw p{text-indent:2em;margin:8px 0;line-height:1.95;font-size:14px;color:var(--xz-ink-2)}
-.fw p.fwtitle{text-indent:0;text-align:center;font-weight:800;font-size:16.5px;color:color-mix(in srgb,var(--primary) 88%,var(--xz-ink));margin:8px 0 2px}
-.fw p.fwsub{text-indent:0;text-align:center;font-weight:700;font-size:13px;color:color-mix(in srgb,var(--primary) 88%,var(--xz-ink));margin:0 0 10px}
-.matnote{margin:6px 0 10px;border:1px solid var(--xz-info-line);border-radius:10px;background:var(--xz-surface-2);padding:8px 12px}
-.matnote .mh{font-size:12px;font-weight:800;color:color-mix(in srgb,var(--primary) 88%,var(--xz-ink));margin:0 0 5px}
-.matnote p{font-size:13px;color:var(--xz-ink-2);margin:4px 0}
-.mine{margin-top:8px;background:var(--xz-danger-bg);border:1px solid var(--xz-danger-line);border-radius:8px;padding:5px 12px;font-size:14px}
-.mine b{color:var(--xz-danger-ink);font-size:15px}
-.mine .todo{color:var(--xz-ink-4)}
-.rtags{margin-top:6px;display:flex;gap:6px;flex-wrap:wrap}
-.rtag{font-size:11px;background:var(--xz-danger-bg);border:1px solid var(--xz-danger-line);color:var(--xz-danger-ink);border-radius:999px;padding:0 10px}
-.kp-tag{font-size:11px;background:var(--xz-info-bg);border:1px solid var(--xz-info-bg);color:var(--xz-info-ink);border-radius:999px;padding:0 10px}
-.qcard .opt p{margin:2px 0}
+@media print{
+.subnav,.backtop{display:none}
+}
 </style>
 
 </head>
 <body>
 <header>
-  <h1>10月5日申论模考（上午） · 成绩分析</h1>
-  <div class="intro">10月5日申论模考（上午）成绩分析尚未录入：成绩表（总分 / 行测 / 申论及各模块）入站后，再与本卷错题对齐，给出模块强弱与下一阶段补什么。</div>
-  <div class="meta"><span>待录入</span><span>待成绩表入站</span><span>四大入口之一</span></div>
+  <h1>强化卷1（10月5日申论模考上午） · 成绩分析</h1>
+  <div class="intro">今天（10月5日）申论强化卷一的逐题得分：概括题 6 / 10、分析题 9 / 15、公文写作 15 / 20、对策题 13 / 20、大作文 25 / 35，合计 68 / 100——三期申论里的最高分（9月18日 65 → 9月22日 62.5 → 今天 68）。本页把 5 道题拆开看：分丢在哪几类题、失分去向、下一阶段先补什么。分数来自卷面批改，页面上只保留分数与得分率，不含姓名等信息。</div>
+  <div class="meta"><span>申论 68 / 100</span><span>小题 43 / 65</span><span>大作文 25 / 35</span><span>三期最高 65 → 62.5 → 68</span></div>
 </header>
 <div class="subnav">
   <a href="../../每周模考.html">← 模考中心</a>
@@ -78,13 +103,114 @@ details.ansbox{display:block}
   <a href="行测错题集合.html">行测错题集合</a>
   <a class="on" href="成绩分析.html">成绩分析</a>
 </div>
-<div class="layout">
-  <nav class="toc" id="toc"><a class="t-cat" href="#cj-todo"><span class="dot"></span><b>待录入</b><i>—</i></a></nav>
-  <main id="main">
-<section class="unit" id="cj-todo"><div class="unit-head"><h3>本期成绩表与模块诊断（待录入）</h3><span class="chip wait">待录入</span></div><div class="ph"><div class="ph-t"><i>待录入</i>本期成绩表与模块诊断</div><p>录入成绩表后，按站内既有格式给出：总分位置、班级 / 年级基准、模块强弱排序、失分去向与下一阶段动作。</p><p>录入方式：录入成绩表后，按站内既有格式给出：总分位置、班级 / 年级基准、模块强弱排序、失分去向与下一阶段动作。</p></div></section>
-  </main>
-</div>
-<button class="backtop" id="backtop" title="回到顶部">↑</button>
+<main>
+
+<section class="scard" id="cj-jielun">
+  <h2>一句话结论 <em>申论专场 · 强化卷1</em></h2>
+  <p class="lead">申论 <b>68</b> 分，三期最高（65 → 62.5 → <b>68</b>），比上一期高 <b>5.5</b> 分。结构很清楚：得分率从高到低是公文写作 <b>75%</b> → 大作文 <b>71.4%</b> → 对策题 <b>65%</b> → 概括题 / 分析题各 <b>60%</b>。全卷 32 分失分里，小题 1～4 题占 <b>22 分（69%）</b>、大作文占 10 分——<b>成篇写的两块基本立住，拖分的是「从材料里找点、把点归并成条」的两道小题</b>。</p>
+  <div class="kpis">
+    <div class="kpi good"><div class="k">申论总分</div><div class="v">68<small>/ 100</small></div><div class="n">三期最高：65 → 62.5 → 68（+5.5）</div></div>
+    <div class="kpi warn"><div class="k">小题 1～4 题</div><div class="v">43<small>/ 65</small></div><div class="n">得分率 66.2% · 失 22 分（占全卷失分 69%）</div></div>
+    <div class="kpi"><div class="k">大作文</div><div class="v">25<small>/ 35</small></div><div class="n">得分率 71.4% · 失 10 分 · 高于小题整体</div></div>
+    <div class="kpi warn"><div class="k">最低两块</div><div class="v">60%<small>×2</small></div><div class="n">概括 6 / 10 · 分析 9 / 15（合计 15 / 25）</div></div>
+  </div>
+</section>
+
+<section class="scard" id="cj-timu">
+  <h2>五道题逐题明细 <em>题型 · 满分 · 得分 · 失分</em></h2>
+  <p class="pintro">满分按卷面配分（10 / 15 / 20 / 20 / 35，合计 100）。「得分率」＝得分 ÷ 满分；「定位」按得分率的相对位置给，不看绝对分。每题下方的参考答案与采分标准已在本期「申论」页录入，可直接逐条对照复盘。</p>
+  <div class="tblwrap">
+  <table class="mod">
+    <thead>
+      <tr><th>题号</th><th>题型</th><th>满分</th><th>得分</th><th>得分率</th><th>失分</th><th>定位</th></tr>
+    </thead>
+    <tbody>
+      <tr class="hi"><td class="nm">第 1 题</td><td>概括题（概括举措）</td><td class="num">10</td><td class="num d bad">6</td><td><div class="bar"><i style="width:60%"></i></div><span class="rate">60%</span></td><td class="num">−4</td><td><span class="tag bad">最低之一 · 要点覆盖</span></td></tr>
+      <tr class="hi"><td class="nm">第 2 题</td><td>分析题（内涵理解）</td><td class="num">15</td><td class="num d bad">9</td><td><div class="bar"><i style="width:60%"></i></div><span class="rate">60%</span></td><td class="num">−6</td><td><span class="tag bad">最低之一 · 层次要全</span></td></tr>
+      <tr><td class="nm">第 3 题</td><td>公文写作（宣介材料）</td><td class="num">20</td><td class="num d ok">15</td><td><div class="bar ok"><i style="width:75%"></i></div><span class="rate">75%</span></td><td class="num">−5</td><td><span class="tag ok">小题最佳 · 格式与内容立住</span></td></tr>
+      <tr><td class="nm">第 4 题</td><td>对策题（成绩 · 问题 · 对策）</td><td class="num">20</td><td>13</td><td><div class="bar mid"><i style="width:65%"></i></div><span class="rate">65%</span></td><td class="num">−7</td><td><span class="tag mid">失分最多的小题</span></td></tr>
+      <tr><td class="nm">第 5 题</td><td>大作文（议论文）</td><td class="num">35</td><td class="num d ok">25</td><td><div class="bar mid"><i style="width:71%"></i></div><span class="rate">71%</span></td><td class="num">−10</td><td><span class="tag ok">基本盘 · 高于小题整体</span></td></tr>
+      <tr class="big"><td class="nm">合计</td><td>5 道题</td><td class="num">100</td><td class="num d">68</td><td><div class="bar mid"><i style="width:68%"></i></div><span class="rate">68%</span></td><td class="num">−32</td><td><span class="tag mid">三期最高</span></td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="tnote">口径：满分按卷面配分 10 / 15 / 20 / 20 / 35；第 3 题原卷采分点分值合计 15 分＜题面 20 分（本期申论页已按原卷照录），因此第 3 题不做「采分点折算」，其余各题只做得分率比较。小题（1～4 题）＝43 / 65（66.2%）；大作文＝25 / 35（71.4%）。</p>
+</section>
+
+<section class="scard" id="cj-zhenduan">
+  <h2>四条诊断 <em>结论先看这里</em></h2>
+  <div class="diag">
+    <div class="ditem good"><b>① 三期最高分：65 → 62.5 → 68，而且是在小题没完全拉起的情况下拿到的</b><p>比 9月18日 高 3 分、比 9月22日 高 5.5 分。撑住分数的是两块「成篇输出」：公文写作 15 / 20（75%）、大作文 25 / 35（71.4%），合计 40 / 55（72.7%）——比小题整体的 66.2% 高 6.5 个百分点。说明格式、结构、成文这些环节已经稳定，接下来的提分空间主要在小题的采分点覆盖上。</p></div>
+    <div class="ditem two"><b>② 失分口集中在小题：1～4 题失 22 分，占全卷失分 69%</b><p>小题合计 43 / 65（66.2%）：概括 6 / 10（60%）、分析 9 / 15（60%）、公文 15 / 20（75%）、对策 13 / 20（65%）。四道小题里两道只拿到 60%、一道 65%，而大作文反而拿到 71.4%——<b>「写」不是瓶颈，「找点 + 归类 + 表述规范」才是</b>。</p></div>
+    <div class="ditem two"><b>③ 最低两块都是按点给分的题：概括 60%、分析 60%</b><p>第 1 题要求「全面准确、分条列出」（≤250 字），第 2 题要求「分析深入、全面准确、条理清晰」（≤350 字）——这两类题按采分点逐条给分，丢分通常不是文笔问题，而是漏点、层次缺项，或同一层意思写了两句、挤掉了别的点。复盘时把参考答案的采分点逐条与自己的作答打钩，先统计「漏了几条」，再谈表述。</p></div>
+    <div class="ditem"><b>④ 大作文失 10 分是绝对数最大的一项，但优先级放后：先守后攻</b><p>25 / 35（71.4%）的得分率高于四道小题里的三道，属于「基本盘」。这块的策略是守：保持每周 1 篇限时成文，只盯立意不跑偏、三个分论点都从材料来；等小题整体回到 70% 以上，再把作文从 25 往 28 推。</p></div>
+  </div>
+</section>
+
+<section class="scard" id="cj-shifen">
+  <h2>失分去向 <em>32 分怎么丢的</em></h2>
+  <p class="pintro">按逐题得分反推：100 − 68 ＝ <b>32 分</b>。小题 1～4 题丢 22 分、大作文丢 10 分。按失分绝对数排：大作文 10 ＞ 对策 7 ＞ 分析 6 ＞ 公文 5 ＞ 概括 4；按得分率排：最弱的是概括、分析（各 60%）与对策（65%）。</p>
+  <div class="wrow hi"><div class="wn">对策题<i>失 7 分 · 65%</i></div><div class="wd">第 4 题一题三问（成绩 + 问题 + 对策），20 分里拿 13——四道小题里失分最多的一道。三问都要求「全面、准确、有条理」，任何一问归纳不全都会连环扣分，复盘时按「成绩 / 问题 / 对策」三块分别对采分点。</div></div>
+  <div class="wrow hi"><div class="wn">分析题<i>失 6 分 · 60%</i></div><div class="wd">第 2 题「新瓶装新酒」内涵理解，15 分里拿 9。内涵题按「总括 + 分层展开」给分，60% 说明层次的完整性还有缺口——下笔前先把要展开的层数列出来，再回材料给每层配依据。</div></div>
+  <div class="wrow"><div class="wn">大作文<i>失 10 分 · 71.4%</i></div><div class="wd">35 分里拿 25，失分绝对数全卷最大，但得分率高于三道小题。保持每周 1 篇限时成文的节奏即可，先守后攻。</div></div>
+  <div class="wrow"><div class="wn">公文写作<i>失 5 分 · 75%</i></div><div class="wd">第 3 题宣介材料，20 分里拿 15——四道小题里最好的一块，标题、身份、语言这些格式分和主要内容都拿到了；提分空间在「内容全面、重点突出」的排布。</div></div>
+  <div class="wrow"><div class="wn">概括题<i>失 4 分 · 60%</i></div><div class="wd">第 1 题 10 分里拿 6：失分绝对数最少，但得分率最低之一——只有 10 分的小题丢 4 分，是性价比最高的动手处。</div></div>
+  <p class="tnote">说明：申论按采分点给分，「得分率」只用来横向比题型强弱，不做「错了几道题」这类折算；同一道题内部具体漏了哪些采分点，以本期「申论」页每题下方的评分标准逐条对照为准。</p>
+</section>
+
+<section class="scard" id="cj-duibi">
+  <h2>三期对照 <em>申论得分率曲线</em></h2>
+  <p class="pintro">三期申论都是 100 分制，跨期只比得分率、不直接比绝对分（卷子不同、难度不同）。本期 68 分是三期最高，得分率 68% 也高于前两期。</p>
+  <div class="tblwrap">
+  <table class="mod">
+    <thead>
+      <tr><th>期次</th><th>日期</th><th>卷别</th><th>申论得分</th><th>得分率</th><th>与上一期</th><th>当时的位置参照</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="nm">9月18日模考</td><td class="num">9月18日</td><td>模考卷 · 行测 + 申论</td><td class="num">65</td><td><div class="bar mid"><i style="width:65%"></i></div><span class="rate">65%</span></td><td class="num">—</td><td>年级 236 / 438 · 班内 43 / 93</td></tr>
+      <tr><td class="nm">9月22日模考</td><td class="num">9月22日</td><td>模考卷 · 行测 + 申论</td><td class="num">62.5</td><td><div class="bar mid"><i style="width:62.5%"></i></div><span class="rate">62.5%</span></td><td class="num">−2.5</td><td>年级 314 / 440 · 班内 70 / 92</td></tr>
+      <tr class="big"><td class="nm">10月5日 申论强化卷一（本期）</td><td class="num">10月5日</td><td>强化卷1 · 申论专场</td><td class="num d ok">68</td><td><div class="bar ok"><i style="width:68%"></i></div><span class="rate">68%</span></td><td class="num">+5.5</td><td>本期未提供排名表</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="tnote">9月18日 / 9月22日 的申论分来自当期两科成绩表（这两期还有班内 / 年级名次可参照）；本期只有逐题得分、没有排名表，因此不做位置判断。三期得分率：65% → 62.5% → <b>68%</b>。</p>
+</section>
+
+<section class="scard" id="cj-lujing">
+  <h2>下一阶段补什么 <em>按性价比排序</em></h2>
+  <ol class="plan">
+    <li><b>概括题（第一优先，可捞约 2 分）</b>：6 / 10（60%），全卷得分率最低之一。固定三步——审题圈「概括对象 + 材料范围 + 条数暗示」→ 逐段扫点，每段问「做了什么、怎么做的」→ 同义合并、按主体或维度归类，用规范短语成条。每天 1 道限时 20 分钟，写完对照本期申论页的采分点逐条打钩，统计「漏了几条」。</li>
+    <li><b>分析题（第二优先，可捞约 2 分）</b>：9 / 15（60%），小题失分最多之一。内涵理解题先搭「总括一句话 → 分层展开（是什么 / 体现在哪 / 意味着什么）」的骨架，再为每一层回材料找依据；每周 3 道，重点检查层次是否完整、每一层是否都落在材料里。</li>
+    <li><b>对策题（第三优先，可捞约 2 分）</b>：13 / 20（65%），四道小题里失分最多。先分类列全「成绩 / 问题」，再逐条配对策（主体 + 做法 + 目的），保证问题与对策一一对应、不重不漏；每周 2 道。</li>
+    <li><b>大作文（守基本盘）</b>：25 / 35（71.4%）。保持每周 1 篇限时 60 分钟，只抓两件事：立意不跑偏、三个分论点都从材料来；开头结尾套用范文页的框架，不整篇背。目标 28 / 35。</li>
+    <li><b>公文写作（保持）</b>：15 / 20（75%），本期小题最好。格式分（标题 / 身份 / 对象 / 语言）已经立住，每两周 1 道保温，重点练「内容全面、重点突出」的排列顺序。</li>
+  </ol>
+  <div class="goal"><b>目标换算：</b>概括 6 → 8（+2）＋分析 9 → 11（+2）＋对策 13 → 15（+2）＝ 小题合计约 <b>+6 分</b>，总分约 <b>74</b>；再把大作文守到 28（+3），总分约 <b>77</b>。先做前两项（概括 + 分析），单项分值小、方法最直接，是性价比最高的 4 分。</div>
+</section>
+
+<section class="scard" id="cj-shuoming">
+  <h2>数据口径 <em>看结论前请先读</em></h2>
+  <ul class="note">
+    <li><b>成绩来源</b>：今天的申论强化卷一（申论专场）5 道题的卷面批改结果——概括 6、分析 9、公文 15、对策 13、大作文 25；满分按卷面配分 10 / 15 / 20 / 20 / 35，合计 <b>68 / 100</b>。原始答卷与批改材料本地留存、未入站，本页只保留分数与得分率。</li>
+    <li><b>本期没有排名表</b>：本页不做班内 / 年级位置判断；成绩表或排名表入站后可再补一版对照。</li>
+    <li><b>跨期比较口径</b>：9月18日申论 65、9月22日申论 62.5 来自当期成绩表；三期卷子不同、难度不同，只比得分率（65% → 62.5% → 68%），不直接比绝对分。</li>
+    <li><b>采分点对照</b>：本期第 1～4 题的参考答案与采分标准、第 5 题的评分要素与两篇范文已录入本站「申论」子页，复盘时逐条对照；注意第 3 题原卷采分点分值合计 15 分、题面 20 分（已按原卷照录），该题不做采分点折算。</li>
+    <li><b>不做「错题折题数」换算</b>：申论按采分点给分，失分不能折算成「错了几道题」。</li>
+    <li><b>AI 辅助分析，请结合备考实际判断。</b></li>
+  </ul>
+</section>
+
+</main>
+<button class="backtop" id="bt" title="回到顶部">↑</button>
+<script>
+(function(){
+  var bt = document.getElementById('bt');
+  function onScroll(){ if(bt){ bt.classList.toggle('show', window.scrollY > 500); } }
+  window.addEventListener('scroll', onScroll, { passive:true });
+  if(bt){ bt.addEventListener('click', function(){ window.scrollTo({ top:0, behavior:'smooth' }); }); }
+  onScroll();
+})();
+</script>
 <script src="../../../assets/%E6%9D%BF%E5%9D%97%E9%A1%B5%E8%84%9A%E6%9C%AC.js?v=0cbebb75"></script>
 </body>
 </html>
