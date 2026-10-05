@@ -353,14 +353,17 @@ for (const sec of sections) {
 /* ========== 模考子页：按期次自动发现 ==========
    【需求】模考是站内体量最大的一块内容（一期 120 题 + 申论 5 大题 + 错题集合），
    整卷题本与错题集合都有稳定的 id（q001 / sq1），命中后可直接跳进去高亮。
-   期次文件夹命名固定为「M月D日模考」，与 sections/每周模考.html 的 MOCK_DATES 对应。 */
+   期次文件夹命名固定为「M月D日模考」，与 sections/每周模考.html 的 MOCK_DATES 对应。
+   【展示名】子页索引里的 n 用 NAV 的 name（如「强化卷一（10月1日行测模考上午）」），
+   不用文件夹名 —— 两者可以不同，用户在搜索结果里看到的是展示名。 */
 console.log('=== 模考子页 ===');
 const MK_ROOT = path.join(ROOT, 'sections', '每周模考');
 /* 【坑】期次文件夹名（9月18日模考）必须用 NAV 的 hit 字段反查期次 id（mk-260918），
    不能自己拼 'mk-0918'：NAV 里的 id 带年份，对不上时前端 getSection 会静默返回第一个板块，
    症状是「点搜索结果跳对了页面，侧边栏却高亮在常识判断」。 */
 const hitMap = {};
-for (const s of sections) { if (s.hit) { hitMap[s.hit] = s.id; } }
+const nameByHit = {};
+for (const s of sections) { if (s.hit) { hitMap[s.hit] = s.id; nameByHit[s.hit] = s.name; } }
 const MK_FILES = [
   /* 行测页除了每道题的 .qcard，还有资料分析/逻辑等共用材料 .matcard
      （id 形如 mat-111-115）：材料正文（表格、图注、共用题干）同样要能被搜到并直达。 */
@@ -376,10 +379,11 @@ if (fs.existsSync(MK_ROOT)) {
   for (const dir of dirs) {
     const secId = hitMap[dir] || 'mk';
     if (!hitMap[dir]) { console.log('  WARN 期次「' + dir + '」未在 index.html 的 NAV 登记期次条目，退回 mk'); }
+    const secName = nameByHit[dir] || ('模考 · ' + dir.replace('模考', ''));
     for (const mf of MK_FILES) {
       const rel = '每周模考/' + dir + '/' + mf.f;
       if (!fs.existsSync(path.join(ROOT, 'sections', rel))) { continue; }
-      indexFile(rel, secId, '模考 · ' + dir.replace('模考', '') + ' · ' + mf.tag, mf.wanted, secId + '-' + mf.sfx);
+      indexFile(rel, secId, secName + ' · ' + mf.tag, mf.wanted, secId + '-' + mf.sfx);
     }
   }
 }
