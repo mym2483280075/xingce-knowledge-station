@@ -320,6 +320,10 @@ function indexScriptText(html, fileRel, secId, secName, key, seenChunks) {
 
 console.log('=== 板块页 ===');
 const DEFAULT_WANTED = new Set(['kp', 'unit']);
+/* 【数据】个别板块页的正文块不是 .kp/.unit：成绩档案页与模考「成绩分析」页一样用 .scard
+   （历次总表 / 行测 / 申论 / 综合 / 口径）。漏登记这里，页面能打开、搜索却只命中整页说明，
+   卡片级锚点也会丢 —— 症状和「卡片类名没登记」一样是静默的。 */
+const SECTION_WANTED = { cj: new Set(['scard']) };
 let hubIndexed = false;
 for (const sec of sections) {
   /* 每周模考总览页的正文是前端拼出来的（HTML 里只有一个空 #wrap）：卡片没有可索引的容器，
@@ -347,7 +351,7 @@ for (const sec of sections) {
     }
     continue;
   }
-  indexFile(sec.file, sec.id, sec.name, DEFAULT_WANTED, sec.id);
+  indexFile(sec.file, sec.id, sec.name, SECTION_WANTED[sec.id] || DEFAULT_WANTED, sec.id);
 }
 
 /* ========== 模考子页：按期次自动发现 ==========
