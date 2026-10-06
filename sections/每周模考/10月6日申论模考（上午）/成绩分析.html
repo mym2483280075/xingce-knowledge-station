@@ -1,75 +1,94 @@
 <!DOCTYPE html>
 <html lang="zh-CN" data-theme="mock">
-<head><style id="xz-perf">/* 长页面打开提速：屏幕外的知识点块不做排版与绘制 */section.kp,section.unit{content-visibility:auto;contain-intrinsic-size:auto 700px}section.qcard,section.matcard,section.shen,section.slot{content-visibility:auto;contain-intrinsic-size:auto 320px}</style>
+<head><style id="xz-perf">/* 长页面打开提速：屏幕外的卡片不做排版与绘制 */section.scard{content-visibility:auto;contain-intrinsic-size:auto 500px}section.slot{content-visibility:auto;contain-intrinsic-size:auto 220px}</style>
 <meta charset="UTF-8">
 <link rel="icon" href="data:,"><script src="../../../assets/%E4%B8%BB%E9%A2%98.js?v=f38968bc"></script><script src="../../../assets/%E6%BC%94%E7%AE%97%E5%B1%82.js?v=a132b1de"></script><script src="../../../assets/%E5%AE%9A%E4%BD%8D%E5%B1%82.js?v=a3907880"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>10月6日申论模考（上午） · 成绩分析 · 公考工作站</title><link rel="stylesheet" href="../../../assets/design-tokens.css?v=2604fc33"><link rel="stylesheet" href="../../../assets/%E6%9D%BF%E5%9D%97%E9%A1%B5%E6%A0%B7%E5%BC%8F.css?v=c92fd385">
+<title>强化卷2（10月6日申论模考上午） · 成绩分析 · 公考工作站</title><link rel="stylesheet" href="../../../assets/design-tokens.css?v=2604fc33"><link rel="stylesheet" href="../../../assets/%E6%9D%BF%E5%9D%97%E9%A1%B5%E6%A0%B7%E5%BC%8F.css?v=c92fd385">
 <style>
 /* 本页专属样式（骨架与通用组件来自 assets/板块页样式.css，颜色一律走令牌） */
-:root{--primary:#be185d; --primary2:#e11d48; --accent:#fb7185; --bg:#fbf2f6;}
-  *{box-sizing:border-box}
+:root{--primary:#be185d; --primary2:#e11d48; --accent:#fb7185; --bg:#fbf2f6;
+  --ok:#15803d; --mid:#b45309; --bad:#b91c1c;}
+*{box-sizing:border-box}
 .subnav{position:sticky;top:0;z-index:60;background:var(--xz-surface);backdrop-filter:blur(8px);border-bottom:1px solid var(--accent-line);padding:8px 16px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 .subnav a{text-decoration:none;font-size:12.5px;border:1px solid var(--accent-line);background:var(--xz-surface);color:var(--accent-ink);border-radius:999px;padding:5px 14px;white-space:nowrap}
 .subnav a:hover{border-color:var(--primary2);color:var(--primary2)}
 .subnav a.on{background:linear-gradient(135deg,var(--primary),var(--primary2));border-color:transparent;color:var(--xz-surface);font-weight:700}
-nav.toc .t-cat{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:9px;color:var(--xz-ink-3);text-decoration:none}
-nav.toc .t-cat:hover{background:var(--xz-surface-2);color:var(--primary)}
-nav.toc .t-cat b{font-weight:700;color:var(--primary)}
-nav.toc .t-cat .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);flex:none}
-nav.toc .t-cat i{font-style:normal;font-size:10.5px;color:var(--xz-ink-4);margin-left:auto;background:var(--accent-soft-2);border-radius:999px;padding:0 7px}
-.mod-banner .num{font-size:11px;background:var(--accent-soft-2);border:1px solid rgba(255,255,255,.3);border-radius:999px;padding:1px 11px}
-.mod-body{background:var(--xz-surface);border:1px solid var(--accent-line);border-radius:0 0 14px 14px;border-top:0;padding:16px 20px 10px;margin-top:-6px}
-.qcard .stem{font-size:15px;color:var(--xz-ink);line-height:1.9;margin:6px 0 4px}
-.qcard .opt{font-size:14.5px;color:var(--xz-ink-2);line-height:1.8;margin:2px 0;padding-left:0;text-indent:0}
-.matcard{margin:14px 0;border:1px solid var(--xz-info-line);border-radius:12px;background:var(--xz-surface-2);padding:11px 16px 12px}
-.mathead span{font-size:11px;font-weight:600;color:color-mix(in srgb,var(--primary) 88%,var(--xz-ink));background:var(--xz-info-bg);border-radius:999px;padding:1px 10px}
-.matcard .fig img{border-color:var(--xz-info-line)}
-details.ansbox{margin-top:8px;border:1px solid var(--xz-good-line);border-radius:8px;background:var(--xz-good-bg)}
-details.ansbox summary{cursor:pointer;list-style:none;padding:6px 12px;font-size:13.5px;color:var(--xz-good-ink);font-weight:600;display:flex;align-items:center;gap:6px;user-select:none}
-details.ansbox summary::-webkit-details-marker{display:none}
-details.ansbox summary::after{content:"▸";margin-left:auto;color:var(--xz-good-ink);transition:transform .15s}
-details.ansbox[open] summary::after{transform:rotate(90deg)}
-details.ansbox summary:hover{background:var(--xz-good-bg);border-radius:8px}
-.ansline b{color:var(--xz-good-ink);font-size:15px}
-.module.hidden,.qcard.hidden,.matcard.hidden{display:none}
-@media print{
-nav.toc,.toolbar,.subnav,.backtop{display:none}
-details.ansbox{display:block}
+.scard{background:var(--xz-surface);border:1px solid var(--accent-line);border-radius:14px;padding:16px 20px 18px;margin:0 0 16px;scroll-margin-top:64px}
+.scard>h2{margin:0 0 12px;font-size:17px;color:var(--primary);display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.scard>h2 em{font-style:normal;font-size:11.5px;font-weight:600;color:var(--accent-ink);background:var(--xz-warn-bg);border-radius:999px;padding:1px 10px}
+.lead{font-size:13.5px;color:var(--xz-ink-2);background:var(--xz-warn-bg);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;padding:9px 14px;margin:0 0 14px;line-height:1.85}
+.lead b{color:var(--accent-ink-2)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.kpi{border:1px solid var(--accent-line);border-radius:13px;background:linear-gradient(180deg,var(--xz-surface),var(--xz-warn-bg));padding:12px 15px}
+.kpi .k{font-size:11.5px;color:var(--accent-ink);letter-spacing:.03em}
+.kpi .v{font-size:25px;font-weight:800;color:var(--primary);line-height:1.35;margin-top:2px}
+.kpi .v small{font-size:12px;font-weight:600;color:var(--accent-ink);margin-left:4px}
+.kpi .n{font-size:11.5px;color:var(--xz-ink-3);margin-top:2px}
+.kpi.good{border-color:var(--xz-good-line);background:linear-gradient(180deg,var(--xz-surface),var(--xz-good-bg))}
+.kpi.good .v{color:var(--xz-good-ink)}
+.kpi.warn{border-color:var(--xz-danger-line);background:linear-gradient(180deg,var(--xz-surface),var(--xz-danger-bg))}
+.kpi.warn .v{color:var(--xz-danger-ink)}
+.tblwrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table.mod{width:100%;border-collapse:collapse;font-size:13px}
+table.mod th{background:var(--xz-warn-bg);color:var(--accent-ink);font-size:12px;font-weight:700;text-align:center;padding:7px 6px;border-bottom:1px solid var(--accent-line);white-space:nowrap}
+table.mod td{padding:7px 6px;border-bottom:1px solid var(--xz-warn-bg);text-align:center;color:var(--xz-ink-2)}
+table.mod td.nm{text-align:left;font-weight:700;color:var(--xz-ink);white-space:nowrap}
+table.mod tr:last-child td{border-bottom:0}
+table.mod tr.hi td{background:var(--xz-warn-bg)}
+table.mod tr.big td{font-weight:700;color:var(--xz-ink)}
+table.mod small{color:var(--xz-ink-3);font-size:11px}
+.bar{position:relative;height:8px;border-radius:999px;background:var(--accent-line);overflow:hidden;min-width:56px;margin-bottom:3px}
+.bar i{position:absolute;left:0;top:0;bottom:0;border-radius:999px;background:linear-gradient(90deg,var(--xz-danger-ink),var(--xz-danger-ink))}
+.bar.ok i{background:linear-gradient(90deg,var(--xz-good-ink),var(--xz-good-ink))}
+.bar.mid i{background:linear-gradient(90deg,var(--xz-warn-line),var(--xz-warn-ink))}
+.rate{font-size:11px;color:var(--xz-ink-3);font-variant-numeric:tabular-nums}
+td.num{font-variant-numeric:tabular-nums}
+td.d{font-weight:700}
+td.d.ok{color:var(--ok)}
+td.d.bad{color:var(--bad)}
+.tnote{margin:10px 0 0;font-size:12px;color:var(--xz-ink-3);line-height:1.75}
+.pintro{margin:0 0 12px;font-size:12.5px;color:var(--xz-ink-3);line-height:1.75}
+.diag{display:grid;gap:10px}
+.ditem{border:1px solid var(--accent-line);border-radius:12px;padding:11px 14px;background:var(--xz-surface-2)}
+.ditem>b{display:block;font-size:13.5px;color:var(--accent-ink);margin-bottom:3px}
+.ditem p b{color:var(--accent-ink-2)}
+.ditem p{margin:0;font-size:13px;color:var(--xz-ink-2);line-height:1.8}
+.ditem.good{border-color:var(--xz-good-line);background:var(--xz-good-bg)}
+.ditem.good>b{color:var(--xz-good-ink)}
+.ditem.two{border-color:var(--xz-danger-line);background:var(--xz-danger-bg)}
+.ditem.two>b{color:var(--xz-danger-ink)}
+.wrow{display:flex;gap:10px;align-items:flex-start;padding:9px 4px;border-bottom:1px dashed var(--accent-line);font-size:13px}
+.wrow:last-child{border-bottom:0}
+.wrow .wn{flex:none;width:78px;font-weight:800;color:var(--primary)}
+.wrow .wn i{display:block;font-style:normal;font-size:11px;font-weight:600;color:var(--accent-ink)}
+.wrow .wd{color:var(--xz-ink-2);line-height:1.8}
+.wrow.hi{background:var(--xz-warn-bg);border-radius:10px}
+.wrow.good{background:var(--xz-good-bg);border-radius:10px}
+ol.plan{margin:0;padding-left:22px;font-size:13.5px;color:var(--xz-ink-2)}
+ol.plan li{margin:8px 0;line-height:1.85}
+ol.plan li b{color:var(--accent-ink-2)}
+.goal{margin:14px 0 0;border:1px dashed var(--accent);border-radius:12px;background:var(--xz-warn-bg);padding:10px 14px;font-size:13px;color:var(--xz-danger-ink);line-height:1.85}
+.note li{margin:5px 0}
+@media(max-width:720px){
+.scard{padding:14px 14px 16px}
+.kpi .v{font-size:22px}
+table.mod{font-size:12.5px}
 }
-.subhead{margin:16px 0 8px;padding:8px 14px;border-radius:10px;background:var(--accent-soft-2);border:1px solid var(--accent-line);color:var(--accent-ink);font-size:13.5px;font-weight:800;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
-.subhead span{font-size:11.5px;font-weight:600;color:var(--accent-ink);background:var(--xz-surface);border-radius:999px;padding:1px 10px}
-.pintro{margin:2px 0 10px;font-size:12.5px;color:var(--xz-ink-3);background:var(--xz-surface-2);border-radius:8px;padding:6px 12px;line-height:1.75}
-.bannote{margin:0 0 12px;font-size:12.5px;color:var(--xz-warn-ink);background:var(--xz-warn-bg);border:1px dashed var(--xz-warn-line);border-radius:10px;padding:8px 13px;line-height:1.7}
-.refbd p{margin:5px 0;line-height:1.9}
-.refbd .sh{font-weight:800;color:color-mix(in srgb,var(--primary) 88%,var(--xz-ink));margin:9px 0 3px}
-.refbd .pt{color:var(--xz-danger-ink);font-size:12.5px;font-weight:700;white-space:nowrap}
-.bdtitle{font-weight:800;color:color-mix(in srgb,var(--primary) 88%,var(--xz-ink));font-size:14.5px;margin:9px 0 4px;padding-left:9px;border-left:4px solid var(--xz-info-line);line-height:1.6}
-.fw{margin-top:4px}
-.fw p{text-indent:2em;margin:8px 0;line-height:1.95;font-size:14px;color:var(--xz-ink-2)}
-.fw p.fwtitle{text-indent:0;text-align:center;font-weight:800;font-size:16.5px;color:color-mix(in srgb,var(--primary) 88%,var(--xz-ink));margin:8px 0 2px}
-.fw p.fwsub{text-indent:0;text-align:center;font-weight:700;font-size:13px;color:color-mix(in srgb,var(--primary) 88%,var(--xz-ink));margin:0 0 10px}
-.matnote{margin:6px 0 10px;border:1px solid var(--xz-info-line);border-radius:10px;background:var(--xz-surface-2);padding:8px 12px}
-.matnote .mh{font-size:12px;font-weight:800;color:color-mix(in srgb,var(--primary) 88%,var(--xz-ink));margin:0 0 5px}
-.matnote p{font-size:13px;color:var(--xz-ink-2);margin:4px 0}
-.mine{margin-top:8px;background:var(--xz-danger-bg);border:1px solid var(--xz-danger-line);border-radius:8px;padding:5px 12px;font-size:14px}
-.mine b{color:var(--xz-danger-ink);font-size:15px}
-.mine .todo{color:var(--xz-ink-4)}
-.rtags{margin-top:6px;display:flex;gap:6px;flex-wrap:wrap}
-.rtag{font-size:11px;background:var(--xz-danger-bg);border:1px solid var(--xz-danger-line);color:var(--xz-danger-ink);border-radius:999px;padding:0 10px}
-.kp-tag{font-size:11px;background:var(--xz-info-bg);border:1px solid var(--xz-info-bg);color:var(--xz-info-ink);border-radius:999px;padding:0 10px}
-.qcard .opt p{margin:2px 0}
+@media print{
+.subnav,.backtop{display:none}
+}
 </style>
 
 </head>
 <body>
 <header>
-  <h1>10月6日申论模考（上午） · 成绩分析</h1>
-  <div class="intro">10月6日申论模考（上午）成绩分析尚未录入：成绩表（总分 / 行测 / 申论及各模块）入站后，再与本卷错题对齐，给出模块强弱与下一阶段补什么。</div>
-  <div class="meta"><span>待录入</span><span>待成绩表入站</span><span>四大入口之一</span></div>
+  <h1>强化卷2（10月6日申论模考上午） · 成绩分析</h1>
+  <div class="intro">10月6日申论模考（上午）的成绩排名表已入站：申论 <b>68 / 100</b>——与上一期（10月5日）同分，年级 <b>161 / 527（前 30.6%）</b>、班内 <b>40 / 94</b>——四期申论里最靠前的位置（前 53.9% → 前 71.4% → 前 42.4% → 前 30.6%）。本场只拿到总分与排名表、没有逐题批改分，本页把「分数与位置」讲清楚：班级与年级的分布、与上一期 93 名进步里有多少是盘面下移带来的、下一阶段先做什么；题型层面的失分去向仍以 10月5日 那期的逐题复盘为准。页面上只保留分数、名次与分布，不含姓名与准考证号。</div>
+  <div class="meta"><span>申论 68 / 100</span><span>年级 161 / 527 · 前 30.6%</span><span>班内 40 / 94</span><span>与上一期同分 · 名次 +93</span><span>班均 67.0</span></div>
 </header>
 <div class="subnav">
   <a href="../../每周模考.html">← 模考中心</a>
@@ -77,14 +96,129 @@ details.ansbox{display:block}
   <a href="申论.html">申论</a>
   <a href="行测错题集合.html">行测错题集合</a>
   <a class="on" href="成绩分析.html">成绩分析</a>
+  <a href="../../成绩档案.html">成绩档案 →</a>
 </div>
-<div class="layout">
-  <nav class="toc" id="toc"><a class="t-cat" href="#cj-todo"><span class="dot"></span><b>待录入</b><i>—</i></a></nav>
-  <main id="main">
-<section class="unit" id="cj-todo"><div class="unit-head"><h3>本期成绩表与模块诊断（待录入）</h3><span class="chip wait">待录入</span></div><div class="ph"><div class="ph-t"><i>待录入</i>本期成绩表与模块诊断</div><p>录入成绩表后，按站内既有格式给出：总分位置、班级 / 年级基准、模块强弱排序、失分去向与下一阶段动作。</p><p>录入方式：录入成绩表后，按站内既有格式给出：总分位置、班级 / 年级基准、模块强弱排序、失分去向与下一阶段动作。</p></div></section>
-  </main>
-</div>
-<button class="backtop" id="backtop" title="回到顶部">↑</button>
+<main>
+
+<section class="scard" id="cj-jielun">
+  <h2>一句话结论 <em>申论专场 · 强化卷二</em></h2>
+  <p class="lead">申论 <b>68</b> 分，与上一期同分；年级名次从 254 前进到 <b>161（+93）</b>，四期最靠前（前 30.6%）；班内 64 / 95 → <b>40 / 94</b>。这个进步要读准：本期盘面整体下移——高于 68 分的年级人数从 253 人降到 160 人、68 分档从 38 人缩到 21 人，93 名提升与「盘面上方少了 93 人」一一对应，<b>主要是相对位置变化，绝对分没有变</b>。个人状态：68 分高于班均 <b>1.0</b> 分、高于班中位 <b>1.5</b> 分，稳定站在班级前 42.6%。</p>
+  <div class="kpis">
+    <div class="kpi good"><div class="k">申论总分</div><div class="v">68<small>/ 100</small></div><div class="n">与上一期同分（68 → 68）· 四期并列最高</div></div>
+    <div class="kpi good"><div class="k">年级位置</div><div class="v">161<small>/ 527 · 前 30.6%</small></div><div class="n">四期最靠前（254 → 161，前进 93 名）</div></div>
+    <div class="kpi"><div class="k">班内位置</div><div class="v">40<small>/ 94 · 前 42.6%</small></div><div class="n">与班均差 +1.0 · 与班中位差 +1.5</div></div>
+    <div class="kpi"><div class="k">同分档密度</div><div class="v">21<small>人</small></div><div class="n">161～181 名 · 本班 68 分 2 人</div></div>
+    <div class="kpi warn"><div class="k">盘面变化</div><div class="v">253→160</div><div class="n">高于 68 分的年级人数减少 93（与名次进步对应）</div></div>
+  </div>
+</section>
+
+<section class="scard" id="cj-weizhi">
+  <h2>本期位置（排名表） <em>308 班视图 · 94 人有效 + 13 人缺考</em></h2>
+  <p class="pintro">10月6日申论成绩排名表（308 班视图，共 107 行）逐行识别后校验：申论 68 → <b>年级 161 / 527（前 30.6%）</b>、<b>班内 40 / 94</b>（同分并列，按「分数不低于我」计）。68 分这一档全年级并列 21 人（161～181 名），本班占 2 人。</p>
+  <div class="tblwrap">
+  <table class="mod">
+    <thead>
+      <tr><th>情形</th><th>申论</th><th>年级名次</th><th>年级百分位</th><th>班内名次</th><th>说明</th></tr>
+    </thead>
+    <tbody>
+      <tr class="hi"><td class="nm">本期实际</td><td class="num d">68</td><td class="num">161 / 527</td><td class="num">前 30.6%</td><td class="num">40 / 94</td><td>68 分档全年级并列 21 人</td></tr>
+      <tr><td class="nm">+0.5 分</td><td class="num">68.5</td><td class="num">135</td><td class="num">前 25.6%</td><td class="num">38 / 94</td><td>前进 26 名</td></tr>
+      <tr><td class="nm">+1 分</td><td class="num">69</td><td class="num">116</td><td class="num">前 22.0%</td><td class="num">32 / 94</td><td>前进 45 名</td></tr>
+      <tr><td class="nm">+2 分</td><td class="num">70</td><td class="num">88</td><td class="num">前 16.7%</td><td class="num">25 / 94</td><td>前进 73 名</td></tr>
+      <tr><td class="nm">+3 分</td><td class="num">71</td><td class="num">58</td><td class="num">前 11.0%</td><td class="num">18 / 94</td><td>前进 103 名</td></tr>
+      <tr><td class="nm">+4 分</td><td class="num">72</td><td class="num">37</td><td class="num">前 7.0%</td><td class="num">11 / 94</td><td>前进 124 名</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="tnote">换算用的是本期表里可见的真实锚点（68.5 → 135、69 → 116、70 → 88、71 → 58、72 → 37），不是线性外推；百分位以表内可见最大名次 527 作分母估算——表里没给年级总人数，人数若有出入只影响百分位，名次不变。</p>
+  <div class="wrow good"><div class="wn">两个口径<i>班内 vs 年级</i></div><div class="wd">班内 40 / 94（前 42.6%）看着比年级 161 / 527（前 30.6%）靠后——因为 308 班整体偏强：本班占年级人数约 18%（94 / 527），却占了「≥68 分」分段的约 25%（40 / 161）。同一份表里，年级位置是更可比的口径；班内名次受本班整体发挥影响，不单独用来判断进退。</div></div>
+  <div class="wrow hi"><div class="wn">同分密度<i>68 分档 21 人</i></div><div class="wd">161～181 名全是 68 分、本班 2 人；上一档 68.5 分占 135～160 名（26 人）、69 分占 116～134 名（19 人）、70 分占 88～98 名（11 人）。这段每前进 0.5 分约值 11～26 名；按上一期复盘的「概括 +2 / 分析 +2」共 4 分兑现，约前进 124 名（161 → 37）。</div></div>
+  <div class="wrow"><div class="wn">四期位置<i>一路向前</i></div><div class="wd">年级百分位：9月18日 前 53.9%（236 / 438）→ 9月22日 前 71.4%（314 / 440）→ 10月5日 前 42.4%（254 / 599）→ 今天 前 30.6%（161 / 527），四期里最靠前。四期年级人数不同（438 / 440 / 599 / 527），只作方向性参照。</div></div>
+</section>
+
+<section class="scard" id="cj-fenbu">
+  <h2>班级分布 <em>308 班 94 人有效 · 13 人缺考</em></h2>
+  <p class="pintro">本期 308 班申论分数分布：班均 <b>67.0</b>、中位 66.5、标准差 4.1；最高 78（年级第 2）、最低 57.5（年级 527）。我的 68 分比班均高 1.0 分、比中位高 1.5 分，位于班内前 42.6%。</p>
+  <div class="tblwrap">
+  <table class="mod">
+    <thead>
+      <tr><th>分数段</th><th>人数</th><th>占比</th><th>备注</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="nm">75 分及以上</td><td class="num">3</td><td class="num">3.2%</td><td>与年级第 2 / 4 / 4 名同档</td></tr>
+      <tr><td class="nm">70～74.5</td><td class="num">22</td><td class="num">23.4%</td><td>70 分以上合计 25 人（26.6%）</td></tr>
+      <tr class="hi"><td class="nm">65～69.5</td><td class="num">40</td><td class="num">42.6%</td><td>最密集的一段 · 我在本段上沿（68）</td></tr>
+      <tr><td class="nm">60～64.5</td><td class="num">25</td><td class="num">26.6%</td><td>—</td></tr>
+      <tr><td class="nm">60 分以下</td><td class="num">4</td><td class="num">4.3%</td><td>最低 57.5（年级 527）</td></tr>
+      <tr class="big"><td class="nm">合计</td><td class="num">94</td><td class="num">100%</td><td>13 人缺考不计入</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="tnote">分布与班均均由排名表逐行统计（口径：94 人有效）。与上一期相比班级分数明显收拢：标准差由 7.5 降到 4.1、班均由 68.4 降到 67.0、中位由 69.5 降到 66.5——本期盘面整体下移，这也是「位置进步」与「分数持平」能同时出现的原因。</p>
+</section>
+
+<section class="scard" id="cj-duibi">
+  <h2>四期对照 <em>申论得分率曲线</em></h2>
+  <p class="pintro">四期申论都是 100 分制，跨期只比得分率与位置方向、不直接比绝对分或绝对名次（卷子不同、年级人数不同）。本期 68 分与上一期同分，但年级百分位（前 30.6%）是四期最好的一次。</p>
+  <div class="tblwrap">
+  <table class="mod">
+    <thead>
+      <tr><th>期次</th><th>卷别</th><th>申论得分</th><th>得分率</th><th>年级位置</th><th>班内位置</th><th>与上一期</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="nm">9月18日模考</td><td>模考卷 · 行测 + 申论</td><td class="num">65</td><td><div class="bar mid"><i style="width:65%"></i></div><span class="rate">65%</span></td><td class="num">236 / 438<br><small>前 53.9%</small></td><td class="num">43 / 93</td><td class="num">—</td></tr>
+      <tr><td class="nm">9月22日模考</td><td>模考卷 · 行测 + 申论</td><td class="num">62.5</td><td><div class="bar mid"><i style="width:62.5%"></i></div><span class="rate">62.5%</span></td><td class="num">314 / 440<br><small>前 71.4%</small></td><td class="num">70 / 92</td><td class="num">−2.5</td></tr>
+      <tr><td class="nm">10月5日 强化卷1</td><td>强化卷1 · 申论专场</td><td class="num">68</td><td><div class="bar ok"><i style="width:68%"></i></div><span class="rate">68%</span></td><td class="num">254 / 599<br><small>前 42.4%</small></td><td class="num">64 / 95</td><td class="num">+5.5</td></tr>
+      <tr class="big"><td class="nm">10月6日 强化卷2（本期）</td><td>强化卷2 · 申论专场</td><td class="num d ok">68</td><td><div class="bar ok"><i style="width:68%"></i></div><span class="rate">68%</span></td><td class="num">161 / 527<br><small>前 30.6%</small></td><td class="num">40 / 94</td><td class="num">0</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="tnote">9月两期的位置来自当期两科成绩表；10月两期来自各自的申论成绩排名表（308 班视图）。四期卷子与年级人数都不同（438 / 440 / 599 / 527），跨期只看得分率（65% → 62.5% → 68% → 68%）与位置方向，不直接比绝对名次。</p>
+</section>
+
+<section class="scard" id="cj-zhenduan">
+  <h2>三条解读 <em>结论先看这里</em></h2>
+  <div class="diag">
+    <div class="ditem good"><b>① 相对位置是四期最好：年级 161 / 527（前 30.6%）、班内 40 / 94</b><p>四期年级百分位：前 53.9% → 前 71.4% → 前 42.4% → 前 30.6%，一路上行；本期与上一期同为 68 分，名次却从 254 前进到 161，且 68 分在班里也高于均值与中位（+1.0 / +1.5），属于「稳住基本盘」的一场。</p></div>
+    <div class="ditem two"><b>② 这 93 名进步主要是盘面下移，不是分数上涨</b><p>本期高于 68 分的年级人数 253 → 160（−93），68 分档 38 → 21 人，与名次进步 93 名一一对应；班级均分也整体下移（68.4 → 67.0、中位 69.5 → 66.5）。读法：守住 68 分、相对位置前进是真的；绝对水平有没有提高，还要看卷面批改——本场没有逐题分，单看这场判断不了。</p></div>
+    <div class="ditem"><b>③ 两次申论专场都停在 68：天花板还没破</b><p>10月5日 的复盘目标是「概括、分析各 +2 分」，本场没有在分数上兑现（68 → 68）。下一步抓手不变；本场能给出的是位置换算：按本期表内锚点，+2 分 → 88 名，+4 分 → 37 名（班内 11 / 94）。</p></div>
+  </div>
+</section>
+
+<section class="scard" id="cj-lujing">
+  <h2>下一阶段补什么 <em>沿用 10月5日 逐题复盘 · 按性价比排序</em></h2>
+  <ol class="plan">
+    <li><b>概括题（第一优先，目标 +2 分）</b>：上一期 6 / 10（60%），全卷最低之一。固定三步——审题圈「概括对象 + 材料范围 + 条数暗示」→ 逐段扫点，每段问「做了什么、怎么做的」→ 同义合并、按主体或维度归类成条。每天 1 道限时 20 分钟，写完对照本期「申论」页每题下方的评分标准与参考答案逐条打钩，统计「漏了几条」。</li>
+    <li><b>分析题（第二优先，目标 +2 分）</b>：上一期 9 / 15（60%）。内涵理解题先搭「总括一句话 → 分层展开（是什么 / 体现在哪 / 意味着什么）」的骨架，再为每一层回材料找依据；每周 3 道，重点检查层次是否完整、每层是否都落在材料里。</li>
+    <li><b>对策题（第三优先）</b>：上一期 13 / 20（65%），四道小题里失分最多。先分类列全「成绩 / 问题」，再逐条配对策（主体 + 做法 + 目的），保证问题与对策一一对应、不重不漏；每周 2 道。</li>
+    <li><b>大作文（守基本盘）</b>：上一期 25 / 35（71.4%）。保持每周 1 篇限时 60 分钟，只抓两件事：立意不跑偏、三个分论点都从材料来；目标 28 / 35。</li>
+    <li><b>公文写作（保持）</b>：上一期 15 / 20（75%），小题最好的一块。格式分已立住，每两周 1 道保温，重点练「内容全面、重点突出」的排列顺序。</li>
+  </ol>
+  <div class="goal"><b>目标换算（沿用上一期复盘）：</b>概括 6 → 8（+2）＋分析 9 → 11（+2）＝ 总分约 <b>72</b>；按本期表内锚点，72 分 → 年级约 <b>37</b> 名（前进 124）、班内约 <b>11 / 94</b>。大作文再守到 28 / 35（+3），总分约 75。先做前两项：分值小、方法最直接，是性价比最高的 4 分。</div>
+</section>
+
+<section class="scard" id="cj-shuoming">
+  <h2>数据口径 <em>看结论前请先读</em></h2>
+  <ul class="note">
+    <li><b>成绩来源</b>：10月6日申论强化卷二（申论专场）的排名表——申论 <b>68 / 100</b>。本场未拿到逐题批改分，本页不含题型层面的失分去向；题型复盘沿用 10月5日 期「成绩分析」的逐题口径（概括 6 / 10、分析 9 / 15、公文 15 / 20、对策 13 / 20、大作文 25 / 35）。</li>
+    <li><b>排名表来源与校验</b>：10月6日申论成绩排名截图（308 班视图，共 107 行）本地切格识别（4 片拼接：28 / 28 / 28 / 25 行）后逐行校验——排名列严格升序、同分同名次、分数随名次单调下降、缺考行成绩为 0，0 处不符；首行、第 33～41 行（含 68.5 / 68 同分档）与第 93～107 行（含 13 名缺考）已回原图肉眼复核。107 行 = 94 人有效 + 13 人缺考（缺考比上一期多 2 人）。原始表本地留存、未入站，本页只保留分数、得分率与名次。</li>
+    <li><b>与上一期同口径</b>：班内名次 = 分数不低于我的人数（并列取末位）；年级百分位以表内可见最大名次（527）作分母估算。用同一口径复算上一期表得「年级 254 / 599、班内 64 / 95」，与站内记录一致。</li>
+    <li><b>跨期比较口径</b>：四期卷子不同、难度不同，年级人数也不同（438 / 440 / 599 / 527），只比得分率（65% → 62.5% → 68% → 68%）与位置方向，不直接比绝对名次。</li>
+    <li><b>AI 辅助分析，请结合备考实际判断。</b></li>
+  </ul>
+</section>
+
+</main>
+<button class="backtop" id="bt" title="回到顶部">↑</button>
+<script>
+(function(){
+  var bt = document.getElementById('bt');
+  function onScroll(){ if(bt){ bt.classList.toggle('show', window.scrollY > 500); } }
+  window.addEventListener('scroll', onScroll, { passive:true });
+  if(bt){ bt.addEventListener('click', function(){ window.scrollTo({ top:0, behavior:'smooth' }); }); }
+  onScroll();
+})();
+</script>
 <script src="../../../assets/%E6%9D%BF%E5%9D%97%E9%A1%B5%E8%84%9A%E6%9C%AC.js?v=0cbebb75"></script>
 </body>
 </html>
