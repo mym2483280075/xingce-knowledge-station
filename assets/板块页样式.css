@@ -169,7 +169,9 @@ nav.toc{
   padding:var(--sp-3) 10px;font-size:var(--fs-sm);box-shadow:var(--sh-1);
 }
 nav.toc .t-pian,nav.toc .t-zhang{
-  font-weight:700;margin:var(--sp-3) 4px var(--sp-1);font-size:var(--fs-base);
+  /* 【视觉对齐】左右外边距与 a.t-item 的 8px 内边距对齐：
+     分组标题与条目文字落在同一条左边缘上（原来写 4px，标题比条目左移 4px）。 */
+  font-weight:700;margin:var(--sp-3) 8px var(--sp-1);font-size:var(--fs-base);
   color:var(--xz-ink-2);border-top:1px solid var(--xz-line);padding-top:var(--sp-2);
 }
 nav.toc .t-pian:first-child,nav.toc .t-zhang:first-child{border-top:0;margin-top:0;padding-top:0}
@@ -208,15 +210,20 @@ nav.toc a.t-item.active{
 .qcard{margin:var(--sp-3) 0;padding:var(--sp-3) var(--sp-4);background:var(--xz-surface-2)}
 .figbox{padding:var(--sp-4) var(--sp-5) var(--sp-3);margin:var(--sp-4) 0 var(--sp-2)}
 
-/* 卡片头：左侧主色条 + 标题 */
+/* 卡片头：左侧主色条 + 标题
+   【视觉对齐】竖条「悬挂」在卡片内边距里，标题文字与下方正文/表格落在同一条左边缘上：
+     卡片 padding 20px，竖条 3px + 内边距 12px = 15px，用 -15px 负外边距抵消。
+     原来竖条贴着正文边线、标题被推右 15px，标题与正文错位一格。
+     卡片 padding 只有 16px 的窄屏在文件末尾单独收窄（竖条不至于贴到卡片边框）。 */
 .unit-head,.kp-head{
   display:flex;align-items:center;gap:10px;flex-wrap:wrap;
-  border-left:3px solid var(--primary);padding-left:var(--sp-3);
+  margin-left:-15px;border-left:3px solid var(--primary);padding-left:var(--sp-3);
 }
 .unit-head h3,.kp-head h3,.unit-head h2,.kp-head h2{
   margin:0;font-size:var(--fs-lg);font-weight:750;color:var(--xz-ink);flex:1;min-width:180px;
 }
-.unit-desc,.kp-crumb{font-size:var(--fs-sm);color:var(--xz-ink-3);margin:6px 0 10px;padding-left:var(--sp-5)}
+/* 【视觉对齐】说明行不再额外缩进 20px：与卡片标题、正文共用同一条左边缘。 */
+.unit-desc,.kp-crumb{font-size:var(--fs-sm);color:var(--xz-ink-3);margin:6px 0 10px}
 
 /* 模块横幅：从「满色渐变」改为「浅底 + 主色条」——不再大面积重绘，也不抢正文视觉 */
 .mod-banner{
@@ -230,7 +237,11 @@ nav.toc a.t-item.active{
 
 /* 总览卡 */
 .ov-title{margin:0 0 var(--sp-3);font-size:var(--fs-lg);color:var(--xz-ink)}
-.ov-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:var(--sp-3)}
+/* 【视觉对齐】align-items:start：
+   卡片按自身内容收高，不再被同行最高的卡拉齐 —— 总览里条目数差得远时
+   （7 条 vs 3 条），等高会在短卡底部留下一大片白块，看起来像缺内容。
+   顺次行距仍由 gap 控制，编号顺序（1,2,3 / 4,5,6）保持不变。 */
+.ov-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:var(--sp-3);align-items:start}
 .ov-card{border:1px solid var(--xz-line);border-radius:var(--r-sm);padding:var(--sp-3) var(--sp-4);background:var(--xz-surface-2)}
 .ov-card h3{margin:0 0 6px;font-size:var(--fs-base);color:var(--xz-ink)}
 .ov-card ul{margin:0;padding-left:0;list-style:none}
@@ -249,7 +260,8 @@ nav.toc a.t-item.active{
   border-bottom:1px solid var(--xz-line);padding-bottom:5px;
 }
 .unit h3.sec,.kp-body h3.sec{
-  margin:var(--sp-4) 0 4px;font-size:var(--fs-base);color:var(--xz-ink);
+  /* 【视觉对齐】小节标题的竖条同样悬挂：文字与正文左对齐（-11px = 8px 内边距 + 3px 竖条）。 */
+  margin:var(--sp-4) 0 4px -11px;font-size:var(--fs-base);color:var(--xz-ink);
   border-left:3px solid var(--accent-line);padding-left:8px;
 }
 .unit h4.h1,.kp-body h4.sub1{margin:var(--sp-3) 0 3px;font-size:var(--fs-base);font-weight:700;color:var(--xz-ink)}
@@ -260,6 +272,8 @@ nav.toc a.t-item.active{
 .tbwrap{overflow-x:auto;border:1px solid var(--xz-line);border-radius:var(--r-sm);margin:var(--sp-3) 0;background:var(--xz-surface)}
 .tbwrap table,.kp-body table.tbl{width:100%;border-collapse:collapse;font-size:var(--fs-base);line-height:1.7;min-width:520px;margin:0}
 .kp-body table.tbl{margin:var(--sp-3) 0 var(--sp-4)}
+/* 【视觉对齐】表格里的数字用等宽数字：同列的数字位数不同（1,3 / 113,2）时也能上下对齐。 */
+.tbwrap table,.kp-body table.tbl{font-variant-numeric:tabular-nums}
 .tbwrap th,.kp-body table.tbl th{
   background:var(--accent-soft);
   color:var(--xz-ink);font-weight:700;text-align:left;padding:8px 12px;border:0;
@@ -387,7 +401,8 @@ details.fold>summary .hint{font-weight:400;font-size:var(--fs-xs);color:var(--xz
 
 /* ---------- 《公文格式》讲义正文排版 ---------- */
 .gw-lead{margin:6px 0 8px;font-size:var(--fs-base);line-height:1.9;color:var(--xz-ink-2)}
-.gw-h{margin:14px 0 4px;font-size:var(--fs-base);font-weight:700;color:var(--xz-ink);border-left:3px solid var(--primary);padding-left:8px}
+/* 【视觉对齐】同 h3.sec：竖条悬挂，标题文字与讲义正文左对齐。 */
+.gw-h{margin:14px 0 4px -11px;font-size:var(--fs-base);font-weight:700;color:var(--xz-ink);border-left:3px solid var(--primary);padding-left:8px}
 .gw-layout{
   white-space:pre;font-family:var(--font-mono);font-size:var(--fs-base);line-height:1.95;
   background:var(--xz-surface-2);border:1px dashed var(--xz-line-2);
@@ -433,6 +448,10 @@ details.fold>summary .hint{font-weight:400;font-size:var(--fs-xs);color:var(--xz
   .unit,.kp{padding:var(--sp-3) var(--sp-4)}
   .ov{padding:var(--sp-4)}
   .foot-tip{padding:0 var(--sp-3)}
+  /* 【易错】卡片内边距收到 16px 后，-15px 的悬挂会让竖条贴到卡片边框（只剩 1px）。
+     这里把悬挂量与内边距一起收窄：9px + 3px = 12px，竖条离边框 4px，文字仍与正文对齐。 */
+  .unit-head,.kp-head{margin-left:-12px;padding-left:9px}
+  .unit h3.sec,.kp-body h3.sec,.gw-h{margin-left:-9px;padding-left:6px}
 }
 
 /* ---------- 排版工具类 ----------

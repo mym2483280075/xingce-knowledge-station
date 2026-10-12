@@ -52,7 +52,9 @@ body{
   width:272px;flex:none;display:flex;flex-direction:column;
   background:var(--xz-surface);border-right:1px solid var(--xz-line);z-index:2;
 }
-.brand{padding:14px 16px 12px;border-bottom:1px solid var(--xz-line)}
+/* 【视觉对齐】左右内边距取 18px，与下方导航条的图标列（.nav 8px + .nav-item 10px）落在同一条线上：
+   品牌方标与「首页 / 行测 / 申论…」的图标上下对齐（原来 16px，差 2px）。 */
+.brand{padding:14px 18px 12px;border-bottom:1px solid var(--xz-line)}
 .brand .logo{display:flex;align-items:center;gap:10px;min-width:0}
 .brand .mark{
   width:30px;height:30px;flex:none;border-radius:9px;display:flex;align-items:center;justify-content:center;
@@ -244,7 +246,12 @@ body{
   --c-line:color-mix(in srgb,var(--c,#4f7cff) 26%,var(--xz-line));
   --c-ink:color-mix(in srgb,var(--c,#4f7cff) 74%,var(--xz-ink));
 }
-.cv-zones{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(16em,1fr))}
+/* 【视觉对齐】宽屏固定 3 列：六个专区正好排成 3×2 满行。
+   原来按 minmax(16em,1fr) 自适应，1440px 以上会摊成 4 列 → 6 张卡排成 4+2，
+   右下角空出两块，卡片也窄到让「强化卷 3（10月7日申论模考上午）」这类长标签折行。
+   列间距与「最近模考」统一为 12px。 */
+.cv-zones{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(16em,1fr))}
+@media(min-width:1040px){.cv-zones{grid-template-columns:repeat(3,minmax(0,1fr))}}
 .cv-zone{display:flex;flex-direction:column;gap:9px;padding:14px 16px 15px;
   border:1px solid var(--xz-line);border-top:3px solid var(--c);border-radius:var(--r-md);background:var(--xz-surface)}
 .cv-zone-hd{display:flex;align-items:center;gap:8px;width:100%;padding:0;border:0;background:transparent;cursor:pointer;text-align:left}
@@ -267,7 +274,7 @@ body{
   border-radius:var(--r-pill);padding:3px 11px;font-size:var(--fs-sm);font-weight:600}
 
 /* —— 最近模考 —— */
-.cv-recent{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(17em,1fr))}
+.cv-recent{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(17em,1fr))}
 .cv-rec{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:11px 13px;
   border:1px solid var(--xz-line);border-radius:var(--r-md);background:var(--xz-surface);cursor:pointer;
   transition:border-color var(--dur) var(--ease),background var(--dur) var(--ease)}
@@ -476,6 +483,14 @@ html.xz-dark .modal .scrim{background:rgba(0,0,0,.6)}
   .sidebar{padding-top:env(safe-area-inset-top);padding-left:env(safe-area-inset-left)}
   .sidebar-foot{padding-bottom:calc(8px + env(safe-area-inset-bottom))}
   .topbar{padding-left:calc(10px + env(safe-area-inset-left));padding-right:calc(10px + env(safe-area-inset-right))}
+}
+
+/* 【视觉对齐】桌面三栏（侧栏可见）时，顶栏的路径/标题左端与 iframe 里板块页的
+   页头、工具条、目录共用同一条 24px 左线 —— 顶栏与正文之间不再差 14px 的错位。
+   窄屏（≤900px，侧栏收起成抽屉）保持 10px 紧凑内边距。
+   必须写在上面那条 @supports 之后：两者优先级相同，后写的生效。 */
+@media(min-width:901px){
+  .topbar{padding-left:calc(24px + env(safe-area-inset-left))}
 }
 
 /* ---------- 打印：只留正文 ----------
@@ -1108,7 +1123,7 @@ var pendingQuery = null;
      wsPump（此前队列可能没人下载）；⑥ 板块说明不再排到真卡片前面；⑦ 模考卡片补
      content-visibility；⑧ 侧栏/模考中心的期次计数改为现算。改了 index.html、板块页与索引，
      CACHE_V 已由 refresh-site.js 自动打戳。） */
-var CACHE_V = 've51568b2';
+var CACHE_V = 'v8ea71a91';
 /* ===================================================================
    2026-09-20 界面重构：从「iOS 毛玻璃」转为「冷静的文档工作站」
    ---------------------------------------------------------------
