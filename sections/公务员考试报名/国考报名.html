@@ -1,0 +1,1709 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="violet">
+<head><style id="xz-perf">/* 长页面打开提速：屏幕外的卡片不做排版与绘制 */section.kp,section.unit{content-visibility:auto;contain-intrinsic-size:auto 700px}section.qcard,section.matcard,section.shen,section.slot{content-visibility:auto;contain-intrinsic-size:auto 320px}</style>
+<meta charset="UTF-8">
+<link rel="icon" href="data:,"><script src="../../assets/主题.js?v=f38968bc"></script><script src="../../assets/演算层.js?v=a132b1de"></script><script src="../../assets/定位层.js?v=a3907880"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>国考报名 · 公考工作站</title>
+<link rel="stylesheet" href="../../assets/design-tokens.css?v=2604fc33"><link rel="stylesheet" href="../../assets/板块页样式.css?v=9c24ba23">
+<style>
+/* 本页专属样式（骨架与通用组件来自 assets/板块页样式.css，颜色一律走令牌）。
+   页面定位：2027 国考「适合岗位」官方对应表 —— 45 个岗位 / 招录 87 人，
+   数据源是桌面上的 xlsx（同目录留一份可下载），页面只是它的可检索翻版。 */
+:root{--primary:#7c3aed;--primary2:#8b5cf6;--accent:#c4b5fd;--bg:#f7f5ff}
+html[data-theme="violet"]{--primary:#7c3aed;--primary2:#8b5cf6;--accent:#c4b5fd;--bg:#f7f5ff}
+/* 【视觉对齐】字段表沿用 .tbwrap 骨架，本页只加三样：
+   ① 左列标签定宽、贴左 ② 分组行横跨两列（浅主色底） ③ 速览表首列窄、职位列宽 */
+table.gw th[scope="row"]{width:8.5em;white-space:nowrap;vertical-align:top;color:var(--xz-ink);font-weight:700}
+table.gw tr.gw-grp th{background:var(--accent-soft-2);color:var(--accent-ink);font-weight:800;letter-spacing:.02em}
+table.gw td{color:var(--xz-ink-2)}
+table.gw-list{min-width:1040px}
+table.gw-list th{text-align:center;white-space:nowrap}
+table.gw-list td{text-align:center}
+table.gw-list td.nm{text-align:left;min-width:15em}
+table.gw-list td.nm b{display:block;color:var(--xz-ink);font-weight:700}
+table.gw-list td.nm i{font-style:normal;display:block;font-size:var(--fs-xs);color:var(--xz-ink-3);margin-top:1px}
+table.gw-list td.zy{text-align:left;max-width:14em;color:var(--xz-ink-3);font-size:var(--fs-sm)}
+table.gw-list td.idx{text-align:left;min-width:16em;line-height:2}
+table.gw-list td.loc{white-space:nowrap}
+table.gw-list td.loc i,table.gw-list td.st i{font-style:normal;display:block;font-size:var(--fs-xs);color:var(--xz-ink-3);margin-top:1px}
+table.gw-list td.st b{font-weight:800;color:var(--xz-fill-ink)}
+table.gw-list td.st i.k-ying{color:var(--xz-good-ink);font-weight:700}
+table.gw-list td.st i.k-fei{color:var(--xz-danger-ink);font-weight:700}
+table.gw-list a{color:var(--accent-ink);text-decoration:none;border-bottom:1px dashed var(--accent-line);white-space:nowrap}
+table.gw-list a:hover{color:var(--primary2);border-bottom-color:var(--primary2)}
+td.gw-km{font-variant-numeric:tabular-nums}
+td.gw-bad{color:var(--xz-danger-ink);font-weight:700}
+td.gw-good{color:var(--xz-good-ink);font-weight:700}
+.gw-sum{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:var(--sp-3);margin:var(--sp-3) 0}
+.gw-sum .it{border:1px solid var(--accent-line);border-radius:var(--r-md);background:linear-gradient(180deg,var(--xz-surface),var(--accent-soft));padding:var(--sp-3) var(--sp-4)}
+.gw-sum .it b{display:block;font-size:var(--fs-lg);color:var(--accent-ink);margin-bottom:2px}
+.gw-sum .it span{font-size:var(--fs-sm);color:var(--xz-ink-3)}
+.gw-dl{margin:var(--sp-3) 0}
+.gw-dl a{display:inline-flex;align-items:center;gap:8px;font-size:var(--fs-base);font-weight:700;
+  color:var(--accent-ink);text-decoration:none;border:1px solid var(--accent-line);background:var(--accent-soft);
+  border-radius:var(--r-pill);padding:7px 16px}
+.gw-dl a:hover{border-color:var(--primary2);color:var(--primary2)}
+</style>
+</head>
+<body>
+<header>
+  <h1>国考报名</h1>
+  <div class="en">NATIONAL CIVIL SERVICE · 2027</div>
+  <div class="intro">2027 年度国考「适合岗位」官方对应表：<b>45 个岗位、招录 87 人</b> —— 先用公考雷达按个人条件筛出可报岗位，再把每一行与《中央机关及其直属机构2027年度考试录用公务员招考简章》逐条对齐。每张卡给出职位代码、学历专业、政治面貌、工作与落户地点、离家距离，以及 2026 / 2025 的招录人数、报名人数、竞争比与进面分，末尾附备注与咨询电话；页尾可下载原表。</div>
+  <div class="meta"><span>45 个岗位 · 招录 87 人</span><span>限应届 29 · 非应届 16</span><span>离家 69–324 km</span><span>已与官方简章逐条核对</span></div>
+</header>
+<div class="toolbar">
+  <input id="q" placeholder="搜岗位 / 城市 / 专业 / 关键词（如 限应届、烟台、计算机类），回车定位…">
+  <span class="hitcount" id="hitcount"></span>
+  <button class="btn" id="closeall">收起卡片</button>
+</div>
+<div class="layout">
+<nav class="toc" id="toc">
+<a class="t-item t-lead" href="#overview">★ 板块总览 · 内容地图</a>
+<div class="t-pian"><a href="#gkb-m1">一、报名总览</a></div>
+<a class="t-item" href="#gkb-1-1">1.1 这张表是什么（来源 · 口径 · 核对）</a>
+<a class="t-item" href="#gkb-1-2">1.2 分布速览</a>
+<a class="t-item" href="#gkb-1-3">1.3 挑岗五步</a>
+<div class="t-pian"><a href="#gkb-m2">二、岗位速览表</a></div>
+<a class="t-item" href="#gkb-2-1">2.1 45 个岗位一张表</a>
+<a class="t-item" href="#gkb-2-2">2.2 报名前的硬约束</a>
+<div class="t-pian"><a href="#gkb-3-1">三、岗位详情（45 张卡）</a></div>
+<a class="t-item" href="#gkb-3-1">3.1 山东省税务局 · 22 岗</a>
+<a class="t-item" href="#gkb-3-2">3.2 青岛市税务局 · 19 岗</a>
+<a class="t-item" href="#gkb-3-3">3.3 金融监管总局山东监管局 · 2 岗</a>
+<a class="t-item" href="#gkb-3-4">3.4 统计调查 · 邮政管理局 · 2 岗</a>
+<div class="t-pian"><a href="#gkb-m4">四、来源 · 下载 · 维护</a></div>
+<a class="t-item" href="#gkb-4-1">4.1 数据来源与核对</a>
+<a class="t-item" href="#gkb-4-2">4.2 原表下载</a>
+<a class="t-item" href="#gkb-4-3">4.3 后续更新</a>
+</nav>
+<main id="main">
+<div class="ov" id="overview"><h2 class="ov-title">板块总览 · 内容地图</h2><div class="ov-grid"><div class="ov-card"><h3>一、报名总览</h3><ul><li><a href="#gkb-1-1"><b>1.1 这张表是什么（来源 · 口径 · 核对）</b></a><span>两路数据源 + 字段口径 + 核对方式</span></li><li><a href="#gkb-1-2"><b>1.2 分布速览</b></a><span>部门 / 应届 / 学历 / 距离 / 竞争比与进面分</span></li><li><a href="#gkb-1-3"><b>1.3 挑岗五步</b></a><span>身份 → 专业学历 → 距离 → 竞争比 → 备注</span></li></ul></div><div class="ov-card"><h3>二、岗位速览表</h3><ul><li><a href="#gkb-2-1"><b>2.1 45 个岗位一张表</b></a><span>点「详情」跳到下面的岗位卡</span></li><li><a href="#gkb-2-2"><b>2.2 报名前的硬约束</b></a><span>5 年服务期 / 宿舍 / 性别 / 届别 / 专业科目…</span></li></ul></div><div class="ov-card"><h3>三、岗位详情（45 张卡）</h3><ul><li><a href="#gkb-3-1"><b>山东省税务局 · 22 岗</b></a><span>招录 55 人 · 离家 69–324 km</span></li><li><a href="#gkb-3-2"><b>青岛市税务局 · 19 岗</b></a><span>招录 24 人 · 离家 191–288 km</span></li><li><a href="#gkb-3-3"><b>金融监管总局山东监管局 · 2 岗</b></a><span>招录 6 人 · 离家 140–257 km</span></li><li><a href="#gkb-3-4"><b>统计调查 · 邮政 · 2 岗</b></a><span>招录 2 人 · 离家 179–283 km</span></li></ul></div><div class="ov-card"><h3>四、来源 · 下载 · 维护</h3><ul><li><a href="#gkb-4-1"><b>4.1 数据来源与核对</b></a><span>截图 + 官方简章 + 逐字段比对</span></li><li><a href="#gkb-4-2"><b>4.2 原表下载</b></a><span>41 列完整版 .xlsx</span></li><li><a href="#gkb-4-3"><b>4.3 后续更新</b></a><span>换表 → 重新生成 → 打戳 → 发布</span></li></ul></div></div></div>
+<div class="module" id="gkb-m1"><div class="mod-banner"><h2>一、报名总览</h2><p>45 个岗位 · 招录 87 人：先看清口径，再按身份、距离与竞争比挑岗</p></div>
+<section class="unit" id="gkb-1-1" data-title="这张表是什么（来源 · 口径 · 核对）"><div class="unit-head"><h3>这张表是什么（来源 · 口径 · 核对）</h3><span class="chip">口径</span></div>
+<p>这是 2027 年度国考的<b>「个人可报 + 匹配度」清单</b>：第一步用公考雷达按个人条件（学历 / 专业 / 政治面貌 / 户籍 / 应届身份）筛出 <b>45 个「适合岗位」</b>，第二步把每个岗位与<b>官方招考简章</b>逐条对齐。45 个岗位合计<b>招录 87 人</b>，其中 1 个雷达 5★、44 个 4★。</p>
+<ul>
+<li><b>来源两路</b>：① 公考雷达 App「适合岗位」筛选结果（45 张截图，抓取于 2026-10-13）；②《中央机关及其直属机构2027年度考试录用公务员招考简章》（官方 .xls 职位表）。</li>
+<li><b>雷达匹配星 / 标签</b>：App 按个人条件给出的匹配评分与筛选标签 —— 专业对口 45、不限户籍 45、限应届 29、非应届岗 16、限党员 1。</li>
+<li><b>2027 招录</b>：官方简章里的本年度招考人数（本页已逐条核对）。</li>
+<li><b>2026 / 2025 两列</b>：公考雷达展示的历年数据 —— 招录人数、报名人数、竞争比、进面分；<b>空白 = App 未展示该项</b>（例如序号 2 没有 2026 数据）。<b>进面分先看部门再比数字</b>：税务 / 邮政落在 113–139，金融监管 2 岗是专业科目口径（46.8 / 58.7），两类不可直接比。</li>
+<li><b>离家距离</b>：App 给出的「家 → 工作地」距离，单位 km，本批 69–324 km。</li>
+<li><b>职位代码要与部门代码一起看</b>：职位代码只在部门内唯一，跨部门允许重号 —— 例如 <code>300110011004</code> 同时属于 <code>130118</code> 国家税务总局山东省税务局（济南市历下区税务局）和 <code>130119</code> 国家税务总局青岛市税务局（胶州市税务局）。报名填表时两个字段必须配对，别只抄代码。</li>
+</ul>
+<div class="note">核对方式：本页 45 行逐行与官方简章比对 24 个字段（招考人数 / 学历 / 学位 / 专业 / 政治面貌 / 基层工作最低年限 / 服务基层项目 / 面试比例 / 工作地点 / 落户地点 / 职位简介 / 备注 / 部门网站 / 咨询电话等），<b>0 处不一致</b>；每张岗位卡末尾记着简章行号与雷达截图，便于回溯到原件。</div>
+</section>
+<section class="unit" id="gkb-1-2" data-title="分布速览"><div class="unit-head"><h3>分布速览</h3><span class="chip">速览</span></div>
+<div class="gw-sum"><div class="it"><b>45 个岗位 · 87 人</b><span>山东省税务局 22 岗 55 人 · 青岛市税务局 19 岗 24 人 · 金融监管 2 岗 6 人 · 统计调查 / 邮政各 1 岗 1 人</span></div>
+<div class="it"><b>限应届 29 · 非应届 16</b><span>备注口径：仅招 2027 届 20 岗、面向应届高校毕业生 9 岗（两类都算「限应届」标签）</span></div>
+<div class="it"><b>离家 69–324 km</b><span>150 km 内 10 岗；250–300 km 最集中（18 岗 / 29 人）</span></div>
+<div class="it"><b>面试比例一律 3:1</b><span>45 岗全部「无限制」基层工作年限与服务基层项目；专业能力测试全部为「否」</span></div></div>
+<div class="tbwrap"><table class="gw-list" style="min-width:860px">
+<thead><tr><th>部门</th><th>岗位</th><th>招录</th><th>限应届 / 非应届</th><th>2026 竞争比</th><th>2026 进面分</th><th>离家（km）</th></tr></thead>
+<tbody><tr><td class='nm'><a href="#gkb-3-1">山东省税务局</a></td><td>22</td><td>55</td><td>11 / 11</td><td>13–246</td><td>113.2–137.2</td><td>69–324</td></tr><tr><td class='nm'><a href="#gkb-3-2">青岛市税务局</a></td><td>19</td><td>24</td><td>16 / 3</td><td>42–270</td><td>125.2–139.1</td><td>191–288</td></tr><tr><td class='nm'><a href="#gkb-3-3">金融监管总局山东监管局</a></td><td>2</td><td>6</td><td>1 / 1</td><td>13–24</td><td>46.8–58.7</td><td>140–257</td></tr><tr><td class='nm'><a href="#gkb-3-4">统计调查 · 邮政</a></td><td>2</td><td>2</td><td>1 / 1</td><td>64</td><td>126.8</td><td>179–283</td></tr></tbody></table></div>
+<div class="tbwrap"><table class="gw-list" style="min-width:720px">
+<thead><tr><th>离家距离</th><th>岗位</th><th>招录</th><th style="text-align:left">序号（点击直达岗位卡）</th></tr></thead>
+<tbody><tr><td class='nm'><100 km</td><td>2</td><td>4</td><td class='zy'><a href="#gw-34">34</a>、<a href="#gw-40">40</a></td></tr><tr><td class='nm'>100–150 km</td><td>8</td><td>21</td><td class='zy'><a href="#gw-03">3</a>、<a href="#gw-04">4</a>、<a href="#gw-07">7</a>、<a href="#gw-08">8</a>、<a href="#gw-16">16</a>、<a href="#gw-38">38</a>、<a href="#gw-41">41</a>、<a href="#gw-42">42</a></td></tr><tr><td class='nm'>150–200 km</td><td>5</td><td>9</td><td class='zy'><a href="#gw-02">2</a>、<a href="#gw-05">5</a>、<a href="#gw-20">20</a>、<a href="#gw-37">37</a>、<a href="#gw-39">39</a></td></tr><tr><td class='nm'>200–250 km</td><td>9</td><td>15</td><td class='zy'><a href="#gw-10">10</a>、<a href="#gw-17">17</a>、<a href="#gw-18">18</a>、<a href="#gw-19">19</a>、<a href="#gw-21">21</a>、<a href="#gw-23">23</a>、<a href="#gw-30">30</a>、<a href="#gw-31">31</a>、<a href="#gw-32">32</a></td></tr><tr><td class='nm'>250–300 km</td><td>18</td><td>29</td><td class='zy'><a href="#gw-01">1</a>、<a href="#gw-06">6</a>、<a href="#gw-09">9</a>、<a href="#gw-11">11</a>、<a href="#gw-12">12</a>、<a href="#gw-14">14</a>、<a href="#gw-15">15</a>、<a href="#gw-22">22</a>、<a href="#gw-25">25</a>、<a href="#gw-26">26</a>、<a href="#gw-27">27</a>、<a href="#gw-28">28</a>、<a href="#gw-29">29</a>、<a href="#gw-35">35</a>、<a href="#gw-36">36</a>、<a href="#gw-43">43</a>、<a href="#gw-44">44</a>、<a href="#gw-45">45</a></td></tr><tr><td class='nm'>≥300 km</td><td>3</td><td>9</td><td class='zy'><a href="#gw-13">13</a>、<a href="#gw-24">24</a>、<a href="#gw-33">33</a></td></tr></tbody></table></div>
+<div class="note">学历要求：本科及以上 42 岗、本科或硕士研究生 2 岗、仅限本科 1 岗（序号 2）。政治面貌：不限 44 岗、中共党员 1 岗（序号 1）。考试类别：行政执法类 41 岗、市（地）级及以下直属机构综合管理类 4 岗。全批机构层级：县（区）级及以下 44 岗、市（地）级 1 岗（序号 1）。</div>
+</section>
+<section class="unit" id="gkb-1-3" data-title="挑岗五步"><div class="unit-head"><h3>挑岗五步</h3><span class="chip">用法</span></div>
+<ol>
+<li><b>先定身份</b>：限应届 29 岗（含仅招 2027 届 20 岗、面向应届毕业生 9 岗）／非应届岗 16 岗 —— 在页内搜索框输入「限应届」或「非应届」，下面的卡片会自动筛成对应一组（误报 0：标签按备注原文分类）。</li>
+<li><b>再核专业与学历</b>：42 岗「本科及以上」、2 岗「本科或硕士研究生」、1 岗「仅限本科」；专业栏有的写<b>类</b>（如「数学类、统计学类、计算机类」），有的列<b>具体专业名</b>（如序号 1），报名时按简章原写法填。</li>
+<li><b>再看距离</b>：离家 69–324 km；100 km 内 2 岗、100–150 km 8 岗。远岗位要连着「不提供宿舍」一起算生活费。</li>
+<li><b>再看竞争比与进面分</b>：2026 年竞争比 13:1–270:1（45 岗）；进面分税务 / 邮政 113.2–139.1、金融监管 2 岗 46.8 / 58.7（专业科目口径）。</li>
+<li><b>最后读备注硬约束</b>：5 年服务期、宿舍、性别、届别、专业代码填写、工作地点特殊（长岛）等 —— 见 2.2 的清单，报名前一天逐条过一遍。</li>
+</ol>
+<div class="note">检索用法：页内搜索（本页工具条）会<b>筛卡片</b>并高亮命中，适合「限应届」「烟台」「计算机类」「党员」这类条件；全站搜索（⌘K / 页内 ⌘K）能搜到本页正文与 45 张卡的任意字段，命中后直接跳到对应岗位卡。</div>
+</section></div>
+<div class="module" id="gkb-m2"><div class="mod-banner"><h2>二、岗位速览表</h2><p>45 行一张表：序号与雷达列表一致，点「详情 ↓」跳到第三节的岗位卡看全部字段</p></div>
+<section class="unit" id="gkb-2-1" data-title="45 个岗位一张表"><div class="unit-head"><h3>45 个岗位一张表</h3><span class="chip">总表</span></div>
+<div class="unit-desc">「类型」按雷达标签分：<b>限应届</b> 29 岗、<b>非应届</b> 16 岗；「专业」列是简写（完整段落见岗位卡片）。</div>
+<div class="tbwrap"><table class="gw-list">
+<thead><tr><th>序号</th><th>用人司局 · 招考职位</th><th>招录</th><th>雷达 / 类型</th><th>学历</th><th>专业（简）</th><th>工作地点 / 离家</th><th>2026 竞争比</th><th>2026 进面分</th><th>详情</th></tr></thead>
+<tbody><tr><td>1</td><td class='nm'><b>烟台市邮政管理局 · 一级科员</b><i>职位代码 300110007001 · 山东省邮政管理局</i></td><td>1</td><td class='st'><b>5★</b><i class='k-ying'>限应届</i></td><td>本科及以上</td><td class='zy'>电子信息工程、电子信息、网络工程、软件工程…</td><td class='loc'>山东省烟台市<i>离家 283 km</i></td><td class='gw-km'>64:1</td><td class='gw-km'>126.8</td><td><a href="#gw-01">详情 ↓</a></td></tr><tr><td>2</td><td class='nm'><b>国家统计局山东调查总队 · 莱州调查队一级科员</b><i>职位代码 400110115009 · 国家统计局山东调查总队</i></td><td>1</td><td class='st'><b>4★</b><i class='k-fei'>非应届</i></td><td>仅限本科</td><td class='zy'>统计学、应用统计学、数学与应用数学…</td><td class='loc'>山东省烟台市莱州市<i>离家 179 km</i></td><td class='gw-km'>—</td><td class='gw-km'>—</td><td><a href="#gw-02">详情 ↓</a></td></tr><tr><td>3</td><td class='nm'><b>国家税务总局济南市长清区税务局 · 一级行政执法员（二）</b><i>职位代码 300110016002 · 国家税务总局山东省税务局</i></td><td>2</td><td class='st'><b>4★</b><i class='k-ying'>限应届</i></td><td>本科及以上</td><td class='zy'>数学类、统计学类、计算机类</td><td class='loc'>山东省济南市长清区<i>离家 136 km</i></td><td class='gw-km'>69:1</td><td class='gw-km'>130.2</td><td><a href="#gw-03">详情 ↓</a></td></tr><tr><td>4</td><td class='nm'><b>国家税务总局济南市历下区税务局 · 一级行政执法员（四）</b><i>职位代码 300110011004 · 国家税务总局山东省税务局</i></td><td>3</td><td class='st'><b>4★</b><i class='k-ying'>限应届</i></td><td>本科及以上</td><td class='zy'>能源动力类、电子信息类</td><td class='loc'>山东省济南市历下区<i>离家 106 km</i></td><td class='gw-km'>99:1</td><td class='gw-km'>137.2</td><td><a href="#gw-04">详情 ↓</a></td></tr><tr><td>5</td><td class='nm'><b>国家税务总局平度市税务局 · 一级行政执法员（五）</b><i>职位代码 300110012005 · 国家税务总局青岛市税务局</i></td><td>2</td><td class='st'><b>4★</b><i class='k-ying'>限应届</i></td><td>本科及以上</td><td class='zy'>数学类、统计学类、计算机类、电子信息类</td><td class='loc'>山东省青岛市平度市<i>离家 191 km</i></td><td class='gw-km'>55:1</td><td class='gw-km'>125.2</td><td><a href="#gw-05">详情 ↓</a></td></tr><tr><td>6</td><td class='nm'><b>国家税务总局青岛经济技术开发区税务局 · 一级行政执法员（三）</b><i>职位代码 300110008003 · 国家税务总局青岛市税务局</i></td><td>1</td><td class='st'><b>4★</b><i class='k-ying'>限应届</i></td><td>本科及以上</td><td class='zy'>数学类、统计学类、计算机类</td><td class='loc'>山东省青岛市黄岛区<i>离家 255 km</i></td><td class='gw-km'>42:1</td><td class='gw-km'>130.4</td><td><a href="#gw-06">详情 ↓</a></td></tr><tr><td>7</td><td class='nm'><b>国家税务总局济南高新技术产业开发区税务局 · 一级行政执法员（二）</b><i>职位代码 300110023002 · 国家税务总局山东省税务局</i></td><td>2</td><td class='st'><b>4★</b><i class='k-ying'>限应届</i></td><td>本科及以上</td><td class='zy'>能源动力类、计算机类</td><td class='loc'>山东省济南市历城区<i>离家 103 km</i></td><td class='gw-km'>19:1</td><td class='gw-km'>132.8</td><td><a href="#gw-07">详情 ↓</a></td></tr><tr><td>8</td><td class='nm'><b>国家税务总局宁津县税务局 · 一级行政执法员（二）</b><i>职位代码 300110255002 · 国家税务总局山东省税务局</i></td><td>2</td><td class='st'><b>4★</b><i class='k-ying'>限应届</i></td><td>本科及以上</td><td class='zy'>数学类、统计学类、计算机类</td><td class='loc'>山东省德州市宁津县<i>离家 106 km</i></td><td class='gw-km'>13:1</td><td class='gw-km'>121.6</td><td><a href="#gw-08">详情 ↓</a></td></tr><tr><td>9</td><td class='nm'><b>国家税务总局青岛市黄岛区（青岛西海岸新区）税务局 · 一级行政执法员（五）</b><i>职位代码 300110006005 · 国家税务总局青岛市税务局</i></td><td>2</td><td class='st'><b>4★</b><i class='k-ying'>限应届</i></td><td>本科及以上</td><td class='zy'>数学类、统计学类、计算机类、电子信息类</td><td class='loc'>山东省青岛市黄岛区<i>离家 255 km</i></td><td class='gw-km'>60:1</td><td class='gw-km'>125.2</td><td><a href="#gw-09">详情 ↓</a></td></tr><tr><td>10</td><td class='nm'><b>国家税务总局青岛市城阳区税务局 · 一级行政执法员（五）</b><i>职位代码 300110005005 · 国家税务总局青岛市税务局</i></td><td>1</td><td class='st'><b>4★</b><i class='k-ying'>限应届</i></td><td>本科及以上</td><td class='zy'>数学类、统计学类、计算机类、电子信息类</td><td class='loc'>山东省青岛市城阳区<i>离家 249 km</i></td><td class='gw-km'>109:1</td><td class='gw-km'>134.6</td><td><a href="#gw-10">详情 ↓</a></td></tr><tr><td>11</td><td class='nm'><b>国家税务总局青岛市市北区税务局 · 一级行政执法员（七）</b><i>职位代码 300110002007 · 国家税务总局青岛市税务局</i></td><td>2</td><td class='st'><b>4★</b><i class='k-ying'>限应届</i></td><td>本科及以上</td><td class='zy'>数学类、统计学类、计算机类</td><td class='loc'>山东省青岛市市北区<i>离家 258 km</i></td><td class='gw-km'>52:1</td><td class='gw-km'>134.9</td><td><a href="#gw-11">详情 ↓</a></td></tr><tr><td>12</td><td class='nm'><b>国家税务总局青岛市市南区税务局 · 一级行政执法员（六）</b><i>职位代码 300110001006 · 国家税务总局青岛市税务局</i></td><td>1</td><td class='st'><b>4★</b><i class='k-ying'>限应届</i></td><td>本科及以上</td><td class='zy'>数学类、统计学类、计算机类</td><td class='loc'>山东省青岛市市南区<i>离家 288 km</i></td><td class='gw-km'>54:1</td><td class='gw-km'>125.2</td><td><a href="#gw-12">详情 ↓</a></td></tr><tr><td>13</td><td class='nm'><b>国家税务总局烟台市税务局烟台综合保税区税务分局 · 一级行政执法员（八）</b><i>职位代码 300110104008 · 国家税务总局山东省税务局</i></td><td>3</td><td class='st'><b>4★</b><i class='k-ying'>限应届</i></td><td>本科及以上</td><td class='zy'>统计学类、电子信息类、计算机类</td><td class='loc'>山东省烟台市芝罘区<i>离家 300 km</i></td><td class='gw-km'>31:1</td><td class='gw-km'>121.7</td><td><a href="#gw-13">详情 ↓</a></td></tr><tr><td>14</td><td class='nm'><b>国家税务总局烟台经济技术开发区税务局 · 一级行政执法员（十）</b><i>职位代码 300110103010 · 国家税务总局山东省税务局</i></td><td>3</td><td class='st'><b>4★</b><i class='k-ying'>限应届</i></td><td>本科及以上</td><td class='zy'>数学类、化学类、统计学类、计算机类</td><td class='loc'>山东省烟台市福山区<i>离家 295 km</i></td><td class='gw-km'>28:1</td><td class='gw-km'>121.7</td><td><a href="#gw-14">详情 ↓</a></td></tr><tr><td>15</td><td class='nm'><b>国家税务总局莱阳市税务局 · 一级行政执法员（四）</b><i>职位代码 300110097004 · 国家税务总局山东省税务局</i></td><td>2</td><td class='st'><b>4★</b><i class='k-ying'>限应届</i></td><td>本科及以上</td><td class='zy'>数学类、电子信息类、计算机类</td><td class='loc'>山东省烟台市莱阳市<i>离家 251 km</i></td><td class='gw-km'>29:1</td><td class='gw-km'>121.7</td><td><a href="#gw-15">详情 ↓</a></td></tr><tr><td>16</td><td class='nm'><b>国家税务总局济南市市中区税务局 · 一级行政执法员（三）</b><i>职位代码 300110012003 · 国家税务总局山东省税务局</i></td><td>2</td><td class='st'><b>4★</b><i class='k-ying'>限应届</i></td><td>本科及以上</td><td class='zy'>电气类、电子信息类</td><td class='loc'>山东省济南市市中区<i>离家 116 km</i></td><td class='gw-km'>37:1</td><td class='gw-km'>136.8</td><td><a href="#gw-16">详情 ↓</a></td></tr><tr><td>17</td><td class='nm'><b>国家税务总局莱西市税务局 · 一级行政执法员（七）</b><i>职位代码 300110013007 · 国家税务总局青岛市税务局</i></td><td>1</td><td class='st'><b>4★</b><i class='k-ying'>限应届</i></td><td>本科及以上</td><td class='zy'>数学类、统计学类、计算机类</td><td class='loc'>山东省青岛市莱西市<i>离家 237 km</i></td><td class='gw-km'>123:1</td><td class='gw-km'>128.3</td><td><a href="#gw-17">详情 ↓</a></td></tr><tr><td>18</td><td class='nm'><b>国家税务总局莱西市税务局 · 一级行政执法员（六）</b><i>职位代码 300110013006 · 国家税务总局青岛市税务局</i></td><td>1</td><td class='st'><b>4★</b><i class='k-ying'>限应届</i></td><td>本科及以上</td><td class='zy'>计算机类、电子信息类</td><td class='loc'>山东省青岛市莱西市<i>离家 236 km</i></td><td class='gw-km'>127:1</td><td class='gw-km'>128.3</td><td><a href="#gw-18">详情 ↓</a></td></tr><tr><td>19</td><td class='nm'><b>国家税务总局莱西市税务局 · 一级行政执法员（五）</b><i>职位代码 300110013005 · 国家税务总局青岛市税务局</i></td><td>1</td><td class='st'><b>4★</b><i class='k-ying'>限应届</i></td><td>本科及以上</td><td class='zy'>数学类、统计学类、计算机类、电子信息类</td><td class='loc'>山东省青岛市莱西市<i>离家 236 km</i></td><td class='gw-km'>126:1</td><td class='gw-km'>128.3</td><td><a href="#gw-19">详情 ↓</a></td></tr><tr><td>20</td><td class='nm'><b>国家税务总局平度市税务局 · 一级行政执法员（七）</b><i>职位代码 300110012007 · 国家税务总局青岛市税务局</i></td><td>2</td><td class='st'><b>4★</b><i class='k-ying'>限应届</i></td><td>本科及以上</td><td class='zy'>数学类、统计学类、计算机类</td><td class='loc'>山东省青岛市平度市<i>离家 191 km</i></td><td class='gw-km'>125:1</td><td class='gw-km'>128.3</td><td><a href="#gw-20">详情 ↓</a></td></tr><tr><td>21</td><td class='nm'><b>国家税务总局青岛市即墨区税务局 · 一级行政执法员（六）</b><i>职位代码 300110007006 · 国家税务总局青岛市税务局</i></td><td>1</td><td class='st'><b>4★</b><i class='k-ying'>限应届</i></td><td>本科及以上</td><td class='zy'>计算机类、电子信息类</td><td class='loc'>山东省青岛市即墨区<i>离家 248 km</i></td><td class='gw-km'>127:1</td><td class='gw-km'>139.1</td><td><a href="#gw-21">详情 ↓</a></td></tr><tr><td>22</td><td class='nm'><b>国家金融监督管理总局长岛监管支局 · 监管部门一级主任科员及以下</b><i>职位代码 300147043001 · 国家金融监督管理总局山东监管局</i></td><td>1</td><td class='st'><b>4★</b><i class='k-ying'>限应届</i></td><td>本科或硕士研究生</td><td class='zy'>以本科专业报考：计算机类…</td><td class='loc'>山东省烟台市蓬莱区<i>离家 257 km</i></td><td class='gw-km'>24:1</td><td class='gw-km'>58.7</td><td><a href="#gw-22">详情 ↓</a></td></tr><tr><td>23</td><td class='nm'><b>国家税务总局龙口市税务局 · 一级行政执法员（五）</b><i>职位代码 300110096005 · 国家税务总局山东省税务局</i></td><td>4</td><td class='st'><b>4★</b><i class='k-ying'>限应届</i></td><td>本科及以上</td><td class='zy'>数学类、统计学类、计算机类</td><td class='loc'>山东省烟台市龙口市<i>离家 228 km</i></td><td class='gw-km'>53:1</td><td class='gw-km'>121.3</td><td><a href="#gw-23">详情 ↓</a></td></tr><tr><td>24</td><td class='nm'><b>国家税务总局烟台市芝罘区税务局 · 一级行政执法员（五）</b><i>职位代码 300110091005 · 国家税务总局山东省税务局</i></td><td>4</td><td class='st'><b>4★</b><i class='k-ying'>限应届</i></td><td>本科及以上</td><td class='zy'>数学类、化学类、统计学类、计算机类</td><td class='loc'>山东省烟台市芝罘区<i>离家 307 km</i></td><td class='gw-km'>50:1</td><td class='gw-km'>121.3</td><td><a href="#gw-24">详情 ↓</a></td></tr><tr><td>25</td><td class='nm'><b>国家税务总局青岛市崂山区税务局 · 一级行政执法员（三）</b><i>职位代码 300110004003 · 国家税务总局青岛市税务局</i></td><td>1</td><td class='st'><b>4★</b><i class='k-ying'>限应届</i></td><td>本科及以上</td><td class='zy'>数学类、统计学类、计算机类、电子信息类</td><td class='loc'>山东省青岛市崂山区<i>离家 273 km</i></td><td class='gw-km'>111:1</td><td class='gw-km'>126</td><td><a href="#gw-25">详情 ↓</a></td></tr><tr><td>26</td><td class='nm'><b>国家税务总局青岛市李沧区税务局 · 一级行政执法员（三）</b><i>职位代码 300110003003 · 国家税务总局青岛市税务局</i></td><td>1</td><td class='st'><b>4★</b><i class='k-ying'>限应届</i></td><td>本科及以上</td><td class='zy'>计算机类、电子信息类</td><td class='loc'>山东省青岛市李沧区<i>离家 258 km</i></td><td class='gw-km'>111:1</td><td class='gw-km'>127.6</td><td><a href="#gw-26">详情 ↓</a></td></tr><tr><td>27</td><td class='nm'><b>国家税务总局青岛市市北区税务局 · 一级行政执法员（六）</b><i>职位代码 300110002006 · 国家税务总局青岛市税务局</i></td><td>1</td><td class='st'><b>4★</b><i class='k-ying'>限应届</i></td><td>本科及以上</td><td class='zy'>计算机类、电子信息类</td><td class='loc'>山东省青岛市市北区<i>离家 288 km</i></td><td class='gw-km'>118:1</td><td class='gw-km'>127.8</td><td><a href="#gw-27">详情 ↓</a></td></tr><tr><td>28</td><td class='nm'><b>国家税务总局青岛市市南区税务局 · 一级行政执法员（五）</b><i>职位代码 300110001005 · 国家税务总局青岛市税务局</i></td><td>1</td><td class='st'><b>4★</b><i class='k-ying'>限应届</i></td><td>本科及以上</td><td class='zy'>计算机类、电子信息类</td><td class='loc'>山东省青岛市市南区<i>离家 262 km</i></td><td class='gw-km'>118:1</td><td class='gw-km'>128.3</td><td><a href="#gw-28">详情 ↓</a></td></tr><tr><td>29</td><td class='nm'><b>国家税务总局青岛市市南区税务局 · 一级行政执法员（四）</b><i>职位代码 300110001004 · 国家税务总局青岛市税务局</i></td><td>1</td><td class='st'><b>4★</b><i class='k-ying'>限应届</i></td><td>本科及以上</td><td class='zy'>数学类、统计学类、计算机类、电子信息类</td><td class='loc'>山东省青岛市市南区<i>离家 262 km</i></td><td class='gw-km'>151:1</td><td class='gw-km'>134.4</td><td><a href="#gw-29">详情 ↓</a></td></tr><tr><td>30</td><td class='nm'><b>国家税务总局招远市税务局 · 一级行政执法员（五）</b><i>职位代码 300110099005 · 国家税务总局山东省税务局</i></td><td>4</td><td class='st'><b>4★</b><i class='k-ying'>限应届</i></td><td>本科及以上</td><td class='zy'>数学类、电子信息类、计算机类</td><td class='loc'>山东省烟台市招远市<i>离家 220 km</i></td><td class='gw-km'>49:1</td><td class='gw-km'>121.3</td><td><a href="#gw-30">详情 ↓</a></td></tr><tr><td>31</td><td class='nm'><b>国家税务总局胶州市税务局 · 一级行政执法员（四）</b><i>职位代码 300110011004 · 国家税务总局青岛市税务局</i></td><td>1</td><td class='st'><b>4★</b><i class='k-fei'>非应届</i></td><td>本科及以上</td><td class='zy'>数学类、统计学类、计算机类</td><td class='loc'>山东省青岛市胶州市<i>离家 222 km</i></td><td class='gw-km'>270:1</td><td class='gw-km'>135.5</td><td><a href="#gw-31">详情 ↓</a></td></tr><tr><td>32</td><td class='nm'><b>国家税务总局青岛市即墨区税务局 · 一级行政执法员（七）</b><i>职位代码 300110007007 · 国家税务总局青岛市税务局</i></td><td>1</td><td class='st'><b>4★</b><i class='k-fei'>非应届</i></td><td>本科及以上</td><td class='zy'>数学类、统计学类、计算机类</td><td class='loc'>山东省青岛市即墨区<i>离家 247 km</i></td><td class='gw-km'>127:1</td><td class='gw-km'>128.8</td><td><a href="#gw-32">详情 ↓</a></td></tr><tr><td>33</td><td class='nm'><b>国家税务总局烟台市牟平区税务局 · 一级行政执法员（七）</b><i>职位代码 300110093007 · 国家税务总局山东省税务局</i></td><td>2</td><td class='st'><b>4★</b><i class='k-fei'>非应届</i></td><td>本科及以上</td><td class='zy'>统计学类、计算机类</td><td class='loc'>山东省烟台市牟平区<i>离家 324 km</i></td><td class='gw-km'>159:1</td><td class='gw-km'>123.5</td><td><a href="#gw-33">详情 ↓</a></td></tr><tr><td>34</td><td class='nm'><b>国家税务总局临邑县税务局 · 一级行政执法员（四）</b><i>职位代码 300110257004 · 国家税务总局山东省税务局</i></td><td>2</td><td class='st'><b>4★</b><i class='k-fei'>非应届</i></td><td>本科及以上</td><td class='zy'>数学类、统计学类、计算机类</td><td class='loc'>山东省德州市临邑县<i>离家 97 km</i></td><td class='gw-km'>49:1</td><td class='gw-km'>118</td><td><a href="#gw-34">详情 ↓</a></td></tr><tr><td>35</td><td class='nm'><b>国家税务总局青岛市李沧区税务局 · 一级行政执法员（四）</b><i>职位代码 300110003004 · 国家税务总局青岛市税务局</i></td><td>2</td><td class='st'><b>4★</b><i class='k-fei'>非应届</i></td><td>本科及以上</td><td class='zy'>数学类、统计学类、计算机类</td><td class='loc'>山东省青岛市李沧区<i>离家 258 km</i></td><td class='gw-km'>124:1</td><td class='gw-km'>127.6</td><td><a href="#gw-35">详情 ↓</a></td></tr><tr><td>36</td><td class='nm'><b>国家税务总局烟台经济技术开发区税务局 · 一级行政执法员（十二）</b><i>职位代码 300110103012 · 国家税务总局山东省税务局</i></td><td>2</td><td class='st'><b>4★</b><i class='k-fei'>非应届</i></td><td>本科及以上</td><td class='zy'>电子信息类、计算机类</td><td class='loc'>山东省烟台市福山区<i>离家 295 km</i></td><td class='gw-km'>164:1</td><td class='gw-km'>127.4</td><td><a href="#gw-36">详情 ↓</a></td></tr><tr><td>37</td><td class='nm'><b>国家税务总局莱州市税务局 · 一级行政执法员（七）</b><i>职位代码 300110098007 · 国家税务总局山东省税务局</i></td><td>2</td><td class='st'><b>4★</b><i class='k-fei'>非应届</i></td><td>本科及以上</td><td class='zy'>化学类、统计学类、计算机类</td><td class='loc'>山东省烟台市莱州市<i>离家 179 km</i></td><td class='gw-km'>99:1</td><td class='gw-km'>122.7</td><td><a href="#gw-37">详情 ↓</a></td></tr><tr><td>38</td><td class='nm'><b>国家金融监督管理总局德州监管分局辖内监管支局 · 监管部门一级主任科员及以下</b><i>职位代码 300147162001 · 国家金融监督管理总局山东监管局</i></td><td>5</td><td class='st'><b>4★</b><i class='k-fei'>非应届</i></td><td>本科或硕士研究生</td><td class='zy'>以本科专业报考：计算机类…</td><td class='loc'>山东省德州市<i>离家 140 km</i></td><td class='gw-km'>13:1</td><td class='gw-km'>46.8</td><td><a href="#gw-38">详情 ↓</a></td></tr><tr><td>39</td><td class='nm'><b>国家税务总局平阴县税务局 · 一级行政执法员（四）</b><i>职位代码 300110021004 · 国家税务总局山东省税务局</i></td><td>2</td><td class='st'><b>4★</b><i class='k-fei'>非应届</i></td><td>本科及以上</td><td class='zy'>数学类、统计学类、计算机类</td><td class='loc'>山东省济南市平阴县<i>离家 176 km</i></td><td class='gw-km'>131:1</td><td class='gw-km'>121</td><td><a href="#gw-39">详情 ↓</a></td></tr><tr><td>40</td><td class='nm'><b>国家税务总局庆云县税务局 · 一级行政执法员</b><i>职位代码 300110256001 · 国家税务总局山东省税务局</i></td><td>2</td><td class='st'><b>4★</b><i class='k-fei'>非应届</i></td><td>本科及以上</td><td class='zy'>数学类、化学类、统计学类、计算机类</td><td class='loc'>山东省德州市庆云县<i>离家 69 km</i></td><td class='gw-km'>246:1</td><td class='gw-km'>113.2</td><td><a href="#gw-40">详情 ↓</a></td></tr><tr><td>41</td><td class='nm'><b>国家税务总局禹城市税务局 · 一级行政执法员（三）</b><i>职位代码 300110254003 · 国家税务总局山东省税务局</i></td><td>3</td><td class='st'><b>4★</b><i class='k-fei'>非应届</i></td><td>本科及以上</td><td class='zy'>机械类、能源动力类、电气类、计算机类</td><td class='loc'>山东省德州市禹城市<i>离家 123 km</i></td><td class='gw-km'>160:1</td><td class='gw-km'>124.6</td><td><a href="#gw-41">详情 ↓</a></td></tr><tr><td>42</td><td class='nm'><b>国家税务总局德州市德城区税务局 · 一级行政执法员（四）</b><i>职位代码 300110251004 · 国家税务总局山东省税务局</i></td><td>2</td><td class='st'><b>4★</b><i class='k-fei'>非应届</i></td><td>本科及以上</td><td class='zy'>数学类、化学类、统计学类、计算机类</td><td class='loc'>山东省德州市德城区<i>离家 144 km</i></td><td class='gw-km'>164:1</td><td class='gw-km'>123.5</td><td><a href="#gw-42">详情 ↓</a></td></tr><tr><td>43</td><td class='nm'><b>国家税务总局海阳市税务局 · 一级行政执法员（三）</b><i>职位代码 300110101003 · 国家税务总局山东省税务局</i></td><td>2</td><td class='st'><b>4★</b><i class='k-fei'>非应届</i></td><td>本科及以上</td><td class='zy'>统计学类、计算机类</td><td class='loc'>山东省烟台市海阳市<i>离家 293 km</i></td><td class='gw-km'>73:1</td><td class='gw-km'>126.2</td><td><a href="#gw-43">详情 ↓</a></td></tr><tr><td>44</td><td class='nm'><b>国家税务总局栖霞市税务局 · 一级行政执法员（三）</b><i>职位代码 300110100003 · 国家税务总局山东省税务局</i></td><td>3</td><td class='st'><b>4★</b><i class='k-fei'>非应届</i></td><td>本科及以上</td><td class='zy'>数学类、计算机类</td><td class='loc'>山东省烟台市栖霞市<i>离家 258 km</i></td><td class='gw-km'>64:1</td><td class='gw-km'>121.3</td><td><a href="#gw-44">详情 ↓</a></td></tr><tr><td>45</td><td class='nm'><b>国家税务总局莱阳市税务局 · 一级行政执法员（五）</b><i>职位代码 300110097005 · 国家税务总局山东省税务局</i></td><td>2</td><td class='st'><b>4★</b><i class='k-fei'>非应届</i></td><td>本科及以上</td><td class='zy'>能源动力类、电子信息类</td><td class='loc'>山东省烟台市莱阳市<i>离家 250 km</i></td><td class='gw-km'>164:1</td><td class='gw-km'>124.2</td><td><a href="#gw-45">详情 ↓</a></td></tr></tbody></table></div>
+<div class="note">「2026 竞争比 / 进面分」取自公考雷达展示的历年数据，空白 = App 未展示（如序号 2）；进面分跨部门不可直接比（金融监管 2 岗是专业科目口径）。</div>
+</section>
+<section class="unit" id="gkb-2-2" data-title="报名前的硬约束"><div class="unit-head"><h3>报名前的硬约束</h3><span class="chip">核对清单</span></div>
+<div class="unit-desc">从 45 条官方备注里提炼（数字为命中岗位数，序号可点击直达岗位卡）。</div>
+<div class="tbwrap"><table class="gw-list" style="min-width:880px">
+<thead><tr><th>约束</th><th>岗位数</th><th style="text-align:left">序号</th><th style="text-align:left">怎么读</th></tr></thead>
+<tbody><tr><td class='nm'>最低服务年限 5 年（含试用期）</td><td class='gw-km'>43</td><td class='idx'><a href="#gw-01">1</a>、<a href="#gw-02">2</a>、<a href="#gw-03">3</a>、<a href="#gw-04">4</a>、<a href="#gw-05">5</a>、<a href="#gw-06">6</a>、<a href="#gw-07">7</a>、<a href="#gw-08">8</a>、<a href="#gw-09">9</a>、<a href="#gw-10">10</a>、<a href="#gw-11">11</a>、<a href="#gw-12">12</a>、<a href="#gw-13">13</a>、<a href="#gw-14">14</a>、<a href="#gw-15">15</a>、<a href="#gw-16">16</a>、<a href="#gw-17">17</a>、<a href="#gw-18">18</a>、<a href="#gw-19">19</a>、<a href="#gw-20">20</a>、<a href="#gw-21">21</a>、<a href="#gw-23">23</a>、<a href="#gw-24">24</a>、<a href="#gw-25">25</a>、<a href="#gw-26">26</a>、<a href="#gw-27">27</a>、<a href="#gw-28">28</a>、<a href="#gw-29">29</a>、<a href="#gw-30">30</a>、<a href="#gw-31">31</a>、<a href="#gw-32">32</a>、<a href="#gw-33">33</a>、<a href="#gw-34">34</a>、<a href="#gw-35">35</a>、<a href="#gw-36">36</a>、<a href="#gw-37">37</a>、<a href="#gw-39">39</a>、<a href="#gw-40">40</a>、<a href="#gw-41">41</a>、<a href="#gw-42">42</a>、<a href="#gw-43">43</a>、<a href="#gw-44">44</a>、<a href="#gw-45">45</a></td><td>录用后 5 年内不能辞职 / 调动；异地岗位要把这一条算进决策。</td></tr><tr><td class='nm'>本单位不提供宿舍</td><td class='gw-km'>42</td><td class='idx'><a href="#gw-01">1</a>、<a href="#gw-03">3</a>、<a href="#gw-04">4</a>、<a href="#gw-05">5</a>、<a href="#gw-06">6</a>、<a href="#gw-07">7</a>、<a href="#gw-08">8</a>、<a href="#gw-09">9</a>、<a href="#gw-10">10</a>、<a href="#gw-11">11</a>、<a href="#gw-12">12</a>、<a href="#gw-13">13</a>、<a href="#gw-14">14</a>、<a href="#gw-15">15</a>、<a href="#gw-16">16</a>、<a href="#gw-17">17</a>、<a href="#gw-18">18</a>、<a href="#gw-19">19</a>、<a href="#gw-20">20</a>、<a href="#gw-21">21</a>、<a href="#gw-23">23</a>、<a href="#gw-24">24</a>、<a href="#gw-25">25</a>、<a href="#gw-26">26</a>、<a href="#gw-27">27</a>、<a href="#gw-28">28</a>、<a href="#gw-29">29</a>、<a href="#gw-30">30</a>、<a href="#gw-31">31</a>、<a href="#gw-32">32</a>、<a href="#gw-33">33</a>、<a href="#gw-34">34</a>、<a href="#gw-35">35</a>、<a href="#gw-36">36</a>、<a href="#gw-37">37</a>、<a href="#gw-39">39</a>、<a href="#gw-40">40</a>、<a href="#gw-41">41</a>、<a href="#gw-42">42</a>、<a href="#gw-43">43</a>、<a href="#gw-44">44</a>、<a href="#gw-45">45</a></td><td>需自行租房 —— 距离越远，越要连租房成本一起算。</td></tr><tr><td class='nm'>备注写明「男性」</td><td class='gw-km'>20</td><td class='idx'><a href="#gw-03">3</a>、<a href="#gw-04">4</a>、<a href="#gw-05">5</a>、<a href="#gw-06">6</a>、<a href="#gw-07">7</a>、<a href="#gw-08">8</a>、<a href="#gw-09">9</a>、<a href="#gw-10">10</a>、<a href="#gw-11">11</a>、<a href="#gw-12">12</a>、<a href="#gw-13">13</a>、<a href="#gw-14">14</a>、<a href="#gw-15">15</a>、<a href="#gw-31">31</a>、<a href="#gw-32">32</a>、<a href="#gw-33">33</a>、<a href="#gw-34">34</a>、<a href="#gw-35">35</a>、<a href="#gw-36">36</a>、<a href="#gw-37">37</a></td><td>原文即「男性」（或「2027届高校毕业生，男性」），报名前确认。</td></tr><tr><td class='nm'>仅招录 2027 届高校毕业生</td><td class='gw-km'>20</td><td class='idx'><a href="#gw-01">1</a>、<a href="#gw-03">3</a>、<a href="#gw-04">4</a>、<a href="#gw-05">5</a>、<a href="#gw-07">7</a>、<a href="#gw-08">8</a>、<a href="#gw-09">9</a>、<a href="#gw-10">10</a>、<a href="#gw-13">13</a>、<a href="#gw-18">18</a>、<a href="#gw-19">19</a>、<a href="#gw-21">21</a>、<a href="#gw-23">23</a>、<a href="#gw-24">24</a>、<a href="#gw-25">25</a>、<a href="#gw-26">26</a>、<a href="#gw-27">27</a>、<a href="#gw-28">28</a>、<a href="#gw-29">29</a>、<a href="#gw-30">30</a></td><td>2027 届专属；与「应届高校毕业生」不是同一口径。</td></tr><tr><td class='nm'>面向应届高校毕业生</td><td class='gw-km'>9</td><td class='idx'><a href="#gw-06">6</a>、<a href="#gw-11">11</a>、<a href="#gw-12">12</a>、<a href="#gw-14">14</a>、<a href="#gw-15">15</a>、<a href="#gw-16">16</a>、<a href="#gw-17">17</a>、<a href="#gw-20">20</a>、<a href="#gw-22">22</a></td><td>多为「应届高校毕业生」（未写届别），按简章原文理解。</td></tr><tr><td class='nm'>金融监管：专业科目 + 专业代码</td><td class='gw-km'>2</td><td class='idx'><a href="#gw-22">22</a>、<a href="#gw-38">38</a></td><td>考试类别为金融监管计算机类职位：报名时专业栏要同时填专业名称与专业代码，笔试含专业科目（大纲见金融监管总局网站）。</td></tr><tr><td class='nm'>一线执法 / 下乡强度大</td><td class='gw-km'>2</td><td class='idx'><a href="#gw-01">1</a>、<a href="#gw-02">2</a></td><td>序号 1 邮政：一线执法岗，需到辖区边远地区执法检查，工作强度大；序号 2 统计调查：需经常下乡入户、条件较为艰苦。</td></tr><tr><td class='nm'>工作地点特殊（长岛）</td><td class='gw-km'>1</td><td class='idx'><a href="#gw-22">22</a></td><td>序号 22 的具体工作地点为烟台长岛（海岛）。</td></tr><tr><td class='nm'>落户须符合当地政策</td><td class='gw-km'>1</td><td class='idx'><a href="#gw-01">1</a></td><td>序号 1：单位无法办理集体户口，落户须符合当地有关政策。</td></tr><tr><td class='nm'>须以最高学历主修专业报考</td><td class='gw-km'>1</td><td class='idx'><a href="#gw-02">2</a></td><td>序号 2：须以最高学历所学主修专业报考，且最低服务年限 5 年。</td></tr></tbody></table></div>
+<div class="note">备注原文在每张岗位卡的「备注与咨询」一节；此处只做分类提炼，判断以原文为准。</div>
+</section></div>
+<div class="module" id="gkb-3-1"><div class="mod-banner"><h2>三、岗位详情 · 山东省税务局</h2><p>国家税务总局山东省税务局：22 个岗位、招录 55 人，离家 69–324 km</p></div>
+<section class="unit" id="gw-03" data-title="序号 3 · 国家税务总局济南市长清区税务局 · 一级行政执法员（二）">
+<div class="unit-head"><h3><span class="vno">3</span>国家税务总局济南市长清区税务局 · 一级行政执法员（二）</h3><span class="chip b">雷达 4★</span><span class="chip m">限应届</span></div>
+<div class="unit-desc">职位代码 300110016002 · 招录 2 人 · 山东省济南市长清区 · 离家 136 km · 行政执法类</div>
+<div class="tbwrap"><table class="gw">
+<tr class="gw-grp"><th colspan="2">岗位</th></tr>
+<tr><th scope="row">部门 / 司局</th><td>国家税务总局山东省税务局（部门代码 130118）· 国家税务总局济南市长清区税务局</td></tr>
+<tr><th scope="row">招考职位</th><td>一级行政执法员（二）（职位代码 300110016002）</td></tr>
+<tr><th scope="row">职位简介</th><td>从事税收相关工作</td></tr>
+<tr class="gw-grp"><th colspan="2">资格条件</th></tr>
+<tr><th scope="row">招考人数</th><td>2 人</td></tr>
+<tr><th scope="row">学历 / 学位</th><td>本科及以上 · 与最高学历相对应的学位</td></tr>
+<tr><th scope="row">专业</th><td>数学类、统计学类、计算机类</td></tr>
+<tr><th scope="row">政治面貌</th><td>不限</td></tr>
+<tr><th scope="row">基层工作年限</th><td>无限制</td></tr>
+<tr><th scope="row">服务基层项目</th><td>无限制</td></tr>
+<tr><th scope="row">面试人员比例</th><td>3:1</td></tr>
+<tr><th scope="row">专业能力测试</th><td>否</td></tr>
+<tr class="gw-grp"><th colspan="2">地点与机构</th></tr>
+<tr><th scope="row">工作地点</th><td>山东省济南市长清区</td></tr>
+<tr><th scope="row">落户地点</th><td>山东省济南市长清区</td></tr>
+<tr><th scope="row">离家距离</th><td>136 km</td></tr>
+<tr><th scope="row">机构性质</th><td>中央国家行政机关省级以下直属机构</td></tr>
+<tr><th scope="row">机构层级 / 属性</th><td>县（区）级及以下 · 普通职位 · 其他职位</td></tr>
+<tr><th scope="row">考试类别</th><td>行政执法类</td></tr>
+<tr class="gw-grp"><th colspan="2">历年数据（公考雷达展示）</th></tr>
+<tr><th scope="row">2027 招录</th><td>2 人（官方简章）</td></tr>
+<tr><th scope="row">2026</th><td>招录 2 · 报名 138 · 竞争比 69:1 · 进面分 130.2</td></tr>
+<tr><th scope="row">2025</th><td>招录 2 · 报名 66 · 竞争比 33:1 · 进面分 112.1</td></tr>
+<tr class="gw-grp"><th colspan="2">备注与咨询</th></tr>
+<tr><th scope="row">备注</th><td>2027届高校毕业生，男性，本单位不提供宿舍，在本单位最低服务年限为5年</td></tr>
+<tr><th scope="row">部门网站</th><td>http://shandong.chinatax.gov.cn/</td></tr>
+<tr><th scope="row">咨询电话</th><td>0531-88758810 / 0531-88758859</td></tr>
+</table></div>
+<div class="note">出处与核对：官方简章「中央国家行政机关省级以下直属机构」第 9124 行 · 雷达截图 微信图片_20261013233152_665_72 · 招考人数 / 学历 / 专业 / 备注 / 电话等 24 个字段逐行一致</div>
+</section><section class="unit" id="gw-04" data-title="序号 4 · 国家税务总局济南市历下区税务局 · 一级行政执法员（四）">
+<div class="unit-head"><h3><span class="vno">4</span>国家税务总局济南市历下区税务局 · 一级行政执法员（四）</h3><span class="chip b">雷达 4★</span><span class="chip m">限应届</span></div>
+<div class="unit-desc">职位代码 300110011004 · 招录 3 人 · 山东省济南市历下区 · 离家 106 km · 行政执法类</div>
+<div class="tbwrap"><table class="gw">
+<tr class="gw-grp"><th colspan="2">岗位</th></tr>
+<tr><th scope="row">部门 / 司局</th><td>国家税务总局山东省税务局（部门代码 130118）· 国家税务总局济南市历下区税务局</td></tr>
+<tr><th scope="row">招考职位</th><td>一级行政执法员（四）（职位代码 300110011004）</td></tr>
+<tr><th scope="row">职位简介</th><td>从事税收相关工作</td></tr>
+<tr class="gw-grp"><th colspan="2">资格条件</th></tr>
+<tr><th scope="row">招考人数</th><td>3 人</td></tr>
+<tr><th scope="row">学历 / 学位</th><td>本科及以上 · 与最高学历相对应的学位</td></tr>
+<tr><th scope="row">专业</th><td>能源动力类、电子信息类</td></tr>
+<tr><th scope="row">政治面貌</th><td>不限</td></tr>
+<tr><th scope="row">基层工作年限</th><td>无限制</td></tr>
+<tr><th scope="row">服务基层项目</th><td>无限制</td></tr>
+<tr><th scope="row">面试人员比例</th><td>3:1</td></tr>
+<tr><th scope="row">专业能力测试</th><td>否</td></tr>
+<tr class="gw-grp"><th colspan="2">地点与机构</th></tr>
+<tr><th scope="row">工作地点</th><td>山东省济南市历下区</td></tr>
+<tr><th scope="row">落户地点</th><td>山东省济南市历下区</td></tr>
+<tr><th scope="row">离家距离</th><td>106 km</td></tr>
+<tr><th scope="row">机构性质</th><td>中央国家行政机关省级以下直属机构</td></tr>
+<tr><th scope="row">机构层级 / 属性</th><td>县（区）级及以下 · 普通职位 · 其他职位</td></tr>
+<tr><th scope="row">考试类别</th><td>行政执法类</td></tr>
+<tr class="gw-grp"><th colspan="2">历年数据（公考雷达展示）</th></tr>
+<tr><th scope="row">2027 招录</th><td>3 人（官方简章）</td></tr>
+<tr><th scope="row">2026</th><td>招录 2 · 报名 198 · 竞争比 99:1 · 进面分 137.2</td></tr>
+<tr><th scope="row">2025</th><td>招录 2 · 报名 174 · 竞争比 103:1 · 进面分 127.1</td></tr>
+<tr class="gw-grp"><th colspan="2">备注与咨询</th></tr>
+<tr><th scope="row">备注</th><td>2027届高校毕业生，男性，本单位不提供宿舍，在本单位最低服务年限为5年</td></tr>
+<tr><th scope="row">部门网站</th><td>http://shandong.chinatax.gov.cn/</td></tr>
+<tr><th scope="row">咨询电话</th><td>0531-88758810 / 0531-88758859</td></tr>
+</table></div>
+<div class="note">出处与核对：官方简章「中央国家行政机关省级以下直属机构」第 9107 行 · 雷达截图 微信图片_20261013233152_666_72 · 招考人数 / 学历 / 专业 / 备注 / 电话等 24 个字段逐行一致</div>
+</section><section class="unit" id="gw-07" data-title="序号 7 · 国家税务总局济南高新技术产业开发区税务局 · 一级行政执法员（二）">
+<div class="unit-head"><h3><span class="vno">7</span>国家税务总局济南高新技术产业开发区税务局 · 一级行政执法员（二）</h3><span class="chip b">雷达 4★</span><span class="chip m">限应届</span></div>
+<div class="unit-desc">职位代码 300110023002 · 招录 2 人 · 山东省济南市历城区 · 离家 103 km · 行政执法类</div>
+<div class="tbwrap"><table class="gw">
+<tr class="gw-grp"><th colspan="2">岗位</th></tr>
+<tr><th scope="row">部门 / 司局</th><td>国家税务总局山东省税务局（部门代码 130118）· 国家税务总局济南高新技术产业开发区税务局</td></tr>
+<tr><th scope="row">招考职位</th><td>一级行政执法员（二）（职位代码 300110023002）</td></tr>
+<tr><th scope="row">职位简介</th><td>从事税收相关工作</td></tr>
+<tr class="gw-grp"><th colspan="2">资格条件</th></tr>
+<tr><th scope="row">招考人数</th><td>2 人</td></tr>
+<tr><th scope="row">学历 / 学位</th><td>本科及以上 · 与最高学历相对应的学位</td></tr>
+<tr><th scope="row">专业</th><td>能源动力类、计算机类</td></tr>
+<tr><th scope="row">政治面貌</th><td>不限</td></tr>
+<tr><th scope="row">基层工作年限</th><td>无限制</td></tr>
+<tr><th scope="row">服务基层项目</th><td>无限制</td></tr>
+<tr><th scope="row">面试人员比例</th><td>3:1</td></tr>
+<tr><th scope="row">专业能力测试</th><td>否</td></tr>
+<tr class="gw-grp"><th colspan="2">地点与机构</th></tr>
+<tr><th scope="row">工作地点</th><td>山东省济南市历城区</td></tr>
+<tr><th scope="row">落户地点</th><td>山东省济南市历城区</td></tr>
+<tr><th scope="row">离家距离</th><td>103 km</td></tr>
+<tr><th scope="row">机构性质</th><td>中央国家行政机关省级以下直属机构</td></tr>
+<tr><th scope="row">机构层级 / 属性</th><td>县（区）级及以下 · 普通职位 · 其他职位</td></tr>
+<tr><th scope="row">考试类别</th><td>行政执法类</td></tr>
+<tr class="gw-grp"><th colspan="2">历年数据（公考雷达展示）</th></tr>
+<tr><th scope="row">2027 招录</th><td>2 人（官方简章）</td></tr>
+<tr><th scope="row">2026</th><td>招录 2 · 报名 38 · 竞争比 19:1 · 进面分 132.8</td></tr>
+<tr><th scope="row">2025</th><td>招录 2 · 报名 53 · 竞争比 22:1 · 进面分 112.1</td></tr>
+<tr class="gw-grp"><th colspan="2">备注与咨询</th></tr>
+<tr><th scope="row">备注</th><td>2027届高校毕业生，男性，本单位不提供宿舍，在本单位最低服务年限为5年</td></tr>
+<tr><th scope="row">部门网站</th><td>http://shandong.chinatax.gov.cn/</td></tr>
+<tr><th scope="row">咨询电话</th><td>0531-88758810 / 0531-88758859</td></tr>
+</table></div>
+<div class="note">出处与核对：官方简章「中央国家行政机关省级以下直属机构」第 9147 行 · 雷达截图 微信图片_20261013233152_669_72 · 招考人数 / 学历 / 专业 / 备注 / 电话等 24 个字段逐行一致</div>
+</section><section class="unit" id="gw-08" data-title="序号 8 · 国家税务总局宁津县税务局 · 一级行政执法员（二）">
+<div class="unit-head"><h3><span class="vno">8</span>国家税务总局宁津县税务局 · 一级行政执法员（二）</h3><span class="chip b">雷达 4★</span><span class="chip m">限应届</span></div>
+<div class="unit-desc">职位代码 300110255002 · 招录 2 人 · 山东省德州市宁津县 · 离家 106 km · 行政执法类</div>
+<div class="tbwrap"><table class="gw">
+<tr class="gw-grp"><th colspan="2">岗位</th></tr>
+<tr><th scope="row">部门 / 司局</th><td>国家税务总局山东省税务局（部门代码 130118）· 国家税务总局宁津县税务局</td></tr>
+<tr><th scope="row">招考职位</th><td>一级行政执法员（二）（职位代码 300110255002）</td></tr>
+<tr><th scope="row">职位简介</th><td>从事税收相关工作</td></tr>
+<tr class="gw-grp"><th colspan="2">资格条件</th></tr>
+<tr><th scope="row">招考人数</th><td>2 人</td></tr>
+<tr><th scope="row">学历 / 学位</th><td>本科及以上 · 与最高学历相对应的学位</td></tr>
+<tr><th scope="row">专业</th><td>数学类、统计学类、计算机类</td></tr>
+<tr><th scope="row">政治面貌</th><td>不限</td></tr>
+<tr><th scope="row">基层工作年限</th><td>无限制</td></tr>
+<tr><th scope="row">服务基层项目</th><td>无限制</td></tr>
+<tr><th scope="row">面试人员比例</th><td>3:1</td></tr>
+<tr><th scope="row">专业能力测试</th><td>否</td></tr>
+<tr class="gw-grp"><th colspan="2">地点与机构</th></tr>
+<tr><th scope="row">工作地点</th><td>山东省德州市宁津县</td></tr>
+<tr><th scope="row">落户地点</th><td>山东省德州市宁津县</td></tr>
+<tr><th scope="row">离家距离</th><td>106 km</td></tr>
+<tr><th scope="row">机构性质</th><td>中央国家行政机关省级以下直属机构</td></tr>
+<tr><th scope="row">机构层级 / 属性</th><td>县（区）级及以下 · 普通职位 · 其他职位</td></tr>
+<tr><th scope="row">考试类别</th><td>行政执法类</td></tr>
+<tr class="gw-grp"><th colspan="2">历年数据（公考雷达展示）</th></tr>
+<tr><th scope="row">2027 招录</th><td>2 人（官方简章）</td></tr>
+<tr><th scope="row">2026</th><td>招录 2 · 报名 26 · 竞争比 13:1 · 进面分 121.6</td></tr>
+<tr><th scope="row">2025</th><td>招录 2 · 报名 54 · 竞争比 27:1 · 进面分 114.2</td></tr>
+<tr class="gw-grp"><th colspan="2">备注与咨询</th></tr>
+<tr><th scope="row">备注</th><td>2027届高校毕业生，男性，本单位不提供宿舍，在本单位最低服务年限为5年</td></tr>
+<tr><th scope="row">部门网站</th><td>http://shandong.chinatax.gov.cn/</td></tr>
+<tr><th scope="row">咨询电话</th><td>0531-88758810 / 0531-88758859</td></tr>
+</table></div>
+<div class="note">出处与核对：官方简章「中央国家行政机关省级以下直属机构」第 9626 行 · 雷达截图 微信图片_20261013233152_670_72 · 招考人数 / 学历 / 专业 / 备注 / 电话等 24 个字段逐行一致</div>
+</section><section class="unit" id="gw-13" data-title="序号 13 · 国家税务总局烟台市税务局烟台综合保税区税务分局 · 一级行政执法员（八）">
+<div class="unit-head"><h3><span class="vno">13</span>国家税务总局烟台市税务局烟台综合保税区税务分局 · 一级行政执法员（八）</h3><span class="chip b">雷达 4★</span><span class="chip m">限应届</span></div>
+<div class="unit-desc">职位代码 300110104008 · 招录 3 人 · 山东省烟台市芝罘区 · 离家 300 km · 行政执法类</div>
+<div class="tbwrap"><table class="gw">
+<tr class="gw-grp"><th colspan="2">岗位</th></tr>
+<tr><th scope="row">部门 / 司局</th><td>国家税务总局山东省税务局（部门代码 130118）· 国家税务总局烟台市税务局烟台综合保税区税务分局</td></tr>
+<tr><th scope="row">招考职位</th><td>一级行政执法员（八）（职位代码 300110104008）</td></tr>
+<tr><th scope="row">职位简介</th><td>从事税收相关工作</td></tr>
+<tr class="gw-grp"><th colspan="2">资格条件</th></tr>
+<tr><th scope="row">招考人数</th><td>3 人</td></tr>
+<tr><th scope="row">学历 / 学位</th><td>本科及以上 · 与最高学历相对应的学位</td></tr>
+<tr><th scope="row">专业</th><td>统计学类、电子信息类、计算机类</td></tr>
+<tr><th scope="row">政治面貌</th><td>不限</td></tr>
+<tr><th scope="row">基层工作年限</th><td>无限制</td></tr>
+<tr><th scope="row">服务基层项目</th><td>无限制</td></tr>
+<tr><th scope="row">面试人员比例</th><td>3:1</td></tr>
+<tr><th scope="row">专业能力测试</th><td>否</td></tr>
+<tr class="gw-grp"><th colspan="2">地点与机构</th></tr>
+<tr><th scope="row">工作地点</th><td>山东省烟台市芝罘区</td></tr>
+<tr><th scope="row">落户地点</th><td>山东省烟台市芝罘区</td></tr>
+<tr><th scope="row">离家距离</th><td>300 km</td></tr>
+<tr><th scope="row">机构性质</th><td>中央国家行政机关省级以下直属机构</td></tr>
+<tr><th scope="row">机构层级 / 属性</th><td>县（区）级及以下 · 普通职位 · 其他职位</td></tr>
+<tr><th scope="row">考试类别</th><td>行政执法类</td></tr>
+<tr class="gw-grp"><th colspan="2">历年数据（公考雷达展示）</th></tr>
+<tr><th scope="row">2027 招录</th><td>3 人（官方简章）</td></tr>
+<tr><th scope="row">2026</th><td>招录 2 · 报名 61 · 竞争比 31:1 · 进面分 121.7</td></tr>
+<tr><th scope="row">2025</th><td>招录 2 · 报名 325 · 竞争比 129:1 · 进面分 131.4</td></tr>
+<tr class="gw-grp"><th colspan="2">备注与咨询</th></tr>
+<tr><th scope="row">备注</th><td>2027届高校毕业生，男性，本单位不提供宿舍，在本单位最低服务年限为5年</td></tr>
+<tr><th scope="row">部门网站</th><td>http://shandong.chinatax.gov.cn/</td></tr>
+<tr><th scope="row">咨询电话</th><td>0531-88758810 / 0531-88758859</td></tr>
+</table></div>
+<div class="note">出处与核对：官方简章「中央国家行政机关省级以下直属机构」第 9341 行 · 雷达截图 微信图片_20261013233152_675_72 · 招考人数 / 学历 / 专业 / 备注 / 电话等 24 个字段逐行一致</div>
+</section><section class="unit" id="gw-14" data-title="序号 14 · 国家税务总局烟台经济技术开发区税务局 · 一级行政执法员（十）">
+<div class="unit-head"><h3><span class="vno">14</span>国家税务总局烟台经济技术开发区税务局 · 一级行政执法员（十）</h3><span class="chip b">雷达 4★</span><span class="chip m">限应届</span></div>
+<div class="unit-desc">职位代码 300110103010 · 招录 3 人 · 山东省烟台市福山区 · 离家 295 km · 行政执法类</div>
+<div class="tbwrap"><table class="gw">
+<tr class="gw-grp"><th colspan="2">岗位</th></tr>
+<tr><th scope="row">部门 / 司局</th><td>国家税务总局山东省税务局（部门代码 130118）· 国家税务总局烟台经济技术开发区税务局</td></tr>
+<tr><th scope="row">招考职位</th><td>一级行政执法员（十）（职位代码 300110103010）</td></tr>
+<tr><th scope="row">职位简介</th><td>从事税收相关工作</td></tr>
+<tr class="gw-grp"><th colspan="2">资格条件</th></tr>
+<tr><th scope="row">招考人数</th><td>3 人</td></tr>
+<tr><th scope="row">学历 / 学位</th><td>本科及以上 · 与最高学历相对应的学位</td></tr>
+<tr><th scope="row">专业</th><td>数学类、化学类、统计学类、计算机类</td></tr>
+<tr><th scope="row">政治面貌</th><td>不限</td></tr>
+<tr><th scope="row">基层工作年限</th><td>无限制</td></tr>
+<tr><th scope="row">服务基层项目</th><td>无限制</td></tr>
+<tr><th scope="row">面试人员比例</th><td>3:1</td></tr>
+<tr><th scope="row">专业能力测试</th><td>否</td></tr>
+<tr class="gw-grp"><th colspan="2">地点与机构</th></tr>
+<tr><th scope="row">工作地点</th><td>山东省烟台市福山区</td></tr>
+<tr><th scope="row">落户地点</th><td>山东省烟台市福山区</td></tr>
+<tr><th scope="row">离家距离</th><td>295 km</td></tr>
+<tr><th scope="row">机构性质</th><td>中央国家行政机关省级以下直属机构</td></tr>
+<tr><th scope="row">机构层级 / 属性</th><td>县（区）级及以下 · 普通职位 · 其他职位</td></tr>
+<tr><th scope="row">考试类别</th><td>行政执法类</td></tr>
+<tr class="gw-grp"><th colspan="2">历年数据（公考雷达展示）</th></tr>
+<tr><th scope="row">2027 招录</th><td>3 人（官方简章）</td></tr>
+<tr><th scope="row">2026</th><td>招录 2 · 报名 57 · 竞争比 28:1 · 进面分 121.7</td></tr>
+<tr><th scope="row">2025</th><td>招录 2 · 报名 78 · 竞争比 61:1 · 进面分 127.4</td></tr>
+<tr class="gw-grp"><th colspan="2">备注与咨询</th></tr>
+<tr><th scope="row">备注</th><td>应届高校毕业生，男性，本单位不提供宿舍，在本单位最低服务年限为5年</td></tr>
+<tr><th scope="row">部门网站</th><td>http://shandong.chinatax.gov.cn/</td></tr>
+<tr><th scope="row">咨询电话</th><td>0531-88758810 / 0531-88758859</td></tr>
+</table></div>
+<div class="note">出处与核对：官方简章「中央国家行政机关省级以下直属机构」第 9330 行 · 雷达截图 微信图片_20261013233152_676_72 · 招考人数 / 学历 / 专业 / 备注 / 电话等 24 个字段逐行一致</div>
+</section><section class="unit" id="gw-15" data-title="序号 15 · 国家税务总局莱阳市税务局 · 一级行政执法员（四）">
+<div class="unit-head"><h3><span class="vno">15</span>国家税务总局莱阳市税务局 · 一级行政执法员（四）</h3><span class="chip b">雷达 4★</span><span class="chip m">限应届</span></div>
+<div class="unit-desc">职位代码 300110097004 · 招录 2 人 · 山东省烟台市莱阳市 · 离家 251 km · 行政执法类</div>
+<div class="tbwrap"><table class="gw">
+<tr class="gw-grp"><th colspan="2">岗位</th></tr>
+<tr><th scope="row">部门 / 司局</th><td>国家税务总局山东省税务局（部门代码 130118）· 国家税务总局莱阳市税务局</td></tr>
+<tr><th scope="row">招考职位</th><td>一级行政执法员（四）（职位代码 300110097004）</td></tr>
+<tr><th scope="row">职位简介</th><td>从事税收相关工作</td></tr>
+<tr class="gw-grp"><th colspan="2">资格条件</th></tr>
+<tr><th scope="row">招考人数</th><td>2 人</td></tr>
+<tr><th scope="row">学历 / 学位</th><td>本科及以上 · 与最高学历相对应的学位</td></tr>
+<tr><th scope="row">专业</th><td>数学类、电子信息类、计算机类</td></tr>
+<tr><th scope="row">政治面貌</th><td>不限</td></tr>
+<tr><th scope="row">基层工作年限</th><td>无限制</td></tr>
+<tr><th scope="row">服务基层项目</th><td>无限制</td></tr>
+<tr><th scope="row">面试人员比例</th><td>3:1</td></tr>
+<tr><th scope="row">专业能力测试</th><td>否</td></tr>
+<tr class="gw-grp"><th colspan="2">地点与机构</th></tr>
+<tr><th scope="row">工作地点</th><td>山东省烟台市莱阳市</td></tr>
+<tr><th scope="row">落户地点</th><td>山东省烟台市莱阳市</td></tr>
+<tr><th scope="row">离家距离</th><td>251 km</td></tr>
+<tr><th scope="row">机构性质</th><td>中央国家行政机关省级以下直属机构</td></tr>
+<tr><th scope="row">机构层级 / 属性</th><td>县（区）级及以下 · 普通职位 · 其他职位</td></tr>
+<tr><th scope="row">考试类别</th><td>行政执法类</td></tr>
+<tr class="gw-grp"><th colspan="2">历年数据（公考雷达展示）</th></tr>
+<tr><th scope="row">2027 招录</th><td>2 人（官方简章）</td></tr>
+<tr><th scope="row">2026</th><td>招录 2 · 报名 57 · 竞争比 29:1 · 进面分 121.7</td></tr>
+<tr><th scope="row">2025</th><td>招录 2 · 报名 62 · 竞争比 47:1 · 进面分 117.2</td></tr>
+<tr class="gw-grp"><th colspan="2">备注与咨询</th></tr>
+<tr><th scope="row">备注</th><td>应届高校毕业生，男性，本单位不提供宿舍，在本单位最低服务年限为5年</td></tr>
+<tr><th scope="row">部门网站</th><td>http://shandong.chinatax.gov.cn/</td></tr>
+<tr><th scope="row">咨询电话</th><td>0531-88758810 / 0531-88758859</td></tr>
+</table></div>
+<div class="note">出处与核对：官方简章「中央国家行政机关省级以下直属机构」第 9294 行 · 雷达截图 微信图片_20261013233152_677_72 · 招考人数 / 学历 / 专业 / 备注 / 电话等 24 个字段逐行一致</div>
+</section><section class="unit" id="gw-16" data-title="序号 16 · 国家税务总局济南市市中区税务局 · 一级行政执法员（三）">
+<div class="unit-head"><h3><span class="vno">16</span>国家税务总局济南市市中区税务局 · 一级行政执法员（三）</h3><span class="chip b">雷达 4★</span><span class="chip m">限应届</span></div>
+<div class="unit-desc">职位代码 300110012003 · 招录 2 人 · 山东省济南市市中区 · 离家 116 km · 行政执法类</div>
+<div class="tbwrap"><table class="gw">
+<tr class="gw-grp"><th colspan="2">岗位</th></tr>
+<tr><th scope="row">部门 / 司局</th><td>国家税务总局山东省税务局（部门代码 130118）· 国家税务总局济南市市中区税务局</td></tr>
+<tr><th scope="row">招考职位</th><td>一级行政执法员（三）（职位代码 300110012003）</td></tr>
+<tr><th scope="row">职位简介</th><td>从事税收相关工作</td></tr>
+<tr class="gw-grp"><th colspan="2">资格条件</th></tr>
+<tr><th scope="row">招考人数</th><td>2 人</td></tr>
+<tr><th scope="row">学历 / 学位</th><td>本科及以上 · 与最高学历相对应的学位</td></tr>
+<tr><th scope="row">专业</th><td>电气类、电子信息类</td></tr>
+<tr><th scope="row">政治面貌</th><td>不限</td></tr>
+<tr><th scope="row">基层工作年限</th><td>无限制</td></tr>
+<tr><th scope="row">服务基层项目</th><td>无限制</td></tr>
+<tr><th scope="row">面试人员比例</th><td>3:1</td></tr>
+<tr><th scope="row">专业能力测试</th><td>否</td></tr>
+<tr class="gw-grp"><th colspan="2">地点与机构</th></tr>
+<tr><th scope="row">工作地点</th><td>山东省济南市市中区</td></tr>
+<tr><th scope="row">落户地点</th><td>山东省济南市市中区</td></tr>
+<tr><th scope="row">离家距离</th><td>116 km</td></tr>
+<tr><th scope="row">机构性质</th><td>中央国家行政机关省级以下直属机构</td></tr>
+<tr><th scope="row">机构层级 / 属性</th><td>县（区）级及以下 · 普通职位 · 其他职位</td></tr>
+<tr><th scope="row">考试类别</th><td>行政执法类</td></tr>
+<tr class="gw-grp"><th colspan="2">历年数据（公考雷达展示）</th></tr>
+<tr><th scope="row">2027 招录</th><td>2 人（官方简章）</td></tr>
+<tr><th scope="row">2026</th><td>招录 3 · 报名 110 · 竞争比 37:1 · 进面分 136.8</td></tr>
+<tr><th scope="row">2025</th><td>招录 2 · 报名 175 · 竞争比 82:1 · 进面分 125.2</td></tr>
+<tr class="gw-grp"><th colspan="2">备注与咨询</th></tr>
+<tr><th scope="row">备注</th><td>应届高校毕业生，本单位不提供宿舍，在本单位最低服务年限为5年</td></tr>
+<tr><th scope="row">部门网站</th><td>http://shandong.chinatax.gov.cn/</td></tr>
+<tr><th scope="row">咨询电话</th><td>0531-88758810 / 0531-88758859</td></tr>
+</table></div>
+<div class="note">出处与核对：官方简章「中央国家行政机关省级以下直属机构」第 9112 行 · 雷达截图 微信图片_20261013233152_678_72 · 招考人数 / 学历 / 专业 / 备注 / 电话等 24 个字段逐行一致</div>
+</section><section class="unit" id="gw-23" data-title="序号 23 · 国家税务总局龙口市税务局 · 一级行政执法员（五）">
+<div class="unit-head"><h3><span class="vno">23</span>国家税务总局龙口市税务局 · 一级行政执法员（五）</h3><span class="chip b">雷达 4★</span><span class="chip m">限应届</span></div>
+<div class="unit-desc">职位代码 300110096005 · 招录 4 人 · 山东省烟台市龙口市 · 离家 228 km · 行政执法类</div>
+<div class="tbwrap"><table class="gw">
+<tr class="gw-grp"><th colspan="2">岗位</th></tr>
+<tr><th scope="row">部门 / 司局</th><td>国家税务总局山东省税务局（部门代码 130118）· 国家税务总局龙口市税务局</td></tr>
+<tr><th scope="row">招考职位</th><td>一级行政执法员（五）（职位代码 300110096005）</td></tr>
+<tr><th scope="row">职位简介</th><td>从事税收相关工作</td></tr>
+<tr class="gw-grp"><th colspan="2">资格条件</th></tr>
+<tr><th scope="row">招考人数</th><td>4 人</td></tr>
+<tr><th scope="row">学历 / 学位</th><td>本科及以上 · 与最高学历相对应的学位</td></tr>
+<tr><th scope="row">专业</th><td>数学类、统计学类、计算机类</td></tr>
+<tr><th scope="row">政治面貌</th><td>不限</td></tr>
+<tr><th scope="row">基层工作年限</th><td>无限制</td></tr>
+<tr><th scope="row">服务基层项目</th><td>无限制</td></tr>
+<tr><th scope="row">面试人员比例</th><td>3:1</td></tr>
+<tr><th scope="row">专业能力测试</th><td>否</td></tr>
+<tr class="gw-grp"><th colspan="2">地点与机构</th></tr>
+<tr><th scope="row">工作地点</th><td>山东省烟台市龙口市</td></tr>
+<tr><th scope="row">落户地点</th><td>山东省烟台市龙口市</td></tr>
+<tr><th scope="row">离家距离</th><td>228 km</td></tr>
+<tr><th scope="row">机构性质</th><td>中央国家行政机关省级以下直属机构</td></tr>
+<tr><th scope="row">机构层级 / 属性</th><td>县（区）级及以下 · 普通职位 · 其他职位</td></tr>
+<tr><th scope="row">考试类别</th><td>行政执法类</td></tr>
+<tr class="gw-grp"><th colspan="2">历年数据（公考雷达展示）</th></tr>
+<tr><th scope="row">2027 招录</th><td>4 人（官方简章）</td></tr>
+<tr><th scope="row">2026</th><td>招录 2 · 报名 134 · 竞争比 53:1 · 进面分 121.3</td></tr>
+<tr><th scope="row">2025</th><td>招录 2 · 报名 127 · 竞争比 46:1 · 进面分 120</td></tr>
+<tr class="gw-grp"><th colspan="2">备注与咨询</th></tr>
+<tr><th scope="row">备注</th><td>2027届高校毕业生，本单位不提供宿舍，在本单位最低服务年限为5年</td></tr>
+<tr><th scope="row">部门网站</th><td>http://shandong.chinatax.gov.cn/</td></tr>
+<tr><th scope="row">咨询电话</th><td>0531-88758810 / 0531-88758859</td></tr>
+</table></div>
+<div class="note">出处与核对：官方简章「中央国家行政机关省级以下直属机构」第 9285 行 · 雷达截图 微信图片_20261013233152_685_72 · 招考人数 / 学历 / 专业 / 备注 / 电话等 24 个字段逐行一致</div>
+</section><section class="unit" id="gw-24" data-title="序号 24 · 国家税务总局烟台市芝罘区税务局 · 一级行政执法员（五）">
+<div class="unit-head"><h3><span class="vno">24</span>国家税务总局烟台市芝罘区税务局 · 一级行政执法员（五）</h3><span class="chip b">雷达 4★</span><span class="chip m">限应届</span></div>
+<div class="unit-desc">职位代码 300110091005 · 招录 4 人 · 山东省烟台市芝罘区 · 离家 307 km · 行政执法类</div>
+<div class="tbwrap"><table class="gw">
+<tr class="gw-grp"><th colspan="2">岗位</th></tr>
+<tr><th scope="row">部门 / 司局</th><td>国家税务总局山东省税务局（部门代码 130118）· 国家税务总局烟台市芝罘区税务局</td></tr>
+<tr><th scope="row">招考职位</th><td>一级行政执法员（五）（职位代码 300110091005）</td></tr>
+<tr><th scope="row">职位简介</th><td>从事税收相关工作</td></tr>
+<tr class="gw-grp"><th colspan="2">资格条件</th></tr>
+<tr><th scope="row">招考人数</th><td>4 人</td></tr>
+<tr><th scope="row">学历 / 学位</th><td>本科及以上 · 与最高学历相对应的学位</td></tr>
+<tr><th scope="row">专业</th><td>数学类、化学类、统计学类、计算机类</td></tr>
+<tr><th scope="row">政治面貌</th><td>不限</td></tr>
+<tr><th scope="row">基层工作年限</th><td>无限制</td></tr>
+<tr><th scope="row">服务基层项目</th><td>无限制</td></tr>
+<tr><th scope="row">面试人员比例</th><td>3:1</td></tr>
+<tr><th scope="row">专业能力测试</th><td>否</td></tr>
+<tr class="gw-grp"><th colspan="2">地点与机构</th></tr>
+<tr><th scope="row">工作地点</th><td>山东省烟台市芝罘区</td></tr>
+<tr><th scope="row">落户地点</th><td>山东省烟台市芝罘区</td></tr>
+<tr><th scope="row">离家距离</th><td>307 km</td></tr>
+<tr><th scope="row">机构性质</th><td>中央国家行政机关省级以下直属机构</td></tr>
+<tr><th scope="row">机构层级 / 属性</th><td>县（区）级及以下 · 普通职位 · 其他职位</td></tr>
+<tr><th scope="row">考试类别</th><td>行政执法类</td></tr>
+<tr class="gw-grp"><th colspan="2">历年数据（公考雷达展示）</th></tr>
+<tr><th scope="row">2027 招录</th><td>4 人（官方简章）</td></tr>
+<tr><th scope="row">2026</th><td>招录 3 · 报名 139 · 竞争比 50:1 · 进面分 121.3</td></tr>
+<tr><th scope="row">2025</th><td>招录 2 · 报名 95 · 竞争比 48:1 · 进面分 119.9</td></tr>
+<tr class="gw-grp"><th colspan="2">备注与咨询</th></tr>
+<tr><th scope="row">备注</th><td>2027届高校毕业生，本单位不提供宿舍，在本单位最低服务年限为5年</td></tr>
+<tr><th scope="row">部门网站</th><td>http://shandong.chinatax.gov.cn/</td></tr>
+<tr><th scope="row">咨询电话</th><td>0531-88758810 / 0531-88758859</td></tr>
+</table></div>
+<div class="note">出处与核对：官方简章「中央国家行政机关省级以下直属机构」第 9257 行 · 雷达截图 微信图片_20261013233152_686_72 · 招考人数 / 学历 / 专业 / 备注 / 电话等 24 个字段逐行一致</div>
+</section><section class="unit" id="gw-30" data-title="序号 30 · 国家税务总局招远市税务局 · 一级行政执法员（五）">
+<div class="unit-head"><h3><span class="vno">30</span>国家税务总局招远市税务局 · 一级行政执法员（五）</h3><span class="chip b">雷达 4★</span><span class="chip m">限应届</span></div>
+<div class="unit-desc">职位代码 300110099005 · 招录 4 人 · 山东省烟台市招远市 · 离家 220 km · 行政执法类</div>
+<div class="tbwrap"><table class="gw">
+<tr class="gw-grp"><th colspan="2">岗位</th></tr>
+<tr><th scope="row">部门 / 司局</th><td>国家税务总局山东省税务局（部门代码 130118）· 国家税务总局招远市税务局</td></tr>
+<tr><th scope="row">招考职位</th><td>一级行政执法员（五）（职位代码 300110099005）</td></tr>
+<tr><th scope="row">职位简介</th><td>从事税收相关工作</td></tr>
+<tr class="gw-grp"><th colspan="2">资格条件</th></tr>
+<tr><th scope="row">招考人数</th><td>4 人</td></tr>
+<tr><th scope="row">学历 / 学位</th><td>本科及以上 · 与最高学历相对应的学位</td></tr>
+<tr><th scope="row">专业</th><td>数学类、电子信息类、计算机类</td></tr>
+<tr><th scope="row">政治面貌</th><td>不限</td></tr>
+<tr><th scope="row">基层工作年限</th><td>无限制</td></tr>
+<tr><th scope="row">服务基层项目</th><td>无限制</td></tr>
+<tr><th scope="row">面试人员比例</th><td>3:1</td></tr>
+<tr><th scope="row">专业能力测试</th><td>否</td></tr>
+<tr class="gw-grp"><th colspan="2">地点与机构</th></tr>
+<tr><th scope="row">工作地点</th><td>山东省烟台市招远市</td></tr>
+<tr><th scope="row">落户地点</th><td>山东省烟台市招远市</td></tr>
+<tr><th scope="row">离家距离</th><td>220 km</td></tr>
+<tr><th scope="row">机构性质</th><td>中央国家行政机关省级以下直属机构</td></tr>
+<tr><th scope="row">机构层级 / 属性</th><td>县（区）级及以下 · 普通职位 · 其他职位</td></tr>
+<tr><th scope="row">考试类别</th><td>行政执法类</td></tr>
+<tr class="gw-grp"><th colspan="2">历年数据（公考雷达展示）</th></tr>
+<tr><th scope="row">2027 招录</th><td>4 人（官方简章）</td></tr>
+<tr><th scope="row">2026</th><td>招录 3 · 报名 131 · 竞争比 49:1 · 进面分 121.3</td></tr>
+<tr><th scope="row">2025</th><td>招录 2 · 报名 127 · 竞争比 64:1 · 进面分 124.7</td></tr>
+<tr class="gw-grp"><th colspan="2">备注与咨询</th></tr>
+<tr><th scope="row">备注</th><td>2027届高校毕业生，本单位不提供宿舍，在本单位最低服务年限为5年</td></tr>
+<tr><th scope="row">部门网站</th><td>http://shandong.chinatax.gov.cn/</td></tr>
+<tr><th scope="row">咨询电话</th><td>0531-88758810 / 0531-88758859</td></tr>
+</table></div>
+<div class="note">出处与核对：官方简章「中央国家行政机关省级以下直属机构」第 9308 行 · 雷达截图 微信图片_20261013233152_692_72 · 招考人数 / 学历 / 专业 / 备注 / 电话等 24 个字段逐行一致</div>
+</section><section class="unit" id="gw-33" data-title="序号 33 · 国家税务总局烟台市牟平区税务局 · 一级行政执法员（七）">
+<div class="unit-head"><h3><span class="vno">33</span>国家税务总局烟台市牟平区税务局 · 一级行政执法员（七）</h3><span class="chip b">雷达 4★</span><span class="chip wait">非应届岗</span></div>
+<div class="unit-desc">职位代码 300110093007 · 招录 2 人 · 山东省烟台市牟平区 · 离家 324 km · 行政执法类</div>
+<div class="tbwrap"><table class="gw">
+<tr class="gw-grp"><th colspan="2">岗位</th></tr>
+<tr><th scope="row">部门 / 司局</th><td>国家税务总局山东省税务局（部门代码 130118）· 国家税务总局烟台市牟平区税务局</td></tr>
+<tr><th scope="row">招考职位</th><td>一级行政执法员（七）（职位代码 300110093007）</td></tr>
+<tr><th scope="row">职位简介</th><td>从事税收相关工作</td></tr>
+<tr class="gw-grp"><th colspan="2">资格条件</th></tr>
+<tr><th scope="row">招考人数</th><td>2 人</td></tr>
+<tr><th scope="row">学历 / 学位</th><td>本科及以上 · 与最高学历相对应的学位</td></tr>
+<tr><th scope="row">专业</th><td>统计学类、计算机类</td></tr>
+<tr><th scope="row">政治面貌</th><td>不限</td></tr>
+<tr><th scope="row">基层工作年限</th><td>无限制</td></tr>
+<tr><th scope="row">服务基层项目</th><td>无限制</td></tr>
+<tr><th scope="row">面试人员比例</th><td>3:1</td></tr>
+<tr><th scope="row">专业能力测试</th><td>否</td></tr>
+<tr class="gw-grp"><th colspan="2">地点与机构</th></tr>
+<tr><th scope="row">工作地点</th><td>山东省烟台市牟平区</td></tr>
+<tr><th scope="row">落户地点</th><td>山东省烟台市牟平区</td></tr>
+<tr><th scope="row">离家距离</th><td>324 km</td></tr>
+<tr><th scope="row">机构性质</th><td>中央国家行政机关省级以下直属机构</td></tr>
+<tr><th scope="row">机构层级 / 属性</th><td>县（区）级及以下 · 普通职位 · 其他职位</td></tr>
+<tr><th scope="row">考试类别</th><td>行政执法类</td></tr>
+<tr class="gw-grp"><th colspan="2">历年数据（公考雷达展示）</th></tr>
+<tr><th scope="row">2027 招录</th><td>2 人（官方简章）</td></tr>
+<tr><th scope="row">2026</th><td>招录 2 · 报名 317 · 竞争比 159:1 · 进面分 123.5</td></tr>
+<tr><th scope="row">2025</th><td>招录 3 · 报名 148 · 竞争比 67:1 · 进面分 120.8</td></tr>
+<tr class="gw-grp"><th colspan="2">备注与咨询</th></tr>
+<tr><th scope="row">备注</th><td>男性，本单位不提供宿舍，在本单位最低服务年限为5年</td></tr>
+<tr><th scope="row">部门网站</th><td>http://shandong.chinatax.gov.cn/</td></tr>
+<tr><th scope="row">咨询电话</th><td>0531-88758810 / 0531-88758859</td></tr>
+</table></div>
+<div class="note">出处与核对：官方简章「中央国家行政机关省级以下直属机构」第 9270 行 · 雷达截图 微信图片_20261013233152_695_72 · 招考人数 / 学历 / 专业 / 备注 / 电话等 24 个字段逐行一致</div>
+</section><section class="unit" id="gw-34" data-title="序号 34 · 国家税务总局临邑县税务局 · 一级行政执法员（四）">
+<div class="unit-head"><h3><span class="vno">34</span>国家税务总局临邑县税务局 · 一级行政执法员（四）</h3><span class="chip b">雷达 4★</span><span class="chip wait">非应届岗</span></div>
+<div class="unit-desc">职位代码 300110257004 · 招录 2 人 · 山东省德州市临邑县 · 离家 97 km · 行政执法类</div>
+<div class="tbwrap"><table class="gw">
+<tr class="gw-grp"><th colspan="2">岗位</th></tr>
+<tr><th scope="row">部门 / 司局</th><td>国家税务总局山东省税务局（部门代码 130118）· 国家税务总局临邑县税务局</td></tr>
+<tr><th scope="row">招考职位</th><td>一级行政执法员（四）（职位代码 300110257004）</td></tr>
+<tr><th scope="row">职位简介</th><td>从事税收相关工作</td></tr>
+<tr class="gw-grp"><th colspan="2">资格条件</th></tr>
+<tr><th scope="row">招考人数</th><td>2 人</td></tr>
+<tr><th scope="row">学历 / 学位</th><td>本科及以上 · 与最高学历相对应的学位</td></tr>
+<tr><th scope="row">专业</th><td>数学类、统计学类、计算机类</td></tr>
+<tr><th scope="row">政治面貌</th><td>不限</td></tr>
+<tr><th scope="row">基层工作年限</th><td>无限制</td></tr>
+<tr><th scope="row">服务基层项目</th><td>无限制</td></tr>
+<tr><th scope="row">面试人员比例</th><td>3:1</td></tr>
+<tr><th scope="row">专业能力测试</th><td>否</td></tr>
+<tr class="gw-grp"><th colspan="2">地点与机构</th></tr>
+<tr><th scope="row">工作地点</th><td>山东省德州市临邑县</td></tr>
+<tr><th scope="row">落户地点</th><td>山东省德州市临邑县</td></tr>
+<tr><th scope="row">离家距离</th><td>97 km</td></tr>
+<tr><th scope="row">机构性质</th><td>中央国家行政机关省级以下直属机构</td></tr>
+<tr><th scope="row">机构层级 / 属性</th><td>县（区）级及以下 · 普通职位 · 其他职位</td></tr>
+<tr><th scope="row">考试类别</th><td>行政执法类</td></tr>
+<tr class="gw-grp"><th colspan="2">历年数据（公考雷达展示）</th></tr>
+<tr><th scope="row">2027 招录</th><td>2 人（官方简章）</td></tr>
+<tr><th scope="row">2026</th><td>招录 2 · 报名 147 · 竞争比 49:1 · 进面分 118</td></tr>
+<tr><th scope="row">2025</th><td>招录 2 · 报名 107 · 竞争比 54:1 · 进面分 116.9</td></tr>
+<tr class="gw-grp"><th colspan="2">备注与咨询</th></tr>
+<tr><th scope="row">备注</th><td>男性，本单位不提供宿舍，在本单位最低服务年限为5年</td></tr>
+<tr><th scope="row">部门网站</th><td>http://shandong.chinatax.gov.cn/</td></tr>
+<tr><th scope="row">咨询电话</th><td>0531-88758810 / 0531-88758859</td></tr>
+</table></div>
+<div class="note">出处与核对：官方简章「中央国家行政机关省级以下直属机构」第 9632 行 · 雷达截图 微信图片_20261013233152_696_72 · 招考人数 / 学历 / 专业 / 备注 / 电话等 24 个字段逐行一致</div>
+</section><section class="unit" id="gw-36" data-title="序号 36 · 国家税务总局烟台经济技术开发区税务局 · 一级行政执法员（十二）">
+<div class="unit-head"><h3><span class="vno">36</span>国家税务总局烟台经济技术开发区税务局 · 一级行政执法员（十二）</h3><span class="chip b">雷达 4★</span><span class="chip wait">非应届岗</span></div>
+<div class="unit-desc">职位代码 300110103012 · 招录 2 人 · 山东省烟台市福山区 · 离家 295 km · 行政执法类</div>
+<div class="tbwrap"><table class="gw">
+<tr class="gw-grp"><th colspan="2">岗位</th></tr>
+<tr><th scope="row">部门 / 司局</th><td>国家税务总局山东省税务局（部门代码 130118）· 国家税务总局烟台经济技术开发区税务局</td></tr>
+<tr><th scope="row">招考职位</th><td>一级行政执法员（十二）（职位代码 300110103012）</td></tr>
+<tr><th scope="row">职位简介</th><td>从事税收相关工作</td></tr>
+<tr class="gw-grp"><th colspan="2">资格条件</th></tr>
+<tr><th scope="row">招考人数</th><td>2 人</td></tr>
+<tr><th scope="row">学历 / 学位</th><td>本科及以上 · 与最高学历相对应的学位</td></tr>
+<tr><th scope="row">专业</th><td>电子信息类、计算机类</td></tr>
+<tr><th scope="row">政治面貌</th><td>不限</td></tr>
+<tr><th scope="row">基层工作年限</th><td>无限制</td></tr>
+<tr><th scope="row">服务基层项目</th><td>无限制</td></tr>
+<tr><th scope="row">面试人员比例</th><td>3:1</td></tr>
+<tr><th scope="row">专业能力测试</th><td>否</td></tr>
+<tr class="gw-grp"><th colspan="2">地点与机构</th></tr>
+<tr><th scope="row">工作地点</th><td>山东省烟台市福山区</td></tr>
+<tr><th scope="row">落户地点</th><td>山东省烟台市福山区</td></tr>
+<tr><th scope="row">离家距离</th><td>295 km</td></tr>
+<tr><th scope="row">机构性质</th><td>中央国家行政机关省级以下直属机构</td></tr>
+<tr><th scope="row">机构层级 / 属性</th><td>县（区）级及以下 · 普通职位 · 其他职位</td></tr>
+<tr><th scope="row">考试类别</th><td>行政执法类</td></tr>
+<tr class="gw-grp"><th colspan="2">历年数据（公考雷达展示）</th></tr>
+<tr><th scope="row">2027 招录</th><td>2 人（官方简章）</td></tr>
+<tr><th scope="row">2026</th><td>招录 2 · 报名 328 · 竞争比 164:1 · 进面分 127.4</td></tr>
+<tr><th scope="row">2025</th><td>招录 2 · 报名 66 · 竞争比 33:1 · 进面分 127.4</td></tr>
+<tr class="gw-grp"><th colspan="2">备注与咨询</th></tr>
+<tr><th scope="row">备注</th><td>男性，本单位不提供宿舍，在本单位最低服务年限为5年</td></tr>
+<tr><th scope="row">部门网站</th><td>http://shandong.chinatax.gov.cn/</td></tr>
+<tr><th scope="row">咨询电话</th><td>0531-88758810 / 0531-88758859</td></tr>
+</table></div>
+<div class="note">出处与核对：官方简章「中央国家行政机关省级以下直属机构」第 9332 行 · 雷达截图 微信图片_20261013233152_698_72 · 招考人数 / 学历 / 专业 / 备注 / 电话等 24 个字段逐行一致</div>
+</section><section class="unit" id="gw-37" data-title="序号 37 · 国家税务总局莱州市税务局 · 一级行政执法员（七）">
+<div class="unit-head"><h3><span class="vno">37</span>国家税务总局莱州市税务局 · 一级行政执法员（七）</h3><span class="chip b">雷达 4★</span><span class="chip wait">非应届岗</span></div>
+<div class="unit-desc">职位代码 300110098007 · 招录 2 人 · 山东省烟台市莱州市 · 离家 179 km · 行政执法类</div>
+<div class="tbwrap"><table class="gw">
+<tr class="gw-grp"><th colspan="2">岗位</th></tr>
+<tr><th scope="row">部门 / 司局</th><td>国家税务总局山东省税务局（部门代码 130118）· 国家税务总局莱州市税务局</td></tr>
+<tr><th scope="row">招考职位</th><td>一级行政执法员（七）（职位代码 300110098007）</td></tr>
+<tr><th scope="row">职位简介</th><td>从事税收相关工作</td></tr>
+<tr class="gw-grp"><th colspan="2">资格条件</th></tr>
+<tr><th scope="row">招考人数</th><td>2 人</td></tr>
+<tr><th scope="row">学历 / 学位</th><td>本科及以上 · 与最高学历相对应的学位</td></tr>
+<tr><th scope="row">专业</th><td>化学类、统计学类、计算机类</td></tr>
+<tr><th scope="row">政治面貌</th><td>不限</td></tr>
+<tr><th scope="row">基层工作年限</th><td>无限制</td></tr>
+<tr><th scope="row">服务基层项目</th><td>无限制</td></tr>
+<tr><th scope="row">面试人员比例</th><td>3:1</td></tr>
+<tr><th scope="row">专业能力测试</th><td>否</td></tr>
+<tr class="gw-grp"><th colspan="2">地点与机构</th></tr>
+<tr><th scope="row">工作地点</th><td>山东省烟台市莱州市</td></tr>
+<tr><th scope="row">落户地点</th><td>山东省烟台市莱州市</td></tr>
+<tr><th scope="row">离家距离</th><td>179 km</td></tr>
+<tr><th scope="row">机构性质</th><td>中央国家行政机关省级以下直属机构</td></tr>
+<tr><th scope="row">机构层级 / 属性</th><td>县（区）级及以下 · 普通职位 · 其他职位</td></tr>
+<tr><th scope="row">考试类别</th><td>行政执法类</td></tr>
+<tr class="gw-grp"><th colspan="2">历年数据（公考雷达展示）</th></tr>
+<tr><th scope="row">2027 招录</th><td>2 人（官方简章）</td></tr>
+<tr><th scope="row">2026</th><td>招录 2 · 报名 197 · 竞争比 99:1 · 进面分 122.7</td></tr>
+<tr><th scope="row">2025</th><td>招录 2 · 报名 101 · 竞争比 51:1 · 进面分 117.2</td></tr>
+<tr class="gw-grp"><th colspan="2">备注与咨询</th></tr>
+<tr><th scope="row">备注</th><td>男性，本单位不提供宿舍，在本单位最低服务年限为5年</td></tr>
+<tr><th scope="row">部门网站</th><td>http://shandong.chinatax.gov.cn/</td></tr>
+<tr><th scope="row">咨询电话</th><td>0531-88758810 / 0531-88758859</td></tr>
+</table></div>
+<div class="note">出处与核对：官方简章「中央国家行政机关省级以下直属机构」第 9302 行 · 雷达截图 微信图片_20261013233152_699_72 · 招考人数 / 学历 / 专业 / 备注 / 电话等 24 个字段逐行一致</div>
+</section><section class="unit" id="gw-39" data-title="序号 39 · 国家税务总局平阴县税务局 · 一级行政执法员（四）">
+<div class="unit-head"><h3><span class="vno">39</span>国家税务总局平阴县税务局 · 一级行政执法员（四）</h3><span class="chip b">雷达 4★</span><span class="chip wait">非应届岗</span></div>
+<div class="unit-desc">职位代码 300110021004 · 招录 2 人 · 山东省济南市平阴县 · 离家 176 km · 行政执法类</div>
+<div class="tbwrap"><table class="gw">
+<tr class="gw-grp"><th colspan="2">岗位</th></tr>
+<tr><th scope="row">部门 / 司局</th><td>国家税务总局山东省税务局（部门代码 130118）· 国家税务总局平阴县税务局</td></tr>
+<tr><th scope="row">招考职位</th><td>一级行政执法员（四）（职位代码 300110021004）</td></tr>
+<tr><th scope="row">职位简介</th><td>从事税收相关工作</td></tr>
+<tr class="gw-grp"><th colspan="2">资格条件</th></tr>
+<tr><th scope="row">招考人数</th><td>2 人</td></tr>
+<tr><th scope="row">学历 / 学位</th><td>本科及以上 · 与最高学历相对应的学位</td></tr>
+<tr><th scope="row">专业</th><td>数学类、统计学类、计算机类</td></tr>
+<tr><th scope="row">政治面貌</th><td>不限</td></tr>
+<tr><th scope="row">基层工作年限</th><td>无限制</td></tr>
+<tr><th scope="row">服务基层项目</th><td>无限制</td></tr>
+<tr><th scope="row">面试人员比例</th><td>3:1</td></tr>
+<tr><th scope="row">专业能力测试</th><td>否</td></tr>
+<tr class="gw-grp"><th colspan="2">地点与机构</th></tr>
+<tr><th scope="row">工作地点</th><td>山东省济南市平阴县</td></tr>
+<tr><th scope="row">落户地点</th><td>山东省济南市平阴县</td></tr>
+<tr><th scope="row">离家距离</th><td>176 km</td></tr>
+<tr><th scope="row">机构性质</th><td>中央国家行政机关省级以下直属机构</td></tr>
+<tr><th scope="row">机构层级 / 属性</th><td>县（区）级及以下 · 普通职位 · 其他职位</td></tr>
+<tr><th scope="row">考试类别</th><td>行政执法类</td></tr>
+<tr class="gw-grp"><th colspan="2">历年数据（公考雷达展示）</th></tr>
+<tr><th scope="row">2027 招录</th><td>2 人（官方简章）</td></tr>
+<tr><th scope="row">2026</th><td>招录 2 · 报名 262 · 竞争比 131:1 · 进面分 121</td></tr>
+<tr><th scope="row">2025</th><td>招录 2 · 报名 136 · 竞争比 77:1 · 进面分 126</td></tr>
+<tr class="gw-grp"><th colspan="2">备注与咨询</th></tr>
+<tr><th scope="row">备注</th><td>本单位不提供宿舍，在本单位最低服务年限为5年</td></tr>
+<tr><th scope="row">部门网站</th><td>http://shandong.chinatax.gov.cn/</td></tr>
+<tr><th scope="row">咨询电话</th><td>0531-88758810 / 0531-88758859</td></tr>
+</table></div>
+<div class="note">出处与核对：官方简章「中央国家行政机关省级以下直属机构」第 9142 行 · 雷达截图 微信图片_20261013233152_701_72 · 招考人数 / 学历 / 专业 / 备注 / 电话等 24 个字段逐行一致</div>
+</section><section class="unit" id="gw-40" data-title="序号 40 · 国家税务总局庆云县税务局 · 一级行政执法员">
+<div class="unit-head"><h3><span class="vno">40</span>国家税务总局庆云县税务局 · 一级行政执法员</h3><span class="chip b">雷达 4★</span><span class="chip wait">非应届岗</span></div>
+<div class="unit-desc">职位代码 300110256001 · 招录 2 人 · 山东省德州市庆云县 · 离家 69 km · 行政执法类</div>
+<div class="tbwrap"><table class="gw">
+<tr class="gw-grp"><th colspan="2">岗位</th></tr>
+<tr><th scope="row">部门 / 司局</th><td>国家税务总局山东省税务局（部门代码 130118）· 国家税务总局庆云县税务局</td></tr>
+<tr><th scope="row">招考职位</th><td>一级行政执法员（职位代码 300110256001）</td></tr>
+<tr><th scope="row">职位简介</th><td>从事税收相关工作</td></tr>
+<tr class="gw-grp"><th colspan="2">资格条件</th></tr>
+<tr><th scope="row">招考人数</th><td>2 人</td></tr>
+<tr><th scope="row">学历 / 学位</th><td>本科及以上 · 与最高学历相对应的学位</td></tr>
+<tr><th scope="row">专业</th><td>数学类、化学类、统计学类、计算机类</td></tr>
+<tr><th scope="row">政治面貌</th><td>不限</td></tr>
+<tr><th scope="row">基层工作年限</th><td>无限制</td></tr>
+<tr><th scope="row">服务基层项目</th><td>无限制</td></tr>
+<tr><th scope="row">面试人员比例</th><td>3:1</td></tr>
+<tr><th scope="row">专业能力测试</th><td>否</td></tr>
+<tr class="gw-grp"><th colspan="2">地点与机构</th></tr>
+<tr><th scope="row">工作地点</th><td>山东省德州市庆云县</td></tr>
+<tr><th scope="row">落户地点</th><td>山东省德州市庆云县</td></tr>
+<tr><th scope="row">离家距离</th><td>69 km</td></tr>
+<tr><th scope="row">机构性质</th><td>中央国家行政机关省级以下直属机构</td></tr>
+<tr><th scope="row">机构层级 / 属性</th><td>县（区）级及以下 · 普通职位 · 其他职位</td></tr>
+<tr><th scope="row">考试类别</th><td>行政执法类</td></tr>
+<tr class="gw-grp"><th colspan="2">历年数据（公考雷达展示）</th></tr>
+<tr><th scope="row">2027 招录</th><td>2 人（官方简章）</td></tr>
+<tr><th scope="row">2026</th><td>招录 2 · 报名 526 · 竞争比 246:1 · 进面分 113.2</td></tr>
+<tr><th scope="row">2025</th><td>招录 2 · 报名 49 · 竞争比 25:1 · 进面分 114.2</td></tr>
+<tr class="gw-grp"><th colspan="2">备注与咨询</th></tr>
+<tr><th scope="row">备注</th><td>本单位不提供宿舍，在本单位最低服务年限为5年</td></tr>
+<tr><th scope="row">部门网站</th><td>http://shandong.chinatax.gov.cn/</td></tr>
+<tr><th scope="row">咨询电话</th><td>0531-88758810 / 0531-88758859</td></tr>
+</table></div>
+<div class="note">出处与核对：官方简章「中央国家行政机关省级以下直属机构」第 9628 行 · 雷达截图 微信图片_20261013233152_702_72 · 招考人数 / 学历 / 专业 / 备注 / 电话等 24 个字段逐行一致</div>
+</section><section class="unit" id="gw-41" data-title="序号 41 · 国家税务总局禹城市税务局 · 一级行政执法员（三）">
+<div class="unit-head"><h3><span class="vno">41</span>国家税务总局禹城市税务局 · 一级行政执法员（三）</h3><span class="chip b">雷达 4★</span><span class="chip wait">非应届岗</span></div>
+<div class="unit-desc">职位代码 300110254003 · 招录 3 人 · 山东省德州市禹城市 · 离家 123 km · 行政执法类</div>
+<div class="tbwrap"><table class="gw">
+<tr class="gw-grp"><th colspan="2">岗位</th></tr>
+<tr><th scope="row">部门 / 司局</th><td>国家税务总局山东省税务局（部门代码 130118）· 国家税务总局禹城市税务局</td></tr>
+<tr><th scope="row">招考职位</th><td>一级行政执法员（三）（职位代码 300110254003）</td></tr>
+<tr><th scope="row">职位简介</th><td>从事税收相关工作</td></tr>
+<tr class="gw-grp"><th colspan="2">资格条件</th></tr>
+<tr><th scope="row">招考人数</th><td>3 人</td></tr>
+<tr><th scope="row">学历 / 学位</th><td>本科及以上 · 与最高学历相对应的学位</td></tr>
+<tr><th scope="row">专业</th><td>机械类、能源动力类、电气类、计算机类</td></tr>
+<tr><th scope="row">政治面貌</th><td>不限</td></tr>
+<tr><th scope="row">基层工作年限</th><td>无限制</td></tr>
+<tr><th scope="row">服务基层项目</th><td>无限制</td></tr>
+<tr><th scope="row">面试人员比例</th><td>3:1</td></tr>
+<tr><th scope="row">专业能力测试</th><td>否</td></tr>
+<tr class="gw-grp"><th colspan="2">地点与机构</th></tr>
+<tr><th scope="row">工作地点</th><td>山东省德州市禹城市</td></tr>
+<tr><th scope="row">落户地点</th><td>山东省德州市禹城市</td></tr>
+<tr><th scope="row">离家距离</th><td>123 km</td></tr>
+<tr><th scope="row">机构性质</th><td>中央国家行政机关省级以下直属机构</td></tr>
+<tr><th scope="row">机构层级 / 属性</th><td>县（区）级及以下 · 普通职位 · 其他职位</td></tr>
+<tr><th scope="row">考试类别</th><td>行政执法类</td></tr>
+<tr class="gw-grp"><th colspan="2">历年数据（公考雷达展示）</th></tr>
+<tr><th scope="row">2027 招录</th><td>3 人（官方简章）</td></tr>
+<tr><th scope="row">2026</th><td>招录 2 · 报名 463 · 竞争比 160:1 · 进面分 124.6</td></tr>
+<tr><th scope="row">2025</th><td>招录 2 · 报名 133 · 竞争比 67:1 · 进面分 120.1</td></tr>
+<tr class="gw-grp"><th colspan="2">备注与咨询</th></tr>
+<tr><th scope="row">备注</th><td>本单位不提供宿舍，在本单位最低服务年限为5年</td></tr>
+<tr><th scope="row">部门网站</th><td>http://shandong.chinatax.gov.cn/</td></tr>
+<tr><th scope="row">咨询电话</th><td>0531-88758810 / 0531-88758859</td></tr>
+</table></div>
+<div class="note">出处与核对：官方简章「中央国家行政机关省级以下直属机构」第 9623 行 · 雷达截图 微信图片_20261013233152_703_72 · 招考人数 / 学历 / 专业 / 备注 / 电话等 24 个字段逐行一致</div>
+</section><section class="unit" id="gw-42" data-title="序号 42 · 国家税务总局德州市德城区税务局 · 一级行政执法员（四）">
+<div class="unit-head"><h3><span class="vno">42</span>国家税务总局德州市德城区税务局 · 一级行政执法员（四）</h3><span class="chip b">雷达 4★</span><span class="chip wait">非应届岗</span></div>
+<div class="unit-desc">职位代码 300110251004 · 招录 2 人 · 山东省德州市德城区 · 离家 144 km · 行政执法类</div>
+<div class="tbwrap"><table class="gw">
+<tr class="gw-grp"><th colspan="2">岗位</th></tr>
+<tr><th scope="row">部门 / 司局</th><td>国家税务总局山东省税务局（部门代码 130118）· 国家税务总局德州市德城区税务局</td></tr>
+<tr><th scope="row">招考职位</th><td>一级行政执法员（四）（职位代码 300110251004）</td></tr>
+<tr><th scope="row">职位简介</th><td>从事税收相关工作</td></tr>
+<tr class="gw-grp"><th colspan="2">资格条件</th></tr>
+<tr><th scope="row">招考人数</th><td>2 人</td></tr>
+<tr><th scope="row">学历 / 学位</th><td>本科及以上 · 与最高学历相对应的学位</td></tr>
+<tr><th scope="row">专业</th><td>数学类、化学类、统计学类、计算机类</td></tr>
+<tr><th scope="row">政治面貌</th><td>不限</td></tr>
+<tr><th scope="row">基层工作年限</th><td>无限制</td></tr>
+<tr><th scope="row">服务基层项目</th><td>无限制</td></tr>
+<tr><th scope="row">面试人员比例</th><td>3:1</td></tr>
+<tr><th scope="row">专业能力测试</th><td>否</td></tr>
+<tr class="gw-grp"><th colspan="2">地点与机构</th></tr>
+<tr><th scope="row">工作地点</th><td>山东省德州市德城区</td></tr>
+<tr><th scope="row">落户地点</th><td>山东省德州市德城区</td></tr>
+<tr><th scope="row">离家距离</th><td>144 km</td></tr>
+<tr><th scope="row">机构性质</th><td>中央国家行政机关省级以下直属机构</td></tr>
+<tr><th scope="row">机构层级 / 属性</th><td>县（区）级及以下 · 普通职位 · 其他职位</td></tr>
+<tr><th scope="row">考试类别</th><td>行政执法类</td></tr>
+<tr class="gw-grp"><th colspan="2">历年数据（公考雷达展示）</th></tr>
+<tr><th scope="row">2027 招录</th><td>2 人（官方简章）</td></tr>
+<tr><th scope="row">2026</th><td>招录 2 · 报名 400 · 竞争比 164:1 · 进面分 123.5</td></tr>
+<tr><th scope="row">2025</th><td>招录 2 · 报名 99 · 竞争比 50:1 · 进面分 122.2</td></tr>
+<tr class="gw-grp"><th colspan="2">备注与咨询</th></tr>
+<tr><th scope="row">备注</th><td>本单位不提供宿舍，在本单位最低服务年限为5年</td></tr>
+<tr><th scope="row">部门网站</th><td>http://shandong.chinatax.gov.cn/</td></tr>
+<tr><th scope="row">咨询电话</th><td>0531-88758810 / 0531-88758859</td></tr>
+</table></div>
+<div class="note">出处与核对：官方简章「中央国家行政机关省级以下直属机构」第 9615 行 · 雷达截图 微信图片_20261013233152_704_72 · 招考人数 / 学历 / 专业 / 备注 / 电话等 24 个字段逐行一致</div>
+</section><section class="unit" id="gw-43" data-title="序号 43 · 国家税务总局海阳市税务局 · 一级行政执法员（三）">
+<div class="unit-head"><h3><span class="vno">43</span>国家税务总局海阳市税务局 · 一级行政执法员（三）</h3><span class="chip b">雷达 4★</span><span class="chip wait">非应届岗</span></div>
+<div class="unit-desc">职位代码 300110101003 · 招录 2 人 · 山东省烟台市海阳市 · 离家 293 km · 行政执法类</div>
+<div class="tbwrap"><table class="gw">
+<tr class="gw-grp"><th colspan="2">岗位</th></tr>
+<tr><th scope="row">部门 / 司局</th><td>国家税务总局山东省税务局（部门代码 130118）· 国家税务总局海阳市税务局</td></tr>
+<tr><th scope="row">招考职位</th><td>一级行政执法员（三）（职位代码 300110101003）</td></tr>
+<tr><th scope="row">职位简介</th><td>从事税收相关工作</td></tr>
+<tr class="gw-grp"><th colspan="2">资格条件</th></tr>
+<tr><th scope="row">招考人数</th><td>2 人</td></tr>
+<tr><th scope="row">学历 / 学位</th><td>本科及以上 · 与最高学历相对应的学位</td></tr>
+<tr><th scope="row">专业</th><td>统计学类、计算机类</td></tr>
+<tr><th scope="row">政治面貌</th><td>不限</td></tr>
+<tr><th scope="row">基层工作年限</th><td>无限制</td></tr>
+<tr><th scope="row">服务基层项目</th><td>无限制</td></tr>
+<tr><th scope="row">面试人员比例</th><td>3:1</td></tr>
+<tr><th scope="row">专业能力测试</th><td>否</td></tr>
+<tr class="gw-grp"><th colspan="2">地点与机构</th></tr>
+<tr><th scope="row">工作地点</th><td>山东省烟台市海阳市</td></tr>
+<tr><th scope="row">落户地点</th><td>山东省烟台市海阳市</td></tr>
+<tr><th scope="row">离家距离</th><td>293 km</td></tr>
+<tr><th scope="row">机构性质</th><td>中央国家行政机关省级以下直属机构</td></tr>
+<tr><th scope="row">机构层级 / 属性</th><td>县（区）级及以下 · 普通职位 · 其他职位</td></tr>
+<tr><th scope="row">考试类别</th><td>行政执法类</td></tr>
+<tr class="gw-grp"><th colspan="2">历年数据（公考雷达展示）</th></tr>
+<tr><th scope="row">2027 招录</th><td>2 人（官方简章）</td></tr>
+<tr><th scope="row">2026</th><td>招录 2 · 报名 176 · 竞争比 73:1 · 进面分 126.2</td></tr>
+<tr><th scope="row">2025</th><td>招录 2 · 报名 93 · 竞争比 60:1 · 进面分 123.9</td></tr>
+<tr class="gw-grp"><th colspan="2">备注与咨询</th></tr>
+<tr><th scope="row">备注</th><td>本单位不提供宿舍，在本单位最低服务年限为5年</td></tr>
+<tr><th scope="row">部门网站</th><td>http://shandong.chinatax.gov.cn/</td></tr>
+<tr><th scope="row">咨询电话</th><td>0531-88758810 / 0531-88758859</td></tr>
+</table></div>
+<div class="note">出处与核对：官方简章「中央国家行政机关省级以下直属机构」第 9317 行 · 雷达截图 微信图片_20261013233152_705_72 · 招考人数 / 学历 / 专业 / 备注 / 电话等 24 个字段逐行一致</div>
+</section><section class="unit" id="gw-44" data-title="序号 44 · 国家税务总局栖霞市税务局 · 一级行政执法员（三）">
+<div class="unit-head"><h3><span class="vno">44</span>国家税务总局栖霞市税务局 · 一级行政执法员（三）</h3><span class="chip b">雷达 4★</span><span class="chip wait">非应届岗</span></div>
+<div class="unit-desc">职位代码 300110100003 · 招录 3 人 · 山东省烟台市栖霞市 · 离家 258 km · 行政执法类</div>
+<div class="tbwrap"><table class="gw">
+<tr class="gw-grp"><th colspan="2">岗位</th></tr>
+<tr><th scope="row">部门 / 司局</th><td>国家税务总局山东省税务局（部门代码 130118）· 国家税务总局栖霞市税务局</td></tr>
+<tr><th scope="row">招考职位</th><td>一级行政执法员（三）（职位代码 300110100003）</td></tr>
+<tr><th scope="row">职位简介</th><td>从事税收相关工作</td></tr>
+<tr class="gw-grp"><th colspan="2">资格条件</th></tr>
+<tr><th scope="row">招考人数</th><td>3 人</td></tr>
+<tr><th scope="row">学历 / 学位</th><td>本科及以上 · 与最高学历相对应的学位</td></tr>
+<tr><th scope="row">专业</th><td>数学类、计算机类</td></tr>
+<tr><th scope="row">政治面貌</th><td>不限</td></tr>
+<tr><th scope="row">基层工作年限</th><td>无限制</td></tr>
+<tr><th scope="row">服务基层项目</th><td>无限制</td></tr>
+<tr><th scope="row">面试人员比例</th><td>3:1</td></tr>
+<tr><th scope="row">专业能力测试</th><td>否</td></tr>
+<tr class="gw-grp"><th colspan="2">地点与机构</th></tr>
+<tr><th scope="row">工作地点</th><td>山东省烟台市栖霞市</td></tr>
+<tr><th scope="row">落户地点</th><td>山东省烟台市栖霞市</td></tr>
+<tr><th scope="row">离家距离</th><td>258 km</td></tr>
+<tr><th scope="row">机构性质</th><td>中央国家行政机关省级以下直属机构</td></tr>
+<tr><th scope="row">机构层级 / 属性</th><td>县（区）级及以下 · 普通职位 · 其他职位</td></tr>
+<tr><th scope="row">考试类别</th><td>行政执法类</td></tr>
+<tr class="gw-grp"><th colspan="2">历年数据（公考雷达展示）</th></tr>
+<tr><th scope="row">2027 招录</th><td>3 人（官方简章）</td></tr>
+<tr><th scope="row">2026</th><td>招录 2 · 报名 163 · 竞争比 64:1 · 进面分 121.3</td></tr>
+<tr><th scope="row">2025</th><td>招录 2 · 报名 88 · 竞争比 53:1 · 进面分 120</td></tr>
+<tr class="gw-grp"><th colspan="2">备注与咨询</th></tr>
+<tr><th scope="row">备注</th><td>本单位不提供宿舍，在本单位最低服务年限为5年</td></tr>
+<tr><th scope="row">部门网站</th><td>http://shandong.chinatax.gov.cn/</td></tr>
+<tr><th scope="row">咨询电话</th><td>0531-88758810 / 0531-88758859</td></tr>
+</table></div>
+<div class="note">出处与核对：官方简章「中央国家行政机关省级以下直属机构」第 9314 行 · 雷达截图 微信图片_20261013233152_706_72 · 招考人数 / 学历 / 专业 / 备注 / 电话等 24 个字段逐行一致</div>
+</section><section class="unit" id="gw-45" data-title="序号 45 · 国家税务总局莱阳市税务局 · 一级行政执法员（五）">
+<div class="unit-head"><h3><span class="vno">45</span>国家税务总局莱阳市税务局 · 一级行政执法员（五）</h3><span class="chip b">雷达 4★</span><span class="chip wait">非应届岗</span></div>
+<div class="unit-desc">职位代码 300110097005 · 招录 2 人 · 山东省烟台市莱阳市 · 离家 250 km · 行政执法类</div>
+<div class="tbwrap"><table class="gw">
+<tr class="gw-grp"><th colspan="2">岗位</th></tr>
+<tr><th scope="row">部门 / 司局</th><td>国家税务总局山东省税务局（部门代码 130118）· 国家税务总局莱阳市税务局</td></tr>
+<tr><th scope="row">招考职位</th><td>一级行政执法员（五）（职位代码 300110097005）</td></tr>
+<tr><th scope="row">职位简介</th><td>从事税收相关工作</td></tr>
+<tr class="gw-grp"><th colspan="2">资格条件</th></tr>
+<tr><th scope="row">招考人数</th><td>2 人</td></tr>
+<tr><th scope="row">学历 / 学位</th><td>本科及以上 · 与最高学历相对应的学位</td></tr>
+<tr><th scope="row">专业</th><td>能源动力类、电子信息类</td></tr>
+<tr><th scope="row">政治面貌</th><td>不限</td></tr>
+<tr><th scope="row">基层工作年限</th><td>无限制</td></tr>
+<tr><th scope="row">服务基层项目</th><td>无限制</td></tr>
+<tr><th scope="row">面试人员比例</th><td>3:1</td></tr>
+<tr><th scope="row">专业能力测试</th><td>否</td></tr>
+<tr class="gw-grp"><th colspan="2">地点与机构</th></tr>
+<tr><th scope="row">工作地点</th><td>山东省烟台市莱阳市</td></tr>
+<tr><th scope="row">落户地点</th><td>山东省烟台市莱阳市</td></tr>
+<tr><th scope="row">离家距离</th><td>250 km</td></tr>
+<tr><th scope="row">机构性质</th><td>中央国家行政机关省级以下直属机构</td></tr>
+<tr><th scope="row">机构层级 / 属性</th><td>县（区）级及以下 · 普通职位 · 其他职位</td></tr>
+<tr><th scope="row">考试类别</th><td>行政执法类</td></tr>
+<tr class="gw-grp"><th colspan="2">历年数据（公考雷达展示）</th></tr>
+<tr><th scope="row">2027 招录</th><td>2 人（官方简章）</td></tr>
+<tr><th scope="row">2026</th><td>招录 2 · 报名 328 · 竞争比 164:1 · 进面分 124.2</td></tr>
+<tr><th scope="row">2025</th><td>招录 2 · 报名 92 · 竞争比 47:1 · 进面分 122.2</td></tr>
+<tr class="gw-grp"><th colspan="2">备注与咨询</th></tr>
+<tr><th scope="row">备注</th><td>本单位不提供宿舍，在本单位最低服务年限为5年</td></tr>
+<tr><th scope="row">部门网站</th><td>http://shandong.chinatax.gov.cn/</td></tr>
+<tr><th scope="row">咨询电话</th><td>0531-88758810 / 0531-88758859</td></tr>
+</table></div>
+<div class="note">出处与核对：官方简章「中央国家行政机关省级以下直属机构」第 9295 行 · 雷达截图 微信图片_20261013233152_707_72 · 招考人数 / 学历 / 专业 / 备注 / 电话等 24 个字段逐行一致</div>
+</section></div>
+<div class="module" id="gkb-3-2"><div class="mod-banner"><h2>三、岗位详情 · 青岛市税务局</h2><p>国家税务总局青岛市税务局：19 个岗位、招录 24 人，离家 191–288 km</p></div>
+<section class="unit" id="gw-05" data-title="序号 5 · 国家税务总局平度市税务局 · 一级行政执法员（五）">
+<div class="unit-head"><h3><span class="vno">5</span>国家税务总局平度市税务局 · 一级行政执法员（五）</h3><span class="chip b">雷达 4★</span><span class="chip m">限应届</span></div>
+<div class="unit-desc">职位代码 300110012005 · 招录 2 人 · 山东省青岛市平度市 · 离家 191 km · 行政执法类</div>
+<div class="tbwrap"><table class="gw">
+<tr class="gw-grp"><th colspan="2">岗位</th></tr>
+<tr><th scope="row">部门 / 司局</th><td>国家税务总局青岛市税务局（部门代码 130119）· 国家税务总局平度市税务局</td></tr>
+<tr><th scope="row">招考职位</th><td>一级行政执法员（五）（职位代码 300110012005）</td></tr>
+<tr><th scope="row">职位简介</th><td>从事税费征收管理、纳税服务、行政管理等相关工作</td></tr>
+<tr class="gw-grp"><th colspan="2">资格条件</th></tr>
+<tr><th scope="row">招考人数</th><td>2 人</td></tr>
+<tr><th scope="row">学历 / 学位</th><td>本科及以上 · 与最高学历相对应的学位</td></tr>
+<tr><th scope="row">专业</th><td>数学类、统计学类、计算机类、电子信息类</td></tr>
+<tr><th scope="row">政治面貌</th><td>不限</td></tr>
+<tr><th scope="row">基层工作年限</th><td>无限制</td></tr>
+<tr><th scope="row">服务基层项目</th><td>无限制</td></tr>
+<tr><th scope="row">面试人员比例</th><td>3:1</td></tr>
+<tr><th scope="row">专业能力测试</th><td>否</td></tr>
+<tr class="gw-grp"><th colspan="2">地点与机构</th></tr>
+<tr><th scope="row">工作地点</th><td>山东省青岛市平度市</td></tr>
+<tr><th scope="row">落户地点</th><td>山东省青岛市平度市</td></tr>
+<tr><th scope="row">离家距离</th><td>191 km</td></tr>
+<tr><th scope="row">机构性质</th><td>中央国家行政机关省级以下直属机构</td></tr>
+<tr><th scope="row">机构层级 / 属性</th><td>县（区）级及以下 · 普通职位 · 其他职位</td></tr>
+<tr><th scope="row">考试类别</th><td>行政执法类</td></tr>
+<tr class="gw-grp"><th colspan="2">历年数据（公考雷达展示）</th></tr>
+<tr><th scope="row">2027 招录</th><td>2 人（官方简章）</td></tr>
+<tr><th scope="row">2026</th><td>招录 1 · 报名 91 · 竞争比 55:1 · 进面分 125.2</td></tr>
+<tr><th scope="row">2025</th><td>招录 1 · 报名 164 · 竞争比 135:1 · 进面分 128.5</td></tr>
+<tr class="gw-grp"><th colspan="2">备注与咨询</th></tr>
+<tr><th scope="row">备注</th><td>2027届高校毕业生，男性，本单位不提供宿舍，在本单位最低服务年限为5年</td></tr>
+<tr><th scope="row">部门网站</th><td>http://qingdao.chinatax.gov.cn/</td></tr>
+<tr><th scope="row">咨询电话</th><td>0532-83931587</td></tr>
+</table></div>
+<div class="note">出处与核对：官方简章「中央国家行政机关省级以下直属机构」第 9873 行 · 雷达截图 微信图片_20261013233152_667_72 · 招考人数 / 学历 / 专业 / 备注 / 电话等 24 个字段逐行一致</div>
+</section><section class="unit" id="gw-06" data-title="序号 6 · 国家税务总局青岛经济技术开发区税务局 · 一级行政执法员（三）">
+<div class="unit-head"><h3><span class="vno">6</span>国家税务总局青岛经济技术开发区税务局 · 一级行政执法员（三）</h3><span class="chip b">雷达 4★</span><span class="chip m">限应届</span></div>
+<div class="unit-desc">职位代码 300110008003 · 招录 1 人 · 山东省青岛市黄岛区 · 离家 255 km · 行政执法类</div>
+<div class="tbwrap"><table class="gw">
+<tr class="gw-grp"><th colspan="2">岗位</th></tr>
+<tr><th scope="row">部门 / 司局</th><td>国家税务总局青岛市税务局（部门代码 130119）· 国家税务总局青岛经济技术开发区税务局</td></tr>
+<tr><th scope="row">招考职位</th><td>一级行政执法员（三）（职位代码 300110008003）</td></tr>
+<tr><th scope="row">职位简介</th><td>从事税费征收管理、纳税服务、行政管理等相关工作</td></tr>
+<tr class="gw-grp"><th colspan="2">资格条件</th></tr>
+<tr><th scope="row">招考人数</th><td>1 人</td></tr>
+<tr><th scope="row">学历 / 学位</th><td>本科及以上 · 与最高学历相对应的学位</td></tr>
+<tr><th scope="row">专业</th><td>数学类、统计学类、计算机类</td></tr>
+<tr><th scope="row">政治面貌</th><td>不限</td></tr>
+<tr><th scope="row">基层工作年限</th><td>无限制</td></tr>
+<tr><th scope="row">服务基层项目</th><td>无限制</td></tr>
+<tr><th scope="row">面试人员比例</th><td>3:1</td></tr>
+<tr><th scope="row">专业能力测试</th><td>否</td></tr>
+<tr class="gw-grp"><th colspan="2">地点与机构</th></tr>
+<tr><th scope="row">工作地点</th><td>山东省青岛市黄岛区</td></tr>
+<tr><th scope="row">落户地点</th><td>山东省青岛市黄岛区</td></tr>
+<tr><th scope="row">离家距离</th><td>255 km</td></tr>
+<tr><th scope="row">机构性质</th><td>中央国家行政机关省级以下直属机构</td></tr>
+<tr><th scope="row">机构层级 / 属性</th><td>县（区）级及以下 · 普通职位 · 其他职位</td></tr>
+<tr><th scope="row">考试类别</th><td>行政执法类</td></tr>
+<tr class="gw-grp"><th colspan="2">历年数据（公考雷达展示）</th></tr>
+<tr><th scope="row">2027 招录</th><td>1 人（官方简章）</td></tr>
+<tr><th scope="row">2026</th><td>招录 2 · 报名 83 · 竞争比 42:1 · 进面分 130.4</td></tr>
+<tr><th scope="row">2025</th><td>招录 1 · 报名 135 · 竞争比 85:1 · 进面分 126</td></tr>
+<tr class="gw-grp"><th colspan="2">备注与咨询</th></tr>
+<tr><th scope="row">备注</th><td>应届高校毕业生，男性，本单位不提供宿舍，在本单位最低服务年限为5年</td></tr>
+<tr><th scope="row">部门网站</th><td>http://qingdao.chinatax.gov.cn/</td></tr>
+<tr><th scope="row">咨询电话</th><td>0532-83931587</td></tr>
+</table></div>
+<div class="note">出处与核对：官方简章「中央国家行政机关省级以下直属机构」第 9855 行 · 雷达截图 微信图片_20261013233152_668_72 · 招考人数 / 学历 / 专业 / 备注 / 电话等 24 个字段逐行一致</div>
+</section><section class="unit" id="gw-09" data-title="序号 9 · 国家税务总局青岛市黄岛区（青岛西海岸新区）税务局 · 一级行政执法员（五）">
+<div class="unit-head"><h3><span class="vno">9</span>国家税务总局青岛市黄岛区（青岛西海岸新区）税务局 · 一级行政执法员（五）</h3><span class="chip b">雷达 4★</span><span class="chip m">限应届</span></div>
+<div class="unit-desc">职位代码 300110006005 · 招录 2 人 · 山东省青岛市黄岛区 · 离家 255 km · 行政执法类</div>
+<div class="tbwrap"><table class="gw">
+<tr class="gw-grp"><th colspan="2">岗位</th></tr>
+<tr><th scope="row">部门 / 司局</th><td>国家税务总局青岛市税务局（部门代码 130119）· 国家税务总局青岛市黄岛区（青岛西海岸新区）税务局</td></tr>
+<tr><th scope="row">招考职位</th><td>一级行政执法员（五）（职位代码 300110006005）</td></tr>
+<tr><th scope="row">职位简介</th><td>从事税费征收管理、纳税服务、行政管理等相关工作</td></tr>
+<tr class="gw-grp"><th colspan="2">资格条件</th></tr>
+<tr><th scope="row">招考人数</th><td>2 人</td></tr>
+<tr><th scope="row">学历 / 学位</th><td>本科及以上 · 与最高学历相对应的学位</td></tr>
+<tr><th scope="row">专业</th><td>数学类、统计学类、计算机类、电子信息类</td></tr>
+<tr><th scope="row">政治面貌</th><td>不限</td></tr>
+<tr><th scope="row">基层工作年限</th><td>无限制</td></tr>
+<tr><th scope="row">服务基层项目</th><td>无限制</td></tr>
+<tr><th scope="row">面试人员比例</th><td>3:1</td></tr>
+<tr><th scope="row">专业能力测试</th><td>否</td></tr>
+<tr class="gw-grp"><th colspan="2">地点与机构</th></tr>
+<tr><th scope="row">工作地点</th><td>山东省青岛市黄岛区</td></tr>
+<tr><th scope="row">落户地点</th><td>山东省青岛市黄岛区</td></tr>
+<tr><th scope="row">离家距离</th><td>255 km</td></tr>
+<tr><th scope="row">机构性质</th><td>中央国家行政机关省级以下直属机构</td></tr>
+<tr><th scope="row">机构层级 / 属性</th><td>县（区）级及以下 · 普通职位 · 其他职位</td></tr>
+<tr><th scope="row">考试类别</th><td>行政执法类</td></tr>
+<tr class="gw-grp"><th colspan="2">历年数据（公考雷达展示）</th></tr>
+<tr><th scope="row">2027 招录</th><td>2 人（官方简章）</td></tr>
+<tr><th scope="row">2026</th><td>招录 1 · 报名 91 · 竞争比 60:1 · 进面分 125.2</td></tr>
+<tr><th scope="row">2025</th><td>招录 1 · 报名 174 · 竞争比 129:1 · 进面分 128.5</td></tr>
+<tr class="gw-grp"><th colspan="2">备注与咨询</th></tr>
+<tr><th scope="row">备注</th><td>2027届高校毕业生，男性，本单位不提供宿舍，在本单位最低服务年限为5年</td></tr>
+<tr><th scope="row">部门网站</th><td>http://qingdao.chinatax.gov.cn/</td></tr>
+<tr><th scope="row">咨询电话</th><td>0532-83931587</td></tr>
+</table></div>
+<div class="note">出处与核对：官方简章「中央国家行政机关省级以下直属机构」第 9838 行 · 雷达截图 微信图片_20261013233152_671_72 · 招考人数 / 学历 / 专业 / 备注 / 电话等 24 个字段逐行一致</div>
+</section><section class="unit" id="gw-10" data-title="序号 10 · 国家税务总局青岛市城阳区税务局 · 一级行政执法员（五）">
+<div class="unit-head"><h3><span class="vno">10</span>国家税务总局青岛市城阳区税务局 · 一级行政执法员（五）</h3><span class="chip b">雷达 4★</span><span class="chip m">限应届</span></div>
+<div class="unit-desc">职位代码 300110005005 · 招录 1 人 · 山东省青岛市城阳区 · 离家 249 km · 行政执法类</div>
+<div class="tbwrap"><table class="gw">
+<tr class="gw-grp"><th colspan="2">岗位</th></tr>
+<tr><th scope="row">部门 / 司局</th><td>国家税务总局青岛市税务局（部门代码 130119）· 国家税务总局青岛市城阳区税务局</td></tr>
+<tr><th scope="row">招考职位</th><td>一级行政执法员（五）（职位代码 300110005005）</td></tr>
+<tr><th scope="row">职位简介</th><td>从事税费征收管理、纳税服务、行政管理等相关工作</td></tr>
+<tr class="gw-grp"><th colspan="2">资格条件</th></tr>
+<tr><th scope="row">招考人数</th><td>1 人</td></tr>
+<tr><th scope="row">学历 / 学位</th><td>本科及以上 · 与最高学历相对应的学位</td></tr>
+<tr><th scope="row">专业</th><td>数学类、统计学类、计算机类、电子信息类</td></tr>
+<tr><th scope="row">政治面貌</th><td>不限</td></tr>
+<tr><th scope="row">基层工作年限</th><td>无限制</td></tr>
+<tr><th scope="row">服务基层项目</th><td>无限制</td></tr>
+<tr><th scope="row">面试人员比例</th><td>3:1</td></tr>
+<tr><th scope="row">专业能力测试</th><td>否</td></tr>
+<tr class="gw-grp"><th colspan="2">地点与机构</th></tr>
+<tr><th scope="row">工作地点</th><td>山东省青岛市城阳区</td></tr>
+<tr><th scope="row">落户地点</th><td>山东省青岛市城阳区</td></tr>
+<tr><th scope="row">离家距离</th><td>249 km</td></tr>
+<tr><th scope="row">机构性质</th><td>中央国家行政机关省级以下直属机构</td></tr>
+<tr><th scope="row">机构层级 / 属性</th><td>县（区）级及以下 · 普通职位 · 其他职位</td></tr>
+<tr><th scope="row">考试类别</th><td>行政执法类</td></tr>
+<tr class="gw-grp"><th colspan="2">历年数据（公考雷达展示）</th></tr>
+<tr><th scope="row">2027 招录</th><td>1 人（官方简章）</td></tr>
+<tr><th scope="row">2026</th><td>招录 1 · 报名 109 · 竞争比 109:1 · 进面分 134.6</td></tr>
+<tr><th scope="row">2025</th><td>招录 1 · 报名 166 · 竞争比 117:1 · 进面分 123.1</td></tr>
+<tr class="gw-grp"><th colspan="2">备注与咨询</th></tr>
+<tr><th scope="row">备注</th><td>2027届高校毕业生，男性，本单位不提供宿舍，在本单位最低服务年限为5年</td></tr>
+<tr><th scope="row">部门网站</th><td>http://qingdao.chinatax.gov.cn/</td></tr>
+<tr><th scope="row">咨询电话</th><td>0532-83931587</td></tr>
+</table></div>
+<div class="note">出处与核对：官方简章「中央国家行政机关省级以下直属机构」第 9828 行 · 雷达截图 微信图片_20261013233152_672_72 · 招考人数 / 学历 / 专业 / 备注 / 电话等 24 个字段逐行一致</div>
+</section><section class="unit" id="gw-11" data-title="序号 11 · 国家税务总局青岛市市北区税务局 · 一级行政执法员（七）">
+<div class="unit-head"><h3><span class="vno">11</span>国家税务总局青岛市市北区税务局 · 一级行政执法员（七）</h3><span class="chip b">雷达 4★</span><span class="chip m">限应届</span></div>
+<div class="unit-desc">职位代码 300110002007 · 招录 2 人 · 山东省青岛市市北区 · 离家 258 km · 行政执法类</div>
+<div class="tbwrap"><table class="gw">
+<tr class="gw-grp"><th colspan="2">岗位</th></tr>
+<tr><th scope="row">部门 / 司局</th><td>国家税务总局青岛市税务局（部门代码 130119）· 国家税务总局青岛市市北区税务局</td></tr>
+<tr><th scope="row">招考职位</th><td>一级行政执法员（七）（职位代码 300110002007）</td></tr>
+<tr><th scope="row">职位简介</th><td>从事税费征收管理、纳税服务、行政管理等相关工作</td></tr>
+<tr class="gw-grp"><th colspan="2">资格条件</th></tr>
+<tr><th scope="row">招考人数</th><td>2 人</td></tr>
+<tr><th scope="row">学历 / 学位</th><td>本科及以上 · 与最高学历相对应的学位</td></tr>
+<tr><th scope="row">专业</th><td>数学类、统计学类、计算机类</td></tr>
+<tr><th scope="row">政治面貌</th><td>不限</td></tr>
+<tr><th scope="row">基层工作年限</th><td>无限制</td></tr>
+<tr><th scope="row">服务基层项目</th><td>无限制</td></tr>
+<tr><th scope="row">面试人员比例</th><td>3:1</td></tr>
+<tr><th scope="row">专业能力测试</th><td>否</td></tr>
+<tr class="gw-grp"><th colspan="2">地点与机构</th></tr>
+<tr><th scope="row">工作地点</th><td>山东省青岛市市北区</td></tr>
+<tr><th scope="row">落户地点</th><td>山东省青岛市市北区</td></tr>
+<tr><th scope="row">离家距离</th><td>258 km</td></tr>
+<tr><th scope="row">机构性质</th><td>中央国家行政机关省级以下直属机构</td></tr>
+<tr><th scope="row">机构层级 / 属性</th><td>县（区）级及以下 · 普通职位 · 其他职位</td></tr>
+<tr><th scope="row">考试类别</th><td>行政执法类</td></tr>
+<tr class="gw-grp"><th colspan="2">历年数据（公考雷达展示）</th></tr>
+<tr><th scope="row">2027 招录</th><td>2 人（官方简章）</td></tr>
+<tr><th scope="row">2026</th><td>招录 3 · 报名 155 · 竞争比 52:1 · 进面分 134.9</td></tr>
+<tr><th scope="row">2025</th><td>招录 1 · 报名 177 · 竞争比 100:1 · 进面分 123.9</td></tr>
+<tr class="gw-grp"><th colspan="2">备注与咨询</th></tr>
+<tr><th scope="row">备注</th><td>应届高校毕业生，男性，本单位不提供宿舍，在本单位最低服务年限为5年</td></tr>
+<tr><th scope="row">部门网站</th><td>http://qingdao.chinatax.gov.cn/</td></tr>
+<tr><th scope="row">咨询电话</th><td>0532-83931587</td></tr>
+</table></div>
+<div class="note">出处与核对：官方简章「中央国家行政机关省级以下直属机构」第 9805 行 · 雷达截图 微信图片_20261013233152_673_72 · 招考人数 / 学历 / 专业 / 备注 / 电话等 24 个字段逐行一致</div>
+</section><section class="unit" id="gw-12" data-title="序号 12 · 国家税务总局青岛市市南区税务局 · 一级行政执法员（六）">
+<div class="unit-head"><h3><span class="vno">12</span>国家税务总局青岛市市南区税务局 · 一级行政执法员（六）</h3><span class="chip b">雷达 4★</span><span class="chip m">限应届</span></div>
+<div class="unit-desc">职位代码 300110001006 · 招录 1 人 · 山东省青岛市市南区 · 离家 288 km · 行政执法类</div>
+<div class="tbwrap"><table class="gw">
+<tr class="gw-grp"><th colspan="2">岗位</th></tr>
+<tr><th scope="row">部门 / 司局</th><td>国家税务总局青岛市税务局（部门代码 130119）· 国家税务总局青岛市市南区税务局</td></tr>
+<tr><th scope="row">招考职位</th><td>一级行政执法员（六）（职位代码 300110001006）</td></tr>
+<tr><th scope="row">职位简介</th><td>从事税费征收管理、纳税服务、行政管理等相关工作</td></tr>
+<tr class="gw-grp"><th colspan="2">资格条件</th></tr>
+<tr><th scope="row">招考人数</th><td>1 人</td></tr>
+<tr><th scope="row">学历 / 学位</th><td>本科及以上 · 与最高学历相对应的学位</td></tr>
+<tr><th scope="row">专业</th><td>数学类、统计学类、计算机类</td></tr>
+<tr><th scope="row">政治面貌</th><td>不限</td></tr>
+<tr><th scope="row">基层工作年限</th><td>无限制</td></tr>
+<tr><th scope="row">服务基层项目</th><td>无限制</td></tr>
+<tr><th scope="row">面试人员比例</th><td>3:1</td></tr>
+<tr><th scope="row">专业能力测试</th><td>否</td></tr>
+<tr class="gw-grp"><th colspan="2">地点与机构</th></tr>
+<tr><th scope="row">工作地点</th><td>山东省青岛市市南区</td></tr>
+<tr><th scope="row">落户地点</th><td>山东省青岛市市南区</td></tr>
+<tr><th scope="row">离家距离</th><td>288 km</td></tr>
+<tr><th scope="row">机构性质</th><td>中央国家行政机关省级以下直属机构</td></tr>
+<tr><th scope="row">机构层级 / 属性</th><td>县（区）级及以下 · 普通职位 · 其他职位</td></tr>
+<tr><th scope="row">考试类别</th><td>行政执法类</td></tr>
+<tr class="gw-grp"><th colspan="2">历年数据（公考雷达展示）</th></tr>
+<tr><th scope="row">2027 招录</th><td>1 人（官方简章）</td></tr>
+<tr><th scope="row">2026</th><td>招录 1 · 报名 88 · 竞争比 54:1 · 进面分 125.2</td></tr>
+<tr><th scope="row">2025</th><td>招录 1 · 报名 105 · 竞争比 93:1 · 进面分 128.5</td></tr>
+<tr class="gw-grp"><th colspan="2">备注与咨询</th></tr>
+<tr><th scope="row">备注</th><td>应届高校毕业生，男性，本单位不提供宿舍，在本单位最低服务年限为5年</td></tr>
+<tr><th scope="row">部门网站</th><td>http://qingdao.chinatax.gov.cn/</td></tr>
+<tr><th scope="row">咨询电话</th><td>0532-83931587</td></tr>
+</table></div>
+<div class="note">出处与核对：官方简章「中央国家行政机关省级以下直属机构」第 9794 行 · 雷达截图 微信图片_20261013233152_674_72 · 招考人数 / 学历 / 专业 / 备注 / 电话等 24 个字段逐行一致</div>
+</section><section class="unit" id="gw-17" data-title="序号 17 · 国家税务总局莱西市税务局 · 一级行政执法员（七）">
+<div class="unit-head"><h3><span class="vno">17</span>国家税务总局莱西市税务局 · 一级行政执法员（七）</h3><span class="chip b">雷达 4★</span><span class="chip m">限应届</span></div>
+<div class="unit-desc">职位代码 300110013007 · 招录 1 人 · 山东省青岛市莱西市 · 离家 237 km · 行政执法类</div>
+<div class="tbwrap"><table class="gw">
+<tr class="gw-grp"><th colspan="2">岗位</th></tr>
+<tr><th scope="row">部门 / 司局</th><td>国家税务总局青岛市税务局（部门代码 130119）· 国家税务总局莱西市税务局</td></tr>
+<tr><th scope="row">招考职位</th><td>一级行政执法员（七）（职位代码 300110013007）</td></tr>
+<tr><th scope="row">职位简介</th><td>从事税费征收管理、纳税服务、行政管理等相关工作</td></tr>
+<tr class="gw-grp"><th colspan="2">资格条件</th></tr>
+<tr><th scope="row">招考人数</th><td>1 人</td></tr>
+<tr><th scope="row">学历 / 学位</th><td>本科及以上 · 与最高学历相对应的学位</td></tr>
+<tr><th scope="row">专业</th><td>数学类、统计学类、计算机类</td></tr>
+<tr><th scope="row">政治面貌</th><td>不限</td></tr>
+<tr><th scope="row">基层工作年限</th><td>无限制</td></tr>
+<tr><th scope="row">服务基层项目</th><td>无限制</td></tr>
+<tr><th scope="row">面试人员比例</th><td>3:1</td></tr>
+<tr><th scope="row">专业能力测试</th><td>否</td></tr>
+<tr class="gw-grp"><th colspan="2">地点与机构</th></tr>
+<tr><th scope="row">工作地点</th><td>山东省青岛市莱西市</td></tr>
+<tr><th scope="row">落户地点</th><td>山东省青岛市莱西市</td></tr>
+<tr><th scope="row">离家距离</th><td>237 km</td></tr>
+<tr><th scope="row">机构性质</th><td>中央国家行政机关省级以下直属机构</td></tr>
+<tr><th scope="row">机构层级 / 属性</th><td>县（区）级及以下 · 普通职位 · 其他职位</td></tr>
+<tr><th scope="row">考试类别</th><td>行政执法类</td></tr>
+<tr class="gw-grp"><th colspan="2">历年数据（公考雷达展示）</th></tr>
+<tr><th scope="row">2027 招录</th><td>1 人（官方简章）</td></tr>
+<tr><th scope="row">2026</th><td>招录 1 · 报名 137 · 竞争比 123:1 · 进面分 128.3</td></tr>
+<tr><th scope="row">2025</th><td>招录 1 · 报名 172 · 竞争比 172:1 · 进面分 128.8</td></tr>
+<tr class="gw-grp"><th colspan="2">备注与咨询</th></tr>
+<tr><th scope="row">备注</th><td>应届高校毕业生，本单位不提供宿舍，在本单位最低服务年限为5年</td></tr>
+<tr><th scope="row">部门网站</th><td>http://qingdao.chinatax.gov.cn/</td></tr>
+<tr><th scope="row">咨询电话</th><td>0532-83931587</td></tr>
+</table></div>
+<div class="note">出处与核对：官方简章「中央国家行政机关省级以下直属机构」第 9885 行 · 雷达截图 微信图片_20261013233152_679_72 · 招考人数 / 学历 / 专业 / 备注 / 电话等 24 个字段逐行一致</div>
+</section><section class="unit" id="gw-18" data-title="序号 18 · 国家税务总局莱西市税务局 · 一级行政执法员（六）">
+<div class="unit-head"><h3><span class="vno">18</span>国家税务总局莱西市税务局 · 一级行政执法员（六）</h3><span class="chip b">雷达 4★</span><span class="chip m">限应届</span></div>
+<div class="unit-desc">职位代码 300110013006 · 招录 1 人 · 山东省青岛市莱西市 · 离家 236 km · 行政执法类</div>
+<div class="tbwrap"><table class="gw">
+<tr class="gw-grp"><th colspan="2">岗位</th></tr>
+<tr><th scope="row">部门 / 司局</th><td>国家税务总局青岛市税务局（部门代码 130119）· 国家税务总局莱西市税务局</td></tr>
+<tr><th scope="row">招考职位</th><td>一级行政执法员（六）（职位代码 300110013006）</td></tr>
+<tr><th scope="row">职位简介</th><td>从事税费征收管理、纳税服务、行政管理等相关工作</td></tr>
+<tr class="gw-grp"><th colspan="2">资格条件</th></tr>
+<tr><th scope="row">招考人数</th><td>1 人</td></tr>
+<tr><th scope="row">学历 / 学位</th><td>本科及以上 · 与最高学历相对应的学位</td></tr>
+<tr><th scope="row">专业</th><td>计算机类、电子信息类</td></tr>
+<tr><th scope="row">政治面貌</th><td>不限</td></tr>
+<tr><th scope="row">基层工作年限</th><td>无限制</td></tr>
+<tr><th scope="row">服务基层项目</th><td>无限制</td></tr>
+<tr><th scope="row">面试人员比例</th><td>3:1</td></tr>
+<tr><th scope="row">专业能力测试</th><td>否</td></tr>
+<tr class="gw-grp"><th colspan="2">地点与机构</th></tr>
+<tr><th scope="row">工作地点</th><td>山东省青岛市莱西市</td></tr>
+<tr><th scope="row">落户地点</th><td>山东省青岛市莱西市</td></tr>
+<tr><th scope="row">离家距离</th><td>236 km</td></tr>
+<tr><th scope="row">机构性质</th><td>中央国家行政机关省级以下直属机构</td></tr>
+<tr><th scope="row">机构层级 / 属性</th><td>县（区）级及以下 · 普通职位 · 其他职位</td></tr>
+<tr><th scope="row">考试类别</th><td>行政执法类</td></tr>
+<tr class="gw-grp"><th colspan="2">历年数据（公考雷达展示）</th></tr>
+<tr><th scope="row">2027 招录</th><td>1 人（官方简章）</td></tr>
+<tr><th scope="row">2026</th><td>招录 1 · 报名 128 · 竞争比 127:1 · 进面分 128.3</td></tr>
+<tr><th scope="row">2025</th><td>招录 1 · 报名 181 · 竞争比 157:1 · 进面分 128.8</td></tr>
+<tr class="gw-grp"><th colspan="2">备注与咨询</th></tr>
+<tr><th scope="row">备注</th><td>2027届高校毕业生，本单位不提供宿舍，在本单位最低服务年限为5年</td></tr>
+<tr><th scope="row">部门网站</th><td>http://qingdao.chinatax.gov.cn/</td></tr>
+<tr><th scope="row">咨询电话</th><td>0532-83931587</td></tr>
+</table></div>
+<div class="note">出处与核对：官方简章「中央国家行政机关省级以下直属机构」第 9884 行 · 雷达截图 微信图片_20261013233152_680_72 · 招考人数 / 学历 / 专业 / 备注 / 电话等 24 个字段逐行一致</div>
+</section><section class="unit" id="gw-19" data-title="序号 19 · 国家税务总局莱西市税务局 · 一级行政执法员（五）">
+<div class="unit-head"><h3><span class="vno">19</span>国家税务总局莱西市税务局 · 一级行政执法员（五）</h3><span class="chip b">雷达 4★</span><span class="chip m">限应届</span></div>
+<div class="unit-desc">职位代码 300110013005 · 招录 1 人 · 山东省青岛市莱西市 · 离家 236 km · 行政执法类</div>
+<div class="tbwrap"><table class="gw">
+<tr class="gw-grp"><th colspan="2">岗位</th></tr>
+<tr><th scope="row">部门 / 司局</th><td>国家税务总局青岛市税务局（部门代码 130119）· 国家税务总局莱西市税务局</td></tr>
+<tr><th scope="row">招考职位</th><td>一级行政执法员（五）（职位代码 300110013005）</td></tr>
+<tr><th scope="row">职位简介</th><td>从事税费征收管理、纳税服务、行政管理等相关工作</td></tr>
+<tr class="gw-grp"><th colspan="2">资格条件</th></tr>
+<tr><th scope="row">招考人数</th><td>1 人</td></tr>
+<tr><th scope="row">学历 / 学位</th><td>本科及以上 · 与最高学历相对应的学位</td></tr>
+<tr><th scope="row">专业</th><td>数学类、统计学类、计算机类、电子信息类</td></tr>
+<tr><th scope="row">政治面貌</th><td>不限</td></tr>
+<tr><th scope="row">基层工作年限</th><td>无限制</td></tr>
+<tr><th scope="row">服务基层项目</th><td>无限制</td></tr>
+<tr><th scope="row">面试人员比例</th><td>3:1</td></tr>
+<tr><th scope="row">专业能力测试</th><td>否</td></tr>
+<tr class="gw-grp"><th colspan="2">地点与机构</th></tr>
+<tr><th scope="row">工作地点</th><td>山东省青岛市莱西市</td></tr>
+<tr><th scope="row">落户地点</th><td>山东省青岛市莱西市</td></tr>
+<tr><th scope="row">离家距离</th><td>236 km</td></tr>
+<tr><th scope="row">机构性质</th><td>中央国家行政机关省级以下直属机构</td></tr>
+<tr><th scope="row">机构层级 / 属性</th><td>县（区）级及以下 · 普通职位 · 其他职位</td></tr>
+<tr><th scope="row">考试类别</th><td>行政执法类</td></tr>
+<tr class="gw-grp"><th colspan="2">历年数据（公考雷达展示）</th></tr>
+<tr><th scope="row">2027 招录</th><td>1 人（官方简章）</td></tr>
+<tr><th scope="row">2026</th><td>招录 1 · 报名 147 · 竞争比 126:1 · 进面分 128.3</td></tr>
+<tr><th scope="row">2025</th><td>招录 1 · 报名 172 · 竞争比 157:1 · 进面分 128.5</td></tr>
+<tr class="gw-grp"><th colspan="2">备注与咨询</th></tr>
+<tr><th scope="row">备注</th><td>2027届高校毕业生，本单位不提供宿舍，在本单位最低服务年限为5年</td></tr>
+<tr><th scope="row">部门网站</th><td>http://qingdao.chinatax.gov.cn/</td></tr>
+<tr><th scope="row">咨询电话</th><td>0532-83931587</td></tr>
+</table></div>
+<div class="note">出处与核对：官方简章「中央国家行政机关省级以下直属机构」第 9883 行 · 雷达截图 微信图片_20261013233152_681_72 · 招考人数 / 学历 / 专业 / 备注 / 电话等 24 个字段逐行一致</div>
+</section><section class="unit" id="gw-20" data-title="序号 20 · 国家税务总局平度市税务局 · 一级行政执法员（七）">
+<div class="unit-head"><h3><span class="vno">20</span>国家税务总局平度市税务局 · 一级行政执法员（七）</h3><span class="chip b">雷达 4★</span><span class="chip m">限应届</span></div>
+<div class="unit-desc">职位代码 300110012007 · 招录 2 人 · 山东省青岛市平度市 · 离家 191 km · 行政执法类</div>
+<div class="tbwrap"><table class="gw">
+<tr class="gw-grp"><th colspan="2">岗位</th></tr>
+<tr><th scope="row">部门 / 司局</th><td>国家税务总局青岛市税务局（部门代码 130119）· 国家税务总局平度市税务局</td></tr>
+<tr><th scope="row">招考职位</th><td>一级行政执法员（七）（职位代码 300110012007）</td></tr>
+<tr><th scope="row">职位简介</th><td>从事税费征收管理、纳税服务、行政管理等相关工作</td></tr>
+<tr class="gw-grp"><th colspan="2">资格条件</th></tr>
+<tr><th scope="row">招考人数</th><td>2 人</td></tr>
+<tr><th scope="row">学历 / 学位</th><td>本科及以上 · 与最高学历相对应的学位</td></tr>
+<tr><th scope="row">专业</th><td>数学类、统计学类、计算机类</td></tr>
+<tr><th scope="row">政治面貌</th><td>不限</td></tr>
+<tr><th scope="row">基层工作年限</th><td>无限制</td></tr>
+<tr><th scope="row">服务基层项目</th><td>无限制</td></tr>
+<tr><th scope="row">面试人员比例</th><td>3:1</td></tr>
+<tr><th scope="row">专业能力测试</th><td>否</td></tr>
+<tr class="gw-grp"><th colspan="2">地点与机构</th></tr>
+<tr><th scope="row">工作地点</th><td>山东省青岛市平度市</td></tr>
+<tr><th scope="row">落户地点</th><td>山东省青岛市平度市</td></tr>
+<tr><th scope="row">离家距离</th><td>191 km</td></tr>
+<tr><th scope="row">机构性质</th><td>中央国家行政机关省级以下直属机构</td></tr>
+<tr><th scope="row">机构层级 / 属性</th><td>县（区）级及以下 · 普通职位 · 其他职位</td></tr>
+<tr><th scope="row">考试类别</th><td>行政执法类</td></tr>
+<tr class="gw-grp"><th colspan="2">历年数据（公考雷达展示）</th></tr>
+<tr><th scope="row">2027 招录</th><td>2 人（官方简章）</td></tr>
+<tr><th scope="row">2026</th><td>招录 1 · 报名 137 · 竞争比 125:1 · 进面分 128.3</td></tr>
+<tr><th scope="row">2025</th><td>招录 1 · 报名 160 · 竞争比 160:1 · 进面分 129.9</td></tr>
+<tr class="gw-grp"><th colspan="2">备注与咨询</th></tr>
+<tr><th scope="row">备注</th><td>应届高校毕业生，本单位不提供宿舍，在本单位最低服务年限为5年</td></tr>
+<tr><th scope="row">部门网站</th><td>http://qingdao.chinatax.gov.cn/</td></tr>
+<tr><th scope="row">咨询电话</th><td>0532-83931587</td></tr>
+</table></div>
+<div class="note">出处与核对：官方简章「中央国家行政机关省级以下直属机构」第 9875 行 · 雷达截图 微信图片_20261013233152_682_72 · 招考人数 / 学历 / 专业 / 备注 / 电话等 24 个字段逐行一致</div>
+</section><section class="unit" id="gw-21" data-title="序号 21 · 国家税务总局青岛市即墨区税务局 · 一级行政执法员（六）">
+<div class="unit-head"><h3><span class="vno">21</span>国家税务总局青岛市即墨区税务局 · 一级行政执法员（六）</h3><span class="chip b">雷达 4★</span><span class="chip m">限应届</span></div>
+<div class="unit-desc">职位代码 300110007006 · 招录 1 人 · 山东省青岛市即墨区 · 离家 248 km · 行政执法类</div>
+<div class="tbwrap"><table class="gw">
+<tr class="gw-grp"><th colspan="2">岗位</th></tr>
+<tr><th scope="row">部门 / 司局</th><td>国家税务总局青岛市税务局（部门代码 130119）· 国家税务总局青岛市即墨区税务局</td></tr>
+<tr><th scope="row">招考职位</th><td>一级行政执法员（六）（职位代码 300110007006）</td></tr>
+<tr><th scope="row">职位简介</th><td>从事税费征收管理、纳税服务、行政管理等相关工作</td></tr>
+<tr class="gw-grp"><th colspan="2">资格条件</th></tr>
+<tr><th scope="row">招考人数</th><td>1 人</td></tr>
+<tr><th scope="row">学历 / 学位</th><td>本科及以上 · 与最高学历相对应的学位</td></tr>
+<tr><th scope="row">专业</th><td>计算机类、电子信息类</td></tr>
+<tr><th scope="row">政治面貌</th><td>不限</td></tr>
+<tr><th scope="row">基层工作年限</th><td>无限制</td></tr>
+<tr><th scope="row">服务基层项目</th><td>无限制</td></tr>
+<tr><th scope="row">面试人员比例</th><td>3:1</td></tr>
+<tr><th scope="row">专业能力测试</th><td>否</td></tr>
+<tr class="gw-grp"><th colspan="2">地点与机构</th></tr>
+<tr><th scope="row">工作地点</th><td>山东省青岛市即墨区</td></tr>
+<tr><th scope="row">落户地点</th><td>山东省青岛市即墨区</td></tr>
+<tr><th scope="row">离家距离</th><td>248 km</td></tr>
+<tr><th scope="row">机构性质</th><td>中央国家行政机关省级以下直属机构</td></tr>
+<tr><th scope="row">机构层级 / 属性</th><td>县（区）级及以下 · 普通职位 · 其他职位</td></tr>
+<tr><th scope="row">考试类别</th><td>行政执法类</td></tr>
+<tr class="gw-grp"><th colspan="2">历年数据（公考雷达展示）</th></tr>
+<tr><th scope="row">2027 招录</th><td>1 人（官方简章）</td></tr>
+<tr><th scope="row">2026</th><td>招录 2 · 报名 254 · 竞争比 127:1 · 进面分 139.1</td></tr>
+<tr><th scope="row">2025</th><td>招录 1 · 报名 178 · 竞争比 117:1 · 进面分 120.9</td></tr>
+<tr class="gw-grp"><th colspan="2">备注与咨询</th></tr>
+<tr><th scope="row">备注</th><td>2027届高校毕业生，本单位不提供宿舍，在本单位最低服务年限为5年</td></tr>
+<tr><th scope="row">部门网站</th><td>http://qingdao.chinatax.gov.cn/</td></tr>
+<tr><th scope="row">咨询电话</th><td>0532-83931587</td></tr>
+</table></div>
+<div class="note">出处与核对：官方简章「中央国家行政机关省级以下直属机构」第 9847 行 · 雷达截图 微信图片_20261013233152_683_72 · 招考人数 / 学历 / 专业 / 备注 / 电话等 24 个字段逐行一致</div>
+</section><section class="unit" id="gw-25" data-title="序号 25 · 国家税务总局青岛市崂山区税务局 · 一级行政执法员（三）">
+<div class="unit-head"><h3><span class="vno">25</span>国家税务总局青岛市崂山区税务局 · 一级行政执法员（三）</h3><span class="chip b">雷达 4★</span><span class="chip m">限应届</span></div>
+<div class="unit-desc">职位代码 300110004003 · 招录 1 人 · 山东省青岛市崂山区 · 离家 273 km · 行政执法类</div>
+<div class="tbwrap"><table class="gw">
+<tr class="gw-grp"><th colspan="2">岗位</th></tr>
+<tr><th scope="row">部门 / 司局</th><td>国家税务总局青岛市税务局（部门代码 130119）· 国家税务总局青岛市崂山区税务局</td></tr>
+<tr><th scope="row">招考职位</th><td>一级行政执法员（三）（职位代码 300110004003）</td></tr>
+<tr><th scope="row">职位简介</th><td>从事税费征收管理、纳税服务、行政管理等相关工作</td></tr>
+<tr class="gw-grp"><th colspan="2">资格条件</th></tr>
+<tr><th scope="row">招考人数</th><td>1 人</td></tr>
+<tr><th scope="row">学历 / 学位</th><td>本科及以上 · 与最高学历相对应的学位</td></tr>
+<tr><th scope="row">专业</th><td>数学类、统计学类、计算机类、电子信息类</td></tr>
+<tr><th scope="row">政治面貌</th><td>不限</td></tr>
+<tr><th scope="row">基层工作年限</th><td>无限制</td></tr>
+<tr><th scope="row">服务基层项目</th><td>无限制</td></tr>
+<tr><th scope="row">面试人员比例</th><td>3:1</td></tr>
+<tr><th scope="row">专业能力测试</th><td>否</td></tr>
+<tr class="gw-grp"><th colspan="2">地点与机构</th></tr>
+<tr><th scope="row">工作地点</th><td>山东省青岛市崂山区</td></tr>
+<tr><th scope="row">落户地点</th><td>山东省青岛市崂山区</td></tr>
+<tr><th scope="row">离家距离</th><td>273 km</td></tr>
+<tr><th scope="row">机构性质</th><td>中央国家行政机关省级以下直属机构</td></tr>
+<tr><th scope="row">机构层级 / 属性</th><td>县（区）级及以下 · 普通职位 · 其他职位</td></tr>
+<tr><th scope="row">考试类别</th><td>行政执法类</td></tr>
+<tr class="gw-grp"><th colspan="2">历年数据（公考雷达展示）</th></tr>
+<tr><th scope="row">2027 招录</th><td>1 人（官方简章）</td></tr>
+<tr><th scope="row">2026</th><td>招录 1 · 报名 115 · 竞争比 111:1 · 进面分 126</td></tr>
+<tr><th scope="row">2025</th><td>招录 2 · 报名 132 · 竞争比 67:1 · 进面分 126</td></tr>
+<tr class="gw-grp"><th colspan="2">备注与咨询</th></tr>
+<tr><th scope="row">备注</th><td>2027届高校毕业生，本单位不提供宿舍，在本单位最低服务年限为5年</td></tr>
+<tr><th scope="row">部门网站</th><td>http://qingdao.chinatax.gov.cn/</td></tr>
+<tr><th scope="row">咨询电话</th><td>0532-83931587</td></tr>
+</table></div>
+<div class="note">出处与核对：官方简章「中央国家行政机关省级以下直属机构」第 9820 行 · 雷达截图 微信图片_20261013233152_687_72 · 招考人数 / 学历 / 专业 / 备注 / 电话等 24 个字段逐行一致</div>
+</section><section class="unit" id="gw-26" data-title="序号 26 · 国家税务总局青岛市李沧区税务局 · 一级行政执法员（三）">
+<div class="unit-head"><h3><span class="vno">26</span>国家税务总局青岛市李沧区税务局 · 一级行政执法员（三）</h3><span class="chip b">雷达 4★</span><span class="chip m">限应届</span></div>
+<div class="unit-desc">职位代码 300110003003 · 招录 1 人 · 山东省青岛市李沧区 · 离家 258 km · 行政执法类</div>
+<div class="tbwrap"><table class="gw">
+<tr class="gw-grp"><th colspan="2">岗位</th></tr>
+<tr><th scope="row">部门 / 司局</th><td>国家税务总局青岛市税务局（部门代码 130119）· 国家税务总局青岛市李沧区税务局</td></tr>
+<tr><th scope="row">招考职位</th><td>一级行政执法员（三）（职位代码 300110003003）</td></tr>
+<tr><th scope="row">职位简介</th><td>从事税费征收管理、纳税服务、行政管理等相关工作</td></tr>
+<tr class="gw-grp"><th colspan="2">资格条件</th></tr>
+<tr><th scope="row">招考人数</th><td>1 人</td></tr>
+<tr><th scope="row">学历 / 学位</th><td>本科及以上 · 与最高学历相对应的学位</td></tr>
+<tr><th scope="row">专业</th><td>计算机类、电子信息类</td></tr>
+<tr><th scope="row">政治面貌</th><td>不限</td></tr>
+<tr><th scope="row">基层工作年限</th><td>无限制</td></tr>
+<tr><th scope="row">服务基层项目</th><td>无限制</td></tr>
+<tr><th scope="row">面试人员比例</th><td>3:1</td></tr>
+<tr><th scope="row">专业能力测试</th><td>否</td></tr>
+<tr class="gw-grp"><th colspan="2">地点与机构</th></tr>
+<tr><th scope="row">工作地点</th><td>山东省青岛市李沧区</td></tr>
+<tr><th scope="row">落户地点</th><td>山东省青岛市李沧区</td></tr>
+<tr><th scope="row">离家距离</th><td>258 km</td></tr>
+<tr><th scope="row">机构性质</th><td>中央国家行政机关省级以下直属机构</td></tr>
+<tr><th scope="row">机构层级 / 属性</th><td>县（区）级及以下 · 普通职位 · 其他职位</td></tr>
+<tr><th scope="row">考试类别</th><td>行政执法类</td></tr>
+<tr class="gw-grp"><th colspan="2">历年数据（公考雷达展示）</th></tr>
+<tr><th scope="row">2027 招录</th><td>1 人（官方简章）</td></tr>
+<tr><th scope="row">2026</th><td>招录 1 · 报名 115 · 竞争比 111:1 · 进面分 127.6</td></tr>
+<tr><th scope="row">2025</th><td>招录 2 · 报名 134 · 竞争比 78:1 · 进面分 126</td></tr>
+<tr class="gw-grp"><th colspan="2">备注与咨询</th></tr>
+<tr><th scope="row">备注</th><td>2027届高校毕业生，本单位不提供宿舍，在本单位最低服务年限为5年</td></tr>
+<tr><th scope="row">部门网站</th><td>http://qingdao.chinatax.gov.cn/</td></tr>
+<tr><th scope="row">咨询电话</th><td>0532-83931587</td></tr>
+</table></div>
+<div class="note">出处与核对：官方简章「中央国家行政机关省级以下直属机构」第 9812 行 · 雷达截图 微信图片_20261013233152_688_72 · 招考人数 / 学历 / 专业 / 备注 / 电话等 24 个字段逐行一致</div>
+</section><section class="unit" id="gw-27" data-title="序号 27 · 国家税务总局青岛市市北区税务局 · 一级行政执法员（六）">
+<div class="unit-head"><h3><span class="vno">27</span>国家税务总局青岛市市北区税务局 · 一级行政执法员（六）</h3><span class="chip b">雷达 4★</span><span class="chip m">限应届</span></div>
+<div class="unit-desc">职位代码 300110002006 · 招录 1 人 · 山东省青岛市市北区 · 离家 288 km · 行政执法类</div>
+<div class="tbwrap"><table class="gw">
+<tr class="gw-grp"><th colspan="2">岗位</th></tr>
+<tr><th scope="row">部门 / 司局</th><td>国家税务总局青岛市税务局（部门代码 130119）· 国家税务总局青岛市市北区税务局</td></tr>
+<tr><th scope="row">招考职位</th><td>一级行政执法员（六）（职位代码 300110002006）</td></tr>
+<tr><th scope="row">职位简介</th><td>从事税费征收管理、纳税服务、行政管理等相关工作</td></tr>
+<tr class="gw-grp"><th colspan="2">资格条件</th></tr>
+<tr><th scope="row">招考人数</th><td>1 人</td></tr>
+<tr><th scope="row">学历 / 学位</th><td>本科及以上 · 与最高学历相对应的学位</td></tr>
+<tr><th scope="row">专业</th><td>计算机类、电子信息类</td></tr>
+<tr><th scope="row">政治面貌</th><td>不限</td></tr>
+<tr><th scope="row">基层工作年限</th><td>无限制</td></tr>
+<tr><th scope="row">服务基层项目</th><td>无限制</td></tr>
+<tr><th scope="row">面试人员比例</th><td>3:1</td></tr>
+<tr><th scope="row">专业能力测试</th><td>否</td></tr>
+<tr class="gw-grp"><th colspan="2">地点与机构</th></tr>
+<tr><th scope="row">工作地点</th><td>山东省青岛市市北区</td></tr>
+<tr><th scope="row">落户地点</th><td>山东省青岛市市北区</td></tr>
+<tr><th scope="row">离家距离</th><td>288 km</td></tr>
+<tr><th scope="row">机构性质</th><td>中央国家行政机关省级以下直属机构</td></tr>
+<tr><th scope="row">机构层级 / 属性</th><td>县（区）级及以下 · 普通职位 · 其他职位</td></tr>
+<tr><th scope="row">考试类别</th><td>行政执法类</td></tr>
+<tr class="gw-grp"><th colspan="2">历年数据（公考雷达展示）</th></tr>
+<tr><th scope="row">2027 招录</th><td>1 人（官方简章）</td></tr>
+<tr><th scope="row">2026</th><td>招录 1 · 报名 122 · 竞争比 118:1 · 进面分 127.8</td></tr>
+<tr><th scope="row">2025</th><td>招录 1 · 报名 179 · 竞争比 95:1 · 进面分 123.9</td></tr>
+<tr class="gw-grp"><th colspan="2">备注与咨询</th></tr>
+<tr><th scope="row">备注</th><td>2027届高校毕业生，本单位不提供宿舍，在本单位最低服务年限为5年</td></tr>
+<tr><th scope="row">部门网站</th><td>http://qingdao.chinatax.gov.cn/</td></tr>
+<tr><th scope="row">咨询电话</th><td>0532-83931587</td></tr>
+</table></div>
+<div class="note">出处与核对：官方简章「中央国家行政机关省级以下直属机构」第 9804 行 · 雷达截图 微信图片_20261013233152_689_72 · 招考人数 / 学历 / 专业 / 备注 / 电话等 24 个字段逐行一致</div>
+</section><section class="unit" id="gw-28" data-title="序号 28 · 国家税务总局青岛市市南区税务局 · 一级行政执法员（五）">
+<div class="unit-head"><h3><span class="vno">28</span>国家税务总局青岛市市南区税务局 · 一级行政执法员（五）</h3><span class="chip b">雷达 4★</span><span class="chip m">限应届</span></div>
+<div class="unit-desc">职位代码 300110001005 · 招录 1 人 · 山东省青岛市市南区 · 离家 262 km · 行政执法类</div>
+<div class="tbwrap"><table class="gw">
+<tr class="gw-grp"><th colspan="2">岗位</th></tr>
+<tr><th scope="row">部门 / 司局</th><td>国家税务总局青岛市税务局（部门代码 130119）· 国家税务总局青岛市市南区税务局</td></tr>
+<tr><th scope="row">招考职位</th><td>一级行政执法员（五）（职位代码 300110001005）</td></tr>
+<tr><th scope="row">职位简介</th><td>从事税费征收管理、纳税服务、行政管理等相关工作</td></tr>
+<tr class="gw-grp"><th colspan="2">资格条件</th></tr>
+<tr><th scope="row">招考人数</th><td>1 人</td></tr>
+<tr><th scope="row">学历 / 学位</th><td>本科及以上 · 与最高学历相对应的学位</td></tr>
+<tr><th scope="row">专业</th><td>计算机类、电子信息类</td></tr>
+<tr><th scope="row">政治面貌</th><td>不限</td></tr>
+<tr><th scope="row">基层工作年限</th><td>无限制</td></tr>
+<tr><th scope="row">服务基层项目</th><td>无限制</td></tr>
+<tr><th scope="row">面试人员比例</th><td>3:1</td></tr>
+<tr><th scope="row">专业能力测试</th><td>否</td></tr>
+<tr class="gw-grp"><th colspan="2">地点与机构</th></tr>
+<tr><th scope="row">工作地点</th><td>山东省青岛市市南区</td></tr>
+<tr><th scope="row">落户地点</th><td>山东省青岛市市南区</td></tr>
+<tr><th scope="row">离家距离</th><td>262 km</td></tr>
+<tr><th scope="row">机构性质</th><td>中央国家行政机关省级以下直属机构</td></tr>
+<tr><th scope="row">机构层级 / 属性</th><td>县（区）级及以下 · 普通职位 · 其他职位</td></tr>
+<tr><th scope="row">考试类别</th><td>行政执法类</td></tr>
+<tr class="gw-grp"><th colspan="2">历年数据（公考雷达展示）</th></tr>
+<tr><th scope="row">2027 招录</th><td>1 人（官方简章）</td></tr>
+<tr><th scope="row">2026</th><td>招录 1 · 报名 122 · 竞争比 118:1 · 进面分 128.3</td></tr>
+<tr><th scope="row">2025</th><td>招录 1 · 报名 105 · 竞争比 82:1 · 进面分 128.5</td></tr>
+<tr class="gw-grp"><th colspan="2">备注与咨询</th></tr>
+<tr><th scope="row">备注</th><td>2027届高校毕业生，本单位不提供宿舍，在本单位最低服务年限为5年</td></tr>
+<tr><th scope="row">部门网站</th><td>http://qingdao.chinatax.gov.cn/</td></tr>
+<tr><th scope="row">咨询电话</th><td>0532-83931587</td></tr>
+</table></div>
+<div class="note">出处与核对：官方简章「中央国家行政机关省级以下直属机构」第 9793 行 · 雷达截图 微信图片_20261013233152_690_72 · 招考人数 / 学历 / 专业 / 备注 / 电话等 24 个字段逐行一致</div>
+</section><section class="unit" id="gw-29" data-title="序号 29 · 国家税务总局青岛市市南区税务局 · 一级行政执法员（四）">
+<div class="unit-head"><h3><span class="vno">29</span>国家税务总局青岛市市南区税务局 · 一级行政执法员（四）</h3><span class="chip b">雷达 4★</span><span class="chip m">限应届</span></div>
+<div class="unit-desc">职位代码 300110001004 · 招录 1 人 · 山东省青岛市市南区 · 离家 262 km · 行政执法类</div>
+<div class="tbwrap"><table class="gw">
+<tr class="gw-grp"><th colspan="2">岗位</th></tr>
+<tr><th scope="row">部门 / 司局</th><td>国家税务总局青岛市税务局（部门代码 130119）· 国家税务总局青岛市市南区税务局</td></tr>
+<tr><th scope="row">招考职位</th><td>一级行政执法员（四）（职位代码 300110001004）</td></tr>
+<tr><th scope="row">职位简介</th><td>从事税费征收管理、纳税服务、行政管理等相关工作</td></tr>
+<tr class="gw-grp"><th colspan="2">资格条件</th></tr>
+<tr><th scope="row">招考人数</th><td>1 人</td></tr>
+<tr><th scope="row">学历 / 学位</th><td>本科及以上 · 与最高学历相对应的学位</td></tr>
+<tr><th scope="row">专业</th><td>数学类、统计学类、计算机类、电子信息类</td></tr>
+<tr><th scope="row">政治面貌</th><td>不限</td></tr>
+<tr><th scope="row">基层工作年限</th><td>无限制</td></tr>
+<tr><th scope="row">服务基层项目</th><td>无限制</td></tr>
+<tr><th scope="row">面试人员比例</th><td>3:1</td></tr>
+<tr><th scope="row">专业能力测试</th><td>否</td></tr>
+<tr class="gw-grp"><th colspan="2">地点与机构</th></tr>
+<tr><th scope="row">工作地点</th><td>山东省青岛市市南区</td></tr>
+<tr><th scope="row">落户地点</th><td>山东省青岛市市南区</td></tr>
+<tr><th scope="row">离家距离</th><td>262 km</td></tr>
+<tr><th scope="row">机构性质</th><td>中央国家行政机关省级以下直属机构</td></tr>
+<tr><th scope="row">机构层级 / 属性</th><td>县（区）级及以下 · 普通职位 · 其他职位</td></tr>
+<tr><th scope="row">考试类别</th><td>行政执法类</td></tr>
+<tr class="gw-grp"><th colspan="2">历年数据（公考雷达展示）</th></tr>
+<tr><th scope="row">2027 招录</th><td>1 人（官方简章）</td></tr>
+<tr><th scope="row">2026</th><td>招录 1 · 报名 151 · 竞争比 151:1 · 进面分 134.4</td></tr>
+<tr><th scope="row">2025</th><td>招录 1 · 报名 107 · 竞争比 93:1 · 进面分 128.5</td></tr>
+<tr class="gw-grp"><th colspan="2">备注与咨询</th></tr>
+<tr><th scope="row">备注</th><td>2027届高校毕业生，本单位不提供宿舍，在本单位最低服务年限为5年</td></tr>
+<tr><th scope="row">部门网站</th><td>http://qingdao.chinatax.gov.cn/</td></tr>
+<tr><th scope="row">咨询电话</th><td>0532-83931587</td></tr>
+</table></div>
+<div class="note">出处与核对：官方简章「中央国家行政机关省级以下直属机构」第 9792 行 · 雷达截图 微信图片_20261013233152_691_72 · 招考人数 / 学历 / 专业 / 备注 / 电话等 24 个字段逐行一致</div>
+</section><section class="unit" id="gw-31" data-title="序号 31 · 国家税务总局胶州市税务局 · 一级行政执法员（四）">
+<div class="unit-head"><h3><span class="vno">31</span>国家税务总局胶州市税务局 · 一级行政执法员（四）</h3><span class="chip b">雷达 4★</span><span class="chip wait">非应届岗</span></div>
+<div class="unit-desc">职位代码 300110011004 · 招录 1 人 · 山东省青岛市胶州市 · 离家 222 km · 行政执法类</div>
+<div class="tbwrap"><table class="gw">
+<tr class="gw-grp"><th colspan="2">岗位</th></tr>
+<tr><th scope="row">部门 / 司局</th><td>国家税务总局青岛市税务局（部门代码 130119）· 国家税务总局胶州市税务局</td></tr>
+<tr><th scope="row">招考职位</th><td>一级行政执法员（四）（职位代码 300110011004）</td></tr>
+<tr><th scope="row">职位简介</th><td>从事税费征收管理、纳税服务、行政管理等相关工作</td></tr>
+<tr class="gw-grp"><th colspan="2">资格条件</th></tr>
+<tr><th scope="row">招考人数</th><td>1 人</td></tr>
+<tr><th scope="row">学历 / 学位</th><td>本科及以上 · 与最高学历相对应的学位</td></tr>
+<tr><th scope="row">专业</th><td>数学类、统计学类、计算机类</td></tr>
+<tr><th scope="row">政治面貌</th><td>不限</td></tr>
+<tr><th scope="row">基层工作年限</th><td>无限制</td></tr>
+<tr><th scope="row">服务基层项目</th><td>无限制</td></tr>
+<tr><th scope="row">面试人员比例</th><td>3:1</td></tr>
+<tr><th scope="row">专业能力测试</th><td>否</td></tr>
+<tr class="gw-grp"><th colspan="2">地点与机构</th></tr>
+<tr><th scope="row">工作地点</th><td>山东省青岛市胶州市</td></tr>
+<tr><th scope="row">落户地点</th><td>山东省青岛市胶州市</td></tr>
+<tr><th scope="row">离家距离</th><td>222 km</td></tr>
+<tr><th scope="row">机构性质</th><td>中央国家行政机关省级以下直属机构</td></tr>
+<tr><th scope="row">机构层级 / 属性</th><td>县（区）级及以下 · 普通职位 · 其他职位</td></tr>
+<tr><th scope="row">考试类别</th><td>行政执法类</td></tr>
+<tr class="gw-grp"><th colspan="2">历年数据（公考雷达展示）</th></tr>
+<tr><th scope="row">2027 招录</th><td>1 人（官方简章）</td></tr>
+<tr><th scope="row">2026</th><td>招录 1 · 报名 270 · 竞争比 270:1 · 进面分 135.5</td></tr>
+<tr><th scope="row">2025</th><td>招录 1 · 报名 129 · 竞争比 100:1 · 进面分 129.9</td></tr>
+<tr class="gw-grp"><th colspan="2">备注与咨询</th></tr>
+<tr><th scope="row">备注</th><td>本单位不提供宿舍，男性，在本单位最低服务年限为5年</td></tr>
+<tr><th scope="row">部门网站</th><td>http://qingdao.chinatax.gov.cn/</td></tr>
+<tr><th scope="row">咨询电话</th><td>0532-83931587</td></tr>
+</table></div>
+<div class="note">出处与核对：官方简章「中央国家行政机关省级以下直属机构」第 9864 行 · 雷达截图 微信图片_20261013233152_693_72 · 招考人数 / 学历 / 专业 / 备注 / 电话等 24 个字段逐行一致</div>
+</section><section class="unit" id="gw-32" data-title="序号 32 · 国家税务总局青岛市即墨区税务局 · 一级行政执法员（七）">
+<div class="unit-head"><h3><span class="vno">32</span>国家税务总局青岛市即墨区税务局 · 一级行政执法员（七）</h3><span class="chip b">雷达 4★</span><span class="chip wait">非应届岗</span></div>
+<div class="unit-desc">职位代码 300110007007 · 招录 1 人 · 山东省青岛市即墨区 · 离家 247 km · 行政执法类</div>
+<div class="tbwrap"><table class="gw">
+<tr class="gw-grp"><th colspan="2">岗位</th></tr>
+<tr><th scope="row">部门 / 司局</th><td>国家税务总局青岛市税务局（部门代码 130119）· 国家税务总局青岛市即墨区税务局</td></tr>
+<tr><th scope="row">招考职位</th><td>一级行政执法员（七）（职位代码 300110007007）</td></tr>
+<tr><th scope="row">职位简介</th><td>从事税费征收管理、纳税服务、行政管理等相关工作</td></tr>
+<tr class="gw-grp"><th colspan="2">资格条件</th></tr>
+<tr><th scope="row">招考人数</th><td>1 人</td></tr>
+<tr><th scope="row">学历 / 学位</th><td>本科及以上 · 与最高学历相对应的学位</td></tr>
+<tr><th scope="row">专业</th><td>数学类、统计学类、计算机类</td></tr>
+<tr><th scope="row">政治面貌</th><td>不限</td></tr>
+<tr><th scope="row">基层工作年限</th><td>无限制</td></tr>
+<tr><th scope="row">服务基层项目</th><td>无限制</td></tr>
+<tr><th scope="row">面试人员比例</th><td>3:1</td></tr>
+<tr><th scope="row">专业能力测试</th><td>否</td></tr>
+<tr class="gw-grp"><th colspan="2">地点与机构</th></tr>
+<tr><th scope="row">工作地点</th><td>山东省青岛市即墨区</td></tr>
+<tr><th scope="row">落户地点</th><td>山东省青岛市即墨区</td></tr>
+<tr><th scope="row">离家距离</th><td>247 km</td></tr>
+<tr><th scope="row">机构性质</th><td>中央国家行政机关省级以下直属机构</td></tr>
+<tr><th scope="row">机构层级 / 属性</th><td>县（区）级及以下 · 普通职位 · 其他职位</td></tr>
+<tr><th scope="row">考试类别</th><td>行政执法类</td></tr>
+<tr class="gw-grp"><th colspan="2">历年数据（公考雷达展示）</th></tr>
+<tr><th scope="row">2027 招录</th><td>1 人（官方简章）</td></tr>
+<tr><th scope="row">2026</th><td>招录 1 · 报名 169 · 竞争比 127:1 · 进面分 128.8</td></tr>
+<tr><th scope="row">2025</th><td>招录 1 · 报名 106 · 竞争比 105:1 · 进面分 120.9</td></tr>
+<tr class="gw-grp"><th colspan="2">备注与咨询</th></tr>
+<tr><th scope="row">备注</th><td>本单位不提供宿舍，男性，在本单位最低服务年限为5年</td></tr>
+<tr><th scope="row">部门网站</th><td>http://qingdao.chinatax.gov.cn/</td></tr>
+<tr><th scope="row">咨询电话</th><td>0532-83931587</td></tr>
+</table></div>
+<div class="note">出处与核对：官方简章「中央国家行政机关省级以下直属机构」第 9848 行 · 雷达截图 微信图片_20261013233152_694_72 · 招考人数 / 学历 / 专业 / 备注 / 电话等 24 个字段逐行一致</div>
+</section><section class="unit" id="gw-35" data-title="序号 35 · 国家税务总局青岛市李沧区税务局 · 一级行政执法员（四）">
+<div class="unit-head"><h3><span class="vno">35</span>国家税务总局青岛市李沧区税务局 · 一级行政执法员（四）</h3><span class="chip b">雷达 4★</span><span class="chip wait">非应届岗</span></div>
+<div class="unit-desc">职位代码 300110003004 · 招录 2 人 · 山东省青岛市李沧区 · 离家 258 km · 行政执法类</div>
+<div class="tbwrap"><table class="gw">
+<tr class="gw-grp"><th colspan="2">岗位</th></tr>
+<tr><th scope="row">部门 / 司局</th><td>国家税务总局青岛市税务局（部门代码 130119）· 国家税务总局青岛市李沧区税务局</td></tr>
+<tr><th scope="row">招考职位</th><td>一级行政执法员（四）（职位代码 300110003004）</td></tr>
+<tr><th scope="row">职位简介</th><td>从事税费征收管理、纳税服务、行政管理等相关工作</td></tr>
+<tr class="gw-grp"><th colspan="2">资格条件</th></tr>
+<tr><th scope="row">招考人数</th><td>2 人</td></tr>
+<tr><th scope="row">学历 / 学位</th><td>本科及以上 · 与最高学历相对应的学位</td></tr>
+<tr><th scope="row">专业</th><td>数学类、统计学类、计算机类</td></tr>
+<tr><th scope="row">政治面貌</th><td>不限</td></tr>
+<tr><th scope="row">基层工作年限</th><td>无限制</td></tr>
+<tr><th scope="row">服务基层项目</th><td>无限制</td></tr>
+<tr><th scope="row">面试人员比例</th><td>3:1</td></tr>
+<tr><th scope="row">专业能力测试</th><td>否</td></tr>
+<tr class="gw-grp"><th colspan="2">地点与机构</th></tr>
+<tr><th scope="row">工作地点</th><td>山东省青岛市李沧区</td></tr>
+<tr><th scope="row">落户地点</th><td>山东省青岛市李沧区</td></tr>
+<tr><th scope="row">离家距离</th><td>258 km</td></tr>
+<tr><th scope="row">机构性质</th><td>中央国家行政机关省级以下直属机构</td></tr>
+<tr><th scope="row">机构层级 / 属性</th><td>县（区）级及以下 · 普通职位 · 其他职位</td></tr>
+<tr><th scope="row">考试类别</th><td>行政执法类</td></tr>
+<tr class="gw-grp"><th colspan="2">历年数据（公考雷达展示）</th></tr>
+<tr><th scope="row">2027 招录</th><td>2 人（官方简章）</td></tr>
+<tr><th scope="row">2026</th><td>招录 1 · 报名 151 · 竞争比 124:1 · 进面分 127.6</td></tr>
+<tr><th scope="row">2025</th><td>招录 1 · 报名 129 · 竞争比 100:1 · 进面分 129.9</td></tr>
+<tr class="gw-grp"><th colspan="2">备注与咨询</th></tr>
+<tr><th scope="row">备注</th><td>本单位不提供宿舍，男性，在本单位最低服务年限为5年</td></tr>
+<tr><th scope="row">部门网站</th><td>http://qingdao.chinatax.gov.cn/</td></tr>
+<tr><th scope="row">咨询电话</th><td>0532-83931587</td></tr>
+</table></div>
+<div class="note">出处与核对：官方简章「中央国家行政机关省级以下直属机构」第 9813 行 · 雷达截图 微信图片_20261013233152_697_72 · 招考人数 / 学历 / 专业 / 备注 / 电话等 24 个字段逐行一致</div>
+</section></div>
+<div class="module" id="gkb-3-3"><div class="mod-banner"><h2>三、岗位详情 · 金融监管总局山东监管局</h2><p>国家金融监督管理总局山东监管局：2 个岗位、招录 6 人，离家 140–257 km</p></div>
+<section class="unit" id="gw-22" data-title="序号 22 · 国家金融监督管理总局长岛监管支局 · 监管部门一级主任科员及以下">
+<div class="unit-head"><h3><span class="vno">22</span>国家金融监督管理总局长岛监管支局 · 监管部门一级主任科员及以下</h3><span class="chip b">雷达 4★</span><span class="chip m">限应届</span><span class="chip k">市（地）级及以下直属机构综合管理类</span></div>
+<div class="unit-desc">职位代码 300147043001 · 招录 1 人 · 山东省烟台市蓬莱区 · 离家 257 km · 市（地）级及以下直属机构综合管理类</div>
+<div class="tbwrap"><table class="gw">
+<tr class="gw-grp"><th colspan="2">岗位</th></tr>
+<tr><th scope="row">部门 / 司局</th><td>国家金融监督管理总局山东监管局（部门代码 132115）· 国家金融监督管理总局长岛监管支局</td></tr>
+<tr><th scope="row">招考职位</th><td>监管部门一级主任科员及以下（职位代码 300147043001）</td></tr>
+<tr><th scope="row">职位简介</th><td>主要从事金融非现场监管、现场检查及其他金融监管工作</td></tr>
+<tr class="gw-grp"><th colspan="2">资格条件</th></tr>
+<tr><th scope="row">招考人数</th><td>1 人</td></tr>
+<tr><th scope="row">学历 / 学位</th><td>本科或硕士研究生 · 与最高学历相对应的学位</td></tr>
+<tr><th scope="row">专业</th><td>以本科专业报考：计算机类、电子信息类。以研究生专业报考：计算机科学与技术、软件工程、网络空间安全、电子信息、电子科学与技术、信息与通信工程。</td></tr>
+<tr><th scope="row">政治面貌</th><td>不限</td></tr>
+<tr><th scope="row">基层工作年限</th><td>无限制</td></tr>
+<tr><th scope="row">服务基层项目</th><td>无限制</td></tr>
+<tr><th scope="row">面试人员比例</th><td>3:1</td></tr>
+<tr><th scope="row">专业能力测试</th><td>否</td></tr>
+<tr class="gw-grp"><th colspan="2">地点与机构</th></tr>
+<tr><th scope="row">工作地点</th><td>山东省烟台市蓬莱区</td></tr>
+<tr><th scope="row">落户地点</th><td>山东省烟台市蓬莱区</td></tr>
+<tr><th scope="row">离家距离</th><td>257 km</td></tr>
+<tr><th scope="row">机构性质</th><td>中央国家行政机关省级以下直属机构</td></tr>
+<tr><th scope="row">机构层级 / 属性</th><td>县（区）级及以下 · 金融监管计算机类职位 · 其他职位</td></tr>
+<tr><th scope="row">考试类别</th><td>市（地）级及以下直属机构综合管理类</td></tr>
+<tr class="gw-grp"><th colspan="2">历年数据（公考雷达展示）</th></tr>
+<tr><th scope="row">2027 招录</th><td>1 人（官方简章）</td></tr>
+<tr><th scope="row">2026</th><td>招录 1 · 报名 24 · 竞争比 24:1 · 进面分 58.7</td></tr>
+<tr><th scope="row">2025</th><td>招录 1 · 报名 21 · 竞争比 19:1 · 进面分 49.5</td></tr>
+<tr class="gw-grp"><th colspan="2">备注与咨询</th></tr>
+<tr><th scope="row">备注</th><td>1.报名时请在专业栏中同时填写专业名称和专业代码；2.限应届高校毕业生报考，请在备注栏中注明本人具有应届高校毕业生身份；3.本职位工作地点具体为烟台长岛；4.专业考试信息参见《2027年度国家金融监督管理总局招考职位专业科目笔试大纲》；5.报考时填写个人学习、工作经历要求连续准确（按时间早晚顺序填写，起止节点具体至月份，待业经历请注明）。</td></tr>
+<tr><th scope="row">部门网站</th><td>https://www.nfra.gov.cn</td></tr>
+<tr><th scope="row">咨询电话</th><td>0531-86193829 / 0531-86193605 / 0531-86193532</td></tr>
+</table></div>
+<div class="note">出处与核对：官方简章「中央国家行政机关省级以下直属机构」第 16385 行 · 雷达截图 微信图片_20261013233152_684_72 · 招考人数 / 学历 / 专业 / 备注 / 电话等 24 个字段逐行一致</div>
+</section><section class="unit" id="gw-38" data-title="序号 38 · 国家金融监督管理总局德州监管分局辖内监管支局 · 监管部门一级主任科员及以下">
+<div class="unit-head"><h3><span class="vno">38</span>国家金融监督管理总局德州监管分局辖内监管支局 · 监管部门一级主任科员及以下</h3><span class="chip b">雷达 4★</span><span class="chip wait">非应届岗</span><span class="chip k">市（地）级及以下直属机构综合管理类</span></div>
+<div class="unit-desc">职位代码 300147162001 · 招录 5 人 · 山东省德州市 · 离家 140 km · 市（地）级及以下直属机构综合管理类</div>
+<div class="tbwrap"><table class="gw">
+<tr class="gw-grp"><th colspan="2">岗位</th></tr>
+<tr><th scope="row">部门 / 司局</th><td>国家金融监督管理总局山东监管局（部门代码 132115）· 国家金融监督管理总局德州监管分局辖内监管支局</td></tr>
+<tr><th scope="row">招考职位</th><td>监管部门一级主任科员及以下（职位代码 300147162001）</td></tr>
+<tr><th scope="row">职位简介</th><td>主要从事金融非现场监管、现场检查及其他金融监管工作</td></tr>
+<tr class="gw-grp"><th colspan="2">资格条件</th></tr>
+<tr><th scope="row">招考人数</th><td>5 人</td></tr>
+<tr><th scope="row">学历 / 学位</th><td>本科或硕士研究生 · 与最高学历相对应的学位</td></tr>
+<tr><th scope="row">专业</th><td>以本科专业报考：计算机类、电子信息类。以研究生专业报考：计算机科学与技术、软件工程、网络空间安全、电子信息、电子科学与技术、信息与通信工程。</td></tr>
+<tr><th scope="row">政治面貌</th><td>不限</td></tr>
+<tr><th scope="row">基层工作年限</th><td>无限制</td></tr>
+<tr><th scope="row">服务基层项目</th><td>无限制</td></tr>
+<tr><th scope="row">面试人员比例</th><td>3:1</td></tr>
+<tr><th scope="row">专业能力测试</th><td>否</td></tr>
+<tr class="gw-grp"><th colspan="2">地点与机构</th></tr>
+<tr><th scope="row">工作地点</th><td>山东省德州市</td></tr>
+<tr><th scope="row">落户地点</th><td>山东省德州市</td></tr>
+<tr><th scope="row">离家距离</th><td>140 km</td></tr>
+<tr><th scope="row">机构性质</th><td>中央国家行政机关省级以下直属机构</td></tr>
+<tr><th scope="row">机构层级 / 属性</th><td>县（区）级及以下 · 金融监管计算机类职位 · 其他职位</td></tr>
+<tr><th scope="row">考试类别</th><td>市（地）级及以下直属机构综合管理类</td></tr>
+<tr class="gw-grp"><th colspan="2">历年数据（公考雷达展示）</th></tr>
+<tr><th scope="row">2027 招录</th><td>5 人（官方简章）</td></tr>
+<tr><th scope="row">2026</th><td>招录 1 · 报名 15 · 竞争比 13:1 · 进面分 46.8</td></tr>
+<tr><th scope="row">2025</th><td>招录 1 · 报名 17 · 竞争比 15:1 · 进面分 51.4</td></tr>
+<tr class="gw-grp"><th colspan="2">备注与咨询</th></tr>
+<tr><th scope="row">备注</th><td>1.报名时请在专业栏中同时填写专业名称和专业代码；2.本职位具体招录人数为庆云支局1人、临邑支局1人、齐河支局1人、平原支局1人、夏津支局1人，录用后按照综合成绩从高到低顺序，由考生选择工作单位；3.专业考试信息参见《2027年度国家金融监督管理总局招考职位专业科目笔试大纲》；4.报考时填写个人学习、工作经历要求连续准确（按时间早晚顺序填写，起止节点具体至月份，待业经历请注明）。</td></tr>
+<tr><th scope="row">部门网站</th><td>https://www.nfra.gov.cn</td></tr>
+<tr><th scope="row">咨询电话</th><td>0531-86193829 / 0531-86193605 / 0531-86193532</td></tr>
+</table></div>
+<div class="note">出处与核对：官方简章「中央国家行政机关省级以下直属机构」第 16459 行 · 雷达截图 微信图片_20261013233152_700_72 · 招考人数 / 学历 / 专业 / 备注 / 电话等 24 个字段逐行一致</div>
+</section></div>
+<div class="module" id="gkb-3-4"><div class="mod-banner"><h2>三、岗位详情 · 统计调查 · 邮政</h2><p>国家统计局山东调查总队 / 山东省邮政管理局：2 个岗位、招录 2 人，离家 179–283 km</p></div>
+<section class="unit" id="gw-01" data-title="序号 1 · 烟台市邮政管理局 · 一级科员">
+<div class="unit-head"><h3><span class="vno">1</span>烟台市邮政管理局 · 一级科员</h3><span class="chip b">雷达 5★</span><span class="chip m">限应届</span><span class="chip">限党员</span><span class="chip k">市（地）级及以下直属机构综合管理类</span></div>
+<div class="unit-desc">职位代码 300110007001 · 招录 1 人 · 山东省烟台市 · 离家 283 km · 市（地）级及以下直属机构综合管理类</div>
+<div class="tbwrap"><table class="gw">
+<tr class="gw-grp"><th colspan="2">岗位</th></tr>
+<tr><th scope="row">部门 / 司局</th><td>山东省邮政管理局（部门代码 162115）· 烟台市邮政管理局</td></tr>
+<tr><th scope="row">招考职位</th><td>一级科员（职位代码 300110007001）</td></tr>
+<tr><th scope="row">职位简介</th><td>邮政行业监督管理</td></tr>
+<tr class="gw-grp"><th colspan="2">资格条件</th></tr>
+<tr><th scope="row">招考人数</th><td>1 人</td></tr>
+<tr><th scope="row">学历 / 学位</th><td>本科及以上 · 与最高学历相对应的学位</td></tr>
+<tr><th scope="row">专业</th><td>电子信息工程、电子信息、网络工程、软件工程、通信工程、机械电子工程、机械工程（以上均为专业名称）</td></tr>
+<tr><th scope="row">政治面貌</th><td>中共党员</td></tr>
+<tr><th scope="row">基层工作年限</th><td>无限制</td></tr>
+<tr><th scope="row">服务基层项目</th><td>无限制</td></tr>
+<tr><th scope="row">面试人员比例</th><td>3:1</td></tr>
+<tr><th scope="row">专业能力测试</th><td>否</td></tr>
+<tr class="gw-grp"><th colspan="2">地点与机构</th></tr>
+<tr><th scope="row">工作地点</th><td>山东省烟台市</td></tr>
+<tr><th scope="row">落户地点</th><td>山东省烟台市</td></tr>
+<tr><th scope="row">离家距离</th><td>283 km</td></tr>
+<tr><th scope="row">机构性质</th><td>中央国家行政机关省级以下直属机构</td></tr>
+<tr><th scope="row">机构层级 / 属性</th><td>市（地）级 · 普通职位 · 其他职位</td></tr>
+<tr><th scope="row">考试类别</th><td>市（地）级及以下直属机构综合管理类</td></tr>
+<tr class="gw-grp"><th colspan="2">历年数据（公考雷达展示）</th></tr>
+<tr><th scope="row">2027 招录</th><td>1 人（官方简章）</td></tr>
+<tr><th scope="row">2026</th><td>招录 1 · 报名 64 · 竞争比 64:1 · 进面分 126.8</td></tr>
+<tr><th scope="row">2025</th><td>招录 1 · 报名 51 · 竞争比 51:1 · 进面分 140.6</td></tr>
+<tr class="gw-grp"><th colspan="2">备注与咨询</th></tr>
+<tr><th scope="row">备注</th><td>1.仅招录2027届高校毕业生；2.一线执法岗位，需到辖区边远地区开展执法检查，工作强度大；3.本单位不提供宿舍；4.在本单位最低服务年限为5年（含试用期）；5.落户须符合当地有关政策，单位无法办理集体户口。</td></tr>
+<tr><th scope="row">部门网站</th><td>http://sd.spb.gov.cn/</td></tr>
+<tr><th scope="row">咨询电话</th><td>0531-85090178 / 0531-85090177</td></tr>
+</table></div>
+<div class="note">出处与核对：官方简章「中央国家行政机关省级以下直属机构」第 18090 行 · 雷达截图 微信图片_20261013233152_663_72 · 招考人数 / 学历 / 专业 / 备注 / 电话等 24 个字段逐行一致</div>
+</section><section class="unit" id="gw-02" data-title="序号 2 · 国家统计局山东调查总队 · 莱州调查队一级科员">
+<div class="unit-head"><h3><span class="vno">2</span>国家统计局山东调查总队 · 莱州调查队一级科员</h3><span class="chip b">雷达 4★</span><span class="chip wait">非应届岗</span><span class="chip k">市（地）级及以下直属机构综合管理类</span></div>
+<div class="unit-desc">职位代码 400110115009 · 招录 1 人 · 山东省烟台市莱州市 · 离家 179 km · 市（地）级及以下直属机构综合管理类</div>
+<div class="tbwrap"><table class="gw">
+<tr class="gw-grp"><th colspan="2">岗位</th></tr>
+<tr><th scope="row">部门 / 司局</th><td>国家统计局山东调查总队（部门代码 137115）· 国家统计局山东调查总队</td></tr>
+<tr><th scope="row">招考职位</th><td>莱州调查队一级科员（职位代码 400110115009）</td></tr>
+<tr><th scope="row">职位简介</th><td>从事一线入村入户调查、数据处理、统计分析研究、财务管理等工作。</td></tr>
+<tr class="gw-grp"><th colspan="2">资格条件</th></tr>
+<tr><th scope="row">招考人数</th><td>1 人</td></tr>
+<tr><th scope="row">学历 / 学位</th><td>仅限本科 · 学士</td></tr>
+<tr><th scope="row">专业</th><td>统计学、应用统计学、数学与应用数学、信息与计算科学、计算机科学与技术、软件工程、网络工程、数据科学与大数据技术、经济学、经济统计学</td></tr>
+<tr><th scope="row">政治面貌</th><td>不限</td></tr>
+<tr><th scope="row">基层工作年限</th><td>无限制</td></tr>
+<tr><th scope="row">服务基层项目</th><td>无限制</td></tr>
+<tr><th scope="row">面试人员比例</th><td>3:1</td></tr>
+<tr><th scope="row">专业能力测试</th><td>否</td></tr>
+<tr class="gw-grp"><th colspan="2">地点与机构</th></tr>
+<tr><th scope="row">工作地点</th><td>山东省烟台市莱州市</td></tr>
+<tr><th scope="row">落户地点</th><td>山东省烟台市莱州市</td></tr>
+<tr><th scope="row">离家距离</th><td>179 km</td></tr>
+<tr><th scope="row">机构性质</th><td>中央国家行政机关参照公务员法管理事业单位</td></tr>
+<tr><th scope="row">机构层级 / 属性</th><td>县（区）级及以下 · 普通职位 · 其他职位</td></tr>
+<tr><th scope="row">考试类别</th><td>市（地）级及以下直属机构综合管理类</td></tr>
+<tr class="gw-grp"><th colspan="2">历年数据（公考雷达展示）</th></tr>
+<tr><th scope="row">2027 招录</th><td>1 人（官方简章）</td></tr>
+<tr><th scope="row">2026</th><td>—（App 未展示）</td></tr>
+<tr><th scope="row">2025</th><td>招录 1 · 报名 66 · 竞争比 66:1 · 进面分 123.1</td></tr>
+<tr class="gw-grp"><th colspan="2">备注与咨询</th></tr>
+<tr><th scope="row">备注</th><td>须以最高学历所学主修专业报考；本单位最低服务年限为5年(含试用期）；需经常下乡入户、条件较为艰苦。</td></tr>
+<tr><th scope="row">部门网站</th><td>无</td></tr>
+<tr><th scope="row">咨询电话</th><td>0531-51752030 / 0531-51751906 / 0531-51751907</td></tr>
+</table></div>
+<div class="note">出处与核对：官方简章「中央国家行政机关参照公务员法管理事业单位」第 397 行 · 雷达截图 微信图片_20261013233152_664_72 · 招考人数 / 学历 / 专业 / 备注 / 电话等 24 个字段逐行一致</div>
+</section></div>
+<div class="module" id="gkb-m4"><div class="mod-banner"><h2>四、来源 · 下载 · 维护</h2><p>数据是怎么来的、原表在哪、以后怎么更新</p></div>
+<section class="unit" id="gkb-4-1" data-title="数据来源与核对"><div class="unit-head"><h3>数据来源与核对</h3><span class="chip">溯源</span></div>
+<ul>
+<li><b>岗位来源</b>：公考雷达 App「适合岗位」筛选结果 —— 45 张截图（文件名形如 <code>微信图片_20261013233152_663_72</code>，对应本页序号 1 起），抓取时间 2026-10-13。</li>
+<li><b>官方依据</b>：《中央机关及其直属机构2027年度考试录用公务员招考简章》（.xls 职位表，工作表「中央国家行政机关省级以下直属机构」等）。</li>
+<li><b>核对方式</b>：45 行 × 24 个字段逐行与简章比对（招考人数 / 学历 / 学位 / 专业 / 政治面貌 / 基层工作最低年限 / 服务基层项目工作经历 / 面试人员比例 / 工作地点 / 落户地点 / 职位简介 / 备注 / 部门网站 / 咨询电话等），结果 0 处不一致；简章工作表与行号记在每张岗位卡末尾。</li>
+<li><b>历史数据</b>：2026 / 2025 两列来自公考雷达展示（招录 / 报名 / 竞争比 / 进面分），未与官方历史公告二次核对，仅作参考。</li>
+<li><b>本页不收的东西</b>：不录个人报名信息、不录截图原图；只保留公开的职位信息（含部门官网与咨询电话）。</li>
+</ul>
+<div class="note">以官方为准：本页是个人整理的可检索翻版，报名、资格审查、专业目录、考试大纲一律以国家公务员局专题网站与招录机关发布为准。</div>
+</section>
+<section class="unit" id="gkb-4-2" data-title="原表下载"><div class="unit-head"><h3>原表下载</h3><span class="chip">.xlsx</span></div>
+<p>页面是原表的可检索翻版；需要 41 列完整字段（含来源截图名、官方来源表分类等）时直接下原表：</p>
+<div class="gw-dl"><a href="雷达45岗位-2027国考-官方对应表.xlsx" download>↓ 雷达45岗位-2027国考-官方对应表.xlsx（45 行 × 41 列）</a></div>
+<ul>
+<li><b>41 列构成</b>：岗位主键 2 列（部门代码 / 职位代码）＋ 岗位与资格 12 列 ＋ 地点 3 列 ＋ 2026 / 2025 历年 8 列 ＋ 机构属性 6 列 ＋ 备注与咨询 6 列 ＋ 溯源 2 列（官方来源表 / 来源截图）。</li>
+<li>本页把其中 39 列搬进了岗位卡；<code>官方来源表</code> 与 <code>机构性质</code> 内容一致，已合并显示，<code>来源截图</code> 只出现在卡片末尾的出处行。</li>
+</ul>
+</section>
+<section class="unit" id="gkb-4-3" data-title="后续更新"><div class="unit-head"><h3>后续更新</h3><span class="chip wait">维护</span></div>
+<ol>
+<li><b>换数据</b>：把新一版 xlsx 放回本目录（同名覆盖即可，本页下载链接指向的就是它）。</li>
+<li><b>重新生成</b>：跑生成器 <code>Codex  Thing\_work\国考报名-2026-10-14\build_page.py</code>（读桌面上的 xlsx，输出本页 HTML）——页面里所有数字都是从原表现算的，<b>不要手改正文</b>；脚本同时会打印岗位数 / 限应届 / 距离区间等统计，跑完扫一眼对不对。</li>
+<li><b>打戳 + 自检</b>：<code>node scripts\refresh-site.js</code>（重建索引 / 自动打缓存版本 / 索引自检）。</li>
+<li><b>发布</b>：<code>.\publish.cmd</code>（比对差异 → 只传变化文件 → 等构建 → 回抓校验）。</li>
+<li><b>省考/其他考试</b>：本板块（公务员考试报名）后续可以再挂「省考报名」等子页 —— 新增页面走 <code>node scripts\new-section.js</code> 的流程，并在 index.html 的 NAV 里登记。</li>
+</ol>
+</section></div>
+</main>
+</div>
+<button class="backtop" id="backtop" title="回到顶部">↑</button>
+<div class="foot-tip">内容来源：公考雷达「适合岗位」筛选（45 张截图，2026-10-13）＋《中央机关及其直属机构2027年度考试录用公务员招考简章》；本页数据与简章逐条核对，报名以官方公告为准。</div>
+<script src="../../assets/板块页脚本.js?v=0cbebb75"></script>
+</body>
+</html>
