@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN" data-theme="red">
-<head><style id="xz-perf">/* 长页面打开提速：屏幕外的知识点块不做排版与绘制 */section.kp,section.unit{content-visibility:auto;contain-intrinsic-size:auto 700px}section.qcard,section.matcard,section.shen,section.slot{content-visibility:auto;contain-intrinsic-size:auto 320px}figure.pkpage{content-visibility:auto;contain-intrinsic-size:auto 1200px}</style>
+<head><style id="xz-perf">/* 长页面打开提速：屏幕外的知识点块不做排版与绘制 */section.kp,section.unit{content-visibility:auto;contain-intrinsic-size:auto 700px}section.qcard,section.matcard,section.shen,section.slot{content-visibility:auto;contain-intrinsic-size:auto 320px}</style>
 <meta charset="UTF-8">
 <link rel="icon" href="data:,"><script src="../assets/%E4%B8%BB%E9%A2%98.js?v=f38968bc"></script><script src="../assets/%E6%BC%94%E7%AE%97%E5%B1%82.js?v=a132b1de"></script><script src="../assets/%E5%AE%9A%E4%BD%8D%E5%B1%82.js?v=a3907880"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
@@ -21,32 +21,23 @@
 .mtq{background:var(--xz-surface-2);border:1px solid var(--xz-good-line)}
 .kcq .qtag{background:var(--xz-info-bg);color:color-mix(in srgb,var(--primary) 88%,var(--xz-ink))}
 .mtq .qtag{background:var(--xz-good-bg);color:var(--xz-good-ink)}
-/* 模块二 · 排坑手册 */
-.pk-group{margin:18px 0 30px}
-.pk-ghead{display:flex;align-items:baseline;gap:10px;margin:0 0 12px -15px;font-size:var(--fs-lg);
-  color:var(--xz-ink);border-left:3px solid var(--primary);padding-left:12px}
-.pk-grange{font-size:var(--fs-xs);font-weight:600;color:var(--xz-ink-4)}
-.pk-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:18px;align-items:start}
-.pkpage{margin:0;background:var(--xz-surface);border:1px solid var(--xz-line);border-radius:var(--r-sm);
-  padding:8px;box-shadow:var(--xz-shadow-sm)}
-.pkpage img{display:block;width:100%;height:auto;border-radius:var(--r-xs);background:#fff}
-a.pkopen{display:block}
-.pkpage figcaption{margin-top:6px;text-align:center;font-size:var(--fs-xs);color:var(--xz-ink-4)}
-@media(max-width:760px){.pk-grid{grid-template-columns:1fr}}
+/* 模块二 · 排坑手册（文字版） */
+.pk-lead{font-weight:600;color:var(--xz-ink-2);margin:10px 0 2px}
+details.ans .ans-body .pk-lead{margin-top:2px}
 </style>
 
 </head>
 <body>
 <header>
   <h1>政治理论</h1>
-  <div class="intro">《小黑政治理论》2027 版两本讲义合一页：<b>模块一 · 政治理论知识</b>按《消化清单》逐段录入，
+  <div class="intro">《小黑政治理论》2027 版讲义两册合一页：<b>模块一 · 政治理论知识</b>按《消化清单》逐段录入，
   空位答案取自《课程讲义》原文并高亮，讲义标黑处逐字复原，随堂练习 200 题按知识板块分置、附官方答案；
-  <b>模块二 · 排坑手册</b>整本 77 页扫描收录（找坑 · 识坑 · 排坑判断特训）。</div>
+  <b>模块二 · 排坑手册</b>全文录入（文字版）：找坑 · 识坑 · 排坑判断题特训，答案折叠可先自测。</div>
   <div class="meta">
-    <span>两大模块</span>
-    <span>54 张卡片</span>
+    <span>知识卡片 54 张</span>
     <span>填空 836 处 · 已填</span>
     <span>随堂练习 200 题</span>
+    <span>排坑特训 65 组 · 判断 505 条</span>
   </div>
 </header>
 <div class="toolbar">
@@ -122,17 +113,71 @@ a.pkopen{display:block}
 <a class="t-item" href="#kp-51" data-t="二、民生领域">二、民生领域</a>
 <a class="t-item" href="#kp-52" data-t="三、生态领域">三、生态领域</a>
 <a class="t-item" href="#kp-53" data-t="四、涉农领域">四、涉农领域</a>
-<div class="t-pian"><a href="#zzmod-2">模块二 · 排坑手册（77 页）</a></div>
-<a class="t-item" href="#pkg-1" data-t="开篇 · 封面 / 寄语 / 目录">开篇 · 封面 / 寄语 / 目录</a>
-<a class="t-item" href="#pkg-2" data-t="第一篇《习近平新时代中国特色社会主义思想》· 第一章 总论">第一篇《习近平新时代中国特色社会主义思想》· 第一章 总论</a>
-<a class="t-item" href="#pkg-3" data-t="第一篇《习近平新时代中国特色社会主义思想》· 第二章 分论">第一篇《习近平新时代中国特色社会主义思想》· 第二章 分论</a>
-<a class="t-item" href="#pkg-4" data-t="第二篇《马克思主义哲学》">第二篇《马克思主义哲学》</a>
-<a class="t-item" href="#pkg-5" data-t="第三篇《时事政治》· 第一章 重要会议">第三篇《时事政治》· 第一章 重要会议</a>
-<a class="t-item" href="#pkg-6" data-t="第三篇《时事政治》· 第二章 重要讲话">第三篇《时事政治》· 第二章 重要讲话</a>
-<a class="t-item" href="#pkg-7" data-t="第三篇《时事政治》· 第三章 重要指示">第三篇《时事政治》· 第三章 重要指示</a>
-<a class="t-item" href="#pkg-8" data-t="第三篇《时事政治》· 第四章 重要文件">第三篇《时事政治》· 第四章 重要文件</a></nav>
+<div class="t-pian"><a href="#zzmod-2">模块二 · 排坑手册（文字版）</a></div>
+<div class="t-zhang">第一篇《习近平新时代中国特色社会主义思想》</div>
+<div class="t-zhang">第一章 总论</div>
+<a class="t-item" href="#pk-1" data-t="一、习近平新时代中国特色社会主义思想的核心要义">一、习近平新时代中国特色社会主义思想的核心要义</a>
+<a class="t-item" href="#pk-2" data-t="二、习近平新时代中国特色社会主义思想是两个结合的重大成果">二、习近平新时代中国特色社会主义思想是两个结合的重大成果</a>
+<a class="t-item" href="#pk-3" data-t="三、习近平新时代中国特色社会主义思想的科学体系">三、习近平新时代中国特色社会主义思想的科学体系</a>
+<a class="t-item" href="#pk-4" data-t="四、以中国式现代化全面推进中华民族伟大复兴">四、以中国式现代化全面推进中华民族伟大复兴</a>
+<div class="t-zhang">第二章 分论</div>
+<a class="t-item" href="#pk-5" data-t="一、党的全面领导">一、党的全面领导</a>
+<a class="t-item" href="#pk-6" data-t="二、以人民为中心">二、以人民为中心</a>
+<a class="t-item" href="#pk-7" data-t="三、推动高质量发展">三、推动高质量发展</a>
+<a class="t-item" href="#pk-8" data-t="四、发展全过程人民民主">四、发展全过程人民民主</a>
+<a class="t-item" href="#pk-9" data-t="五、建设社会主义文化强国">五、建设社会主义文化强国</a>
+<a class="t-item" href="#pk-10" data-t="六、以保障和改善民生为重点加强社会建设">六、以保障和改善民生为重点加强社会建设</a>
+<a class="t-item" href="#pk-11" data-t="七、社会主义生态文明">七、社会主义生态文明</a>
+<a class="t-item" href="#pk-12" data-t="八、全面深化改革">八、全面深化改革</a>
+<a class="t-item" href="#pk-13" data-t="九、全面依法治国">九、全面依法治国</a>
+<a class="t-item" href="#pk-14" data-t="十、全面从严治党">十、全面从严治党</a>
+<a class="t-item" href="#pk-15" data-t="十一、总体国家安全观">十一、总体国家安全观</a>
+<a class="t-item" href="#pk-16" data-t="十二、社会主义现代化建设的教育、科技、人才战略">十二、社会主义现代化建设的教育、科技、人才战略</a>
+<div class="t-zhang">第二篇《马克思主义哲学》</div>
+<a class="t-item" href="#pk-17" data-t="知识点1物质与意识">知识点1物质与意识</a>
+<a class="t-item" href="#pk-18" data-t="知识点2 唯物辩证法的总特征">知识点2 唯物辩证法的总特征</a>
+<a class="t-item" href="#pk-19" data-t="知识点3 唯物辩证法的基本规律">知识点3 唯物辩证法的基本规律</a>
+<a class="t-item" href="#pk-20" data-t="知识点4 实践与认识的辩证关系">知识点4 实践与认识的辩证关系</a>
+<a class="t-item" href="#pk-21" data-t="知识点5社会发展的基本规律">知识点5社会发展的基本规律</a>
+<a class="t-item" href="#pk-22" data-t="知识点6人民群众在历史发展中的作用">知识点6人民群众在历史发展中的作用</a>
+<div class="t-zhang">第三篇《时事政治》</div>
+<div class="t-zhang">第一章 重要会议</div>
+<a class="t-item" href="#pk-23" data-t="一、2025年中央经济工作会议">一、2025年中央经济工作会议</a>
+<a class="t-item" href="#pk-24" data-t="二、2026年政府工作报告">二、2026年政府工作报告</a>
+<a class="t-item" href="#pk-25" data-t="三、2026年全国两会之习近平重要讲话">三、2026年全国两会之习近平重要讲话</a>
+<a class="t-item" href="#pk-26" data-t="四、二十届中央纪委五次全会">四、二十届中央纪委五次全会</a>
+<a class="t-item" href="#pk-27" data-t="五、全国党建工作座谈会">五、全国党建工作座谈会</a>
+<div class="t-zhang">第二章 重要讲话</div>
+<a class="t-item" href="#pk-28" data-t="一、在中共中央政治局集体学习时的讲话">一、在中共中央政治局集体学习时的讲话</a>
+<a class="t-item" href="#pk-29" data-t="二、在省部级主要领导干部专题研讨班上的讲话">二、在省部级主要领导干部专题研讨班上的讲话</a>
+<a class="t-item" href="#pk-30" data-t="三、在雄安新区考察时的讲话">三、在雄安新区考察时的讲话</a>
+<a class="t-item" href="#pk-31" data-t="四、在会见中国国民党主席郑丽文时的讲话">四、在会见中国国民党主席郑丽文时的讲话</a>
+<a class="t-item" href="#pk-32" data-t="五、在加强基础研究座谈会上的讲话">五、在加强基础研究座谈会上的讲话</a>
+<a class="t-item" href="#pk-33" data-t="六、在建党105周年大会上的讲话">六、在建党105周年大会上的讲话</a>
+<a class="t-item" href="#pk-34" data-t="七、在国家科学技术奖励大会等会议上的讲话">七、在国家科学技术奖励大会等会议上的讲话</a>
+<a class="t-item" href="#pk-35" data-t="八、在纪念江泽民同志诞辰100周年大会上的讲话">八、在纪念江泽民同志诞辰100周年大会上的讲话</a>
+<a class="t-item" href="#pk-36" data-t="九、在2026世界人工智能大会开幕式上的讲话">九、在2026世界人工智能大会开幕式上的讲话</a>
+<a class="t-item" href="#pk-37" data-t="十、在2026年上合组织成员国元首理事会会议上的讲话">十、在2026年上合组织成员国元首理事会会议上的讲话</a>
+<a class="t-item" href="#pk-38" data-t="十一、在“上海合作组织+”会议上的讲话">十一、在“上海合作组织+”会议上的讲话</a>
+<a class="t-item" href="#pk-39" data-t="十二、在金砖国家领导人第十八次会晤上的讲话">十二、在金砖国家领导人第十八次会晤上的讲话</a>
+<div class="t-zhang">第三章 重要指示</div>
+<a class="t-item" href="#pk-40" data-t="一、对党校（行政学院）工作的重要指示">一、对党校（行政学院）工作的重要指示</a>
+<a class="t-item" href="#pk-41" data-t="二、对全面依法治国工作的重要指示">二、对全面依法治国工作的重要指示</a>
+<a class="t-item" href="#pk-42" data-t="三、对中央企业工作的重要指示">三、对中央企业工作的重要指示</a>
+<a class="t-item" href="#pk-43" data-t="四、对做好“三农”工作的重要指示">四、对做好“三农”工作的重要指示</a>
+<a class="t-item" href="#pk-44" data-t="五、对服务业发展的重要指示">五、对服务业发展的重要指示</a>
+<a class="t-item" href="#pk-45" data-t="六、对总结好运用好“义乌发展经验”的重要指示">六、对总结好运用好“义乌发展经验”的重要指示</a>
+<a class="t-item" href="#pk-46" data-t="七、对常态化做好东西部协作工作的重要指示">七、对常态化做好东西部协作工作的重要指示</a>
+<a class="t-item" href="#pk-47" data-t="八、对基础教育工作的重要指示">八、对基础教育工作的重要指示</a>
+<a class="t-item" href="#pk-48" data-t="九、对巩固拓展树立和践行正确政绩观学习教育成果的重要指示">九、对巩固拓展树立和践行正确政绩观学习教育成果的重要指示</a>
+<a class="t-item" href="#pk-49" data-t="十、对发展先进制造业的重要指示">十、对发展先进制造业的重要指示</a>
+<div class="t-zhang">第四章 重要文件</div>
+<a class="t-item" href="#pk-50" data-t="一、党建领域">一、党建领域</a>
+<a class="t-item" href="#pk-51" data-t="二、民生领域">二、民生领域</a>
+<a class="t-item" href="#pk-52" data-t="三、生态领域">三、生态领域</a>
+<a class="t-item" href="#pk-53" data-t="四、涉农领域">四、涉农领域</a></nav>
   <main id="main">
-<div class="ov" id="overview"><h2 class="ov-title">板块总览 · 两大模块</h2><div class="ov-grid"><div class="ov-card"><h3>模块一 · 政治理论知识（54 张卡片）</h3><ul><li><a href="#kp-0"><b>第一篇《习近平新时代中国特色社会主义思想》 · 第一章总论</b></a><span>4 张卡片</span></li><li><a href="#kp-4"><b>第一篇《习近平新时代中国特色社会主义思想》 · 第二章分论</b></a><span>13 张卡片</span></li><li><a href="#kp-17"><b>第二篇《马克思主义哲学》</b></a><span>6 张卡片</span></li><li><a href="#kp-23"><b>第三篇《时事政治》 · 第一章重要会议</b></a><span>5 张卡片</span></li><li><a href="#kp-28"><b>第三篇《时事政治》 · 第二章重要讲话</b></a><span>12 张卡片</span></li><li><a href="#kp-40"><b>第三篇《时事政治》 · 第三章重要指示</b></a><span>10 张卡片</span></li><li><a href="#kp-50"><b>第三篇《时事政治》 · 第四章重要文件</b></a><span>4 张卡片</span></li></ul></div><div class="ov-card"><h3>模块二 · 排坑手册（77 页）</h3><ul><li><a href="#pkg-1"><b>开篇 · 封面 / 寄语 / 目录</b></a><span>第 1–4 页</span></li><li><a href="#pkg-2"><b>第一篇《习近平新时代中国特色社会主义思想》· 第一章 总论</b></a><span>第 5–9 页</span></li><li><a href="#pkg-3"><b>第一篇《习近平新时代中国特色社会主义思想》· 第二章 分论</b></a><span>第 10–20 页</span></li><li><a href="#pkg-4"><b>第二篇《马克思主义哲学》</b></a><span>第 21–31 页</span></li><li><a href="#pkg-5"><b>第三篇《时事政治》· 第一章 重要会议</b></a><span>第 32–43 页</span></li><li><a href="#pkg-6"><b>第三篇《时事政治》· 第二章 重要讲话</b></a><span>第 44–58 页</span></li><li><a href="#pkg-7"><b>第三篇《时事政治》· 第三章 重要指示</b></a><span>第 59–67 页</span></li><li><a href="#pkg-8"><b>第三篇《时事政治》· 第四章 重要文件</b></a><span>第 68–77 页</span></li></ul></div></div></div>
+<div class="ov" id="overview"><h2 class="ov-title">板块总览 · 两大模块</h2><div class="ov-grid"><div class="ov-card"><h3>模块一 · 政治理论知识（54 张卡片）</h3><ul><li><a href="#kp-0"><b>第一篇《习近平新时代中国特色社会主义思想》 · 第一章总论</b></a><span>4 张卡片</span></li><li><a href="#kp-4"><b>第一篇《习近平新时代中国特色社会主义思想》 · 第二章分论</b></a><span>13 张卡片</span></li><li><a href="#kp-17"><b>第二篇《马克思主义哲学》</b></a><span>6 张卡片</span></li><li><a href="#kp-23"><b>第三篇《时事政治》 · 第一章重要会议</b></a><span>5 张卡片</span></li><li><a href="#kp-28"><b>第三篇《时事政治》 · 第二章重要讲话</b></a><span>12 张卡片</span></li><li><a href="#kp-40"><b>第三篇《时事政治》 · 第三章重要指示</b></a><span>10 张卡片</span></li><li><a href="#kp-50"><b>第三篇《时事政治》 · 第四章重要文件</b></a><span>4 张卡片</span></li></ul></div><div class="ov-card"><h3>模块二 · 排坑手册（文字版，53 张卡片 · 505 条判断）</h3><ul><li><a href="#pk-1"><b>第一篇《习近平新时代中国特色社会主义思想》 · 第一章 总论</b></a><span>4 张卡片</span></li><li><a href="#pk-5"><b>第一篇《习近平新时代中国特色社会主义思想》 · 第二章 分论</b></a><span>12 张卡片</span></li><li><a href="#pk-17"><b>第二篇《马克思主义哲学》</b></a><span>6 张卡片</span></li><li><a href="#pk-23"><b>第三篇《时事政治》 · 第一章 重要会议</b></a><span>5 张卡片</span></li><li><a href="#pk-28"><b>第三篇《时事政治》 · 第二章 重要讲话</b></a><span>12 张卡片</span></li><li><a href="#pk-40"><b>第三篇《时事政治》 · 第三章 重要指示</b></a><span>10 张卡片</span></li><li><a href="#pk-50"><b>第三篇《时事政治》 · 第四章 重要文件</b></a><span>4 张卡片</span></li></ul></div></div></div>
 <div class="module" id="zzmod-1">
 <div class="mod-banner"><h2>模块一 · 政治理论知识</h2><p>依据《小黑政治理论 · 消化清单》（2027 版）逐段录入：空位答案取自《课程讲义》原文并高亮，讲义标黑处逐字对齐；讲义自带的随堂练习按知识板块分置在各卡片内，答案取自讲义参考答案页。本模块另见页顶「模块二 · 排坑手册」。</p></div>
 <section class="kp" id="kp-0" data-title="知识点1 习近平新时代中国特色社会主义思想的核心要义"><div class="kp-head"><h3>知识点1 习近平新时代中国特色社会主义思想的核心要义</h3><div class="chips"><span class="chip b">填空 9/9</span><span class="chip k">随堂练 1 题</span></div></div><div class="kp-crumb">第一篇《习近平新时代中国特色社会主义思想》 · 第一章总论</div><div class="kp-body">
@@ -2818,92 +2863,1330 @@ a.pkopen{display:block}
 </div></section>
 </div>
 <div class="module" id="zzmod-2">
-<div class="mod-banner"><h2>模块二 · 排坑手册</h2><p>《小黑政治理论 · 排坑手册》整本收录（77 页扫描版）：「找坑 · 识坑 · 排坑」判断特训，含各篇知识点判断练习与答案页；原书的标黑、下划线等标注均按原样保留，可双指放大阅读。</p></div>
-<div class="pk-group" id="pkg-1"><h3 class="pk-ghead">开篇 · 封面 / 寄语 / 目录<span class="pk-grange">第 1–4 页</span></h3>
-<div class="pk-grid"><figure class="pkpage" id="pk-001"><a class="pkopen" href="zz_assets/paiken/pk-001.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-001.webp" alt="排坑手册 第 1 页 · 开篇 · 封面 / 寄语 / 目录（点开看原图）" width="1587" height="2245"></a><figcaption>第 1 页</figcaption></figure>
-<figure class="pkpage" id="pk-002"><a class="pkopen" href="zz_assets/paiken/pk-002.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-002.webp" alt="排坑手册 第 2 页 · 开篇 · 封面 / 寄语 / 目录（点开看原图）" width="1587" height="2245"></a><figcaption>第 2 页</figcaption></figure>
-<figure class="pkpage" id="pk-003"><a class="pkopen" href="zz_assets/paiken/pk-003.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-003.webp" alt="排坑手册 第 3 页 · 开篇 · 封面 / 寄语 / 目录（点开看原图）" width="1587" height="2245"></a><figcaption>第 3 页</figcaption></figure>
-<figure class="pkpage" id="pk-004"><a class="pkopen" href="zz_assets/paiken/pk-004.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-004.webp" alt="排坑手册 第 4 页 · 开篇 · 封面 / 寄语 / 目录（点开看原图）" width="1587" height="2245"></a><figcaption>第 4 页</figcaption></figure></div></div>
-<div class="pk-group" id="pkg-2"><h3 class="pk-ghead">第一篇《习近平新时代中国特色社会主义思想》· 第一章 总论<span class="pk-grange">第 5–9 页</span></h3>
-<div class="pk-grid"><figure class="pkpage" id="pk-005"><a class="pkopen" href="zz_assets/paiken/pk-005.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-005.webp" alt="排坑手册 第 5 页 · 第一篇《习近平新时代中国特色社会主义思想》· 第一章 总论（点开看原图）" width="1587" height="2245"></a><figcaption>第 5 页</figcaption></figure>
-<figure class="pkpage" id="pk-006"><a class="pkopen" href="zz_assets/paiken/pk-006.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-006.webp" alt="排坑手册 第 6 页 · 第一篇《习近平新时代中国特色社会主义思想》· 第一章 总论（点开看原图）" width="1587" height="2245"></a><figcaption>第 6 页</figcaption></figure>
-<figure class="pkpage" id="pk-007"><a class="pkopen" href="zz_assets/paiken/pk-007.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-007.webp" alt="排坑手册 第 7 页 · 第一篇《习近平新时代中国特色社会主义思想》· 第一章 总论（点开看原图）" width="1587" height="2245"></a><figcaption>第 7 页</figcaption></figure>
-<figure class="pkpage" id="pk-008"><a class="pkopen" href="zz_assets/paiken/pk-008.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-008.webp" alt="排坑手册 第 8 页 · 第一篇《习近平新时代中国特色社会主义思想》· 第一章 总论（点开看原图）" width="1587" height="2245"></a><figcaption>第 8 页</figcaption></figure>
-<figure class="pkpage" id="pk-009"><a class="pkopen" href="zz_assets/paiken/pk-009.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-009.webp" alt="排坑手册 第 9 页 · 第一篇《习近平新时代中国特色社会主义思想》· 第一章 总论（点开看原图）" width="1587" height="2245"></a><figcaption>第 9 页</figcaption></figure></div></div>
-<div class="pk-group" id="pkg-3"><h3 class="pk-ghead">第一篇《习近平新时代中国特色社会主义思想》· 第二章 分论<span class="pk-grange">第 10–20 页</span></h3>
-<div class="pk-grid"><figure class="pkpage" id="pk-010"><a class="pkopen" href="zz_assets/paiken/pk-010.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-010.webp" alt="排坑手册 第 10 页 · 第一篇《习近平新时代中国特色社会主义思想》· 第二章 分论（点开看原图）" width="1587" height="2245"></a><figcaption>第 10 页</figcaption></figure>
-<figure class="pkpage" id="pk-011"><a class="pkopen" href="zz_assets/paiken/pk-011.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-011.webp" alt="排坑手册 第 11 页 · 第一篇《习近平新时代中国特色社会主义思想》· 第二章 分论（点开看原图）" width="1587" height="2245"></a><figcaption>第 11 页</figcaption></figure>
-<figure class="pkpage" id="pk-012"><a class="pkopen" href="zz_assets/paiken/pk-012.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-012.webp" alt="排坑手册 第 12 页 · 第一篇《习近平新时代中国特色社会主义思想》· 第二章 分论（点开看原图）" width="1587" height="2245"></a><figcaption>第 12 页</figcaption></figure>
-<figure class="pkpage" id="pk-013"><a class="pkopen" href="zz_assets/paiken/pk-013.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-013.webp" alt="排坑手册 第 13 页 · 第一篇《习近平新时代中国特色社会主义思想》· 第二章 分论（点开看原图）" width="1587" height="2245"></a><figcaption>第 13 页</figcaption></figure>
-<figure class="pkpage" id="pk-014"><a class="pkopen" href="zz_assets/paiken/pk-014.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-014.webp" alt="排坑手册 第 14 页 · 第一篇《习近平新时代中国特色社会主义思想》· 第二章 分论（点开看原图）" width="1587" height="2245"></a><figcaption>第 14 页</figcaption></figure>
-<figure class="pkpage" id="pk-015"><a class="pkopen" href="zz_assets/paiken/pk-015.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-015.webp" alt="排坑手册 第 15 页 · 第一篇《习近平新时代中国特色社会主义思想》· 第二章 分论（点开看原图）" width="1587" height="2245"></a><figcaption>第 15 页</figcaption></figure>
-<figure class="pkpage" id="pk-016"><a class="pkopen" href="zz_assets/paiken/pk-016.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-016.webp" alt="排坑手册 第 16 页 · 第一篇《习近平新时代中国特色社会主义思想》· 第二章 分论（点开看原图）" width="1587" height="2245"></a><figcaption>第 16 页</figcaption></figure>
-<figure class="pkpage" id="pk-017"><a class="pkopen" href="zz_assets/paiken/pk-017.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-017.webp" alt="排坑手册 第 17 页 · 第一篇《习近平新时代中国特色社会主义思想》· 第二章 分论（点开看原图）" width="1587" height="2245"></a><figcaption>第 17 页</figcaption></figure>
-<figure class="pkpage" id="pk-018"><a class="pkopen" href="zz_assets/paiken/pk-018.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-018.webp" alt="排坑手册 第 18 页 · 第一篇《习近平新时代中国特色社会主义思想》· 第二章 分论（点开看原图）" width="1587" height="2245"></a><figcaption>第 18 页</figcaption></figure>
-<figure class="pkpage" id="pk-019"><a class="pkopen" href="zz_assets/paiken/pk-019.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-019.webp" alt="排坑手册 第 19 页 · 第一篇《习近平新时代中国特色社会主义思想》· 第二章 分论（点开看原图）" width="1587" height="2245"></a><figcaption>第 19 页</figcaption></figure>
-<figure class="pkpage" id="pk-020"><a class="pkopen" href="zz_assets/paiken/pk-020.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-020.webp" alt="排坑手册 第 20 页 · 第一篇《习近平新时代中国特色社会主义思想》· 第二章 分论（点开看原图）" width="1587" height="2245"></a><figcaption>第 20 页</figcaption></figure></div></div>
-<div class="pk-group" id="pkg-4"><h3 class="pk-ghead">第二篇《马克思主义哲学》<span class="pk-grange">第 21–31 页</span></h3>
-<div class="pk-grid"><figure class="pkpage" id="pk-021"><a class="pkopen" href="zz_assets/paiken/pk-021.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-021.webp" alt="排坑手册 第 21 页 · 第二篇《马克思主义哲学》（点开看原图）" width="1587" height="2245"></a><figcaption>第 21 页</figcaption></figure>
-<figure class="pkpage" id="pk-022"><a class="pkopen" href="zz_assets/paiken/pk-022.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-022.webp" alt="排坑手册 第 22 页 · 第二篇《马克思主义哲学》（点开看原图）" width="1587" height="2245"></a><figcaption>第 22 页</figcaption></figure>
-<figure class="pkpage" id="pk-023"><a class="pkopen" href="zz_assets/paiken/pk-023.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-023.webp" alt="排坑手册 第 23 页 · 第二篇《马克思主义哲学》（点开看原图）" width="1587" height="2245"></a><figcaption>第 23 页</figcaption></figure>
-<figure class="pkpage" id="pk-024"><a class="pkopen" href="zz_assets/paiken/pk-024.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-024.webp" alt="排坑手册 第 24 页 · 第二篇《马克思主义哲学》（点开看原图）" width="1587" height="2245"></a><figcaption>第 24 页</figcaption></figure>
-<figure class="pkpage" id="pk-025"><a class="pkopen" href="zz_assets/paiken/pk-025.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-025.webp" alt="排坑手册 第 25 页 · 第二篇《马克思主义哲学》（点开看原图）" width="1587" height="2245"></a><figcaption>第 25 页</figcaption></figure>
-<figure class="pkpage" id="pk-026"><a class="pkopen" href="zz_assets/paiken/pk-026.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-026.webp" alt="排坑手册 第 26 页 · 第二篇《马克思主义哲学》（点开看原图）" width="1587" height="2245"></a><figcaption>第 26 页</figcaption></figure>
-<figure class="pkpage" id="pk-027"><a class="pkopen" href="zz_assets/paiken/pk-027.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-027.webp" alt="排坑手册 第 27 页 · 第二篇《马克思主义哲学》（点开看原图）" width="1587" height="2245"></a><figcaption>第 27 页</figcaption></figure>
-<figure class="pkpage" id="pk-028"><a class="pkopen" href="zz_assets/paiken/pk-028.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-028.webp" alt="排坑手册 第 28 页 · 第二篇《马克思主义哲学》（点开看原图）" width="1587" height="2245"></a><figcaption>第 28 页</figcaption></figure>
-<figure class="pkpage" id="pk-029"><a class="pkopen" href="zz_assets/paiken/pk-029.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-029.webp" alt="排坑手册 第 29 页 · 第二篇《马克思主义哲学》（点开看原图）" width="1587" height="2245"></a><figcaption>第 29 页</figcaption></figure>
-<figure class="pkpage" id="pk-030"><a class="pkopen" href="zz_assets/paiken/pk-030.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-030.webp" alt="排坑手册 第 30 页 · 第二篇《马克思主义哲学》（点开看原图）" width="1587" height="2245"></a><figcaption>第 30 页</figcaption></figure>
-<figure class="pkpage" id="pk-031"><a class="pkopen" href="zz_assets/paiken/pk-031.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-031.webp" alt="排坑手册 第 31 页 · 第二篇《马克思主义哲学》（点开看原图）" width="1587" height="2245"></a><figcaption>第 31 页</figcaption></figure></div></div>
-<div class="pk-group" id="pkg-5"><h3 class="pk-ghead">第三篇《时事政治》· 第一章 重要会议<span class="pk-grange">第 32–43 页</span></h3>
-<div class="pk-grid"><figure class="pkpage" id="pk-032"><a class="pkopen" href="zz_assets/paiken/pk-032.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-032.webp" alt="排坑手册 第 32 页 · 第三篇《时事政治》· 第一章 重要会议（点开看原图）" width="1587" height="2245"></a><figcaption>第 32 页</figcaption></figure>
-<figure class="pkpage" id="pk-033"><a class="pkopen" href="zz_assets/paiken/pk-033.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-033.webp" alt="排坑手册 第 33 页 · 第三篇《时事政治》· 第一章 重要会议（点开看原图）" width="1587" height="2245"></a><figcaption>第 33 页</figcaption></figure>
-<figure class="pkpage" id="pk-034"><a class="pkopen" href="zz_assets/paiken/pk-034.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-034.webp" alt="排坑手册 第 34 页 · 第三篇《时事政治》· 第一章 重要会议（点开看原图）" width="1587" height="2245"></a><figcaption>第 34 页</figcaption></figure>
-<figure class="pkpage" id="pk-035"><a class="pkopen" href="zz_assets/paiken/pk-035.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-035.webp" alt="排坑手册 第 35 页 · 第三篇《时事政治》· 第一章 重要会议（点开看原图）" width="1587" height="2245"></a><figcaption>第 35 页</figcaption></figure>
-<figure class="pkpage" id="pk-036"><a class="pkopen" href="zz_assets/paiken/pk-036.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-036.webp" alt="排坑手册 第 36 页 · 第三篇《时事政治》· 第一章 重要会议（点开看原图）" width="1587" height="2245"></a><figcaption>第 36 页</figcaption></figure>
-<figure class="pkpage" id="pk-037"><a class="pkopen" href="zz_assets/paiken/pk-037.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-037.webp" alt="排坑手册 第 37 页 · 第三篇《时事政治》· 第一章 重要会议（点开看原图）" width="1587" height="2245"></a><figcaption>第 37 页</figcaption></figure>
-<figure class="pkpage" id="pk-038"><a class="pkopen" href="zz_assets/paiken/pk-038.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-038.webp" alt="排坑手册 第 38 页 · 第三篇《时事政治》· 第一章 重要会议（点开看原图）" width="1587" height="2245"></a><figcaption>第 38 页</figcaption></figure>
-<figure class="pkpage" id="pk-039"><a class="pkopen" href="zz_assets/paiken/pk-039.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-039.webp" alt="排坑手册 第 39 页 · 第三篇《时事政治》· 第一章 重要会议（点开看原图）" width="1587" height="2245"></a><figcaption>第 39 页</figcaption></figure>
-<figure class="pkpage" id="pk-040"><a class="pkopen" href="zz_assets/paiken/pk-040.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-040.webp" alt="排坑手册 第 40 页 · 第三篇《时事政治》· 第一章 重要会议（点开看原图）" width="1587" height="2245"></a><figcaption>第 40 页</figcaption></figure>
-<figure class="pkpage" id="pk-041"><a class="pkopen" href="zz_assets/paiken/pk-041.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-041.webp" alt="排坑手册 第 41 页 · 第三篇《时事政治》· 第一章 重要会议（点开看原图）" width="1587" height="2245"></a><figcaption>第 41 页</figcaption></figure>
-<figure class="pkpage" id="pk-042"><a class="pkopen" href="zz_assets/paiken/pk-042.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-042.webp" alt="排坑手册 第 42 页 · 第三篇《时事政治》· 第一章 重要会议（点开看原图）" width="1587" height="2245"></a><figcaption>第 42 页</figcaption></figure>
-<figure class="pkpage" id="pk-043"><a class="pkopen" href="zz_assets/paiken/pk-043.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-043.webp" alt="排坑手册 第 43 页 · 第三篇《时事政治》· 第一章 重要会议（点开看原图）" width="1587" height="2245"></a><figcaption>第 43 页</figcaption></figure></div></div>
-<div class="pk-group" id="pkg-6"><h3 class="pk-ghead">第三篇《时事政治》· 第二章 重要讲话<span class="pk-grange">第 44–58 页</span></h3>
-<div class="pk-grid"><figure class="pkpage" id="pk-044"><a class="pkopen" href="zz_assets/paiken/pk-044.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-044.webp" alt="排坑手册 第 44 页 · 第三篇《时事政治》· 第二章 重要讲话（点开看原图）" width="1587" height="2245"></a><figcaption>第 44 页</figcaption></figure>
-<figure class="pkpage" id="pk-045"><a class="pkopen" href="zz_assets/paiken/pk-045.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-045.webp" alt="排坑手册 第 45 页 · 第三篇《时事政治》· 第二章 重要讲话（点开看原图）" width="1587" height="2245"></a><figcaption>第 45 页</figcaption></figure>
-<figure class="pkpage" id="pk-046"><a class="pkopen" href="zz_assets/paiken/pk-046.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-046.webp" alt="排坑手册 第 46 页 · 第三篇《时事政治》· 第二章 重要讲话（点开看原图）" width="1587" height="2245"></a><figcaption>第 46 页</figcaption></figure>
-<figure class="pkpage" id="pk-047"><a class="pkopen" href="zz_assets/paiken/pk-047.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-047.webp" alt="排坑手册 第 47 页 · 第三篇《时事政治》· 第二章 重要讲话（点开看原图）" width="1587" height="2245"></a><figcaption>第 47 页</figcaption></figure>
-<figure class="pkpage" id="pk-048"><a class="pkopen" href="zz_assets/paiken/pk-048.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-048.webp" alt="排坑手册 第 48 页 · 第三篇《时事政治》· 第二章 重要讲话（点开看原图）" width="1587" height="2245"></a><figcaption>第 48 页</figcaption></figure>
-<figure class="pkpage" id="pk-049"><a class="pkopen" href="zz_assets/paiken/pk-049.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-049.webp" alt="排坑手册 第 49 页 · 第三篇《时事政治》· 第二章 重要讲话（点开看原图）" width="1587" height="2245"></a><figcaption>第 49 页</figcaption></figure>
-<figure class="pkpage" id="pk-050"><a class="pkopen" href="zz_assets/paiken/pk-050.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-050.webp" alt="排坑手册 第 50 页 · 第三篇《时事政治》· 第二章 重要讲话（点开看原图）" width="1587" height="2245"></a><figcaption>第 50 页</figcaption></figure>
-<figure class="pkpage" id="pk-051"><a class="pkopen" href="zz_assets/paiken/pk-051.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-051.webp" alt="排坑手册 第 51 页 · 第三篇《时事政治》· 第二章 重要讲话（点开看原图）" width="1587" height="2245"></a><figcaption>第 51 页</figcaption></figure>
-<figure class="pkpage" id="pk-052"><a class="pkopen" href="zz_assets/paiken/pk-052.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-052.webp" alt="排坑手册 第 52 页 · 第三篇《时事政治》· 第二章 重要讲话（点开看原图）" width="1587" height="2245"></a><figcaption>第 52 页</figcaption></figure>
-<figure class="pkpage" id="pk-053"><a class="pkopen" href="zz_assets/paiken/pk-053.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-053.webp" alt="排坑手册 第 53 页 · 第三篇《时事政治》· 第二章 重要讲话（点开看原图）" width="1587" height="2245"></a><figcaption>第 53 页</figcaption></figure>
-<figure class="pkpage" id="pk-054"><a class="pkopen" href="zz_assets/paiken/pk-054.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-054.webp" alt="排坑手册 第 54 页 · 第三篇《时事政治》· 第二章 重要讲话（点开看原图）" width="1587" height="2245"></a><figcaption>第 54 页</figcaption></figure>
-<figure class="pkpage" id="pk-055"><a class="pkopen" href="zz_assets/paiken/pk-055.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-055.webp" alt="排坑手册 第 55 页 · 第三篇《时事政治》· 第二章 重要讲话（点开看原图）" width="1587" height="2245"></a><figcaption>第 55 页</figcaption></figure>
-<figure class="pkpage" id="pk-056"><a class="pkopen" href="zz_assets/paiken/pk-056.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-056.webp" alt="排坑手册 第 56 页 · 第三篇《时事政治》· 第二章 重要讲话（点开看原图）" width="1587" height="2245"></a><figcaption>第 56 页</figcaption></figure>
-<figure class="pkpage" id="pk-057"><a class="pkopen" href="zz_assets/paiken/pk-057.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-057.webp" alt="排坑手册 第 57 页 · 第三篇《时事政治》· 第二章 重要讲话（点开看原图）" width="1587" height="2245"></a><figcaption>第 57 页</figcaption></figure>
-<figure class="pkpage" id="pk-058"><a class="pkopen" href="zz_assets/paiken/pk-058.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-058.webp" alt="排坑手册 第 58 页 · 第三篇《时事政治》· 第二章 重要讲话（点开看原图）" width="1587" height="2245"></a><figcaption>第 58 页</figcaption></figure></div></div>
-<div class="pk-group" id="pkg-7"><h3 class="pk-ghead">第三篇《时事政治》· 第三章 重要指示<span class="pk-grange">第 59–67 页</span></h3>
-<div class="pk-grid"><figure class="pkpage" id="pk-059"><a class="pkopen" href="zz_assets/paiken/pk-059.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-059.webp" alt="排坑手册 第 59 页 · 第三篇《时事政治》· 第三章 重要指示（点开看原图）" width="1587" height="2245"></a><figcaption>第 59 页</figcaption></figure>
-<figure class="pkpage" id="pk-060"><a class="pkopen" href="zz_assets/paiken/pk-060.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-060.webp" alt="排坑手册 第 60 页 · 第三篇《时事政治》· 第三章 重要指示（点开看原图）" width="1587" height="2245"></a><figcaption>第 60 页</figcaption></figure>
-<figure class="pkpage" id="pk-061"><a class="pkopen" href="zz_assets/paiken/pk-061.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-061.webp" alt="排坑手册 第 61 页 · 第三篇《时事政治》· 第三章 重要指示（点开看原图）" width="1587" height="2245"></a><figcaption>第 61 页</figcaption></figure>
-<figure class="pkpage" id="pk-062"><a class="pkopen" href="zz_assets/paiken/pk-062.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-062.webp" alt="排坑手册 第 62 页 · 第三篇《时事政治》· 第三章 重要指示（点开看原图）" width="1587" height="2245"></a><figcaption>第 62 页</figcaption></figure>
-<figure class="pkpage" id="pk-063"><a class="pkopen" href="zz_assets/paiken/pk-063.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-063.webp" alt="排坑手册 第 63 页 · 第三篇《时事政治》· 第三章 重要指示（点开看原图）" width="1587" height="2245"></a><figcaption>第 63 页</figcaption></figure>
-<figure class="pkpage" id="pk-064"><a class="pkopen" href="zz_assets/paiken/pk-064.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-064.webp" alt="排坑手册 第 64 页 · 第三篇《时事政治》· 第三章 重要指示（点开看原图）" width="1587" height="2245"></a><figcaption>第 64 页</figcaption></figure>
-<figure class="pkpage" id="pk-065"><a class="pkopen" href="zz_assets/paiken/pk-065.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-065.webp" alt="排坑手册 第 65 页 · 第三篇《时事政治》· 第三章 重要指示（点开看原图）" width="1587" height="2245"></a><figcaption>第 65 页</figcaption></figure>
-<figure class="pkpage" id="pk-066"><a class="pkopen" href="zz_assets/paiken/pk-066.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-066.webp" alt="排坑手册 第 66 页 · 第三篇《时事政治》· 第三章 重要指示（点开看原图）" width="1587" height="2245"></a><figcaption>第 66 页</figcaption></figure>
-<figure class="pkpage" id="pk-067"><a class="pkopen" href="zz_assets/paiken/pk-067.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-067.webp" alt="排坑手册 第 67 页 · 第三篇《时事政治》· 第三章 重要指示（点开看原图）" width="1587" height="2245"></a><figcaption>第 67 页</figcaption></figure></div></div>
-<div class="pk-group" id="pkg-8"><h3 class="pk-ghead">第三篇《时事政治》· 第四章 重要文件<span class="pk-grange">第 68–77 页</span></h3>
-<div class="pk-grid"><figure class="pkpage" id="pk-068"><a class="pkopen" href="zz_assets/paiken/pk-068.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-068.webp" alt="排坑手册 第 68 页 · 第三篇《时事政治》· 第四章 重要文件（点开看原图）" width="1587" height="2245"></a><figcaption>第 68 页</figcaption></figure>
-<figure class="pkpage" id="pk-069"><a class="pkopen" href="zz_assets/paiken/pk-069.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-069.webp" alt="排坑手册 第 69 页 · 第三篇《时事政治》· 第四章 重要文件（点开看原图）" width="1587" height="2245"></a><figcaption>第 69 页</figcaption></figure>
-<figure class="pkpage" id="pk-070"><a class="pkopen" href="zz_assets/paiken/pk-070.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-070.webp" alt="排坑手册 第 70 页 · 第三篇《时事政治》· 第四章 重要文件（点开看原图）" width="1587" height="2245"></a><figcaption>第 70 页</figcaption></figure>
-<figure class="pkpage" id="pk-071"><a class="pkopen" href="zz_assets/paiken/pk-071.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-071.webp" alt="排坑手册 第 71 页 · 第三篇《时事政治》· 第四章 重要文件（点开看原图）" width="1587" height="2245"></a><figcaption>第 71 页</figcaption></figure>
-<figure class="pkpage" id="pk-072"><a class="pkopen" href="zz_assets/paiken/pk-072.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-072.webp" alt="排坑手册 第 72 页 · 第三篇《时事政治》· 第四章 重要文件（点开看原图）" width="1587" height="2245"></a><figcaption>第 72 页</figcaption></figure>
-<figure class="pkpage" id="pk-073"><a class="pkopen" href="zz_assets/paiken/pk-073.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-073.webp" alt="排坑手册 第 73 页 · 第三篇《时事政治》· 第四章 重要文件（点开看原图）" width="1587" height="2245"></a><figcaption>第 73 页</figcaption></figure>
-<figure class="pkpage" id="pk-074"><a class="pkopen" href="zz_assets/paiken/pk-074.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-074.webp" alt="排坑手册 第 74 页 · 第三篇《时事政治》· 第四章 重要文件（点开看原图）" width="1587" height="2245"></a><figcaption>第 74 页</figcaption></figure>
-<figure class="pkpage" id="pk-075"><a class="pkopen" href="zz_assets/paiken/pk-075.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-075.webp" alt="排坑手册 第 75 页 · 第三篇《时事政治》· 第四章 重要文件（点开看原图）" width="1587" height="2245"></a><figcaption>第 75 页</figcaption></figure>
-<figure class="pkpage" id="pk-076"><a class="pkopen" href="zz_assets/paiken/pk-076.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-076.webp" alt="排坑手册 第 76 页 · 第三篇《时事政治》· 第四章 重要文件（点开看原图）" width="1587" height="2245"></a><figcaption>第 76 页</figcaption></figure>
-<figure class="pkpage" id="pk-077"><a class="pkopen" href="zz_assets/paiken/pk-077.webp" target="_blank" rel="noopener"><img loading="lazy" decoding="async" src="zz_assets/paiken/pk-077.webp" alt="排坑手册 第 77 页 · 第三篇《时事政治》· 第四章 重要文件（点开看原图）" width="1587" height="2245"></a><figcaption>第 77 页</figcaption></figure></div></div>
+<div class="mod-banner"><h2>模块二 · 排坑手册（文字版）</h2><p>《小黑政治理论 · 排坑手册》全文录入：为「找坑 · 识坑 · 排坑」判断题特训——每组先列经典语句供甄别对错，再附正确答案（错题的关键词加粗、更正以【】标出）。答案默认折叠，先自测再展开；原书有 2 页被广告页顶替（政府工作报告第 3 组、郑丽文讲话组及雄安 4–7 条答案），缺页处已标注。</p></div>
+<section class="kp" id="pk-1" data-title="一、习近平新时代中国特色社会主义思想的核心要义"><div class="kp-head"><h3>一、习近平新时代中国特色社会主义思想的核心要义</h3><div class="chips"><span class="chip b">判断 5 条</span><span class="chip k">坑 3 处</span></div></div><div class="kp-crumb">第一篇《习近平新时代中国特色社会主义思想》 · 第一章 总论</div><div class="kp-body">
+<p class="pk-lead">※小黑排坑特训：找出下列表述中的主角关键词，并快速判断正误。</p>
+<p>1.坚持和发展中国特色社会主义，是习近平新时代中国特色社会主义思想的核心要义。</p>
+<p>2.党的十九大以来，开创了中国特色社会主义新时代。</p>
+<p>3.党的十八大，作出中国特色社会主义进入新时代这个重大政治论断。</p>
+<p>4.我国社会主要矛盾的变化是中国特色社会主义进入新时代的基本依据。</p>
+<p>5.新时代是我国社会主要矛盾以及国际地位和基本国情新变化的反映。</p>
+<details class="ans"><summary>查看正确答案（5 条）</summary><div class="ans-body">
+<p>坚持和发展中国特色社会主义，是习近平新时代中国特色社会主义思想的核心要义。【√】</p>
+<p>党的<b>十九大</b>以来，开创了中国特色社会主义新时代。【<b>十八大</b>】</p>
+<p>党的<b>十八大</b>，作出中国特色社会主义进入新时代这个重大政治论断。【<b>十九大</b>】</p>
+<p>我国社会主要矛盾的变化是中国特色社会主义进入新时代的基本依据。【√】</p>
+<p>新时代是我国社会主要矛盾以及<b>国际地位和基本国情新</b>变化的反映。【<b>国际地位和基本国情没有变</b>】</p>
+</div></details>
+</div></section>
+<section class="kp" id="pk-2" data-title="二、习近平新时代中国特色社会主义思想是两个结合的重大成果"><div class="kp-head"><h3>二、习近平新时代中国特色社会主义思想是两个结合的重大成果</h3><div class="chips"><span class="chip b">判断 4 条</span><span class="chip k">坑 2 处</span></div></div><div class="kp-crumb">第一篇《习近平新时代中国特色社会主义思想》 · 第一章 总论</div><div class="kp-body">
+<p class="pk-lead">※小黑排坑特训：找出下列表述中的主角关键词，并快速判断正误。</p>
+<p>1.“两个结合”是指要把马克思主义基本原理同中国具体实际相结合、同中华优秀传统文化相结合。</p>
+<p>2.“两个结合”是我们取得成功的最大法宝。</p>
+<p>3.新时代首次提出把马克思主义基本原理同中国具体实际相结合。</p>
+<p>4.马克思主义这个根脉和中华优秀传统文化这个魂脉内在贯通、相互成就。</p>
+<details class="ans"><summary>查看正确答案（4 条）</summary><div class="ans-body">
+<p>“两个结合”是指要把马克思主义基本原理同中国具体实际相结合、同中华优秀传统文化相结合。【√】</p>
+<p>“两个结合”是我们取得成功的最大法宝。【√】</p>
+<p>新时代首次提出把马克思主义基本原理同<b>中国具体实际相</b>结合。【<b>中华优秀传统文化</b>】</p>
+<p>马克思主义这个<b>根脉</b>和中华优秀传统文化这个<b>魂脉内</b>在贯通、相互成就。【<b>魂脉；根脉</b>】</p>
+</div></details>
+</div></section>
+<section class="kp" id="pk-3" data-title="三、习近平新时代中国特色社会主义思想的科学体系"><div class="kp-head"><h3>三、习近平新时代中国特色社会主义思想的科学体系</h3><div class="chips"><span class="chip b">判断 10 条</span><span class="chip k">坑 6 处</span></div></div><div class="kp-crumb">第一篇《习近平新时代中国特色社会主义思想》 · 第一章 总论</div><div class="kp-body">
+<p class="pk-lead">※小黑排坑特训：找出下列表述中的主角关键词，并快速判断正误。</p>
+<p>1.“十个明确”“十四个坚持”“十三个方面成就”“六个必须坚持”内在贯通、有机统一，共同构成了习近平新时代中国特色社会主义思想的科学体系。</p>
+<p>2.“十个明确”是习近平新时代中国特色社会主义思想的主体内容，集中体现了这一思想体系的主要观点和基本精神，发挥着统摄作用。</p>
+<p>3.中国特色社会主义最本质的特征是中国共产党领导，中国特色社会主义制度的最大优势是中国共产党领导。</p>
+<p>4.坚持和发展中国特色社会主义，总任务是全面建成小康社会。</p>
+<p>5.新时代主要矛盾是人民日益增长的物质需要和落后社会生产之间的矛盾。</p>
+<p>6.中国特色社会主义事业战略布局是“五位一体”，总体布局是“四个全面”。</p>
+<p>7.坚持社会主义基本经济制度，使政府在资源配置中起决定性作用。</p>
+<p>8.坚持守正创新是重要实践要求，体现了矛盾的普遍性和客观性。</p>
+<p>9.坚持系统观念，体现了辩证唯物主义普遍联系的原理。</p>
+<p>10.坚持胸怀天下是根本价值立场，体现了历史唯物主义群众史观。</p>
+<details class="ans"><summary>查看正确答案（10 条）</summary><div class="ans-body">
+<p>“十个明确”“十四个坚持”“十三个方面成就”“六个必须坚持”内在贯通、有机统一，共同构成了习近平新时代中国特色社会主义思想的科学体系。【√】</p>
+<p>“十个明确”是习近平新时代中国特色社会主义思想的主体内容，集中体现了这一思想体系的主要观点和基本精神，发挥着统摄作用。【√】</p>
+<p>中国特色社会主义最本质的特征是中国共产党领导，中国特色社会主义制度的最大优势是中国共产党领导。【√】</p>
+<p>坚持和发展中国特色社会主义，总任务是<b>全面建成小康社会</b>。【<b>实现社会主义现代化和中华民族伟大复兴</b>】</p>
+<p>新时代主要矛盾是人民<b>日益增长的物质需要和落</b>后社会生产之间的矛盾。【<b>人民日益增长的美好生活需要和不平衡不充分的发展之间</b>】</p>
+<p>中国特色社会主义事业<b>战略布局</b>是“五位一体”，<b>总体布局是</b>“四个全面”。【<b>总体布局；战略布局</b>】</p>
+<p>坚持社会主义基本经济制度，<b>使政府</b>在资源配置中起决定性作用。【<b>市场</b>】</p>
+<p>坚持<b>守正创新</b>是重要实践要求，<b>体现</b>了矛盾的普遍性和客观性。【<b>问题导向</b>】</p>
+<p>坚持系统观念，体现了辩证唯物主义普遍联系的原理。【√】</p>
+<p>坚持<b>胸怀天下是根本</b>价值立场，体现了历史唯物主义群众史观。【<b>人民至上</b>】</p>
+</div></details>
+</div></section>
+<section class="kp" id="pk-4" data-title="四、以中国式现代化全面推进中华民族伟大复兴"><div class="kp-head"><h3>四、以中国式现代化全面推进中华民族伟大复兴</h3><div class="chips"><span class="chip b">判断 8 条</span><span class="chip k">坑 5 处</span></div></div><div class="kp-crumb">第一篇《习近平新时代中国特色社会主义思想》 · 第一章 总论</div><div class="kp-body">
+<p class="pk-lead">※小黑排坑特训：找出下列表述中的主角关键词，并快速判断正误。</p>
+<p>1.中国共产党的中心任务是团结带领全国各族人民全面建成社会主义现代化强国，以中国式现代化全面推进中华民族伟大复兴。</p>
+<p>2.中国精神是指以改革创新为核心的民族精神和以爱国主义为核心的时代精神。</p>
+<p>3.到2035年，我国人均国内生产总值达到中等发达国家水平。</p>
+<p>4.到本世纪中叶，我国建成教育强国、科技强国、人才强国、文化强国、体育强国、健康中国。</p>
+<p>5.中国式现代化是全体人民同步富裕的现代化。</p>
+<p>6.中国式现代化是物质文明超越西方国家的现代化。</p>
+<p>7.高质量发展直接关系中国式现代化的根本方向、前途命运、最终成败，决定中国式现代化的根本性质。</p>
+<p>8.发展全过程人民民主是中国式现代化的本质要求。</p>
+<details class="ans"><summary>查看正确答案（8 条）</summary><div class="ans-body">
+<p>中国共产党的中心任务是团结带领全国各族人民全面建成社会主义现代化强国，以中国式现代化全面推进中华民族伟大复兴。【√】</p>
+<p>中国精神是指以<b>改革创新</b>为核心的民族精神和以<b>爱国主义</b>为核心的时代精神。【<b>爱国主义；改革创新</b>】</p>
+<p>到2035年，我国人均国内生产总值达到中等发达国家水平。【√】</p>
+<p>到<b>本世纪中叶</b>，我国建成教育强国、科技强国、人才强国、文化强国、体育强国、健康中国。【<b>2035年</b>】</p>
+<p>中国式现代化是全体人民<b>同步富裕</b>的现代化。【<b>共同富裕</b>】</p>
+<p>中国式现代化是<b>物质文明超越西方国家的</b>现代化。【<b>物质文明和精神文明相协调</b>】</p>
+<p><b>高质量发展</b>直接关系中国式现代化的根本方向、前途命运、最终成败，决定中国式现代化的根本性质。【<b>党的领导</b>】</p>
+<p>发展全过程人民民主是中国式现代化的本质要求。【√】</p>
+</div></details>
+</div></section>
+<section class="kp" id="pk-5" data-title="一、党的全面领导"><div class="kp-head"><h3>一、党的全面领导</h3><div class="chips"><span class="chip b">判断 6 条</span><span class="chip k">坑 3 处</span></div></div><div class="kp-crumb">第一篇《习近平新时代中国特色社会主义思想》 · 第二章 分论</div><div class="kp-body">
+<p class="pk-lead">※小黑排坑特训：找出下列表述中的主角关键词，并快速判断正误。</p>
+<p>1.中国基本国情是中国共产党的领导。</p>
+<p>2.中国共产党领导是实现中华民族伟大复兴的根本保证。</p>
+<p>3.党中央集中统一领导是党的领导的最高原则。</p>
+<p>4.党的领导制度是我国的根本政治制度。</p>
+<p>5.人民代表大会制度是中国特色社会主义制度体系的核心和关键。</p>
+<p>6.维护党中央权威和集中统一领导，最关键的是坚决维护习近平同志党中央的核心、全党的核心地位。</p>
+<details class="ans"><summary>查看正确答案（6 条）</summary><div class="ans-body">
+<p>中国<b>基本国情</b>是中国共产党的领导。【<b>最大的国情</b>】</p>
+<p>中国共产党领导是实现中华民族伟大复兴的根本保证。【√】</p>
+<p>党中央集中统一领导是党的领导的最高原则。【√】</p>
+<p>党的领导制度是我国的<b>根本政治制度</b>。【<b>根本领导制度</b>】</p>
+<p><b>人民代表大会制度</b>是中国特色社会主义制度体系的核心和关键。【<b>党的领导制度</b>】</p>
+<p>维护党中央权威和集中统一领导，最关键的是坚决维护习近平同志党中央的核心、全党的核心地位。【√】</p>
+</div></details>
+</div></section>
+<section class="kp" id="pk-6" data-title="二、以人民为中心"><div class="kp-head"><h3>二、以人民为中心</h3><div class="chips"><span class="chip b">判断 10 条</span><span class="chip k">坑 5 处</span></div></div><div class="kp-crumb">第一篇《习近平新时代中国特色社会主义思想》 · 第二章 分论</div><div class="kp-body">
+<p class="pk-lead">※小黑排坑特训：找出下列表述中的主角关键词，并快速判断正误。</p>
+<p>1.人民立场是党的根本政治立场，是党区别于其他政党的显著标志。</p>
+<p>2.坚持高质量发展，是新时代党治国理政的根本价值取向。</p>
+<p>3.增进民生福祉是发展的根本保障。</p>
+<p>4.为民造福是党的最大政绩。</p>
+<p>5.满足人民日益增长的美好生活需要是发展的出发点和落脚点。</p>
+<p>6.实现共同富裕，首先要把“蛋糕”切好分好，然后把“蛋糕”做大做好。</p>
+<p>7.共同富裕不等于同等富裕，也不等于同步富裕。</p>
+<p>8.共同富裕是一个总体概念，是对全社会而言的，不要各提各的指标。</p>
+<p>9.扩大中等收入群体比重，增加低收入群体收入，取缔过高收入。</p>
+<p>10.到2035年，基本实现共同富裕。</p>
+<details class="ans"><summary>查看正确答案（10 条）</summary><div class="ans-body">
+<p>人民立场是党的根本政治立场，是党区别于其他政党的显著标志。【√】</p>
+<p>坚持<b>高质量发展</b>，是新时代党治国理政的根本价值取向。【<b>人民至上</b>】</p>
+<p>增进民生福祉是发展的<b>根本保障</b>。【<b>根本目的</b>】</p>
+<p>为民造福是党的最大政绩。【√】</p>
+<p>满足人民日益增长的美好生活需要是发展的出发点和落脚点。【√</p>
+<p>实现共同富裕，首先要把“蛋糕”<b>切好分好</b>，然后把“蛋糕”<b>做大做好</b>。【<b>做大做好；切好分好</b>】</p>
+<p>共同富裕不等于同等富裕，也不等于同步富裕。【√】</p>
+<p>共同富裕是一个总体概念，是对全社会而言的，不要各提各的指标。【√】</p>
+<p>扩大中等收入群体比重，增加低收入群体收入，<b>取缔过</b>高收入。【<b>调节</b>】</p>
+<p>到20<b>35</b>年，<b>基本实现共同富裕</b>。【<b>共同富裕取得明显的实质性进展</b>】</p>
+</div></details>
+</div></section>
+<section class="kp" id="pk-7" data-title="三、推动高质量发展"><div class="kp-head"><h3>三、推动高质量发展</h3><div class="chips"><span class="chip b">判断 22 条</span><span class="chip k">坑 13 处</span></div></div><div class="kp-crumb">第一篇《习近平新时代中国特色社会主义思想》 · 第二章 分论</div><div class="kp-body">
+<p class="pk-lead">※小黑排坑特训：找出下列表述中的主角关键词，并快速判断正误。</p>
+<p>1.高质量发展是全面建设社会主义现代化国家的首要任务。</p>
+<p>2.新发展阶段是全面建设社会主义现代化国家、向第二个百年奋斗目标进军的阶段。</p>
+<p>3.绿色是引领发展的第一动力，解决发展动力问题。</p>
+<p>4.开放是中国特色社会主义的本质要求，解决社会公平正义问题。</p>
+<p>5.构建新发展格局要以国际大循环为主体。</p>
+<p>6.构建新发展格局的基础支撑和内在要求是建设全国统一大市场。</p>
+<p>7.构建新发展格局最本质特征是经济循环的畅通无阻。</p>
+<p>8.公有制经济和非公有制经济都是社会主义市场经济的重要组成部分。</p>
+<p>9.要坚持公有制主体地位不能动摇，国有经济主导作用不能动摇。</p>
+<p>10.民营企业是中国特色社会主义的重要物质基础和政治基础。</p>
+<p>11.非公有制经济是国家税收的重要来源，是技术创新的重要主体。</p>
+<p>12.民营经济是非公有制经济的主要形式，是推进中国式现代化的生力军。</p>
+<p>13.十二大明确经济体制改革的目标是建立社会主义市场经济体制。</p>
+<p>14.构建社会主义市场经济体制，关键是要处理好供给和需求的关系。</p>
+<p>15.要用好看不见的手和看得见的手，推动有效政府和有为市场更好结合。</p>
+<p>16.必须始终把解决好“三农”问题作为全党工作的重中之重。</p>
+<p>17.必须把加快建设农业强国作为统领“三农”工作的总抓手。</p>
+<p>18.实施乡村振兴战略，是新时代做好“三农”工作的战略总纲。</p>
+<p>19.坚持把增加农民收入，作为“三农”工作的头等大事。</p>
+<p>20.要把保障粮食和重要农产品稳定安全供给作为中心任务。</p>
+<p>21.推进以乡镇为重要载体的城镇化建设。</p>
+<p>22.把推进农业转移人口市民化作为新型城镇化首要任务。</p>
+<details class="ans"><summary>查看正确答案（22 条）</summary><div class="ans-body">
+<p>高质量发展是全面建设社会主义现代化国家的首要任务。【√</p>
+<p>新发展阶段是全面建设社会主义现代化国家、向第二个百年奋斗目标进军的阶段。【√】</p>
+<p><b>绿色</b>是引领发展的第一动力，解决发展动力问题。【<b>创新</b>】</p>
+<p><b>开放</b>是中国特色社会主义的本质要求，解决社会公平正义问题。【<b>共享</b>】</p>
+<p>构建新发展格局要<b>以国际</b>大循环为主体。【<b>国内</b>】</p>
+<p>构建新发展格局的基础支撑和内在要求是建设全国统一大市场。【√】</p>
+<p>构建新发展格局最本质特征是<b>经济循环的畅通无阻</b>。【<b>实现高水平的自立自强</b>】</p>
+<p>公有制经济和非公有制经济都是社会主义市场经济的重要组成部分。【√】</p>
+<p>要坚持公有制主体地位不能动摇，国有经济主导作用不能动摇。【√】</p>
+<p><b>民营企业</b>是中国特色社会主义的重要物质基础和政治基础。【<b>国有企业</b>】</p>
+<p>非公有制经济是国家税收的重要来源，是技术创新的重要主体。【√】</p>
+<p>民营经济是非公有制经济的主要形式，是推进中国式现代化的生力军。【√】</p>
+<p>十二大明确经济体制改革的目标是建立社会主义市场经济体制。【<b>十四大</b>】</p>
+<p>构建社会主义市场经济体制，关键是要处理好<b>供给和需求的</b>关系。【<b>政府和市场</b>】</p>
+<p>要用好看不见的手和看得见的手，推动有效<b>政府和</b>有为<b>市场更</b>好结合。【<b>市场；政府</b>】</p>
+<p>必须始终把解决好“三农”问题作为全党工作的重中之重。【√】</p>
+<p>必须把加快建设农业强国作为统领“三农”工作的<b>总抓手</b>。【<b>战略总纲</b>】</p>
+<p>实施乡村振兴战略，是新时代做好“三农”工作的<b>战略总纲</b>。【<b>总抓手</b>】</p>
+<p>坚持把增加农民收入，作为“三农”工作的<b>头等大事</b>。【<b>中心任务</b>】</p>
+<p>要把保障粮食和重要农产品稳定安全供给作为<b>中心任务</b>。【<b>头等大事</b>】</p>
+<p>推进以<b>乡镇</b>为重要载体的城镇化建设。【<b>县城</b>】</p>
+<p>把推进农业转移人口市民化作为新型城镇化首要任务。【√</p>
+</div></details>
+</div></section>
+<section class="kp" id="pk-8" data-title="四、发展全过程人民民主"><div class="kp-head"><h3>四、发展全过程人民民主</h3><div class="chips"><span class="chip b">判断 12 条</span><span class="chip k">坑 6 处</span></div></div><div class="kp-crumb">第一篇《习近平新时代中国特色社会主义思想》 · 第二章 分论</div><div class="kp-body">
+<p class="pk-lead">※小黑排坑特训：找出下列表述中的主角关键词，并快速判断正误。</p>
+<p>1.人民代表大会制度是我国的根本政治制度。</p>
+<p>2.中国人民政治协商会议是国务院重要的组成部门。</p>
+<p>3.中国人民政治协商会议的职能是政治协商、民主监督、执政议政。</p>
+<p>4.保障少数民族当家作主是党的民族工作的主线。</p>
+<p>5.中华民族共同体理念是休戚与共、荣辱与共、生死与共、命运与共。</p>
+<p>6.基层群众自治的主要形式包括村民委员会、居民委员会。</p>
+<p>7.全过程人民民主是社会主义民主政治的本质属性。</p>
+<p>8.人民代表大会制度是实现我国全过程人民民主的重要制度载体。</p>
+<p>9.协商民主是实践全过程人民民主的重要形式。</p>
+<p>10.党内民主是全过程人民民主的重要体现。</p>
+<p>11.统战工作的关键是要坚持求同存异，在尊重一致性中寻求多样性。</p>
+<p>12.人民至上是统一战线最鲜明的特征。</p>
+<details class="ans"><summary>查看正确答案（12 条）</summary><div class="ans-body">
+<p>人民代表大会制度是我国的根本政治制度。【√】</p>
+<p>中国人民政治协商会议是国<b>务院重要的组成部门</b>。【<b>党的爱国统一战线组织，协商民主的专门机构</b>】</p>
+<p>中国人民政治协商会议的职能是政治协商、民主监督、<b>执政议</b>政。【<b>参政</b>】</p>
+<p><b>保障少数民族当家作</b>主是党的民族工作的主线。【<b>铸牢中华民族共同体意识</b>】</p>
+<p>中华民族共同体理念是休戚与共、荣辱与共、生死与共、命运与共。【√】</p>
+<p>基层群众自治的主要形式包括村民委员会、居民委员会。【√】</p>
+<p>全过程人民民主是社会主义民主政治的本质属性。【√】</p>
+<p>人民代表大会制度是实现我国全过程人民民主的重要制度载体。【√】</p>
+<p>协商民主是实践全过程人民民主的重要形式。【√】</p>
+<p><b>党内民主</b>是全过程人民民主的重要体现。【<b>基层民主</b>】</p>
+<p>统战工作的关键是要坚持求同存异，在尊重一<b>致性中</b>寻求<b>多样性</b>。【<b>多样性；一致性</b>】</p>
+<p><b>人民至上</b>是统一战线最鲜明的特征。【<b>党的领导</b>】</p>
+</div></details>
+</div></section>
+<section class="kp" id="pk-9" data-title="五、建设社会主义文化强国"><div class="kp-head"><h3>五、建设社会主义文化强国</h3><div class="chips"><span class="chip b">判断 4 条</span><span class="chip k">坑 3 处</span></div></div><div class="kp-crumb">第一篇《习近平新时代中国特色社会主义思想》 · 第二章 分论</div><div class="kp-body">
+<p class="pk-lead">※小黑排坑特训：找出下列表述中的主角关键词，并快速判断正误。</p>
+<p>1.要坚持社会主义核心价值观在意识形态领域指导地位的根本制度。</p>
+<p>2.要坚持利用第一、合理保护和最大干预原则，推动文化遗产系统性保护。</p>
+<p>3.要坚持把经济效益放在首位、经济效益和社会效益相统一。</p>
+<p>4.要把激发创新创造活力作为深化文化体制机制改革的中心环节。</p>
+<details class="ans"><summary>查看正确答案（4 条）</summary><div class="ans-body">
+<p>要坚持<b>社会主义核心价值观</b>在意识形态领域指导地位的根本制度。【<b>马克思主义</b>】</p>
+<p>要坚持<b>利用</b>第一、合理<b>保护和最大</b>干预原则，推动文化遗产系统性保护。【<b>保护；利用；最小</b>】</p>
+<p>要坚持把<b>经济效益</b>放在首位、经济效益和社会效益相统一。【<b>社会效益</b>】</p>
+<p>要把激发创新创造活力作为深化文化体制机制改革的中心环节。【√</p>
+</div></details>
+</div></section>
+<section class="kp" id="pk-10" data-title="六、以保障和改善民生为重点加强社会建设"><div class="kp-head"><h3>六、以保障和改善民生为重点加强社会建设</h3><div class="chips"><span class="chip b">判断 10 条</span><span class="chip k">坑 8 处</span></div></div><div class="kp-crumb">第一篇《习近平新时代中国特色社会主义思想》 · 第二章 分论</div><div class="kp-body">
+<p class="pk-lead">※小黑排坑特训：找出下列表述中的主角关键词，并快速判断正误。</p>
+<p>1.教育是民生之本，是最基本的民生，是最大的民生工程。</p>
+<p>2.高质量充分就业要以破解周期性就业矛盾为着力点。</p>
+<p>3.要构建初次分配、再分配、第三次分配协调配套的制度体系。</p>
+<p>4.提高劳动报酬在再分配中的比重。</p>
+<p>5.就业是人民生活的安全网和社会运行的稳定器。</p>
+<p>6.社会福利是社会保障制度的核心内容，是社会保障体系中的基本纲领。</p>
+<p>7.完善基本养老保险全国统筹制度，完善工伤保险省级统筹。</p>
+<p>8.坚持治疗为主的方针，深入实施健康中国行动。</p>
+<p>9.共享要求打造全民参与的开放治理体系，是社会治理的关键。</p>
+<p>10.有效发挥基层群众性自治组织主导作用，健全社区管理和服务机制。</p>
+<details class="ans"><summary>查看正确答案（10 条）</summary><div class="ans-body">
+<p><b>教育</b>是民生<b>之本</b>，是最基本的民生，是最大的民生工程。【<b>就业</b>】</p>
+<p>高质量充分就业要以破解<b>周期性</b>就业矛盾为着力点。【<b>结构性</b>】</p>
+<p>要构建初次分配、再分配、第三次分配协调配套的制度体系。【√】</p>
+<p>提高劳动报酬在<b>再分配</b>中的比重。【<b>初次分配</b>】</p>
+<p><b>就业</b>是人民生活的安全网和社会运行的稳定器。【<b>社会保障体系</b>】</p>
+<p><b>社会福利</b>是社会保障制度的核心内容，是社会保障体<b>系中</b>的基<b>本纲</b>领。【<b>社会保险</b>】</p>
+<p>完善基本养老保险全国统筹制度，完善工伤保险省级统筹。【√】</p>
+<p>坚持<b>治疗</b>为主的方针，深入实施健康中国行动。【<b>预防</b>】</p>
+<p><b>共享</b>要求打造全民参与的开放治理<b>体系</b>，是社会治理的关键。【<b>共治</b>】</p>
+<p>有效发挥基层<b>群众性自治组织主</b>导作用，健全社区管理和服务机制。【<b>政府</b>】</p>
+</div></details>
+</div></section>
+<section class="kp" id="pk-11" data-title="七、社会主义生态文明"><div class="kp-head"><h3>七、社会主义生态文明</h3><div class="chips"><span class="chip b">判断 5 条</span><span class="chip k">坑 3 处</span></div></div><div class="kp-crumb">第一篇《习近平新时代中国特色社会主义思想》 · 第二章 分论</div><div class="kp-body">
+<p class="pk-lead">※小黑排坑特训：找出下列表述中的主角关键词，并快速判断正误。</p>
+<p>1.生态文明建设是关系中华民族永续发展的根本大计。</p>
+<p>2.坚持节约优先、保护优先、人工修复为主的方针。</p>
+<p>3.坚持把绿色低碳发展作为解决生态环境问题的治本之策。</p>
+<p>4.我国的目标是2035年前实现碳达峰、本世纪中叶前实现碳中和。</p>
+<p>5.构建以自然保护区为主体，各类自然公园为补充的自然保护地体系。</p>
+<details class="ans"><summary>查看正确答案（5 条）</summary><div class="ans-body">
+<p>生态文明建设是关系中华民族永续发展的根本大计。【√】</p>
+<p>坚持节约优先、<b>保护</b>优先、<b>人工修复</b>为主的方针。【<b>自然恢复</b>】</p>
+<p>坚持把绿色低碳发展作为解决生态环境问题的治本之策。【√】</p>
+<p>我国的目标是<b>2035年</b>前实现碳达峰、<b>本世纪中叶</b>前实现碳中和。【<b>2030年；2060年</b>】</p>
+<p>构建以<b>自然保护区</b>为主体，各类自然公园为补充的自然保护地体系。【<b>国家公园</b>】</p>
+</div></details>
+</div></section>
+<section class="kp" id="pk-12" data-title="八、全面深化改革"><div class="kp-head"><h3>八、全面深化改革</h3><div class="chips"><span class="chip b">判断 7 条</span><span class="chip k">坑 5 处</span></div></div><div class="kp-crumb">第一篇《习近平新时代中国特色社会主义思想》 · 第二章 分论</div><div class="kp-body">
+<p class="pk-lead">※小黑排坑特训：找出下列表述中的主角关键词，并快速判断正误。</p>
+<p>1.党的十一届三中全会是划时代的，开创了新时代全面深化改革新局面。</p>
+<p>2.改革开放是决定当代中国命运的关键一招。</p>
+<p>3.全面深化改革必须以是否促进经济高质量发展为根本标准。</p>
+<p>4.改革和开放如鸟之两翼、车之两轮，相辅相成、相伴而生。</p>
+<p>5.全面深化改革以经济建设为主线。</p>
+<p>6.全面深化改革以政治体制改革为牵引。</p>
+<p>7.全面深化改革以促进社会公平正义、增进人民福祉为出发点和落脚点。</p>
+<details class="ans"><summary>查看正确答案（7 条）</summary><div class="ans-body">
+<p>党的十一<b>届三中全会</b>是划时代的，开创了新时代全面深化改革新局面。【<b>十八届三中全会</b>】</p>
+<p>改革开放是决定当代中国命运的关键一招。【√】</p>
+<p>全面深化改革必须以是否<b>促进经济高质量发展为</b>根本标准。【<b>有利于坚持和改善党的全面领导、有利于坚持和完善中国特色社会主义制度</b>】</p>
+<p>改革和<b>开放</b>如鸟之两翼、车之两轮，相辅相成、相伴而生。【<b>法治</b>】</p>
+<p>全面深化改革以<b>经济建设</b>为主线。【<b>制度建设</b>】</p>
+<p>全面深化改革以<b>政治体制</b>改革为牵引。【<b>经济体制</b>】</p>
+<p>全面深化改革以促进社会公平正义、增进人民福祉为出发点和落脚点，【√</p>
+</div></details>
+</div></section>
+<section class="kp" id="pk-13" data-title="九、全面依法治国"><div class="kp-head"><h3>九、全面依法治国</h3><div class="chips"><span class="chip b">判断 8 条</span><span class="chip k">坑 5 处</span></div></div><div class="kp-crumb">第一篇《习近平新时代中国特色社会主义思想》 · 第二章 分论</div><div class="kp-body">
+<p class="pk-lead">※小黑排坑特训：找出下列表述中的主角关键词，并快速判断正误。</p>
+<p>1.全面依法治国是坚持和发展中国特色社会主义的本质要求和重要保障。</p>
+<p>2.中国特色社会主义法治道路的核心要义，就是要坚持党的领导，坚持中国特色社会主义制度，贯彻中国特色社会主义法治理论。</p>
+<p>3.人民民主专政是中国特色社会主义法治之魂，是我们的法治同西方资本主义国家的法治最大的区别。</p>
+<p>4.全面依法治国的总抓手是建设中国特色社会主义法治体系。</p>
+<p>5.坚持依宪治国、依宪执政，必须把宪法的完善修订作为首要任务。</p>
+<p>6.法治政府是构筑法治国家的基础。</p>
+<p>7.法治社会建设是全面依法治国的重点任务和主体工程。</p>
+<p>8.严格执法是维护社会公平正义的最后一道防线。</p>
+<details class="ans"><summary>查看正确答案（8 条）</summary><div class="ans-body">
+<p>全面依法治国是坚持和发展中国特色社会主义的本质要求和重要保障。【√】</p>
+<p>中国特色社会主义法治道路的核心要义，就是要坚持党的领导，坚持中国特色社会主义制度，贯彻中国特色社会主义法治理论。【√】</p>
+<p><b>人民民主专政</b>是中国特色社会主义法治之魂，是我们的法治同西方资本主义国家的法治最大的区别。【<b>党的领导</b>】</p>
+<p>全面依法治国的总抓手是建设中国特色社会主义法治体系。【√】</p>
+<p>坚持依宪治国、依宪执政，必须把<b>宪法的完善修订作</b>为首要任务。【<b>全面贯彻实施宪法</b>】</p>
+<p><b>法治政府</b>是构筑法治国家的基础。【<b>法治社会</b>】</p>
+<p><b>法治社会</b>建设是全面依法治国的重点任务和主体工程。【<b>法治政府</b>】</p>
+<p><b>严格执法</b>是维护社会公平正义的最后一道防线。【<b>公正司法</b>】</p>
+</div></details>
+</div></section>
+<section class="kp" id="pk-14" data-title="十、全面从严治党"><div class="kp-head"><h3>十、全面从严治党</h3><div class="chips"><span class="chip b">判断 14 条</span><span class="chip k">坑 10 处</span></div></div><div class="kp-crumb">第一篇《习近平新时代中国特色社会主义思想》 · 第二章 分论</div><div class="kp-body">
+<p class="pk-lead">※小黑排坑特训：找出下列表述中的主角关键词，并快速判断正误。</p>
+<p>1.全面从严治党是新时代党的建设的鲜明主题。</p>
+<p>2.新时代党的建设要以供给侧结构性改革为主线。</p>
+<p>3.新时代党的建设要以党的制度建设为统领。</p>
+<p>4.政治建设是党的基础性建设，要摆在首位。</p>
+<p>5.思想建设是党的根本性建设。</p>
+<p>6.思想建设的根本任务是用党的创新理论武装全党。</p>
+<p>7.基层党组织是贯彻落实党中央决策部署的“最初一公里”。</p>
+<p>8.从严治党，关键是要抓住高级干部这个“关键少数”。</p>
+<p>9.党执政后的最大危险是腐败。</p>
+<p>10.要坚持以党章为根本，以人民代表大会制度为核心，完善党内法规制度体系。</p>
+<p>11.批评与自我批评是最彻底的自我革命。</p>
+<p>12.党的自我革命是跳出历史周期率的唯一答案。</p>
+<p>13.勇于自我革命，是我们党最大的优势、最鲜明的品格。</p>
+<p>14.把不敢腐的强大震慑效能、不能腐的刚性制度约束、不想腐的思想教育优势融于一体。</p>
+<details class="ans"><summary>查看正确答案（14 条）</summary><div class="ans-body">
+<p>全面从严治党是新时代党的建设的鲜明主题。【√】</p>
+<p>新时代党的建设要以<b>供给侧结构性改革为</b>主线。【<b>加强党的长期执政能力建设、先进性和纯洁性建设</b>】</p>
+<p>新时代党的建设要以党的<b>制度</b>建设为统领。【<b>政治</b>】</p>
+<p>政治建设是党的<b>基础性建</b>设，要摆在首位。【<b>根本性</b>】</p>
+<p>思想建设是党的<b>根本性</b>建设。【<b>基础性</b>】</p>
+<p>思想建设的根本任务是用党的创新理论武装全党。【√】</p>
+<p>基层党组织是贯彻落实党中央决策部署的“<b>最初一</b>公里”。【<b>最后</b>】</p>
+<p>从严治党，关键是要抓住<b>高级干部这</b>个“关键少数”。【<b>领导干部</b>】</p>
+<p>党执政后的最大危险是<b>腐败</b>。【<b>脱离群众</b>】</p>
+<p>要坚持以党章为<b>根本</b>，以人民代表大会制度为核心，完善党内法规制度体系。【<b>民主集中制</b>】</p>
+<p><b>批评与自我批评</b>是最彻底的自我革命。【<b>反腐败</b>】</p>
+<p>党的自我革命是跳出历史周期率的<b>唯一</b>答案。【<b>第二个</b>】</p>
+<p>勇于自我革命，是我们党最大的优势、最鲜明的品格。【√】</p>
+<p>把不敢腐的强大震慑效能、不能腐的刚性制度约束、不想腐的思想教育优势融于一体。【√】</p>
+</div></details>
+</div></section>
+<section class="kp" id="pk-15" data-title="十一、总体国家安全观"><div class="kp-head"><h3>十一、总体国家安全观</h3><div class="chips"><span class="chip b">判断 4 条</span><span class="chip k">坑 3 处</span></div></div><div class="kp-crumb">第一篇《习近平新时代中国特色社会主义思想》 · 第二章 分论</div><div class="kp-body">
+<p class="pk-lead">※小黑排坑特训：找出下列表述中的主角关键词，并快速判断正误。</p>
+<p>1.总体国家安全观的关键和灵魂是“安全”，突出大安全理念。</p>
+<p>2.总体国家安全观以经济安全为根本，以政治安全为基础，以人民安全为宗旨，以军事、科技、文化、社会安全为保障，以促进国际安全为依托。</p>
+<p>3.坚持把经济安全摆在首位，这是新时代中国国家安全的生命线。</p>
+<p>4.防范化解国家安全风险，这是新时代中国国家安全的中心任务。</p>
+<details class="ans"><summary>查看正确答案（4 条）</summary><div class="ans-body">
+<p>总体国家安全观的关键和灵魂是“<b>安全</b>”，突出大安全理念。【<b>总体</b>】</p>
+<p>总体国家安全观以<b>经济</b>安全为<b>根本</b>，以<b>政治安</b>全为基础，以人民安全为宗旨，以军事、科技、文化、社会安全为保障，以促进国际安全为依托。【<b>政治；经济</b>】</p>
+<p>坚持<b>把经济安</b>全摆在首位，这是新时代中国国家安全的生命线。【<b>政治</b>】</p>
+<p>防范化解国家安全风险，这是新时代中国国家安全的中心任务。【√】</p>
+</div></details>
+</div></section>
+<section class="kp" id="pk-16" data-title="十二、社会主义现代化建设的教育、科技、人才战略"><div class="kp-head"><h3>十二、社会主义现代化建设的教育、科技、人才战略</h3><div class="chips"><span class="chip b">判断 8 条</span><span class="chip k">坑 6 处</span></div></div><div class="kp-crumb">第一篇《习近平新时代中国特色社会主义思想》 · 第二章 分论</div><div class="kp-body">
+<p class="pk-lead">※小黑排坑特训：找出下列表述中的主角关键词，并快速判断正误。</p>
+<p>1.必须坚持创新是第一生产力、人才是第一资源、科技是第一动力。</p>
+<p>2.以为党育人、为国育才为根本任务，以立德树人为根本目标。</p>
+<p>3.要把高等教育作为基点，基础教育作为龙头。</p>
+<p>4.应用研究是科技创新的源头。</p>
+<p>5.企业要成为基础研究的主力军和重大科技突破的生力军。</p>
+<p>6.国家实验室是科技创新的主体。</p>
+<p>7.坚持党对人才工作的全面领导，是建设人才强国的“纲”和“本”。</p>
+<p>8.建立健全以创新能力、质量、实效、贡献为导向的人才评价体系。</p>
+<details class="ans"><summary>查看正确答案（8 条）</summary><div class="ans-body">
+<p>必须坚持<b>创新</b>是第一生产力、<b>人才</b>是第一资源、<b>科技是第</b>一动力。【<b>科技；创新</b>】</p>
+<p>以为党育人、为国育才为<b>根本任务</b>，以立德树人为<b>根本目标</b>。【<b>根本目标；根本任务</b>】</p>
+<p>要把<b>高等教育</b>作为基点，<b>基础教育</b>作为龙头。【<b>基础教育；高等教育</b>】</p>
+<p><b>应用研究</b>是科技创新的源头。【<b>基础研究</b>】</p>
+<p><b>企业</b>要成为基础研究的主力军和重大科技突破的生力军。【<b>高水平研究型大学</b>】</p>
+<p><b>国家实验室</b>是科技创新的主体。【<b>企业</b>】</p>
+<p>坚持党对人才工作的全面领导，是建设人才强国的“纲”和“本”。【√】</p>
+<p>建立健全以创新能力、质量、实效、贡献为导向的人才评价<b>体系</b>。【√】马哲</p>
+</div></details>
+</div></section>
+<section class="kp" id="pk-17" data-title="知识点1物质与意识"><div class="kp-head"><h3>知识点1物质与意识</h3><div class="chips"><span class="chip b">判断 4 条</span><span class="chip k">坑 4 处</span></div></div><div class="kp-crumb">第二篇《马克思主义哲学》</div><div class="kp-body">
+<p class="pk-lead">※小黑排坑特训：找出下列表述中的主角关键词，并快速判断正误。</p>
+<p>1.物质的根本属性和存在方式是客观实在性。</p>
+<p>2.意识具有主观能动性，对物质起决定作用。</p>
+<p>3.正确发挥主观能动性是尊重客观规律的前提。</p>
+<p>4.世界上的事物都是相对运动和绝对静止的统一。</p>
+<details class="ans"><summary>查看正确答案（4 条）</summary><div class="ans-body">
+<p>物质的根本属性和存在方式是<b>客观实在性</b>。【<b>运动</b>】</p>
+<p>意识具有主观能动性，对物质起<b>决定作用</b>。【<b>能动的反作用</b>】</p>
+<p>正<b>确发挥</b>主观能动性是尊重客观规律的前提。【<b>尊重客观规律；正确发挥主观能动性</b>】</p>
+<p>世界上的事物都是<b>相对运动和绝对静止</b>的统一。【<b>绝对运动；相对静止</b>】</p>
+</div></details>
+</div></section>
+<section class="kp" id="pk-18" data-title="知识点2 唯物辩证法的总特征"><div class="kp-head"><h3>知识点2 唯物辩证法的总特征</h3><div class="chips"><span class="chip b">判断 5 条</span><span class="chip k">坑 1 处</span></div></div><div class="kp-crumb">第二篇《马克思主义哲学》</div><div class="kp-body">
+<p class="pk-lead">※小黑排坑特训：找出下列表述中的主角关键词，并快速判断正误。</p>
+<p>1.联系和发展的观点是唯物辩证法的总特征。</p>
+<p>2.万事万物均处在直接联系之中。</p>
+<p>3.整体居于主导地位，整体统率着部分。</p>
+<p>4.部分影响整体，部分的功能及其变化甚至对整体的功能起决定作用。</p>
+<p>5.发展的实质是新事物的产生和旧事物的灭亡。</p>
+<details class="ans"><summary>查看正确答案（5 条）</summary><div class="ans-body">
+<p>联系和发展的观点是唯物辩证法的总特征。【√】</p>
+<p>万事万物均处在<b>直接联系</b>之中。【<b>普遍联系</b>】</p>
+<p>整体居于主导地位，整体统率着部分。【√】</p>
+<p>部分影响整体，部分的功能及其变化甚至对整体的功能起决定作用。</p>
+<p>发展的实质是新事物的产生和旧事物的灭亡。【√】</p>
+</div></details>
+</div></section>
+<section class="kp" id="pk-19" data-title="知识点3 唯物辩证法的基本规律"><div class="kp-head"><h3>知识点3 唯物辩证法的基本规律</h3><div class="chips"><span class="chip b">判断 15 条</span><span class="chip k">坑 10 处</span></div></div><div class="kp-crumb">第二篇《马克思主义哲学》</div><div class="kp-body">
+<p class="pk-lead">※小黑排坑特训：找出下列表述中的主角关键词，并快速判断正误。</p>
+<p>1.对立统一规律揭示了事物发展的形式和状态。</p>
+<p>2.对立统一规律是唯物辩证法的实质和核心。</p>
+<p>3.矛盾的基本属性是普遍性和特殊性。</p>
+<p>4.矛盾的特殊性要求我们坚持矛盾分析法，全面地看问题。</p>
+<p>5.矛盾的普遍性要求我们做到具体问题具体分析。</p>
+<p>6.事物的性质由主要矛盾的主要方面决定。</p>
+<p>7.外因是事物发展变化的根据，是第一位的原因。</p>
+<p>8.量变质变规律揭示了事物发展的方向和道路。</p>
+<p>9.区分量变和质变的根本标志，是事物变化是否超出度的范围。</p>
+<p>10.量变是质变的必要准备，量变一定引起质变。</p>
+<p>11.质变比量变更能推动事物的发展。</p>
+<p>12.否定之否定规律揭示了事物发展的源泉和动力。</p>
+<p>13.辩证的否定是事物联系和发展的环节。</p>
+<p>14.辩证的否定的实质是“扬弃”，即既克服又保留。</p>
+<p>15.事物的发展表现为螺旋式上升和直线式前进的过程。</p>
+<details class="ans"><summary>查看正确答案（15 条）</summary><div class="ans-body">
+<p>对立统一规律揭示了事物发展<b>的形式和状态</b>。【<b>源泉和动力</b>】</p>
+<p>对立统一规律是唯物辩证法的实质和核心。【√】</p>
+<p>矛盾的基本属性是<b>普遍性和特殊性</b>。【<b>同一性和斗争性</b>】</p>
+<p>矛盾的<b>特殊性</b>要求我们坚持矛盾分析法，全面地看问题。【<b>普遍性</b>】</p>
+<p>矛盾的<b>普遍性</b>要求我们做到具体问题具体分析。【<b>特殊性</b>】</p>
+<p>事物的性质由主要矛盾的主要方面决定。【√】</p>
+<p><b>外因</b>是事物发展变化的根据，是第一位的原因。【<b>内因</b>】</p>
+<p>量变质变规律揭示了事物发展的<b>方向和道路</b>。【<b>形式和状态</b>】马哲</p>
+<p>区分量变和质变的根本标志，是事物变化是否超出度的范围。【√】</p>
+<p>量变是质变的必要准备，<b>量变一定引起质变</b>。【<b>量变达到一定程度必然引起质变</b>】</p>
+<p>质变比量变更<b>能推动事物的</b>发展。【<b>量变与质变在推动事物发展中是辩证统一的，没有“谁更重要”的绝对划分</b>】</p>
+<p>否定之否定规律揭示了事物发展<b>的源泉和动力</b>。【<b>方向和道路</b>】</p>
+<p>辩证的否定是事物联系和发展的环节。【√】</p>
+<p>辩证的否定的实质是“扬弃”，即既克服又保留。【√】</p>
+<p>事物的发展表现为螺旋式上升和<b>直线式</b>前进的过程。【<b>波浪式</b>】</p>
+</div></details>
+</div></section>
+<section class="kp" id="pk-20" data-title="知识点4 实践与认识的辩证关系"><div class="kp-head"><h3>知识点4 实践与认识的辩证关系</h3><div class="chips"><span class="chip b">判断 3 条</span><span class="chip k">坑 2 处</span></div></div><div class="kp-crumb">第二篇《马克思主义哲学》</div><div class="kp-body">
+<p class="pk-lead">※小黑排坑特训：找出下列表述中的主角关键词，并快速判断正误。</p>
+<p>1.实践是认识发展的动力。</p>
+<p>2.认识是实践发展的目的。</p>
+<p>3.是否有用是检验认识真理性的唯一标准。</p>
+<details class="ans"><summary>查看正确答案（3 条）</summary><div class="ans-body">
+<p>实践是认识发展的动力。【√】</p>
+<p><b>认识是实践</b>发展的目的。【<b>实践；认识</b>】</p>
+<p><b>是否有用</b>是检验认识真理性的唯一标准。【<b>实践</b>】</p>
+</div></details>
+</div></section>
+<section class="kp" id="pk-21" data-title="知识点5社会发展的基本规律"><div class="kp-head"><h3>知识点5社会发展的基本规律</h3><div class="chips"><span class="chip b">判断 9 条</span><span class="chip k">坑 5 处</span></div></div><div class="kp-crumb">第二篇《马克思主义哲学》</div><div class="kp-body">
+<p class="pk-lead">※小黑排坑特训：找出下列表述中的主角关键词，并快速判断正误。</p>
+<p>1.社会基本矛盾包括生产力与生产关系的矛盾、经济基础与上层建筑的矛盾。</p>
+<p>2.劳动资料在生产力基本要素中起主导作用。</p>
+<p>3.劳动者是衡量生产力水平的客观标志。</p>
+<p>4.科学技术是第一生产力，是先进生产力的集中体现和主要标志。</p>
+<p>5.生产关系由生产资料的所有制形式、人们在生产中的地位和相互关系、产品分配形式等方面构成。</p>
+<p>6.产品分配形式是生产关系的基础，是区分社会制度的根本标志。</p>
+<p>7.观念上层建筑包括政治法律思想、道德、艺术、宗教、哲学等思想观点。</p>
+<p>8.在整个上层建筑中，观念上层建筑居主导地位，政治法律思想是核心。</p>
+<p>9.社会基本矛盾中经济基础与上层建筑的矛盾是更根本的。</p>
+<details class="ans"><summary>查看正确答案（9 条）</summary><div class="ans-body">
+<p>社会基本矛盾包括生产力与生产关系的矛盾、经济基础与上层建筑的矛盾。【√】</p>
+<p><b>劳动资料在</b>生产力基本要素中起主导作用。【<b>劳动者</b>】</p>
+<p><b>劳动者</b>是衡量生产力水平的客观标志。【<b>生产工具</b>】</p>
+<p>科学技术是第一生产力，是先进生产力的集中体现和主要标志。【√】</p>
+<p>生产关系由生产资料的所有制形式、人们在生产中的地位和相互关系、产品分配形式等方面构成。【√】</p>
+<p><b>产品分配形式</b>是生产关系的基础，是区分社会制度的根本标志。【<b>生产资料的所有制形式</b>】</p>
+<p>观念上层建筑包括政治法律思想、道德、艺术、宗教、哲学等思想观点。【√】</p>
+<p>在整个上层建筑中，<b>观念上层建筑</b>居主导地位，<b>政治法律思想是</b>核心。【<b>政治上层建筑；国家政权</b>】</p>
+<p>社会基本矛盾中<b>经济基础与上层建筑的</b>矛盾是更根本的。【<b>生产力与生产关系</b>】</p>
+</div></details>
+</div></section>
+<section class="kp" id="pk-22" data-title="知识点6人民群众在历史发展中的作用"><div class="kp-head"><h3>知识点6人民群众在历史发展中的作用</h3><div class="chips"><span class="chip b">判断 4 条</span><span class="chip k">坑 2 处</span></div></div><div class="kp-crumb">第二篇《马克思主义哲学》</div><div class="kp-body">
+<p class="pk-lead">※小黑排坑特训：找出下列表述中的主角关键词，并快速判断正误。</p>
+<p>1.群众史观认为对历史发展起决定作用的是人民群众，同时否认个人尤其是少数历史人物的作用。</p>
+<p>2.人民群众是社会历史的主体，对社会历史发展起决定性作用。</p>
+<p>3.人民群众是社会物质财富和精神财富的创造者。</p>
+<p>4.人民群众是社会变革的领导力量。</p>
+<details class="ans"><summary>查看正确答案（4 条）</summary><div class="ans-body">
+<p><b>群众史</b>观认为对历史发展起决定作用的是人民群众，同时<b>否认</b>个人尤其是少<b>数历史人</b>物的作用。【<b>承认</b>】</p>
+<p>人民群众是社会历史的主体，对社会历史发展起决定性作用。【√】</p>
+<p>人民群众是社会物质财富和精神财富的创造者。【√】</p>
+<p>人民群众是社会变革的<b>领导力</b>量。【<b>决定</b>】时政</p>
+</div></details>
+</div></section>
+<section class="kp" id="pk-23" data-title="一、2025年中央经济工作会议"><div class="kp-head"><h3>一、2025年中央经济工作会议</h3><div class="chips"><span class="chip b">判断 11 条</span><span class="chip k">坑 7 处</span></div></div><div class="kp-crumb">第三篇《时事政治》 · 第一章 重要会议</div><div class="kp-body">
+<p class="pk-lead">※小黑排坑特训：找出下列表述中的主角关键词，并快速判断正误。</p>
+<p>1.必须坚持投资于人代替投资于物。</p>
+<p>2.必须做到既“放得活”又“管得好”。</p>
+<p>3.坚持外需主导，建设强大国内市场。</p>
+<p>4.坚持对外开放，推动多领域合作共赢。</p>
+<p>5.坚持改革驱动，加紧培育壮大新动能。</p>
+<p>6.坚持协调发展，促进城乡融合和区域联动。</p>
+<p>7.坚持“双控”引领，推动全面绿色转型。</p>
+<p>8.坚持民生为大，努力为人民群众多办实事。</p>
+<p>9.围绕做强国内国际大循环，拓展内需增长新空间。</p>
+<p>10.围绕激发高质量发展的动力活力，推动科技创新和产业创新深度融合。</p>
+<p>11.围绕发展新质生产力，坚定不移深化改革扩大开放。</p>
+<details class="ans"><summary>查看正确答案（11 条）</summary><div class="ans-body">
+<p>必须坚持投资于<b>人代替</b>投资于物。【<b>紧密结合</b>】</p>
+<p>必须做到既“放得活”又“管得好”。【√】</p>
+<p>坚持<b>外需</b>主导，建设强大国内市场。【<b>内需</b>】</p>
+<p>坚持对外开放，推动多领域合作共赢。【√】</p>
+<p>坚<b>持改革</b>驱动，加紧培育壮大新动能。【<b>创新</b>】</p>
+<p>坚持协调发展，促进城乡融合和区域联动。【√】</p>
+<p>坚持“<b>双控</b>”引领，推动全面绿色转型。【<b>双碳</b>】</p>
+<p>坚持民生为大，努力为人民群众多办实事。【√】</p>
+<p>围绕做强<b>国内国际大循环</b>，拓展内需增长新空间。【<b>国内大循环</b>】</p>
+<p>围<b>绕激发高质量发展的动力活力</b>，推动科技创新和产业创新深度融合。【<b>发展新质生产力</b>】</p>
+<p>围绕<b>发展新质生产力</b>，坚定不<b>移深</b>化改革扩大开放。【<b>激发高质量发展的动力活力</b>】</p>
+</div></details>
+</div></section>
+<section class="kp" id="pk-24" data-title="二、2026年政府工作报告"><div class="kp-head"><h3>二、2026年政府工作报告</h3><div class="chips"><span class="chip b">判断 47 条</span><span class="chip k">坑 35 处</span></div></div><div class="kp-crumb">第三篇《时事政治》 · 第一章 重要会议</div><div class="kp-body">
+<h5 class="sub2">（一）2026年政府工作报告第1组</h5>
+<p class="pk-lead">※小黑排坑特训：找出下列表述中的主角关键词，并快速判断正误。</p>
+<p>1.2025年国内生产总值增长5%，总量达到130.19万亿元。</p>
+<p>2.2025年实施学前二年免费教育政策，全面实施育儿补贴制度。</p>
+<p>3.2025年粮食产量达到1.43万亿斤。</p>
+<p>4.2025年天问一号开启“追星”之旅，北斗规模应用全面拓展，雅下水电工程开工建设，首艘国产电磁弹射型航母山东舰正式入列。</p>
+<p>5.十四五时期，全社会研发经费投入年均增长10%，位居世界第一。</p>
+<p>6.十四五时期，服务业领域外资准入限制措施全部取消。</p>
+<p>7.十四五时期，货物贸易第一大国地位更加巩固。</p>
+<p>8.当前，我国森林覆盖率提高到25%以上，成为全球森林资源增长最快最多的国家，构建起全球最大、发展最快的可再生能源体系。</p>
+<details class="ans"><summary>查看正确答案（8 条）</summary><div class="ans-body">
+<p>2025年国内生产总值增长5%，总量达到1<b>30.19万</b>亿元。【<b>140.19</b>】</p>
+<p><b>2025</b>年实施学前二<b>年免费教</b>育政策，全面实施育儿补贴制度。【<b>一年</b>】</p>
+<p>2025年粮食产量达到1.43万亿斤。【√】</p>
+<p>2025年<b>天问一号</b>开启“追星”之旅，北斗规模应用全面拓展，雅下水电工程开工建设，首艘国产电磁弹射型航母<b>山东舰</b>正式入列。【<b>天问二号；福建舰</b>】</p>
+<p>十四五时期，全社会研发经费投入年均增长<b>10</b>%，位居世<b>界第一</b>。【<b>第二</b>】</p>
+<p>十四五时期，<b>服务业</b>领域外资准入限制措施全部取消。【<b>制造业</b>】</p>
+<p>十四五时期，货物贸易第一大国地位更加巩固。【√】</p>
+<p>当前，我国森林覆盖率提高到25%以上，成为全球森林资源增长最快最多的国家，构建起全球最大、发展最快的可再生能源体系。【√】</p>
+</div></details>
+<h5 class="sub2">（二）2026年政府工作报告第2组</h5>
+<p class="pk-lead">※小黑排坑特训：找出下列表述中的主角关键词，并快速判断正误。</p>
+<p>1.坚持快中求进、提质增效，加大顺周期和跨周期调节力度。</p>
+<p>2.继续实施更加积极的货币政策，继续实施适度宽松的财政政策。</p>
+<p>3.今年赤字率拟按4%左右安排，赤字规模比上年减少2300亿元。</p>
+<p>4.财政支出更加注重支持提振消费、投资于物、保障民生等方面。</p>
+<p>5.各级政府建立健全增收节支机制，增加一般性支出。</p>
+<p>6.要把促进经济稳定增长、物价合理下降作为货币政策的重要考量。</p>
+<p>7.灵活高效运用降准降息等多种政策工具，保持流动性充裕。</p>
+<p>8.畅通货币政策传导机制，引导金融机构加力支持扩大内需、科技创新、国有企业等重点领域。</p>
+<p>9.提高融资中间费用，促进社会综合融资成本低位运行。</p>
+<p>10.将各类经济政策和非经济政策纳入宏观政策取向多样性评估。</p>
+<details class="ans"><summary>查看正确答案（10 条）</summary><div class="ans-body">
+<p>坚持快中求进、提质增效，加大<b>顺周期</b>和跨周期调节力度。【<b>稳；逆周期</b>】</p>
+<p>继续实施更加积极的<b>货币政策</b>，继续实施适度宽松的<b>财政政策</b>。【<b>财政政策；货币政策</b>】</p>
+<p>今年赤字率拟按4%左右安排，赤字规模比上年<b>减少2300亿</b>元。【<b>增加</b>】</p>
+<p>财政支出更加注重支持提振消费、<b>投资于物</b>、保障民生等方面。【<b>投资于人</b>】</p>
+<p>各级政府建立健全增收节支机制，<b>增加一</b>般性支出。【<b>严控</b>】</p>
+<p>要把促进经济稳定增长、物价合<b>理下降作</b>为货币政策的重要考量。【<b>回升</b>】</p>
+<p>灵活高效运用降准降息等多种政策工具，保持流动性充裕。【√】</p>
+<p>畅通货币政策传导机制，引导金融机构加力支持扩大内需、科技创新、<b>国有企业</b>等重点领域。【<b>中小微企业</b>】</p>
+<p><b>提高</b>融资中间费用，促进社会综合融资成本低位运行。【<b>降低</b>】</p>
+<p>将<b>各类</b>经济政<b>策和</b>非经济政策纳入宏观政策取向<b>多样性</b>评估。【<b>一致性</b>】</p>
+</div></details>
+<h5 class="sub2">（三）2026年政府工作报告第3组</h5>
+<div class="warnbox"><b>原书缺页：</b>该组对应的书页在源 PDF 中为广告页替代（PDF 第 36 / 49 页），内容缺失。若后续补到原书页面，可再补录。</div>
+<h5 class="sub2">（四）2026年政府工作报告第4组</h5>
+<p class="pk-lead">※小黑排坑特训：找出下列表述中的主角关键词，并快速判断正误。</p>
+<p>1.社会投资基金要带头做耐心资本，推动更多初创企业加快成长为科技领军企业。</p>
+<p>2.继续提高基础研究投入比重，加大长期稳定支持。</p>
+<p>3.建设北京（京津冀）、上海（长三角）、粤港澳大湾区国际科技创新中心，打造世界级科技创新策源地。</p>
+<p>4.强化高校创新主体地位，支持科技领军企业牵头组建创新联合体，提高承担国家重大科技项目比例。</p>
+<p>5.鼓励地方政府经济促进行为，多出台差异化税收优惠、财政补贴政策。</p>
+<p>6.加强反垄断、反不正当竞争，强化公平竞争审查柔性约束。</p>
+<p>7.综合运用产能调控、标准引领、价格执法、质量监管等手段，鼓励“内卷式”竞争，营造良好市场生态。</p>
+<p>8.加大财政资源和预算统筹力度，降低国有资本收益收取比例。</p>
+<p>9.规范金融机构竞争秩序，深入推进地方中小金融机构增量提质。</p>
+<p>10.进一步健全中长期资金入市机制，严控私募股权和创投基金退出渠道，提高直接融资、股权融资比重。</p>
+<details class="ans"><summary>查看正确答案（10 条）</summary><div class="ans-body">
+<p><b>社会投</b>资基金要带头做耐心资本，推动更多初创企业加快成长为科技领军企业。【<b>政府</b>】</p>
+<p>继续提高基础研究投入比重，加大长期稳定支持。【√】</p>
+<p>建设北京（京津冀）、上海（长三角）、粤港澳大湾区国际科技创新中心，打造世界级科技创新策源地。【√</p>
+<p>强化<b>高校</b>创新主体地位，支持<b>科技</b>领军企业牵头组建创新<b>联合体</b>，提高承担国家重大科技项目比例。【<b>企业</b>】</p>
+<p><b>鼓励</b>地方政府经济促进行为，<b>多出台差异化税</b>收优惠、财政补贴政策。【<b>规范</b>】</p>
+<p>加强反垄断、反不正当竞争，强化公平竞争审<b>查柔性</b>约束。【<b>刚性</b>】</p>
+<p>综合运用产能调控、标准引领、价格执法、质量监管等手段，<b>鼓励“内</b>卷式”竞争，营造<b>良好</b>市场生态。【<b>整治</b>】</p>
+<p>加大财政资源和预算统筹力度，<b>降低</b>国有资本收益收取比例，【<b>提高</b>】</p>
+<p>规范金融机构竞争秩序，深入推进地方中小金融机构<b>增量提质</b>、【<b>减量</b>】</p>
+<p>进一步健全中长期资金入市机制，<b>严控</b>私募股权和创投基金退出渠道，提高直接融资、股权融资比重。【<b>拓宽</b>】</p>
+</div></details>
+<h5 class="sub2">（五）2026年政府工作报告第5组</h5>
+<p class="pk-lead">※小黑排坑特训：找出下列表述中的主角关键词，并快速判断正误。</p>
+<p>1.以制造业为重点扩大市场准入和开放领域，进一步扩大增值电信、生物技术、外商独资医院等领域开放试点。</p>
+<p>2.有序扩大数字领域开放，增加跨境服务贸易负面清单。</p>
+<p>3.优化自由贸易试验区布局范围，扎实推进山东自由贸易港建设。</p>
+<p>4.引导企业优化全球市场布局，推进贸易投资单列化、内贸外贸分离化发展。</p>
+<p>5.深化外商投资促进体制机制改革，保障外资企业国民待遇，实施新版鼓励外商投资产业目录，促进外资境内再投资、扩大本地化生产。</p>
+<p>6.推进农业转移人口市民化，因地制宜放宽在流出地参加中考报名条件。</p>
+<p>7.坚持城市外延式扩张，优化现代化城市体系。</p>
+<p>8.支持京津冀、山河四省、粤港澳大湾区打造世界级城市群。</p>
+<p>9.加大统一化政策支持力度，深入推进兴边富民行动，促进革命老区、民族地区、边疆地区、资源枯竭城市等振兴发展。</p>
+<p>10.坚持民生为大，加强普惠性、基础性、兜底性民生建设，努力为人民群众多办实事。</p>
+<details class="ans"><summary>查看正确答案（10 条）</summary><div class="ans-body">
+<p><b>以制造业</b>为重点扩大市场准入和开放领域，进一步扩大增值电信、生物技术、外商独资医院等领域开放试点。【<b>服务业</b>】</p>
+<p>有序扩大数字领域开放，<b>增加</b>跨境服务贸易负面清单。【<b>压减</b>】</p>
+<p>优化自由贸易试验区布局范围，扎实推进<b>山东</b>自由贸易港建设。【<b>海南</b>】</p>
+<p>引导企业优化全球市场布局，推进贸易投资<b>单列化</b>、内贸外贸<b>分离化发</b>展。【<b>一体化；一体化</b>】</p>
+<p>深化外商投资促进体制机制改革，保障外资企业国民待遇，实施新版鼓励外商投资产业目录，促进外资境内再投资、扩大本地化生产。【√】</p>
+<p>推进农业转<b>移人</b>口市民化，因地制宜放宽在<b>流出地参</b>加中考报名条件。【<b>流入地</b>】</p>
+<p>坚持城市<b>外延式扩张</b>，优化现代化城市体系。【<b>内涵式发展</b>】</p>
+<p>支持京津冀、山河四省、粤港澳大湾区打造世界级城市群。【<b>长三角</b>】</p>
+<p>加<b>大统一化政策</b>支持力度，深入推进兴边富民行动，促进革命老区、民族地区、边疆地区、资源枯竭城市等振兴发展。【<b>差异化</b>】</p>
+<p>坚持民生为大，加强普惠性、基础性、兜底性民生建设，努力为人民群众多办实事。【√】</p>
+</div></details>
+<h5 class="sub2">（六）2026年政府工作报告第6组</h5>
+<p class="pk-lead">※小黑排坑特训：找出下列表述中的主角关键词，并快速判断正误。</p>
+<p>1.实施稳岗扩容提质行动，支持劳动密集型行业企业稳定岗位。</p>
+<p>2.推动基础教育扩优提质，统筹义务教育优质均衡发展、学前教育优质普惠发展，完善免费学前教育政策，增加职业高中学位供给。</p>
+<p>3.健全医疗、医保、医药独立发展和治理机制。</p>
+<p>4.深化以市场化为导向的公立医院改革。</p>
+<p>5.加强初婚初育家庭住房保障，支持多子女家庭改善性住房需求。</p>
+<p>6.落实基本养老保险全国统筹制度，稳步推动基本医疗保险省级统筹。</p>
+<p>7.因城施策控增量、去库存、优供给，探索多渠道盘活存量商品房，鼓励收购存量商品房重点用于改善性住房。</p>
+<p>8.进一步发挥“保交房”的黑名单制度作用，防范债务违约风险。</p>
+<p>9.强化金融风险监测预警和早期纠正，提高风险源头防控能力。</p>
+<details class="ans"><summary>查看正确答案（9 条）</summary><div class="ans-body">
+<p>实施稳岗扩容提质行动，支持劳动密集型行业企业稳定岗位。【√】</p>
+<p>推动基础教育扩优提质，统筹<b>义务教</b>育优质均衡发展、学前教育优质普惠发展，完善免费学前教育政策，增加<b>职业高中</b>学位供给。【<b>普通高中</b>】</p>
+<p>健全医疗、医保、医药<b>独立</b>发展和治理机制。【<b>协同</b>】</p>
+<p>深化以<b>市场化</b>为导向的公立医院改革。【<b>公益性</b>】</p>
+<p>加强初婚初育家庭住房保障，支持多子女家庭改善性住房需求。【√】</p>
+<p>落实基本养老保险全国统筹制度，稳步推动基本医疗保险省级统筹，【√</p>
+<p>因城施策控增量、去库存、优供给，<b>探索多</b>渠道盘活存量商品房，鼓励收购存量商品房重点用于<b>改善性住房</b>。【<b>保障性住房</b>】</p>
+<p>进一步发挥“保交房”<b>的黑名单</b>制度作用，防范债务违约风险。【<b>白名单</b>】</p>
+<p>强化金融风险监测预警和早期纠正，提高风险源头防控能力。【√】</p>
+</div></details>
+</div></section>
+<section class="kp" id="pk-25" data-title="三、2026年全国两会之习近平重要讲话"><div class="kp-head"><h3>三、2026年全国两会之习近平重要讲话</h3><div class="chips"><span class="chip b">判断 8 条</span><span class="chip k">坑 5 处</span></div></div><div class="kp-crumb">第三篇《时事政治》 · 第一章 重要会议</div><div class="kp-body">
+<p class="pk-lead">※小黑排坑特训：找出下列表述中的主角关键词，并快速判断正误。</p>
+<p>1.到本世纪中叶建成健康中国，是中共中央作出的一项战略决策。</p>
+<p>2.“十五五”是实现建成健康中国目标的关键时期，我们必须统筹谋划、加紧推进，力求取得决定性进展。</p>
+<p>3.我国是社会主义国家，是人口规模巨大、城乡区域发展平衡的发展中国家，这决定我们必须走中国特色卫生与健康发展道路。</p>
+<p>4.坚持基本医疗卫生事业的公益性。</p>
+<p>5.新时代卫生与健康工作方针，即以基层为重点，以改革创新为动力，治疗为主，中西医并重，把健康融入所有政策，人民共建共享。</p>
+<p>6.要继续优化体系布局，实施医疗卫生强基工程，促进集中诊疗。</p>
+<p>7.将健康理念融入公共政策制定实施的全过程。</p>
+<p>8.健全药品价格形成机制、优化药品和医用耗材分级采购政策。</p>
+<details class="ans"><summary>查看正确答案（8 条）</summary><div class="ans-body">
+<p>到<b>本世纪中叶</b>建成健康中国，是中共中央作出的一项战略决策。【<b>2035年</b>】</p>
+<p>“十五五”是实现建成健康中国目标的关键时期，我们必须统筹谋划、加紧推进，力求取得决定性进展。【√】</p>
+<p>我国是社会主义国家，是人口规模巨大、城乡区域<b>发展平衡的</b>发展中国家，这决定我们必须走中国特色卫生与健康发展道路。【<b>差距仍然较大</b>】</p>
+<p>坚持基本医疗卫生事业的公益性。【√】</p>
+<p>新时代卫生与健康工作方针，即以基层为重点，以改革创新为动力，<b>治疗</b>为主，<b>中西医并重</b>，把健康融入所有政策，人民共建共享。【<b>预防</b>】</p>
+<p>要继续优化<b>体系</b>布局，实施医疗卫生强基工程，促进<b>集中</b>诊疗。【<b>分级</b>】</p>
+<p>将健康理念融入公共政策制定实施的全过程。【√】</p>
+<p>健全药品价格形成机制、优化药品和医用<b>耗材分级采</b>购政策。【<b>集中</b>】</p>
+</div></details>
+</div></section>
+<section class="kp" id="pk-26" data-title="四、二十届中央纪委五次全会"><div class="kp-head"><h3>四、二十届中央纪委五次全会</h3><div class="chips"><span class="chip b">判断 10 条</span><span class="chip k">坑 9 处</span></div></div><div class="kp-crumb">第三篇《时事政治》 · 第一章 重要会议</div><div class="kp-body">
+<p class="pk-lead">※小黑排坑特训：找出下列表述中的主角关键词，并快速判断正误。</p>
+<p>1.2025年，党中央扎实开展深入贯彻正确政绩观学习教育，推动全党进一步改作风树新风。</p>
+<p>2.要强化经济监督，推动全党凝心聚力实现“十五五”时期目标任务。</p>
+<p>3.要持续狠刹形式主义、官僚主义，对违规吃喝、违规收送礼品礼金等易发多发问题深化整治。</p>
+<p>4.持续整治享乐主义、奢靡之风，坚决纠治临近换届等待观望不作为，换届后急功近利“翻烧饼”、搞“政绩工程”等突出问题，推动为基层减负。</p>
+<p>5.强化标本兼治，用好分类推进不敢腐、不能腐、不想腐战略抓手。</p>
+<p>6.要以保持高压震慑强化不想腐，坚持猛药去疴、重典治乱。</p>
+<p>7.以深化廉洁教育强化不能腐，不断塑造清正廉洁的思想品格、廉洁奉公的政德修养、廉洁自律的道德操守、崇廉拒腐的社会风尚。</p>
+<p>8.推动省级主战场持续深化整治工作，提升基层监督能力。</p>
+<p>9.深化巡视巡察上下联动，加强对省区市巡视、中央单位内部巡察、对村巡视工作指导督导。</p>
+<p>10.强化铁军意识，不断提高纪检监察工作规范化法治化正规化水平。</p>
+<details class="ans"><summary>查看正确答案（10 条）</summary><div class="ans-body">
+<p>2025年，党中央扎实开展深入贯彻<b>正确政绩观</b>学习教育，推动全党进一步改作风树新风。【<b>中央八项规定精神</b>】</p>
+<p>要强化<b>经济</b>监督，推动全党凝心聚力实现“十五五”时期目标任务。【<b>政治</b>】</p>
+<p>要持续狠刹<b>形式主义</b>、官僚主义，对违规吃喝、违规收送礼品礼金等易发多发问题深化整治。【<b>享乐主义、奢靡之风</b>】</p>
+<p>持续整治<b>享乐主义</b>、奢靡之风，坚决纠治临近换届等待观望不作为，换届后急功近利“翻烧饼”、搞“<b>政绩工</b>程”等突<b>出问题</b>，推动为基层减负。【<b>形式主义、官僚主义</b>】</p>
+<p>强化标<b>本兼</b>治，用好<b>分类</b>推进不敢腐、不能腐、不想腐战略抓手，【<b>一体</b>】</p>
+<p>要以保持高压<b>震慑强化不想腐</b>，坚持猛药去疴、重典治乱。【<b>不敢腐</b>】</p>
+<p>以深化廉洁教育强<b>化不能腐</b>，不断塑造清正廉洁的思想品格、廉洁奉公的政德修养、廉洁自律的道德操守、崇<b>廉拒腐</b>的社会风尚。【<b>不想腐</b>】</p>
+<p>推动<b>省级</b>主战场持续深化整治工作，提升基层监督能力。【<b>县级</b>】</p>
+<p>深化巡视巡察上下联动，加强对省区市巡视、中央单位内部<b>巡察</b>、对<b>村巡视</b>工作指导督导。【<b>巡视；巡察</b>】</p>
+<p>强化铁军意识，不断提高纪检监察工作规范化法治化正规化水平。【√】</p>
+</div></details>
+</div></section>
+<section class="kp" id="pk-27" data-title="五、全国党建工作座谈会"><div class="kp-head"><h3>五、全国党建工作座谈会</h3><div class="chips"><span class="chip b">判断 11 条</span><span class="chip k">坑 7 处</span></div></div><div class="kp-crumb">第三篇《时事政治》 · 第一章 重要会议</div><div class="kp-body">
+<p class="pk-lead">※小黑排坑特训：找出下列表述中的主角关键词，并快速判断正误。</p>
+<p>1.党中央围绕什么是社会主义，怎么实现社会主义的重大时代课题，提出一系列新理念新思想新战略，形成习近平党建思想。</p>
+<p>2.习近平党建思想为深入推进新时代党的建设新的伟大事业提供了根本遵循和行动指南。</p>
+<p>3.习近平党建思想是对新时代全面深化改革实践经验的概括和凝练。</p>
+<p>4.坚持党中央集中统一领导是党的领导的最高原则。</p>
+<p>5.坚持落实管党治党政治责任是党的宗旨立场和价值取向。</p>
+<p>6.坚持以党的制度建设为统领是新时代党的建设的根本要求。</p>
+<p>7.坚持用党的创新理论凝心铸魂是党的思想建设的首要任务。</p>
+<p>8.坚持健全上下贯通、执行有力的组织体系是党的优势所在、力量所在。</p>
+<p>9.坚持用严明的纪律管全党治全党是全面从严治党的治本之策。</p>
+<p>10.坚持制度治党、依规治党是全面从严治党的长远和根本之策。</p>
+<p>11.坚持推进作风建设常态化长效化是全面从严治党需要牢牢牵住的“牛鼻子”。</p>
+<details class="ans"><summary>查看正确答案（11 条）</summary><div class="ans-body">
+<p>党中央围绕什么是社会主义，怎么实现社会主义的重大时代课题，提出一系列新理念新思想新战略，形成习近平党建思想。【建设什么样的长期执政的马克思主义政党、怎样建设长期执政的马克<b>思主义</b>政党】</p>
+<p>习近平党建思想为深入推进新时代党的建设新的<b>伟大事业</b>提供了根<b>本遵</b>循和行动指南。【<b>伟大工程</b>】</p>
+<p>习近平党建思想是对新时<b>代全面深化改革实</b>践经验的概括和凝练。【<b>全面从严治党</b>】</p>
+<p>坚持党中央集中统一领导是党的领导的最高原则。【√】</p>
+<p>坚持<b>落实管党治党政治责任</b>是党的宗旨立场和价值取向。【<b>不忘初心、牢记使命</b>】</p>
+<p>坚持以党的<b>制度建设</b>为统领是新时代党的建设的根本要求。【<b>政治建设</b>】</p>
+<p>坚持用党的创新理论凝心铸魂是党的思想建设的<b>首要任务</b>。【<b>根本任务</b>】</p>
+<p>坚持健全上下贯通、执行有力的组织体系是党的优势所在、力量所在。【√】</p>
+<p>坚持用严明的纪律管全党治全党是全面从严治党的治本之策。【√】</p>
+<p>坚持制度治党、依规治党是全面从严治党的长远和根本之策。【√】</p>
+<p>坚持<b>推进作风建设常态化长效化是</b>全面从严治党需要牢牢牵住的“牛鼻子”。【<b>落实管党治党政治责任</b>】</p>
+</div></details>
+</div></section>
+<section class="kp" id="pk-28" data-title="一、在中共中央政治局集体学习时的讲话"><div class="kp-head"><h3>一、在中共中央政治局集体学习时的讲话</h3><div class="chips"><span class="chip b">判断 24 条</span><span class="chip k">坑 13 处</span></div></div><div class="kp-crumb">第三篇《时事政治》 · 第二章 重要讲话</div><div class="kp-body">
+<h5 class="sub2">（一）中共中央政治局第二十四次集体学习</h5>
+<p class="pk-lead">※小黑排坑特训：找出下列表述中的主角关键词，并快速判断正误。</p>
+<p>1.未来产业具有前瞻性、战略性、颠覆性等特点，需要科学谋划、全局统筹。</p>
+<p>2.要综合考虑国家战略需求、技术成熟程度、要素支撑条件等因素，集中统一、同质发展。</p>
+<p>3.要发挥新型举国体制优势，坚持“科技出题、产业答题”。</p>
+<p>4.加强基础研究战略性、前瞻性、体系化布局，加快科技成果转化应用。</p>
+<p>5.要发挥政府主体作用，推动各类创新资源向企业集聚，大力培育核心技术领先、创新能力强的科技领军企业和高新技术企业。</p>
+<p>6.要完善财税等政策，以发展绿色金融为重点促进未来产业发展。</p>
+<p>7.要深化国际合作，积极推动各方标准共建、规则共商、产业共促。</p>
+<details class="ans"><summary>查看正确答案（7 条）</summary><div class="ans-body">
+<p>未来产业具有前瞻性、战略性、颠覆性等特点，需要科学谋划、全局统筹。【√】</p>
+<p>要综合考虑国家战略需求、技术成熟程度、要素支撑条件等因素，<b>集中统一</b>、同质发展。【<b>因地制宜、错位发展</b>】</p>
+<p>要发挥新型举国体制优势，坚持“<b>科技</b>出题、<b>产业</b>答题”。【<b>产业；科技</b>】</p>
+<p>加强基础研究战略性、前瞻性、体系化布局，加快科技成果转化应用。【√】</p>
+<p>要发挥<b>政府</b>主体作用，推动<b>各类</b>创新资源向企业集聚，大力培育核心技术领先、创新能力强的科技领军企业和高新技术企业。【<b>企业</b>】</p>
+<p>要完善财税等政策，以发展<b>绿色金融为</b>重点促进<b>未来</b>产业发展。【<b>科技金融</b>】</p>
+<p>要深化国际合作，积极推动各方标准共建、规则共商、产业共促。【√】</p>
+</div></details>
+<h5 class="sub2">（二）中共中央政治局第二十五次集体学习</h5>
+<p class="pk-lead">※小黑排坑特训：找出下列表述中的主角关键词，并快速判断正误。</p>
+<p>1.要站在统筹高质量发展和高水平开放的战略高度，充分认识做好防灾减灾救灾工作的重要性。</p>
+<p>2.降低灾害风险，减轻灾害损失，重在事中控制。</p>
+<p>3.要坚持末端管控，将安全韧性要求贯穿国土空间规划及各类建设规划之中。</p>
+<p>4.强化工程治理，逐步降低重要城市和灾害多发地区关键基础设施设防标准，加紧补齐相关短板。</p>
+<p>5.要树牢底线思维、极限思维，不断提升大灾巨灾应对处置能力。</p>
+<p>6.基层是抵御自然灾害的第一线，抓基层、强基础的工作始终不能放松。</p>
+<p>7.要完善基层应急救援力量体系，强化应急场所建设和物资装备保障，抓好群测群防群治。</p>
+<p>8.各地区各有关部门要守土尽责，坚持统分结合、防救分离、上下联动，推动形成齐抓共管、协同配合的工作格局。</p>
+<p>9.树立和践行正确政绩观，坚决纠正重发展轻安全、重救灾轻预防等倾向。</p>
+<details class="ans"><summary>查看正确答案（9 条）</summary><div class="ans-body">
+<p>要站在统筹高质量发展和<b>高水平开放</b>的战略高度，充分认识做好防灾减灾救灾工作的重要性。【<b>高水平安全</b>】</p>
+<p>降低灾害风险，减轻灾害损失，重在<b>事中控制</b>。【<b>事前预防</b>】</p>
+<p>要坚持<b>末端</b>管控，将安全韧性要求贯穿国土空间规划及各类建设规划之中。【<b>源头</b>】</p>
+<p>强化工程治理，<b>逐步降低</b>重要城市和灾害多<b>发地</b>区关键基础设施设防标准，加紧补齐相关短板。【<b>合理提高</b>】</p>
+<p>要树牢底线思维、极限思维，不断提升大灾巨灾应对处置能力。【√】</p>
+<p>基层是抵御自然灾害的第一线，抓基层、强基础的工作始终不能放松。【√】</p>
+<p>要完善基层应急救援力量体系，强化应急场所建设和物资装备保障，抓好群测群防群治。【√】</p>
+<p>各地区各有关部门要守土尽责，坚持统分结合、防救<b>分离</b>、上下联动，推动形<b>成齐</b>抓共管、协同配合的工作格局。【<b>衔接</b>】</p>
+<p>树立和践行正确政绩观，坚决纠正重发展轻安全、重救灾轻预防等倾向，【√】</p>
+</div></details>
+<h5 class="sub2">（三）中共中央政治局第二十七次集体学习</h5>
+<p class="pk-lead">※小黑排坑特训：找出下列表述中的主角关键词，并快速判断正误。</p>
+<p>1.高质量推进国防和军队现代化，是推进中国式现代化的应有之义。</p>
+<p>2.“十五五”时期，要深入贯彻新时代强军思想，强化政治引领，推动基本实现国防和军队现代化。</p>
+<p>3.人才强军是人民军队立军之本，关乎国防和军队现代化建设方向和底色。</p>
+<p>4.要坚持和加强党对军队的绝对领导，全面落实新时代政治建军方略，加强理论武装，深化思想整风。</p>
+<p>5.要深入推进反腐败斗争，健全重大项目监管体系，确保各项建设质量托底、能力托底、廉洁托底。</p>
+<p>6.高质量推进国防和军队现代化，根本指向和检验标准是作风优良。</p>
+<p>7.要加强作战能力体系集成，搞好理论化检验评估，扎实推进练兵备战，有效捍卫国家主权、安全、发展利益。</p>
+<p>8.巩固提高一体化国家战略体系和能力，是高质量推进国防和军队现代化的必由之路。</p>
+<details class="ans"><summary>查看正确答案（8 条）</summary><div class="ans-body">
+<p>高质量推进国防和军队现代化，是推进中国式现代化的应有之义。【√】</p>
+<p>“十五五”时期，要深入贯彻新时代强军思想，强化政治引领，推动<b>基本实现国防和军队现代化</b>。【<b>基本实现国防和军队现代化取得决定性进展</b>】</p>
+<p><b>人才强军</b>是人民军队立军之本，关乎国防和军队现代化建设方向和底色。【<b>政治建军</b>】</p>
+<p>要坚持和加强党对军队的绝对领导，全面落实新时代政治建军方略，加强理论武装，深化思想整风。【√】</p>
+<p>要深入推进反腐败斗争，健全重大项目监管体系，确保各项建设质量托底、能力托底、廉洁托底。【√】</p>
+<p>高质量推进国防和军队现代化，根本指向和检验标准是<b>作风优良</b>。【<b>战斗力</b>】</p>
+<p>要加强作战能力体系集成，搞好<b>理论化</b>检验评估，扎实推进练兵备战，有效捍卫国家主权、安全、发展利益。【<b>实战化</b>】</p>
+<p>巩固提高一体化国家战略体系和能力，是高质量推进国防和军队现代化的必由之路。【√】</p>
+</div></details>
+</div></section>
+<section class="kp" id="pk-29" data-title="二、在省部级主要领导干部专题研讨班上的讲话"><div class="kp-head"><h3>二、在省部级主要领导干部专题研讨班上的讲话</h3><div class="chips"><span class="chip b">判断 10 条</span><span class="chip k">坑 7 处</span></div></div><div class="kp-crumb">第三篇《时事政治》 · 第二章 重要讲话</div><div class="kp-body">
+<p class="pk-lead">※小黑排坑特训：找出下列表述中的主角关键词，并快速判断正误。</p>
+<p>1.制定和实施五年规划是我们党治国理政一条重要经验，是中国特色社会主义制度一个重要政治优势。</p>
+<p>2.国家把建设现代化产业体系摆在十五五时期各项战略任务的第一条。</p>
+<p>3.各地区各行业要找准定位，发挥绝对优势，形成上下游产业相互衔接、同质发展、同向发力的生动局面。</p>
+<p>4.要推动制造业比重逐步上升，大力发展先进制造业。</p>
+<p>5.发展新质生产力要坚持因地制宜，不能一哄而上、跟风冒进，更不能喜新厌旧、把传统产业优势丢掉。</p>
+<p>6.要坚持以国内国际循环为主体，正确处理消费和投资、需求和供给的关系。</p>
+<p>7.坚持惠民生和促消费、投资于物和投资于人紧密结合，努力提高国民经济循环质量和效率，让内外需成为经济发展的主动力。</p>
+<p>8.要以做强国际循环提升扩大高水平对外开放的自主性，以拓展国内大循环增强国内改革发展的活力，努力实现内外联通、互促共进。</p>
+<p>9.促进社会发展，发展经济是重点，要把发展经济和改善民生有机统一起来。</p>
+<p>10.发展是安全的前提，要深入贯彻总体国家安全观，健全国家安全体系。</p>
+<details class="ans"><summary>查看正确答案（10 条）</summary><div class="ans-body">
+<p>制定和实施五年规划是我们党治国理政一条重要经验，是中国特色社会主义制度一个重要政治优势。【√】</p>
+<p>国家把建设现代化产业体系摆在十五五时期各项战略任务的第一条。【√】</p>
+<p>各地区各行业要找准定位，发挥<b>绝对优势</b>，形成上下游产业相互衔接、<b>同质发展</b>、同向发力的生动局面。【<b>比较优势；各展所长</b>】</p>
+<p>要<b>推动制造业比重逐步上升</b>，大力发展先进制造业。【<b>保持制造业合理比重</b>】</p>
+<p>发展新质生产力要坚持因地制宜，不能一哄而上、跟风冒进，更不能喜新厌旧、把传统产业优势丢掉。【√】</p>
+<p>要坚持<b>以国内国际循环</b>为主体，正确处理消费和投资、需求和供给的关系。【<b>国内大循环</b>】</p>
+<p>坚持惠民生和促消费、投资于物<b>和投资于人紧</b>密结合，努力提高国民经济循环质量和效率，让<b>内外需成</b>为经济发展的主动力。【<b>内需</b>】</p>
+<p>要以做强<b>国际循环</b>提升扩大高水平对外开放的自主性，以拓展<b>国内大循环</b>增强国内改革发展的活力，努力实现内外联通、互促共进。【<b>国内大循环；国际循环</b>】</p>
+<p>促进社会发展，<b>发展经济</b>是重点，要把发展经济和改善民生有机统一起来。【<b>改善民生</b>】</p>
+<p><b>发展是安全</b>的前提，要深入贯彻总体国家安全观，健全国家安全体系。【<b>安全；发展</b>】</p>
+</div></details>
+</div></section>
+<section class="kp" id="pk-30" data-title="三、在雄安新区考察时的讲话"><div class="kp-head"><h3>三、在雄安新区考察时的讲话</h3><div class="chips"><span class="chip b">判断 7 条</span><span class="chip k">坑 2 处</span></div></div><div class="kp-crumb">第三篇《时事政治》 · 第二章 重要讲话</div><div class="kp-body">
+<p class="pk-lead">※小黑排坑特训：找出下列表述中的主角关键词，并快速判断正误。</p>
+<p>1.要牢牢把握雄安新区作为北京首都功能疏解集中承载地的首要功能定位。</p>
+<p>2.雄安新区要以改革创新为动力，推动科技创新与产业创新深度融合。</p>
+<p>3.推动新兴产业和未来产业集群式发展，积极发展生活性服务业，支持传统产业改造升级。</p>
+<p>4.要积极稳妥统一推进央企、高校、医院疏解项目建设。</p>
+<p>5.要集中力量推进启动区、起步区等建设，努力创造“雄安质量”。</p>
+<p>6.要高水平建设雄安中关村科技园，推动更多科创成果转化落地。</p>
+<p>7.要大胆探索、先行先试，推动科技、金融等领域创新政策率先落地，着力打造市场化法治化国际化营商环境。</p>
+<details class="ans"><summary>查看正确答案（3 条，另有 4 条随缺页缺失）</summary><div class="ans-body">
+<p>要牢牢把握雄安新区作为北京<b>首都功能</b>疏解集中承载地的首要功能定位。【<b>非首都功能</b>】</p>
+<p>雄安新区要以改革创新为动力，推动科技创新与产业创新深度融合。【√】</p>
+<p>推动新兴产业和未来产业集群式发展，积极发展<b>生活性</b>服务业，支持传统产业改造升级。【<b>生产性</b>】</p>
+<p class="note">第 4、5、6、7 条参考答案随原书缺页缺失。</p>
+</div></details>
+</div></section>
+<section class="kp" id="pk-31" data-title="四、在会见中国国民党主席郑丽文时的讲话"><div class="kp-head"><h3>四、在会见中国国民党主席郑丽文时的讲话</h3><div class="chips"><span class="chip b">判断 0 条</span><span class="chip k">坑 0 处</span></div></div><div class="kp-crumb">第三篇《时事政治》 · 第二章 重要讲话</div><div class="kp-body">
+<div class="warnbox"><b>原书缺页：</b>该组对应的书页在源 PDF 中为广告页替代（PDF 第 36 / 49 页），内容缺失。若后续补到原书页面，可再补录。</div>
+</div></section>
+<section class="kp" id="pk-32" data-title="五、在加强基础研究座谈会上的讲话"><div class="kp-head"><h3>五、在加强基础研究座谈会上的讲话</h3><div class="chips"><span class="chip b">判断 9 条</span><span class="chip k">坑 5 处</span></div></div><div class="kp-crumb">第三篇《时事政治》 · 第二章 重要讲话</div><div class="kp-body">
+<div class="note">题干 1-4 依据答案与 41 页残句复原（原书缺页）</div>
+<p class="pk-lead">※小黑排坑特训：找出下列表述中的主角关键词，并快速判断正误。</p>
+<p>1.基础研究是整个科学体系的源头，是所有技术问题的总机关。</p>
+<p>2.要以更大力度、更实举措加强基础研究，提升我国引进消化吸收再创新能力，进一步打牢科技强国建设根基。</p>
+<p>3.坚持“四个面向”战略导向，明确基础研究的主攻方向和重点领域。</p>
+<p>4.强化国家科研机构、高水平研究型大学等引领作用，鼓励和规范发展新型研发机构，推动国家科研机构主导的产学研用深度融合。</p>
+<p>5.优化科教独立育人机制，注重在科研一线发现和培养人才。</p>
+<p>6.坚持课堂牵引、以老带新，大力扶持青年人才。</p>
+<p>7.逐步提高基础研究经费占比，形成多元化投入格局。</p>
+<p>8.体系化布局建设重大科技基础设施，建设智能化科研平台系统。</p>
+<p>9.健全符合基础研究特点的标准化评价体系，改善基础研究人员的工作和生活条件，营造开放包容、宽容失败的创新环境。</p>
+<details class="ans"><summary>查看正确答案（9 条）</summary><div class="ans-body">
+<p>基础研究是整个科学体系的源头，是所有技术问题的总机关。【√</p>
+<p>要以更大力度、更实举措加强基础研究，提升我国<b>引进消化吸收再创新能</b>力，进一步打牢科技强国建设根基。【<b>原始创新</b>】</p>
+<p>坚持“四个面向”战略导向，明确基础研究的主攻方向和重点领域。【√】</p>
+<p>强化国家科研机构、高水平研究型大学等引领作用，鼓励和规范发展新型研发机构，推动<b>国家科研机构</b>主导的产学研用深度融合。【<b>企业</b>】</p>
+<p>优化科<b>教独</b>立育人机制，注重在科研一线发现和培养人才。【<b>协同</b>】</p>
+<p>坚<b>持课堂</b>牵引、以老带新，大力扶持青<b>年人才</b>。【<b>任务</b>】</p>
+<p>逐步提高基础研究经费占比，形成多元化投入格局。【√】</p>
+<p>体系化布局建设重大科技基础设施，建设智能化科研平台系统。【√】</p>
+<p>健全符合基础研究特点<b>的标准化</b>评价<b>体系</b>，改善基础研究人员的工作和生活条件，营造开放包容、宽容失败的创新环境。【<b>分类</b>】</p>
+</div></details>
+</div></section>
+<section class="kp" id="pk-33" data-title="六、在建党105周年大会上的讲话"><div class="kp-head"><h3>六、在建党105周年大会上的讲话</h3><div class="chips"><span class="chip b">判断 6 条</span><span class="chip k">坑 4 处</span></div></div><div class="kp-crumb">第三篇《时事政治》 · 第二章 重要讲话</div><div class="kp-body">
+<p class="pk-lead">※小黑排坑特训：找出下列表述中的主角关键词，并快速判断正误。</p>
+<p>1.105年来，我们党创造了新民主主义革命、社会主义革命和建设、改革开放和社会主义现代化建设、新时代中国特色社会主义的伟大成就。</p>
+<p>2.我们党具有其他政党和政治力量无可比拟的优秀特质，这些优秀特质，是中国共产党为什么能的关键密码。</p>
+<p>3.必须紧紧依靠人民创造历史伟业，践行以经济为中心的发展思想，充分激发亿万人民的积极性主动性创造性。</p>
+<p>4.统筹推进“五位一体”战略布局、协调推进“四个全面”总体布局。</p>
+<p>5.必须积极应对前进道路上的风险挑战，强化忧患意识、坚持创新思维。</p>
+<p>6.健全全面从严治党体系，以党的思想建设为统领加强党的各方面建设。</p>
+<details class="ans"><summary>查看正确答案（6 条）</summary><div class="ans-body">
+<p>105年来，我们党创造了新民主主义革命、社会主义革命和建设、改革开放和社会主义现代化建设、新时代中国特色社会主义的伟大成就。【√】</p>
+<p>我们党具有其他政党和政治力量无可比拟的优秀特质，这些优秀特质，是中国共产党为什么能的关键密码。【√】</p>
+<p>必须紧紧依靠人民创造历史伟业，践行以<b>经济</b>为中心的发展思想，充分激发亿万人民的积极性主动性创造性。【<b>人民</b>】</p>
+<p>统筹推进“五位一<b>体”战略布局</b>、协调推进“四个全面”<b>总体布局</b>。【<b>总体布局；战略布局</b>】</p>
+<p>必须积极应对前进道路上的风险挑战，强化忧患意识、坚持<b>创新思维</b>。【<b>底线思维</b>】</p>
+<p>健全全面从严治党<b>体系</b>，以党的<b>思想建设为</b>统领加强党的各方面建设。【<b>政治建设</b>】</p>
+</div></details>
+</div></section>
+<section class="kp" id="pk-34" data-title="七、在国家科学技术奖励大会等会议上的讲话"><div class="kp-head"><h3>七、在国家科学技术奖励大会等会议上的讲话</h3><div class="chips"><span class="chip b">判断 12 条</span><span class="chip k">坑 7 处</span></div></div><div class="kp-crumb">第三篇《时事政治》 · 第二章 重要讲话</div><div class="kp-body">
+<p class="pk-lead">※小黑排坑特训：找出下列表述中的主角关键词，并快速判断正误。</p>
+<p>1.我国正从全球科技开拓者、贡献者向参与者、引领者加速转变。</p>
+<p>2.科技创新是人类文明进步的不竭动力，科技实力和创新能力越来越成为国家的核心竞争力。</p>
+<p>3.人工智能呈现数据驱动、万物互联、人机协同、跨界融合等显著特征。</p>
+<p>4.要突出科技创新需求和产业供给牵引，推动产学研融通创新，打通科技加速向现实生产力转化的通道。</p>
+<p>5.科技创新要突出理论导向，支持高校、科研院所对接企业开展科研攻关和人才培养，以高质量科技供给赋能产业创新。</p>
+<p>6.产业创新要提出科学问题，强化高校创新主体地位，支持企业与高校、科研院所共建平台、共克难题。</p>
+<p>7.加大对科研人员职业早期和长周期稳定支持力度，完善科技奖励、收入分配等制度。</p>
+<p>8.要抓住全球人才流动窗口期，积极引进海外优秀青年人才和团队。</p>
+<p>9.我国全社会研发经费投入保持年均10%的增长，投入强度首次超过美国。</p>
+<p>10.要引导企业增加研发投入，调动更多社会力量支持科技创新。</p>
+<p>11.项目评审、机构评估、人才评价都要强化创新能力、质量、实效、贡献导向，体现不同类别的标准化。</p>
+<p>12.要深度主导全球科技治理，广泛宣介中国主张和中国方案，提升国际规则制定话语权和影响力。</p>
+<details class="ans"><summary>查看正确答案（12 条）</summary><div class="ans-body">
+<p>我国正从全球科技<b>开拓者</b>、贡献者向<b>参与者</b>、引领者加速转变。【<b>参与者、贡献者向开拓者、引领者</b>】</p>
+<p>科技创新是人类文明进步的不竭动力，科技实力和创新能力越来越成为国家的核心竞争力。【√】</p>
+<p>人工智能呈现数据驱动、万物互联、人机协同、跨界融合等显著特征。【√】</p>
+<p>要突出科技创新<b>需求</b>和产业<b>供给</b>牵引，推动产学研融通创新，打通科技加速向现实生产力转化的通道。【<b>供给；需求</b>】</p>
+<p>科技创新要突出<b>理论</b>导向，支持高校、科研院所对接企业开展科研攻关<b>和人</b>才培养，以高质量科技供给赋能产业创新。【<b>应用</b>】</p>
+<p>产业创新要提出科学问题，强<b>化高校</b>创新主体地位，支持企业与高校、科研院所共建平台、<b>共克难</b>题。【<b>企业</b>】</p>
+<p>加大对科研人员职业早期和长周期稳定支持力度，完善科技奖励、收入分配等制度。【√】</p>
+<p>要抓住全球人才流动窗口期，积极引进海外优秀青年人才和团队。【√</p>
+<p>我国全社会研发经费投入保持年均10%的增长，投入强度首次超过<b>美国</b>。【<b>经合组织国家平均水平</b>】</p>
+<p>要引导企业增加研发投入，调动更多社会力量支持科技创新。【√】</p>
+<p>项目评审、机构评估、人才评价都要强化创新能力、质量、实效、贡献导向，体现不同类别的<b>标准化</b>。【<b>差异性</b>】</p>
+<p>要深度<b>主导全球</b>科技治理，广泛宣介中国主<b>张和中</b>国方案，提升国际规则制定话语权和影响力。【<b>参与</b>】</p>
+</div></details>
+</div></section>
+<section class="kp" id="pk-35" data-title="八、在纪念江泽民同志诞辰100周年大会上的讲话"><div class="kp-head"><h3>八、在纪念江泽民同志诞辰100周年大会上的讲话</h3><div class="chips"><span class="chip b">判断 11 条</span><span class="chip k">坑 7 处</span></div></div><div class="kp-crumb">第三篇《时事政治》 · 第二章 重要讲话</div><div class="kp-body">
+<p class="pk-lead">※小黑排坑特训：找出下列表述中的主角关键词，并快速判断正误。</p>
+<p>1.我们共产党人的根本政治信仰是社会主义和共产主义，世界观是马克思主义的机械唯物主义和历史唯物主义。</p>
+<p>2.党始终是中国工人阶级的先锋队，同时是中国人民和中华民族的先锋队。</p>
+<p>3.要推动着力解决提高领导水平和执政水平、增强拒腐防变和抵御风险能力两大历史性课题，保持党的先进性和纯洁性。</p>
+<p>4.全心全意为人民服务，立党为公，执政为民，是我们党同一切剥削阶级政党的根本区别。</p>
+<p>5.发展经济的根本目的是提高国家的综合国力。</p>
+<p>6.江泽民同志有力推动了新时期实现人民生活从温饱不足到总体小康、到建成全面小康的历史性跨越。</p>
+<p>7.创新是一个民族进步的灵魂，是一个国家兴旺发达的不竭动力。</p>
+<p>8.三个代表重要思想创造性回答了什么是社会主义、怎样建设社会主义的问题。</p>
+<p>9.江泽民同志领导我们确定党在社会主义初级阶段的基本路线，确立社会主义市场经济体制的改革目标和基本框架。</p>
+<p>10.坚持把改革作为党执政兴国的第一要务，引领全党全国各族人民聚精会神搞建设、一心一意谋改革。</p>
+<p>11.江泽民同志领导我们实施新时代全面推进依法治国基本方略。</p>
+<details class="ans"><summary>查看正确答案（11 条）</summary><div class="ans-body">
+<p>我们共产党人的<b>根本</b>政治信仰是社会主义和共产主义，世界观是马克思主义的<b>机械唯物主义</b>和历史唯物主义。【<b>辩证唯物主义</b>】</p>
+<p>党始终是中国工人阶级的先锋队，同时是中国人民和中华民族的先锋队。【√】</p>
+<p>要推动着力解决提高领导水平和执政水平、增强拒腐防变和抵御风险能力两大历史性课题，保持党的先进性和纯洁性。【√】</p>
+<p>全心全意为人民服务，立党为公，执政为民，是我们党同一切剥削阶级政党的根本区别。【√】</p>
+<p>发展经济的根本目的是提高<b>国家的综合国力</b>。【<b>全国人民生活水平和质量</b>】</p>
+<p>江泽民同志有力推动了新时期实现人民生活从温饱不足到总体小康、<b>到建成全面小康</b>的历史性跨越。【<b>奔向全面小康</b>】</p>
+<p>创新是一个民族进步的灵魂，是一个国家兴旺发达的不竭动力。【√】</p>
+<p>三个代表重要思想创造性回答了<b>什么是社会主义</b>、怎样建设社会主义的问题。【<b>建设什么样的党、怎样建设党</b>】</p>
+<p>江泽民同志领导我们确定党在社会主义初级阶段的<b>基本路线</b>，确立社会主义市场经济体制的改革目标<b>和基本框</b>架。【<b>基本纲领</b>】</p>
+<p>坚持<b>把改革</b>作为党执政兴国的第一要务，引领全党全国各族人民聚精会神搞建设、一心一意<b>谋改革</b>。【<b>发展</b>】</p>
+<p>江泽民同志领导我们实施<b>新时代全面推进依法治国</b>基本方略。【<b>依法治国</b>】</p>
+</div></details>
+</div></section>
+<section class="kp" id="pk-36" data-title="九、在2026世界人工智能大会开幕式上的讲话"><div class="kp-head"><h3>九、在2026世界人工智能大会开幕式上的讲话</h3><div class="chips"><span class="chip b">判断 5 条</span><span class="chip k">坑 3 处</span></div></div><div class="kp-crumb">第三篇《时事政治》 · 第二章 重要讲话</div><div class="kp-body">
+<p class="pk-lead">※小黑排坑特训：找出下列表述中的主角关键词，并快速判断正误。</p>
+<p>1.各国应当秉持以人为本、向上向善理念，让人工智能成为促进共同繁荣、维护共同安全的一个重要动力源，携手构建公正合理的全球人工智能治理体系。</p>
+<p>2.抓住难得的历史性机遇，保护人工智能知识产权，禁止开源共享。</p>
+<p>3.要适应在人工智能领域泛化国家安全概念，确保产业安全和国家安全。</p>
+<p>4.用社会主义核心价值观塑造人工智能的价值观，善用人工智能技术增进对世界不同文明的理解和包容。</p>
+<p>5.践行真正的多边主义，切实发挥联合国的重要作用。</p>
+<details class="ans"><summary>查看正确答案（5 条）</summary><div class="ans-body">
+<p>各国应当秉持以人为本、向上向善理念，让人工智能成为促进共同繁荣、维护共同安全的一个重要动力源，携手构建公正合理的全球人工智能治理体系。【√</p>
+<p>抓住难得的历史性机遇，保护人工智能知识产权，<b>禁止开</b>源共享。【<b>鼓励开源开放、合作共享</b>】</p>
+<p><b>要适应</b>在人工智能领域泛化国家安全概念，确保产业安全和国家安全。【<b>共同反对</b>】</p>
+<p>用<b>社会主义核心价值观</b>塑造人工智能的价值观，善用人工智能<b>技术增</b>进对世界不同文明的理解和包容。【<b>全人类共同价值</b>】</p>
+<p>践行真正的多边主义，切实发挥联合国的重要作用。【√】</p>
+</div></details>
+</div></section>
+<section class="kp" id="pk-37" data-title="十、在2026年上合组织成员国元首理事会会议上的讲话"><div class="kp-head"><h3>十、在2026年上合组织成员国元首理事会会议上的讲话</h3><div class="chips"><span class="chip b">判断 9 条</span><span class="chip k">坑 6 处</span></div></div><div class="kp-crumb">第三篇《时事政治》 · 第二章 重要讲话</div><div class="kp-body">
+<p class="pk-lead">※小黑排坑特训：找出下列表述中的主角关键词，并快速判断正误。</p>
+<p>1.上海合作组织最重大的发展成就是一步步成为世界上幅员最广、人口最多、经济实力最强的区域合作组织。</p>
+<p>2.上海合作组织最宝贵的精神财富是开创性提出和始终遵循互信、互利、平等、协商、尊重多样文明、谋求共同发展的“金砖精神”。</p>
+<p>3.上海合作组织最重要的合作经验是找到结盟不对抗、不针对第三方的正确共处之道。</p>
+<p>4.坚持竞争优先，开创共同繁荣的前景。</p>
+<p>5.要倡导普惠包容的经济全球化，巩固贸易投资、能源资源等新兴领域合作，拓展人工智能、数字经济、绿色产业等传统领域合作。</p>
+<p>6.坚持安全为要，营造普遍安全的环境。</p>
+<p>7.中方愿同各方践行共同、综合、合作、可持续的安全观，将上海合作组织打造成践行全球安全倡议的重要平台。</p>
+<p>8.同源文明、同质文化是本地区鲜明特征。</p>
+<p>9.要坚持大小国家一律平等，坚持地区事务共商共议、聚同化异，以对话协商妥处矛盾分歧，以多边协作应对共同挑战。</p>
+<details class="ans"><summary>查看正确答案（9 条）</summary><div class="ans-body">
+<p>上海合作组织最重大的发展成就是一步步成为世界上幅员最广、<b>人口</b>最多、经济实力最强的区<b>域合作组织</b>。【<b>发展潜力巨大的新型区域合作组织</b>】</p>
+<p>上海合作组织最宝贵<b>的精神</b>财富是开创性提出和始终遵循互信、互利、平等、协商、尊重多样文明、谋求共同发展的“<b>金砖精神</b>”。【<b>上海精神</b>】</p>
+<p>上海合作组织最重要的合作经验是找到<b>结盟不对抗</b>、不针对第三方的正确共处之道。【<b>不结盟、不对抗</b>】</p>
+<p>坚持<b>竞争</b>优先，开创共同繁荣的前景。【<b>发展</b>】</p>
+<p>要倡导普惠包容的经济全<b>球化</b>，巩固贸易投资、能源资源等<b>新兴</b>领域合作，拓展人工智能、数字经济、绿色产业等<b>传统领</b>域合作。【<b>传统；新兴</b>】</p>
+<p>坚持安全为要，营造普遍安全的环境。【√】</p>
+<p>中方愿同各方践行共同、综合、合作、可持续的安全观，将上海合作组织打造成践行全球安全倡议的重要平台。【√</p>
+<p><b>同源文明</b>、同质文化是本地区鲜明特征。【<b>多样文明、多元文化</b>】</p>
+<p>要坚持大小国家一律平等，坚持地区事务共商共议、聚同化异，以对话协商妥处矛盾分歧，以多边协作应对共同挑战。【√】</p>
+</div></details>
+</div></section>
+<section class="kp" id="pk-38" data-title="十一、在“上海合作组织+”会议上的讲话"><div class="kp-head"><h3>十一、在“上海合作组织+”会议上的讲话</h3><div class="chips"><span class="chip b">判断 9 条</span><span class="chip k">坑 3 处</span></div></div><div class="kp-crumb">第三篇《时事政治》 · 第二章 重要讲话</div><div class="kp-body">
+<p class="pk-lead">※小黑排坑特训：找出下列表述中的主角关键词，并快速判断正误。</p>
+<p>1.全球南方卓然壮大，推动国际力量对比深刻调整，世界多极化大势不可逆转。中国作为负责任大国，积极倡导平等有序的世界多极化。</p>
+<p>2.坚持世界多极化，主权平等、相互尊重是根本原则。</p>
+<p>3.世界多极化、发展道路自主化、国际关系民主化是人间正道。</p>
+<p>4.联合国宪章宗旨和原则是战后国际秩序的基石。</p>
+<p>5.世界上的事应该由大国商量着办，国际规则要由大国共同制定。</p>
+<p>6.各类全球和区域多边机制需要更加协同高效。</p>
+<p>7.我们要聚焦安全议题，坚持开放合作，弥合数字和智能鸿沟，让技术革命和发展成果惠及各国人民。</p>
+<p>8.要继续发挥优势、挖掘潜能，以高质量共建“一带一路”联通亚欧大陆多个增长极，相互赋能、彼此成就，共创机遇、共享繁荣。</p>
+<p>9.要弘扬社会主义核心价值观，团结和拓展“上海合作组织+”伙伴，共同为和平发声、为发展聚力、为合作搭桥、为共赢铺路。</p>
+<details class="ans"><summary>查看正确答案（9 条）</summary><div class="ans-body">
+<p>全球南方卓然壮大，推动国际力量对比深刻调整，世界多极化大势不可逆转。中国作为负责任大国，积极倡导平等有序的世界多极化。【√】</p>
+<p>坚持世界多极化，主权平等、相互尊重是根本原则。【√】</p>
+<p>世界多极化、发展道路自主化、国际关系民主化是人间正道。【√】</p>
+<p>联合国宪章宗旨和原则是战后国际秩序的基石。【√】</p>
+<p>世界上的事应该由<b>大国</b>商量着办，国际规则要由<b>大国共</b>同制定。【<b>各国；各国</b>】</p>
+<p>各类全球和区域多边机制需要更加协同高效。【√】</p>
+<p>我们<b>要聚焦安全议</b>题，坚持开放合作，弥合数字和智能鸿沟，让<b>技术</b>革命和发展成果惠及各国人民。【<b>发展</b>】</p>
+<p>要继续发挥优势、挖掘潜能，以高质量共建“一带一路”联通亚欧大陆多个增长极，相互赋能、彼此成就，共创机遇、共享繁荣。【√】</p>
+<p>要弘<b>扬社会主义核心价值观</b>，团结和拓展“上海合作组织+”伙伴，共同为和平发声、为发展聚力、为合作搭桥、为共赢铺路。【<b>“上海精神”</b>】</p>
+</div></details>
+</div></section>
+<section class="kp" id="pk-39" data-title="十二、在金砖国家领导人第十八次会晤上的讲话"><div class="kp-head"><h3>十二、在金砖国家领导人第十八次会晤上的讲话</h3><div class="chips"><span class="chip b">判断 7 条</span><span class="chip k">坑 4 处</span></div></div><div class="kp-crumb">第三篇《时事政治》 · 第二章 重要讲话</div><div class="kp-body">
+<p class="pk-lead">※小黑排坑特训：找出下列表述中的主角关键词，并快速判断正误。</p>
+<p>1.金砖合作机制不断发展壮大，展现出蓬勃生机活力，成为当今世界最具影响力的新兴市场和发达国家合作平台。</p>
+<p>2.金砖国家要牢牢把握主动权，加强人工智能合作，鼓励开源开放、合作共享，推动务实合作向新而行、向高攀登。</p>
+<p>3.金砖国家要顺应国际关系民主化大势，推动构建更加公正合理的全球治理体系，维护联合国权威。</p>
+<p>4.支持以世界银行为核心的多边贸易体制，抵制一切形式的保护主义措施。</p>
+<p>5.要秉持共同、综合、合作、可持续的安全观，建设性参与热点问题解决，为寻求标本兼治之道作出金砖独特贡献。</p>
+<p>6.要引领网络、外空等新疆域全球治理，提升全球北方国家话语权。</p>
+<p>7.确保世贸组织规则不变，反对滥施关税。</p>
+<details class="ans"><summary>查看正确答案（7 条）</summary><div class="ans-body">
+<p>金砖合作机制<b>不断</b>发展壮大，展现出蓬勃生机活力，成为当今世界最具影响力的新兴市场和<b>发达国家</b>合作平台。【<b>发展中国家</b>】</p>
+<p>金砖国家要牢牢把握主动权，加强人工智能合作，鼓励开源开放、合作共享，推动务实合作向新而行、向高攀登。【√】</p>
+<p>金砖国家要顺应国际关系民主化大势，推动构建更加公正合理的全球治理体系，维护联合国权威。【√】</p>
+<p>支持以<b>世界银行</b>为核心的多边贸易体制，抵制一切形式的保护主义措施。【<b>世界贸易组织</b>】</p>
+<p>要秉持共同、综合、合作、可持续的安全观，建设性参与热点问题解决，为寻求标本兼治之道作出金砖独特贡献。【√】</p>
+<p>要引领网络、外空等新疆域全球治理，提升全<b>球北方</b>国家话语权。【<b>南方</b>】</p>
+<p><b>确保世贸组织规则不变</b>，反对滥施关税。【<b>推动世界贸易组织改革</b>】</p>
+</div></details>
+</div></section>
+<section class="kp" id="pk-40" data-title="一、对党校（行政学院）工作的重要指示"><div class="kp-head"><h3>一、对党校（行政学院）工作的重要指示</h3><div class="chips"><span class="chip b">判断 7 条</span><span class="chip k">坑 6 处</span></div></div><div class="kp-crumb">第三篇《时事政治》 · 第三章 重要指示</div><div class="kp-body">
+<p class="pk-lead">※小黑排坑特训：找出下列表述中的主角关键词，并快速判断正误。</p>
+<p>1.坚持党校姓党，牢记党校初心，更好为党育才、为党献策。</p>
+<p>2.要深化教学改革，突出党的理论教育、党性教育和履职能力培训，增强教育培训的通用性实效性。</p>
+<p>3.要加强党的创新理论体系化学理化研究阐释，发挥好协商机构作用。</p>
+<p>4.要坚持从严治校、规模立校，加强干部和教师队伍建设，加强对学员的管理监督，着力提高办学治校水平。</p>
+<p>5.各级党委是办党校、管党校、建党校的主体，党校校长是第一责任人。</p>
+<p>6.省级党校应当成为培训党的基层干部和普通党员的主渠道、主阵地。</p>
+<p>7.教学是党校的中心工作，应当突出党的理论教育和党纪教育的主业主课地位。</p>
+<details class="ans"><summary>查看正确答案（7 条）</summary><div class="ans-body">
+<p>坚持党校姓党，牢记党校初心，更好为党育才、为党献策。【√】</p>
+<p>要深化教学改革，突出党的理论教育、党性教育和履职能力培训，增强教育培训的<b>通用性</b>实效性。【<b>针对性</b>】</p>
+<p>要加强党的创新理论体系化学理化研究<b>阐释</b>，发挥好<b>协商机构作</b>用。【<b>智库</b>】</p>
+<p>要坚持从严治校、规模立校，加强干部和教师队伍建设，加强对学员的管理监督，着力提高办学治校水平。【<b>质量</b>】</p>
+<p>各级党委是办党校、管党校、建党校的主体，党校校长是第一责任人。【<b>党委书记</b>】</p>
+<p><b>省级</b>党校应当成为培训党的基层干部和普通党员的主渠道、主阵地。【<b>县级</b>】</p>
+<p>教学是党校的中心工作，应当突出党的理论教育和<b>党纪教</b>育的主业主课地位。【<b>党性教育</b>】</p>
+</div></details>
+</div></section>
+<section class="kp" id="pk-41" data-title="二、对全面依法治国工作的重要指示"><div class="kp-head"><h3>二、对全面依法治国工作的重要指示</h3><div class="chips"><span class="chip b">判断 9 条</span><span class="chip k">坑 5 处</span></div></div><div class="kp-crumb">第三篇《时事政治》 · 第三章 重要指示</div><div class="kp-body">
+<p class="pk-lead">※小黑排坑特训：找出下列表述中的主角关键词，并快速判断正误。</p>
+<p>1.党的十八大以来，党中央把全面依法治国纳入“四个全面”战略布局予以有力推进，全面依法治国总体格局全面形成。</p>
+<p>2.要全面贯彻新时代中国特色社会主义法治思想，坚持党的领导、人民当家作主、依法治国有机统一。</p>
+<p>3.要注重法治与改革、发展、稳定相协同，法治和发展如鸟之两翼、车之两轮。</p>
+<p>4.全面推进科学立法、严格执法、公正司法、全民守法，严格执法是公平正义最后一道防线。</p>
+<p>5.提出坚持以人民为中心，明确了全面依法治国的根本保证。</p>
+<p>6.提出坚持依宪治国、依宪执政，明确了全面依法治国的首要任务。</p>
+<p>7.提出坚持建设中国特色社会主义法治国家，明确了全面依法治国的总抓手。</p>
+<p>8.提出坚持依法治国、依法执政、依法行政共同推进，法治国家、法治政府、法治社会一体建设，明确了全面依法治国的工作布局。</p>
+<p>9.提出坚持抓住基层干部这个“关键少数”，明确了全面依法治国的关键所在。</p>
+<details class="ans"><summary>查看正确答案（9 条）</summary><div class="ans-body">
+<p>党的十八大以来，党中央把全面依法治国纳入“四个全面”战略布局予以有力推进，全面依法治国总体格局<b>全面形成</b>。【<b>基本形成</b>】</p>
+<p>要全面贯彻新时代中国特色社会主义法治思想，坚持党的领导、人民当家作主、依法治国有机统一。【√】</p>
+<p>要注重法治与改革、发展、稳定相协同，<b>法治和发展如</b>鸟之两翼、车之两轮。【<b>改革和法治</b>】</p>
+<p>全面推进科学立法、<b>严格执</b>法、公正司法、全民守法，严格执法是公平正义最后一道防线。【<b>公正司法</b>】</p>
+<p>提出坚持<b>以人民为中心</b>，明确了全面依法治国的根本保证。【<b>党的领导</b>】</p>
+<p>提出坚持依宪治国、依宪执政，明确了全面依法治国的首要任务。【√】</p>
+<p>提出坚持建设中国特色社会主义法治<b>国家</b>，明确了全面依法治国的总抓手。【<b>体系</b>】</p>
+<p>提出坚持依法治国、依法执政、依法行政共同推进，法治国家、法治政府、法治社会一体建设，明确了全面依法治国的工作布局。【√】</p>
+<p>提出坚持抓住基层干部这个“关键少数”，明确了全面依法治国的关键所在。[领导干部]</p>
+</div></details>
+</div></section>
+<section class="kp" id="pk-42" data-title="三、对中央企业工作的重要指示"><div class="kp-head"><h3>三、对中央企业工作的重要指示</h3><div class="chips"><span class="chip b">判断 6 条</span><span class="chip k">坑 3 处</span></div></div><div class="kp-crumb">第三篇《时事政治》 · 第三章 重要指示</div><div class="kp-body">
+<p class="pk-lead">※小黑排坑特训：找出下列表述中的主角关键词，并快速判断正误。</p>
+<p>1.中央企业认真贯彻党中央决策部署，积极服务国家战略，在国民经济中发挥了重要补充作用。</p>
+<p>2.要聚焦主责主业，持续优化民营经济布局，切实增强核心功能、提升核心竞争力。</p>
+<p>3.立足实体经济，强化关键核心技术攻关，推动科技创新和产业创新融合。</p>
+<p>4.要进一步深化改革，完善中国特色现代企业制度，健全公司治理结构，着力解决制约企业发展的深层次问题，努力建设世界一流企业。</p>
+<p>5.要统筹发展和保护，有效防范化解风险，不断夯实企业安全发展的基础。</p>
+<p>6.要坚持和加强党的全面领导，加强企业领导班子建设，压实管党治党责任，推动党的领导融入公司治理各环节，促进党建工作与生产经营深度融合。</p>
+<details class="ans"><summary>查看正确答案（6 条）</summary><div class="ans-body">
+<p>中央企业认真贯彻党中央决策部署，积极服务国家战略，在国民经济中发挥了<b>重要补充作</b>用。【<b>骨干和支柱作用</b>】</p>
+<p>要聚焦主责主业，持续优<b>化民营经济布局</b>，切实增强核心功能、提升核心竞争力。【<b>国有经济</b>】</p>
+<p>立足实体经济，强化关键核心技术攻关，推动科技创新和产业创新融合。【√】</p>
+<p>要进一步深化改革，完善中国特色现代企业制度，健全公司治理结构，着力解决制约企业发展的深层次问题，努力建设世界一流企业。【√】</p>
+<p>要统筹发展<b>和保护</b>，有效防范化解风险，不断夯实企业安全发展的基础。【<b>安全</b>】</p>
+<p>要坚持和加强党的全面领导，加强企业领导班子建设，压实管党治党责任，推动党的领导融入公司治理各环节，促进党建工作与生产经营深度融合。【√】</p>
+</div></details>
+</div></section>
+<section class="kp" id="pk-43" data-title="四、对做好“三农”工作的重要指示"><div class="kp-head"><h3>四、对做好“三农”工作的重要指示</h3><div class="chips"><span class="chip b">判断 6 条</span><span class="chip k">坑 4 处</span></div></div><div class="kp-crumb">第三篇《时事政治》 · 第三章 重要指示</div><div class="kp-body">
+<p class="pk-lead">※小黑排坑特训：找出下列表述中的主角关键词，并快速判断正误。</p>
+<p>1.要锚定农业农村现代化，扎实推进乡村全面振兴，推动城乡融合发展。</p>
+<p>2.要毫不放松抓好粮食生产，促进良田良种良机良法集成增效，提升农业综合生产能力和质量效益。</p>
+<p>3.要提高强农惠农富农政策效能，促进粮食等农产品价格稳步上升，促进农民增收。</p>
+<p>4.要持续巩固拓展脱贫攻坚成果，把阶段式帮扶纳入乡村振兴战略统筹实施，守牢不发生规模性返贫致贫底线。</p>
+<p>5.要学习运用枫桥经验，因地制宜推进宜居宜业和美乡村建设，提升乡村治理和文明乡风建设水平。</p>
+<p>6.坚持把解决好“三农”问题作为重中之重，坚持四级书记抓乡村振兴。</p>
+<details class="ans"><summary>查看正确答案（6 条）</summary><div class="ans-body">
+<p>要锚定农业农村现代化，扎实推进乡村全面振兴，推动城乡融合发展。【√】</p>
+<p>要毫不放松抓好粮食生产，促进良田良种良机良法集成增效，提升农业综合生产能力和质量效益。【√】</p>
+<p>要提高强农惠农富农政策效能，促进粮食等农产品价<b>格稳步上升</b>，促进农民增收。【<b>保持合理水平</b>】</p>
+<p>要持续巩固拓展脱贫攻坚成果，把<b>阶段式帮扶</b>纳入乡村振兴战略统筹实施，守牢不发生规模性返贫致贫底线。【<b>常态化</b>】</p>
+<p>要学习运用<b>枫桥经验</b>，因地制宜推进宜居宜业和美乡村建设，提升乡村治理和文明乡风建设水平。【<b>千万工程经验</b>】</p>
+<p>坚持把解决好“三农”问题作为重中之重，坚持<b>四级书</b>记抓乡村振兴。【<b>五</b>】</p>
+</div></details>
+</div></section>
+<section class="kp" id="pk-44" data-title="五、对服务业发展的重要指示"><div class="kp-head"><h3>五、对服务业发展的重要指示</h3><div class="chips"><span class="chip b">判断 6 条</span><span class="chip k">坑 4 处</span></div></div><div class="kp-crumb">第三篇《时事政治》 · 第三章 重要指示</div><div class="kp-body">
+<p class="pk-lead">※小黑排坑特训：找出下列表述中的主角关键词，并快速判断正误。</p>
+<p>1.突出供给牵引、改革攻坚、科技赋能、开放合作，实施服务业扩能提质行动。</p>
+<p>2.要推进生活性服务业向专业化和价值链高端延伸，要促进生产性服务业高品质多样化便利化发展。</p>
+<p>3.扩大服务业高水平对外开放，逐步推动服务领域外资准入负面清单清零。</p>
+<p>4.要顺应人口结构变化、消费结构升级和产业结构转型趋势，聚焦生产生活重点领域，集中统一推动服务业发展，不断培育服务业新增长点。</p>
+<p>5.到2030年，服务业高质量发展取得明显进展，服务业总规模迈上100万亿元台阶，质量更高、结构更优、品质更佳、活力更足的发展格局基本形成。</p>
+<p>6.坚持既放得活又管得好，清理服务业领域不合理标准和限制性措施。</p>
+<details class="ans"><summary>查看正确答案（6 条）</summary><div class="ans-body">
+<p>突出<b>供给牵引</b>、改革攻坚、科技赋能、开放合作，实施服务业扩能提质行动。【<b>需求牵引</b>】</p>
+<p>要推进<b>生活性服务业</b>向专业化和价值链高端延伸，要促进<b>生产性服务业</b>高品质多样化便利化发展。【<b>生产性服务业；生活性服务业</b>】</p>
+<p>扩大服务业高水平对外开放，逐步推动服务领域外资准入负面清单清零。【<b>说法错误，可以扩大开放，但不可将服务业领域准入限制完全放开</b>】</p>
+<p>要顺应人口结构变化、消费结<b>构升级和</b>产业结<b>构转</b>型趋势，聚焦生产生活重点领域，<b>集中统一</b>推动服务业发展，不断培育服务业新增长点。【<b>分层分类</b>】</p>
+<p>到2030年，服务业高质量发展取得明显进展，服务业总规模迈上100万亿元台阶，质量更高、结构更优、品质更佳、活力更足的发展格局基本形成。【√】</p>
+<p>坚持既放得活又管得好，清理服务业领域不合理标准和限制性措施。【√】</p>
+</div></details>
+</div></section>
+<section class="kp" id="pk-45" data-title="六、对总结好运用好“义乌发展经验”的重要指示"><div class="kp-head"><h3>六、对总结好运用好“义乌发展经验”的重要指示</h3><div class="chips"><span class="chip b">判断 4 条</span><span class="chip k">坑 3 处</span></div></div><div class="kp-crumb">第三篇《时事政治》 · 第三章 重要指示</div><div class="kp-body">
+<p class="pk-lead">※小黑排坑特训：找出下列表述中的主角关键词，并快速判断正误。</p>
+<p>1.义乌小商品闯出大市场、做成大产业，形成“义乌发展经验”，这是统一规划县域经济的成功实践。</p>
+<p>2.把“义乌发展经验”进一步总结好、运用好，引导各地区立足自身资源禀赋，尊重基层和群众首创精神。</p>
+<p>3.推进以乡镇为重要载体的城镇化建设，发展各具特色的县域经济。</p>
+<p>4.因地制宜学习“义乌发展经验”，要注重发展的普遍性。</p>
+<details class="ans"><summary>查看正确答案（4 条）</summary><div class="ans-body">
+<p>义乌小商品闯出大市场、做成大产业，形成“义乌发展经验”，这是<b>统一规划</b>县域经济的成功实践。【<b>因地制宜</b>】</p>
+<p>把“义乌发展经验”进一步总结好、运用好，引导各地区立足自身资源禀赋，尊重基层和群众首创精神。【√】</p>
+<p>推进<b>以乡镇</b>为重要载体的城镇化建设，发展各具特色的县域经济。【<b>县城</b>】</p>
+<p>因地制宜学习“义乌发展经验”，要注重发展的<b>普遍性</b>。【<b>特殊性</b>】</p>
+</div></details>
+</div></section>
+<section class="kp" id="pk-46" data-title="七、对常态化做好东西部协作工作的重要指示"><div class="kp-head"><h3>七、对常态化做好东西部协作工作的重要指示</h3><div class="chips"><span class="chip b">判断 5 条</span><span class="chip k">坑 3 处</span></div></div><div class="kp-crumb">第三篇《时事政治》 · 第三章 重要指示</div><div class="kp-body">
+<p class="pk-lead">※小黑排坑特训：找出下列表述中的主角关键词，并快速判断正误。</p>
+<p>1.东西部协作开展30年来，在助力脱贫攻坚、促进区域协调发展等方面发挥了重要作用，彰显了我们党的政治优势和我国社会主义制度的优越性。</p>
+<p>2.今年是“十五五”开局之年，也是开展常态化帮扶第五年。</p>
+<p>3.要总结甘宁协作等有益经验，进一步完善协作机制，优化协作方式。</p>
+<p>4.推动东西部产业互补、人员互动、技术互学、观念互通、作风互鉴，实现互利共赢、共同发展。</p>
+<p>5.要认真落实常态化帮扶责任，坚决守牢不发生返贫致贫底线。</p>
+<details class="ans"><summary>查看正确答案（5 条）</summary><div class="ans-body">
+<p>东西部协作开展30年来，在助力脱贫攻坚、促进区域协调发展等方面发挥了重要作用，彰显了我们党的政治优势和我国社会主义制度的优越性。【√</p>
+<p>今年是“十五五”开局之年，也是开展常态化帮<b>扶第五年</b>。【<b>第一年</b>】</p>
+<p>要总结<b>甘宁协作</b>等有益经验，进一步完善协作机制，优化协作方式。【<b>闽宁</b>】</p>
+<p>推动东西部产业互补、人员互动、技术互学、观念互通、作风互鉴，实现互利共赢、共同发展。【√】</p>
+<p>要认真落实常态化帮扶责任，坚决守牢<b>不发生返贫致贫底线</b>。【<b>不发生规模性返贫致贫</b>】</p>
+</div></details>
+</div></section>
+<section class="kp" id="pk-47" data-title="八、对基础教育工作的重要指示"><div class="kp-head"><h3>八、对基础教育工作的重要指示</h3><div class="chips"><span class="chip b">判断 10 条</span><span class="chip k">坑 6 处</span></div></div><div class="kp-crumb">第三篇《时事政治》 · 第三章 重要指示</div><div class="kp-body">
+<p class="pk-lead">※小黑排坑特训：找出下列表述中的主角关键词，并快速判断正误。</p>
+<p>1.党的十八大以来，党中央把基础教育作为基础性、先导性工作来抓。</p>
+<p>2.全面贯彻党的教育方针，落实为党育人根本任务，坚持不懈用党的创新理论铸魂育人、培养德智体美劳全面发展的社会主义建设者和接班人。</p>
+<p>3.要落实成绩第一教育理念，促进广大学生身心健康、成长成才。</p>
+<p>4.要适应人民群众新期盼，推进基础教育扩优提质，守住教育公平底线。</p>
+<p>5.要弘扬教育家精神，加强师德师风建设，培养高素质专业化教师队伍。</p>
+<p>6.推动学校、家庭、社会各自发力，不断开创基础教育高质量发展新局面。</p>
+<p>7.基础教育包括学前教育、义务教育、高中教育、高等教育。</p>
+<p>8.当前我国学前教育、义务教育、高中教育、高等教育毛入学率已超过90%。</p>
+<p>9.要坚持教育高质量发展，把基础教育作为龙头，高等教育作为基点。</p>
+<p>10.我国已建成了世界上规模最大且有质量的基础教育体系，基础教育总体已经达到世界高收入国家的平均水平。</p>
+<details class="ans"><summary>查看正确答案（10 条）</summary><div class="ans-body">
+<p>党的十八大以来，党中央把基础教育作为基础性、先导性工作来抓。【√】</p>
+<p>全面贯彻党的教育方针，落实<b>为党育人根本</b>任务，坚持不懈用党的创新理论铸魂育人，培养德智体美劳全面发展的社会主义建设<b>者和</b>接班人。【<b>立德树人</b>】</p>
+<p>要落实<b>成绩</b>第一教育理念，促进广大学生身心健康、成长成才。【<b>健康</b>】</p>
+<p>要适应人民群众新期盼，推进基础教育扩优提质，守住教育公平底线。【√】</p>
+<p>要弘扬教育家精神，加强师德师风建设，培养高素质专业化教师队伍。【√】</p>
+<p>推动学校、家庭、社<b>会各自发力</b>，不断开创基础教育高质量发展新局面。【<b>同向发力</b>】</p>
+<p>基础教育包括学前教育、义务教育、高中教育、<b>高等教育</b>。【<b>不包括高等教育</b>】</p>
+<p>当前我国学前教育、<b>义务教</b>育、高中教育、<b>高等教育</b>毛入学率已超过90%。【<b>高等教育毛入学率达到60%，尚未超过90%</b>】</p>
+<p>要坚持教育高质量发展，把<b>基础教育作</b>为龙头，<b>高等教育作</b>为基点。【<b>高等教育；基础教育</b>】</p>
+<p>我国已建成了世界上规模最大且有质量的基础教育体系，基础教育总体已经达到世界高收入国家的平均水平。【√】</p>
+</div></details>
+</div></section>
+<section class="kp" id="pk-48" data-title="九、对巩固拓展树立和践行正确政绩观学习教育成果的重要指示"><div class="kp-head"><h3>九、对巩固拓展树立和践行正确政绩观学习教育成果的重要指示</h3><div class="chips"><span class="chip b">判断 5 条</span><span class="chip k">坑 4 处</span></div></div><div class="kp-crumb">第三篇《时事政治》 · 第三章 重要指示</div><div class="kp-body">
+<p class="pk-lead">※小黑排坑特训：找出下列表述中的主角关键词，并快速判断正误。</p>
+<p>1.持续推动各级党组织和广大党员、干部立党为公、为民造福、科学决策、真抓实干，努力创造经得起实践、人民、历史检验的实绩。</p>
+<p>2.要阶段性开展政绩观教育，重点抓好对地方党政正职、新提拔干部、年轻干部、关键岗位干部的教育培训要坚持常态化查改问题。</p>
+<p>3.要坚持常态化查改问题，包容新官不理旧账问题，对需要长期整改的政绩观偏差突出问题盯紧不放、跟踪问效。</p>
+<p>4.要用好考核指挥棒，完善标准化考核评价体系，树立重实干重实绩的选人用人导向。</p>
+<p>5.要加强政绩观行为的管理监督，严格执行一把手集中制，对领导干部定期谈话提醒。</p>
+<details class="ans"><summary>查看正确答案（5 条）</summary><div class="ans-body">
+<p>持续推动各级党组织和广大党员、干部立党为公、为民造福、科学决策、真抓实干，努力创造经得起实践、人民、历史检验的实绩。【√】</p>
+<p>要<b>阶段性</b>开展政绩观教育，重点抓好对地方党政正职、新提拔干部、年轻干部、关键岗位干部的教育培训要坚持常态化查改问题。【<b>经常性</b>】</p>
+<p>要坚持常态化查改问题，<b>包容新官不理旧账问题</b>，对需要长期整改的政绩观偏差突出问题盯紧不放、跟踪问效。【<b>深化新官不理旧账整改整治</b>】</p>
+<p>要用好考核指挥棒，完善<b>标准化</b>考核评价体系，树立重实干重实绩的选人用人导向。【<b>差异化</b>】</p>
+<p>要加强政绩观行为的管理监督，严格执行<b>一把手集中制</b>，对领导干部定期谈话提醒。【<b>民主集中制</b>】</p>
+</div></details>
+</div></section>
+<section class="kp" id="pk-49" data-title="十、对发展先进制造业的重要指示"><div class="kp-head"><h3>十、对发展先进制造业的重要指示</h3><div class="chips"><span class="chip b">判断 7 条</span><span class="chip k">坑 3 处</span></div></div><div class="kp-crumb">第三篇《时事政治》 · 第三章 重要指示</div><div class="kp-body">
+<p class="pk-lead">※小黑排坑特训：找出下列表述中的主角关键词，并快速判断正误。</p>
+<p>1.党的十八大以来，我国先进制造业不断发展壮大，创新力、竞争力、综合实力显著增强，制造强国建设迈出坚实步伐。</p>
+<p>2.坚持智能化、绿色化、融合化方向，持续做大做强先进制造业。</p>
+<p>3.加快构建以新兴产业为骨干的现代化产业体系，巩固壮大实体经济根基。</p>
+<p>4.要因地制宜培育壮大先进制造业集群，分类分层推动提质升级。</p>
+<p>5.要强化政府主体地位，加强政策和要素供给，营造良好发展环境，不断增强先进制造业发展的动力活力。</p>
+<p>6.要保持制造业合理比重，大力发展先进制造业。</p>
+<p>7.要坚持绿色发展，对于碳排放较高的传统行业，应优先关停退出。</p>
+<details class="ans"><summary>查看正确答案（7 条）</summary><div class="ans-body">
+<p>党的十八大以来，我国先进制造业不断发展壮大，创新力、竞争力、综合实力显著增强，制造强国建设迈出坚实步伐。【√】</p>
+<p>坚持智能化、绿色化、融合化方向，持续做大做强先进制造业。【√】</p>
+<p>加快构建以<b>新兴产业为</b>骨干的现代化产业体系，巩固壮大实体<b>经济根</b>基。【<b>先进制造业</b>】</p>
+<p>要因地制宜培育壮大先进制造业集群，分类分层推动提质升级。【√】</p>
+<p>要强<b>化政府主体</b>地位，加强政策和要素供给，营造良好发展环境，不断增强<b>先进</b>制造业发展的动力活力。【<b>企业</b>】</p>
+<p>要保持制造业合理比重，大力发展先进制造业。【√】</p>
+<p>要坚持绿色发展，对于碳排放较高的传统行业，应优先<b>关停退出</b>。【<b>转型升级</b>】</p>
+</div></details>
+</div></section>
+<section class="kp" id="pk-50" data-title="一、党建领域"><div class="kp-head"><h3>一、党建领域</h3><div class="chips"><span class="chip b">判断 11 条</span><span class="chip k">坑 7 处</span></div></div><div class="kp-crumb">第三篇《时事政治》 · 第四章 重要文件</div><div class="kp-body">
+<h5 class="sub2">(一）《关于在全党开展树立和践行正确政绩观学习教育的通知》</h5>
+<p class="pk-lead">※小黑排坑特训：找出下列表述中的主角关键词，并快速判断正误。</p>
+<p>1.学习教育以省部级以上领导班子和领导干部特别是“一把手”为重点。</p>
+<p>2.要以立党为公、为民造福、科学决策、真抓实干为总要求，以分批推进学查改为抓手。</p>
+<p>3.学习教育要坚持聚焦主题、简约务实，划分批次、不划阶段。</p>
+<p>4.县处级以上领导班子及其成员通过督促检查、调查研究、了解群众反映等途径，从党性上找差距、查根源、强修养。</p>
+<p>5.要坚持开门教育，查摆问题听取群众意见，整改整治接受群众监督，检验成效接受群众评判。</p>
+<details class="ans"><summary>查看正确答案（5 条）</summary><div class="ans-body">
+<p>学习教育<b>以省部级</b>以上领导班子和领导干部特别是“一把手”为重点。【<b>县处级</b>】</p>
+<p>要以立党为公、为民造福、科学决策、真抓实干为总要求，以<b>分批</b>推进学查改为抓手。【<b>一体</b>】</p>
+<p>学习教育要坚持聚焦主题、简约务实，<b>划分批次</b>、不划阶段。【<b>不分</b>】</p>
+<p>县处级以上领导班子及其成员通过督促检查、调查研究、了解群众反映等途径，从党性上找差距、查根源、强修养。【√】</p>
+<p>要坚持开门教育，查摆问题听取群众意见，整改整治接受群众监督，检验成效接受群众评判。【√】</p>
+</div></details>
+<h5 class="sub2">（二）《中国共产党发展党员工作细则》</h5>
+<p class="pk-lead">※小黑排坑特训：找出下列表述中的主角关键词，并快速判断正误。</p>
+<p>1.拟列为发展对象的流动人员，应当在流出地和流入地同时公示。</p>
+<p>2.发展对象未来三个月内将离开工作、学习单位的，一般不办理接收预备党员的手续。</p>
+<p>3.赞成人数超过应到会有表决权的党员人数的三分之二，才能通过接收预备党员的决议。</p>
+<p>4.党支部党员大会讨论两个以上的发展对象入党时，必须集中讨论和表决。</p>
+<p>5.预备党员需要继续考察和教育的，可以延长一次预备期，延长时间不能少于半年，最长不超过两年。</p>
+<p>6.预备党员转为正式党员、延长预备期或者取消预备党员资格，应当经党支部党员大会讨论通过和批准。</p>
+<details class="ans"><summary>查看正确答案（6 条）</summary><div class="ans-body">
+<p>拟列为发展对象的流动人员，应当在流出地和流入地同时公示。【√】</p>
+<p>发展对象未来三个月内将离开工作、学习单位的，一般不办理接收预备党员的手续。【√】</p>
+<p>赞成人数超过应到会有表决权的党员人数的三<b>分之二</b>，才能通过接收预备党员的决议。【<b>半数</b>】</p>
+<p>党支部党员大会讨论两个以上的发展对象入党时，必须<b>集中讨论和</b>表决。【<b>逐个</b>】</p>
+<p>预备党员需要继续考察和教育的，可以延长一<b>次预备期</b>，延长时间不能少于半年，最长不超过<b>两年</b>。【<b>一年</b>】</p>
+<p>预备党员转为正式党员、延长预备期或者取消<b>预备党</b>员资格，应当经党支部党员大会讨论通过和<b>批准</b>。【<b>上级党组织批准</b>】</p>
+</div></details>
+</div></section>
+<section class="kp" id="pk-51" data-title="二、民生领域"><div class="kp-head"><h3>二、民生领域</h3><div class="chips"><span class="chip b">判断 28 条</span><span class="chip k">坑 16 处</span></div></div><div class="kp-crumb">第三篇《时事政治》 · 第四章 重要文件</div><div class="kp-body">
+<h5 class="sub2">(一）《关于加快建立长期护理保险制度的意见》</h5>
+<p class="pk-lead">※小黑排坑特训：找出下列表述中的主角关键词，并快速判断正误。</p>
+<p>1.用人单位以及单位职工、退休人员、灵活就业人员和未就业城乡居民等按照属地管理原则，参加长期护理保险。</p>
+<p>2.各地建立长期护理保险制度可先从覆盖单位职工、未就业城乡居民、灵活就业人员等人群起步，逐步将退休人员纳入保障范围。</p>
+<p>3.长期护理保险从省级统筹起步。</p>
+<p>4.坚持制度的统一性和规范性，确保统筹地区间在参保缴费、待遇支付、失能等级评估、基金管理、经办管理、信息化建设等方面相对均衡。</p>
+<p>5.坚持以收定支、收支平衡，实现基金稳定筹集、独立运行、精算平衡。</p>
+<p>6.单位职工费率由用人单位和个人按不同比例分担。</p>
+<p>7.退休人员费率低于单位职工个人费率，缴费基数与养老金水平挂钩，由个人缴费，原用人单位不缴费。</p>
+<p>8.未就业城乡居民长期护理保险筹资由个人负担。</p>
+<p>9.长期护理保险制度起步阶段保障重度失能人员。</p>
+<p>10.按单位职工参保政策参保的，基金支付比例为70%左右。</p>
+<p>11.探索建立缴费时长和待遇水平相挂钩的连续参保激励机制，对连续参保的按规定适当降低支付比例。</p>
+<details class="ans"><summary>查看正确答案（11 条）</summary><div class="ans-body">
+<p>用人单位以及单位职工、退休人员、灵活就业人员和未就业城乡居民等按照属地管理原则，参加长期护理保险。【√】</p>
+<p>各地建立长期护理保险制度可先从覆盖单位职工、<b>未就业城乡居民</b>、灵活就业人员等人群起步，逐步将<b>退休人员纳入</b>保障范围。【<b>退休人员；未就业城乡居民</b>】</p>
+<p>长期护理保险从<b>省级</b>统筹起步。【<b>市地级</b>】</p>
+<p>坚持制度的统一性和规范性，确保统筹地区间在参保缴费、待遇支付、失能等级评估、基金管理、经办管理、信息化建设等方面相对均衡。【√】</p>
+<p>坚持以收定支、收支平衡，实现基金稳定筹集、独立运行、精算平衡。【√】</p>
+<p>单位职工费率由用人单位和个<b>人按不同比</b>例分担。【<b>相同</b>】</p>
+<p>退<b>休人</b>员费率低于单位职工个人费率，缴费基数与养老金水平挂钩，由个人缴费，原用人单位不缴费。【<b>同于</b>】</p>
+<p>未就业城乡居民长期护理保险筹资由<b>个人负担</b>。【<b>个人和政府合理分担</b>】</p>
+<p>长期护理保险制度起步阶段保障重度失能人员。【√】</p>
+<p>按单位职工参保政策参保的，基金支付比例为70%左右。【√】</p>
+<p>探索建立缴费时长和待遇水平相挂钩的连续参保激励机制，对连续参保的按规定适当<b>降低支</b>付比例。【<b>提高</b>】</p>
+</div></details>
+<h5 class="sub2">（二）《关于加快建设分级诊疗体系的若干措施》</h5>
+<p class="pk-lead">※小黑排坑特训：找出下列表述中的主角关键词，并快速判断正误。</p>
+<p>1.以紧密型医联体为抓手完善分级诊疗协同机制。</p>
+<p>2.二级医院要聚焦急危重症和疑难复杂疾病，加强转诊会诊和住院服务，逐步酌减常见病复诊和诊断明确、病情稳定的慢性病等普通门诊。</p>
+<p>3.到2030年，以紧密型医联体为抓手的分级诊疗协同机制全面建立，医疗卫生服务同质化水平和便利性、可及性进一步提高。</p>
+<p>4.以常见病、急性病为重点引导群众基层首诊。</p>
+<p>5.以提升就医独立性为导向加强转诊服务管理。</p>
+<p>6.提升家庭医生签约服务质效，个性化服务包费用由个人支付。</p>
+<details class="ans"><summary>查看正确答案（6 条）</summary><div class="ans-body">
+<p>以紧密型医联体为抓手完善分级诊疗协同机制。【√】</p>
+<p>二级医院要聚焦急危重症和疑难复杂疾病，加强转诊会诊和住院服务，逐步酌减常见病复诊和诊断明确、病情稳定的慢性病等普通门诊。【<b>三级</b>】</p>
+<p>到<b>2030</b>年，以紧密型医联体为抓手的分级诊疗协同机制<b>全面</b>建立，医疗卫生服务同质化水平和便利性、可及性进一步提高。【<b>基本</b>】</p>
+<p>以常见病、<b>急性病</b>为重点引导群众基层首诊。【<b>慢性病</b>】</p>
+<p>以提升就医<b>独立性</b>为导向加强转诊服务管理。【<b>连续性</b>】</p>
+<p>提升家庭医生签约服务质效，个性化服务包费用由个人支付。【√】</p>
+</div></details>
+<h5 class="sub2">（三）《关于推行常住地提供基本公共服务的实施意见》</h5>
+<p class="pk-lead">※小黑排坑特训：找出下列表述中的主角关键词，并快速判断正误。</p>
+<p>1.学龄人口流入多的城市政府做好存量学位资源挖潜和整合利用，巩固提升义务教育阶段随迁子女就读民办学位比例。</p>
+<p>2.九年一贯制学校校内直升政策对随迁子女、当地户籍学生同等对待。</p>
+<p>3.推动更多城市将稳定就业居住的已落户常住人口家庭纳入公租房保障范围。</p>
+<p>4.扩大公租房保障范围，推行按纳税贡献程度、住房困难程度确定保障对象、保障方式、保障标准、准入条件和退出机制。</p>
+<p>5.酌情取消在就业地参加职工社会保险的户籍限制，大力推进全民参保计划。</p>
+<p>6.加强异地就医直接结算管理服务，提升异地就医备案管理和结算报销可及性、便利性。</p>
+<p>7.对遭遇突发性、紧迫性、灾难性困难，生活陷入困境的人员，可以在急难发生地按规定给予临时救助。</p>
+<details class="ans"><summary>查看正确答案（7 条）</summary><div class="ans-body">
+<p>学龄人口流入多的城市政府做好存量学位资源挖潜和整合利用，巩固提升义务教育阶段随迁子女就读<b>民办</b>学位比例。【<b>公办</b>】</p>
+<p>九年一贯制学校校内直升政策对随迁子女、当地户籍学生同等对待。【√</p>
+<p>推动更多城市将稳定就业居住的<b>已落户</b>常住人口家庭纳入公租房保障范围。【<b>未落户</b>】</p>
+<p>扩大公租房保障范围，推行<b>按纳税贡献程度</b>、住房困难程度确定保障对象、保障方式、保障标准、准入条件和退出机制。【<b>就业居住年限</b>】</p>
+<p><b>酌情取</b>消在就业地参加职工社会保险的户籍限制，大力推进全民参保计划。【<b>全面</b>】</p>
+<p>加强异地就医直接结算管理服务，提升异地就医备案管理和结算报销可及性、便利性。【√】</p>
+<p>对遭遇突发性、紧迫性、灾难性困难，生活陷入困境的人员，可以在急难发生地按规定给予临时救助。【√</p>
+</div></details>
+<h5 class="sub2">(四）《住房公积金管理条例》</h5>
+<p class="pk-lead">※小黑排坑特训：找出下列表述中的主角关键词，并快速判断正误。</p>
+<p>1.可以提取职工住房公积金账户内的存储余额用于支付自住住房物业费。</p>
+<p>2.与单位终止劳动关系的，可以提取职工住房公积金账户内的存储余额。</p>
+<p>3.职工死亡或者被宣告死亡的，职工的继承人、受遗赠人可以提取职工住房公积金账户内的存储余额。</p>
+<p>4.以欺诈、伪造证明材料或者其他手段违法获得住房公积金贷款的，3年内不得提取住房公积金或者使用住房公积金贷款。</p>
+<details class="ans"><summary>查看正确答案（4 条）</summary><div class="ans-body">
+<p>可以提取职工住房公积金账户内的存储余额用于支付自住住房物业费。【√】</p>
+<p><b>与单位终止劳动关系的</b>，可以提取职工住房公积金账户内的存储余额。【<b>完全丧失劳动能力，并与单位终止劳动关系的</b>】</p>
+<p>职工死亡或者被宣告死亡的，职工的继承人、受遗赠人可以提取职工住房公积金账户内的存储余额。【√】</p>
+<p>以欺诈、伪造证明材料或者其他手段违法获得住房公积金贷款的，<b>3年内</b>不得提取住房公积金或者使用住房公积金贷款。【<b>5年</b>】</p>
+</div></details>
+</div></section>
+<section class="kp" id="pk-52" data-title="三、生态领域"><div class="kp-head"><h3>三、生态领域</h3><div class="chips"><span class="chip b">判断 5 条</span><span class="chip k">坑 3 处</span></div></div><div class="kp-crumb">第三篇《时事政治》 · 第四章 重要文件</div><div class="kp-body">
+<h5 class="sub2">《中华人民共和国生态环境法典》</h5>
+<p class="pk-lead">※小黑排坑特训：找出下列表述中的主角关键词，并快速判断正误。</p>
+<p>1.《中华人民共和国生态环境法典》中，“污染防治”单独成编，为世界环境法典体例之首创。</p>
+<p>2.《中华人民共和国生态环境法典》是全球第二部专门以“生态环境法典”命名的法律，也是我国第二部以“法典”命名的法律。</p>
+<p>3.《中华人民共和国生态环境法典》以“适度法典化”的编纂模式，形成法典统领、单行法配套衔接的分层立法格局。</p>
+<p>4.生态环境保护坚持预防为主、系统治理、生态优先、绿色发展、公众参与、损害担责的原则。</p>
+<p>5.按照生态系统的整体性、系统性及其内在规律，建立健全企业主导、政府和社会参与、市场化运作、可持续的生态保护补偿机制。</p>
+<details class="ans"><summary>查看正确答案（5 条）</summary><div class="ans-body">
+<p>《中华人民共和国生态环境法典》中，“<b>污染防治</b>”单独成编，为世<b>界环</b>境法典体例之首创。【<b>绿色低碳发展</b>】</p>
+<p>《中华人民共和国生态环境法典》是全<b>球第二部</b>专门以“生态环境法典”命名的法律，也是我国第二部以“法典”命<b>名的法</b>律。【<b>首部</b>】</p>
+<p>《中华人民共和国生态环境法典》以“适度法典化”的编纂模式，形成法典统领、单行法配套衔接的分层立法格局。【√】</p>
+<p>生态环境保护坚持预防为主、系统治理、生态优先、绿色发展、公众参与、损害担责的原则。【√】</p>
+<p>按照生态系统的整体性、系统性及其内在规律，建立健全<b>企业</b>主导、<b>政府</b>和社会参与、市场化运作、可持续的生态保护补偿机制。【<b>政府；企业</b>】</p>
+</div></details>
+</div></section>
+<section class="kp" id="pk-53" data-title="四、涉农领域"><div class="kp-head"><h3>四、涉农领域</h3><div class="chips"><span class="chip b">判断 23 条</span><span class="chip k">坑 9 处</span></div></div><div class="kp-crumb">第三篇《时事政治》 · 第四章 重要文件</div><div class="kp-body">
+<h5 class="sub2">（一）2026年中央一号文件</h5>
+<p class="pk-lead">※小黑排坑特训：找出下列表述中的主角关键词，并快速判断正误。</p>
+<p>1.解决好“三农”问题，要以推进乡村全面振兴为总抓手。</p>
+<p>2.解决好“三农”问题，要以学习运用“千万工程”经验为引领。</p>
+<p>3.坚持产量产能、生产生态、增产增收一起抓，加力实施新一轮百亿斤粮食产能提升行动。</p>
+<p>4.在确保省域内耕地保护任务不降低前提下，稳妥有序退出河道湖区影响行洪安全等的不稳定耕地。</p>
+<p>5.以供给为导向加快新农科建设，推动涉农专业人才定向培养。</p>
+<p>6.强化开发式帮扶，发挥社会救助兜底保障作用，推动帮扶政策协同集成。</p>
+<p>7.保持中央财政常态化帮扶资金规模及市县两级投入资金规模稳定。</p>
+<p>8.中央财政常态化帮扶资金用于产业发展的比例，在县级保持基本稳定，省级可实行差别化要求。</p>
+<p>9.促进粮食等重要农产品价格保持在合理水平。</p>
+<p>10.扩大以工代赈项目覆盖范围、建设领域和劳务报酬发放规模，鼓励采用灵活发包方式由农村基层自主实施项目。</p>
+<p>11.因地制宜完善乡村建设实施机制，分类有序、片区化推进乡村振兴。</p>
+<p>12.以社区养老为基础，鼓励有条件的地方发展助餐服务、日间照料、康复护理等养老服务。</p>
+<p>13.有序推进农村集体经营性建设用地入市，支持入市土地优先用于发展集体经济和乡村产业，严禁用于建设商品住房。</p>
+<p>14.依法维护进城落户农民土地承包权、宅基地使用权、集体收益分配权，探索建立自愿有偿退出的办法。</p>
+<p>15.公务员招录计划向县乡基层机关倾斜，鼓励从县乡借调工作人员。</p>
+<p>16.落实好粮食产销区省际横向利益补偿政策，支持粮食主产区补充财力、发展粮食产业。</p>
+<details class="ans"><summary>查看正确答案（16 条）</summary><div class="ans-body">
+<p>解决好“三农”问题，要以推进乡村全面振兴为总抓手。【√】</p>
+<p>解决好“三农”问题，要以学习运用“千万工程”经验为引领。【√】</p>
+<p>坚持产量产能、生产生态、增产增收一起抓，加力实施新一<b>轮百亿斤粮</b>食产能提升行动。【<b>千亿斤</b>】</p>
+<p>在确保省域内耕地保护任务不降低前提下，稳妥有序退出河道湖区影响行洪安全等的不稳定耕地。【√】</p>
+<p>以<b>供给</b>为导向加快新农科建设，推动涉农专业<b>人才</b>定向培养。【<b>需求</b>】</p>
+<p>强化开发式帮扶，发挥社会救助兜底保障作用，推动帮扶政策协同集成。【√</p>
+<p>保持中央财政常态化帮扶资金规模及<b>市县</b>两级投入资金规模稳定。【<b>省市</b>】</p>
+<p>中央财政常态化帮扶资金用于产业发展的比例，<b>在县级保持基本</b>稳定，<b>省级</b>可实行差别化要求。【<b>省级；县级</b>】</p>
+<p>促进粮食等重要农产品价格保持在合理水平。【√】</p>
+<p>扩大以工代赈项目覆盖范围、建设领域和劳务报酬发放规模，鼓励采用灵活发包方式由农村基层自主实施项目。【√】</p>
+<p>因地制宜完善乡村建设实施机制，分类有序、片区化推进乡村振兴。【√】</p>
+<p><b>以社区</b>养老为基础，鼓励有条件的地方发展助餐服务、日间照料、康复护理等养老服务。【<b>居家</b>】</p>
+<p>有序推进农村集体经营性建设用地入市，支持入市土地优先用于发展集体经济和乡村产业，严禁用于建设商品住房。【√】</p>
+<p>依法维护进城落户农民土地承包权、宅基地使用权、集体收益分配权，探索建立自愿有偿退出的办法。【√】</p>
+<p><b>公务</b>员招录计划向县<b>乡基</b>层机关倾斜，<b>鼓励从</b>县乡借调工作人员。【<b>原则上不得</b>】</p>
+<p>落实好粮食产销区省际横向利益补偿政策，支持粮食主产区补充财力、发展粮食产业。【√】</p>
+</div></details>
+<h5 class="sub2">（二）《关于做好第二轮土地承包到期后再延长30年试点工作的意见》</h5>
+<p class="pk-lead">※小黑排坑特训：找出下列表述中的主角关键词，并快速判断正误。</p>
+<p>1.牢牢把住加快建设农业强国这条主线，坚持把依法维护农民权益作为出发点和落脚点。</p>
+<p>2.要不断完善农村承包地所有权、承包权、资格权分置政策体系。</p>
+<p>3.严禁打破原集体土地所有权的界限在全村范围内搞平均承包。</p>
+<p>4.农村集体土地由本集体经济组织内农民家庭承包。</p>
+<p>5.以户为单位开展延包，确保绝大多数农户原有承包地继续保持稳定，不能推倒重来、打乱重分。</p>
+<p>6.坚持“大稳定、小调整”，“小调整”是“大稳定”的前提。</p>
+<p>7.“小调整”仅限于少数存在承包地因自然灾害毁损等特殊情形且群众普遍要求调地的村组。</p>
+<details class="ans"><summary>查看正确答案（7 条）</summary><div class="ans-body">
+<p>牢牢把住<b>加快建设农业强国</b>这条主线，坚持把依法维护农民权益作为出发点和落脚点。【<b>处理好农民和土地关系</b>】</p>
+<p>要不断完善农村承包地所有权、承包权、<b>资格权分</b>置政策体系。【<b>经营权</b>】</p>
+<p>严禁打破原集体土地所有权的界限在全村范围内搞平均承包。【√】</p>
+<p>农村集体土地由本集体经济组织内农民家庭承包。【√】</p>
+<p>以户为单位开展延包，确保绝大多数农户原有承包地继续保持稳定，不能推倒重来、打乱重分。【√】</p>
+<p>坚持“大稳定、小调整”，“<b>小调整</b>”是“<b>大稳定</b>”的前提。【<b>大稳定；小调整</b>】</p>
+<p>“小调整”仅限于少数存在承包地因自然灾害毁损等特殊情形且群众普遍要求调地的村组。【√】</p>
+</div></details>
+</div></section>
 </div>
   </main>
 </div>
