@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="violet">
+<head><style id="xz-perf">/* 长页面打开提速：屏幕外的知识点块不做排版与绘制 */section.kp,section.unit{content-visibility:auto;contain-intrinsic-size:auto 700px}section.qcard,section.matcard,section.shen,section.slot{content-visibility:auto;contain-intrinsic-size:auto 320px}</style>
+<meta charset="UTF-8">
+<link rel="icon" href="data:,"><script src="../assets/%E4%B8%BB%E9%A2%98.js?v=f38968bc"></script><script src="../assets/%E6%BC%94%E7%AE%97%E5%B1%82.js?v=a132b1de"></script><script src="../assets/%E5%AE%9A%E4%BD%8D%E5%B1%82.js?v=a3907880"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>重点学习 · 公考工作站</title>
+<link rel="stylesheet" href="../assets/design-tokens.css?v=2604fc33"><link rel="stylesheet" href="../assets/%E6%9D%BF%E5%9D%97%E9%A1%B5%E6%A0%B7%E5%BC%8F.css?v=9c24ba23">
+<style>
+/* 本页专属样式（骨架与通用组件来自 assets/板块页样式.css，颜色一律走令牌） */
+:root{--primary:#7c3aed;--primary2:#8b5cf6;--accent:#a78bfa;--bg:#f7f4fd}
+html[data-theme="violet"]{--primary:#7c3aed;--primary2:#8b5cf6;--accent:#a78bfa;--bg:#f7f4fd}
+*{box-sizing:border-box}
+.zd-2col{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}
+.zd-2col .kbox{margin:0}
+.zd-route{font-size:13px;color:var(--xz-ink-3);border-left:3px solid var(--accent);padding:4px 0 4px 10px;margin:8px 0;background:var(--accent-soft);border-radius:0 6px 6px 0}
+.zd-route b{color:var(--primary)}
+.zd-mini{font-size:12.5px;color:var(--xz-ink-3);margin:4px 0 2px}
+.zd-mini b{color:var(--xz-ink-2)}
+@media(max-width:820px){
+  .zd-2col{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>重点学习</h1>
+  <div class="en">PRIORITY LEARNING</div>
+  <div class="intro">先拿稳该拿的分，再去碰难题。本页把行测六部分与申论的重点学习路径放在一张地图上；首批完成数量关系的 7 个必拿分模型——工程、和差倍比、排列组合、几何、利润、最值、整除。每个模型按「识别信号 → 固定解法 → 真题拆解 → 易错点 → 考场止损」展开，目标不是做完所有数量题，而是 10 秒认模型、90 秒拿一题。</div>
+  <div class="meta"><span>行测 6 部分 + 申论</span><span>数量关系 7 个模型</span><span>7 道真题拆解</span><span>站内题库 + 公考通用方法</span></div>
+</header>
+<div class="toolbar">
+  <input id="q" placeholder="搜索本页模型 / 公式 / 关键词，回车定位…">
+  <span class="hitcount" id="hitcount"></span>
+  <button class="btn" id="hideans">隐藏答案解析</button>
+  <button class="btn" id="closeall">收起卡片</button>
+</div>
+<div class="layout">
+<nav class="toc" id="toc">
+  <a class="t-item t-lead" href="#overview">★ 重点学习总览</a>
+  <div class="t-pian"><a href="#zd-xc">一、行测 · 六个部分</a></div>
+  <a class="t-item" href="#zd-xc-map">1.1 行测必拿分地图</a>
+  <a class="t-item" href="#zd-xc-cs">1.2 常识判断</a>
+  <a class="t-item" href="#zd-xc-zz">1.3 政治理论</a>
+  <a class="t-item" href="#zd-xc-yy">1.4 言语理解</a>
+  <a class="t-item" href="#zd-sl">1.5 数量关系 · 7 个模型</a>
+  <a class="t-item" href="#zd-m1">1.5.1 工程问题</a>
+  <a class="t-item" href="#zd-m2">1.5.2 和差倍比</a>
+  <a class="t-item" href="#zd-m3">1.5.3 排列组合</a>
+  <a class="t-item" href="#zd-m4">1.5.4 几何问题</a>
+  <a class="t-item" href="#zd-m5">1.5.5 利润问题</a>
+  <a class="t-item" href="#zd-m6">1.5.6 最值问题</a>
+  <a class="t-item" href="#zd-m7">1.5.7 整除问题</a>
+  <a class="t-item" href="#zd-xc-pd">1.6 判断推理</a>
+  <a class="t-item" href="#zd-xc-zl">1.7 资料分析</a>
+  <div class="t-pian"><a href="#zd-sn">二、申论 · 重点学习</a></div>
+  <a class="t-item" href="#zd-sn-1">2.1 五步作答法</a>
+  <a class="t-item" href="#zd-sn-2">2.2 大作文框架</a>
+  <a class="t-item" href="#zd-sn-3">2.3 时间与易错</a>
+</nav>
+<main id="main">
+  <div class="ov" id="overview">
+    <h2 class="ov-title">重点学习总览 · 先拿分，再提速</h2>
+    <div class="ov-grid">
+      <div class="ov-card"><h3>一、行测</h3><ul>
+        <li><a href="#zd-xc-map"><b>1.1 六部分必拿分地图</b></a><span>先看每一部分该拿什么分</span></li>
+        <li><a href="#zd-xc-cs"><b>1.2 常识判断</b></a><span>时政 · 法律 · 科技 · 文史</span></li>
+        <li><a href="#zd-xc-zz"><b>1.3 政治理论</b></a><span>新思想 · 马哲 · 时政</span></li>
+        <li><a href="#zd-xc-yy"><b>1.4 言语理解</b></a><span>逻辑填空 · 中心理解 · 排序</span></li>
+      </ul></div>
+      <div class="ov-card"><h3>二、数量关系 · 首批 7 模型</h3><ul>
+        <li><a href="#zd-m1"><b>1.5.1 工程</b></a><span>赋总量 · 求效率 · 分段</span></li>
+        <li><a href="#zd-m2"><b>1.5.2 和差倍比</b></a><span>不变量 · 统一份数</span></li>
+        <li><a href="#zd-m3"><b>1.5.3 排列组合</b></a><span>有序无序 · 捆绑插空隔板</span></li>
+        <li><a href="#zd-m4"><b>1.5.4 几何</b></a><span>公式 · 相似比 · 割补</span></li>
+        <li><a href="#zd-m5"><b>1.5.5 利润</b></a><span>成本设 100 · 利润率盯成本</span></li>
+        <li><a href="#zd-m6"><b>1.5.6 最值</b></a><span>最不利 +1 · 和定贴边</span></li>
+        <li><a href="#zd-m7"><b>1.5.7 整除</b></a><span>锁倍数 · 代选项</span></li>
+      </ul></div>
+      <div class="ov-card"><h3>三、判断 · 资料 · 申论</h3><ul>
+        <li><a href="#zd-xc-pd"><b>1.6 判断推理</b></a><span>图形 · 定义 · 类比 · 逻辑</span></li>
+        <li><a href="#zd-xc-zl"><b>1.7 资料分析</b></a><span>ABRX · 截位直除 · 415</span></li>
+        <li><a href="#zd-sn-1"><b>2.1 申论五步作答法</b></a><span>审题 · 找点 · 加工 · 书写 · 复盘</span></li>
+        <li><a href="#zd-sn-2"><b>2.2 大作文框架</b></a><span>标题 · 开头 · 分论点 · 结尾</span></li>
+      </ul></div>
+    </div>
+    <div class="kbox" style="margin-top:14px">
+      <div class="kl">◆ 考场先记住这 5 条</div>
+      <ul>
+        <li><b>数量关系只做 5–7 题</b>：先把会做的模型挑出来，剩余统一蒙，绝不空题，也不在一题上死磕。</li>
+        <li><b>10 秒认不出模型就跳过</b>：题干读两遍还找不到“总量 / 比例 / 成本 / 面积 / 最值 / 倍数”这些抓手，先标记。</li>
+        <li><b>90 秒列不出式子就止损</b>：数量关系单题超过 90 秒，继续算的期望收益已经低于把时间留给资料分析。</li>
+        <li><b>选项是整数先代选项</b>：出现“每、平均、倍、分数、百分数”时，答案往往被某个数整除，先排再算。</li>
+        <li><b>目标是“做对 + 涂完”</b>：不是做完 15 题。会做的稳稳拿分，比蒙完所有题更划算。</li>
+      </ul>
+    </div>
+    <div class="zd-2col">
+      <div class="kbox"><div class="kl">◆ 拿分顺序（按速度，不按教材）</div>
+        <p><b>整除 → 工程 / 利润 → 和差倍比 → 几何 → 最值 → 排列组合</b></p>
+        <p class="zd-mini">这是“先拿容易分”的顺序。考场上仍以题面识别为准：哪道题一眼有抓手，就先做哪道，不按固定顺序硬套。</p>
+      </div>
+      <div class="kbox"><div class="kl">◆ 7 天训练安排（可循环）</div>
+        <ul>
+          <li>第 1 天：工程 + 整除，各 5 题，限时 12 分钟。</li>
+          <li>第 2 天：利润 + 和差倍比，各 5 题，限时 12 分钟。</li>
+          <li>第 3 天：几何 8 题，限时 12 分钟。</li>
+          <li>第 4 天：最值 8 题，限时 14 分钟。</li>
+          <li>第 5 天：排列组合 8 题，限时 15 分钟。</li>
+          <li>第 6 天：混合 15 题，限时 20 分钟，只做认得出的模型。</li>
+          <li>第 7 天：错题回炉，按“识别错 / 方法错 / 计算错”三类归因。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="module" id="zd-xc"><div class="mod-banner"><h2>一、行测 · 六个部分</h2><p>先保正确率，再谈速度：每个部分只抓最稳定的拿分点，剩下的交给排除、蒙题与时间管理。</p></div>
+
+    <section class="unit" id="zd-xc-map" data-title="1.1 行测六部分必拿分地图">
+      <div class="unit-head"><h3>1.1 行测六部分必拿分地图</h3><span class="chip">总览</span></div>
+      <div class="unit-desc">这是一张“先拿什么分”的路线图；具体知识点仍回到左侧对应板块系统学。</div>
+      <div class="tbwrap"><table class="tbl">
+        <thead><tr><th style="width:14%">部分</th><th style="width:34%">先拿这些分</th><th style="width:34%">考场动作</th><th>目标</th></tr></thead>
+        <tbody>
+          <tr><td><b>常识判断</b></td><td>时政、法律、科技生活、文史地理</td><td>30 秒/题；绝对化表述先怀疑；不会就蒙，不回头</td><td>8–10 分钟 / 20 题</td></tr>
+          <tr><td><b>政治理论</b></td><td>习近平新时代中国特色社会主义思想、马哲、近一年时政</td><td>先做；关键词定位；警惕“全对/全错”式绝对化选项</td><td>10–14 分钟 / 20–25 题</td></tr>
+          <tr><td><b>言语理解</b></td><td>逻辑填空的语境对应、片段阅读的中心句、语句排序的首句与捆绑</td><td>先看提问方式；先找呼应点和中心句；不凭单字语感</td><td>35 分钟 / 40 题</td></tr>
+          <tr><td><b>数量关系</b></td><td>工程、和差倍比、排列组合、几何、利润、最值、整除</td><td>只做 5–7 题；10 秒认模型、90 秒止损；剩余统一蒙</td><td>8–10 分钟 / 选做</td></tr>
+          <tr><td><b>判断推理</b></td><td>图形规律、定义要素、类比关系、逻辑翻译与加强削弱</td><td>图形 30 秒无规律先跳；定义抓主体/条件/结果；逻辑先找论点论据</td><td>35 分钟 / 40 题</td></tr>
+          <tr><td><b>资料分析</b></td><td>ABRX、比重、平均数、倍数；截位直除、415、假设分配</td><td>先读题干圈“时间 + 指标”再回材料；综合分析放最后</td><td>25–30 分钟 / 20 题</td></tr>
+        </tbody>
+      </table></div>
+      <div class="zd-route"><b>怎么用：</b>先按这张表确定“哪些分必须拿”，再到对应板块补知识；模考后只复盘两类题——本该拿却丢的，和反复错的。</div>
+    </section>
+
+    <section class="kp" id="zd-xc-cs" data-title="1.2 常识判断 · 必拿分清单">
+      <div class="kp-head"><h3>1.2 常识判断 · 必拿分清单</h3><div class="chips"><span class="chip b">30 秒/题</span><span class="chip k">不纠结</span></div></div>
+      <div class="kp-crumb">对应板块：行测 · 常识判断 · 五篇 117 个知识点</div>
+      <div class="kp-body">
+        <div class="kbox"><div class="kl">◆ 先拿这些分</div>
+        <ul>
+          <li><b>时政：</b>近一年重要会议、政府工作报告、科技成就、重要纪念日；只记“主体 + 事件 + 关键词”。</li>
+          <li><b>法律：</b>宪法、民法典、刑法、行政法的高频边界；先抓“谁对谁、什么条件、什么后果”。</li>
+          <li><b>科技生活：</b>物理常识、化学常识、生物医学、能源与航天；优先看与生活场景结合的题。</li>
+          <li><b>文史地理：</b>朝代与制度、成语典故、地理分界线、节气与气候；用时间轴和地图串记。</li>
+        </ul></div>
+        <div class="mm"><div class="ml">◆ 考场动作</div><div class="mn">30 秒一题：会就选，不会就用排除法；出现“必须、全部、唯一、完全”等绝对化词先怀疑。做完立即涂卡，不回头改。</div></div>
+        <div class="zd-route"><b>复盘：</b>只记“知识点 + 关键词 + 错因”，不抄整题；同一考点连续错两次，再回对应章节补。</div>
+      </div>
+    </section>
+
+    <section class="kp" id="zd-xc-zz" data-title="1.3 政治理论 · 必拿分清单">
+      <div class="kp-head"><h3>1.3 政治理论 · 必拿分清单</h3><div class="chips"><span class="chip b">先做</span><span class="chip k">关键词定位</span></div></div>
+      <div class="kp-crumb">对应板块：行测 · 政治理论 · 知识 54 卡 + 排坑 65 组</div>
+      <div class="kp-body">
+        <div class="kbox"><div class="kl">◆ 先拿这些分</div>
+        <ul>
+          <li><b>习近平新时代中国特色社会主义思想：</b>“两个结合”“十个明确”“十四个坚持”“六个必须坚持”等核心表述，先记准搭配。</li>
+          <li><b>马哲：</b>唯物论、辩证法、认识论、唯物史观；重点抓“物质与意识、矛盾、量变质变、实践与认识、生产力与生产关系”。</li>
+          <li><b>时政：</b>中央经济工作会议、政府工作报告、十五五、新质生产力、健康中国、国家安全等高频主题。</li>
+          <li><b>排坑：</b>把“主体、范围、程度、时间”四个维度当成检查表，专防偷换概念和绝对化。</li>
+        </ul></div>
+        <div class="mm"><div class="ml">◆ 考场动作</div><div class="mn">政治理论放在最前面做，35 秒/题；先看选项里的关键词，再回题干定位。遇到拿不准的“引文型”题，优先选与官方表述最接近、语气最稳妥的选项。</div></div>
+        <div class="zd-route"><b>易错：</b>把“以人民为中心”和“以经济建设为中心”混用；把“根本”“基本”“重要”三个程度词记串；忽略“新时代”“新征程”等时间限定。</div>
+      </div>
+    </section>
+
+    <section class="kp" id="zd-xc-yy" data-title="1.4 言语理解 · 必拿分清单">
+      <div class="kp-head"><h3>1.4 言语理解 · 必拿分清单</h3><div class="chips"><span class="chip b">35 分钟/40 题</span><span class="chip k">语境优先</span></div></div>
+      <div class="kp-crumb">对应板块：行测 · 言语理解 · 片段阅读 / 逻辑填空 / 800 词库</div>
+      <div class="kp-body">
+        <div class="kbox"><div class="kl">◆ 先拿这些分</div>
+        <ul>
+          <li><b>逻辑填空：</b>先找呼应点（解释、转折、并列、递进），再看搭配、褒贬、轻重；不要只凭“读着顺”。</li>
+          <li><b>片段阅读：</b>先找中心句和对策句；转折后、结论后、必要条件后往往是重点。</li>
+          <li><b>语句排序：</b>先看首句（引出话题、下定义），再抓捆绑（代词、关联词、时间顺序），最后看尾句。</li>
+          <li><b>细节判断：</b>逐项回原文比对，重点防“偷换主体、扩大范围、无中生有、因果倒置”。</li>
+        </ul></div>
+        <div class="mm"><div class="ml">◆ 考场动作</div><div class="mn">先看提问方式，再读文段：问“主旨”找中心句，问“接下来”看尾句话题，问“填入”看上下文呼应。逻辑填空两个空时，先从最有把握的空排除。</div></div>
+        <div class="zd-route"><b>易错：</b>过度推断；把例子当主旨；忽略主语和限定词；两个选项都“像”时，选与文段关键词呼应更紧的那个。</div>
+      </div>
+    </section>
+
+    <div class="mod-banner" id="zd-sl"><h2>1.5 数量关系 · 7 个必拿分模型</h2><p>数量关系不是“全做”，而是“挑着做”。下面 7 个模型覆盖了最容易稳定拿分的题型；先认模型，再套固定动作，最后用选项和止损线保时间。</p></div>
+
+      <section class="kp" id="zd-sl-map" data-title="1.5 数量关系 · 7 模型速查表">
+        <div class="kp-head"><h3>1.5 数量关系 · 7 模型速查表</h3><div class="chips"><span class="chip b">先看这张表</span><span class="chip k">10 秒认模型</span></div></div>
+        <div class="kp-crumb">模型来源：站内数量关系 72 道真题 + 公考通用方法体系</div>
+        <div class="kp-body">
+          <div class="tbwrap"><table class="tbl">
+            <thead><tr><th style="width:13%">模型</th><th style="width:35%">一眼识别</th><th style="width:38%">第一动作</th><th>目标用时</th></tr></thead>
+            <tbody>
+              <tr><td><b>工程</b></td><td>工作总量、效率、时间；合作、中途停工、增开设备</td><td>赋总量 = 完工时间的最小公倍数；再求效率</td><td>60–90 秒</td></tr>
+              <tr><td><b>和差倍比</b></td><td>比例、百分数、倍数、平均、混合</td><td>找不变量；百分数化最简分数，统一份数</td><td>60–90 秒</td></tr>
+              <tr><td><b>排列组合</b></td><td>选人、排队、分配、相邻/不相邻、至少</td><td>先判有序无序，再选捆绑 / 插空 / 隔板 / 反面</td><td>90–120 秒</td></tr>
+              <tr><td><b>几何</b></td><td>面积、体积、周长、相似、截面、方位角</td><td>规则图形套公式；不规则图形割补或相似比</td><td>60–90 秒</td></tr>
+              <tr><td><b>利润</b></td><td>成本、定价、售价、折扣、利润率、总利润</td><td>成本设 100；售价 = 定价 × 折扣</td><td>60–90 秒</td></tr>
+              <tr><td><b>最值</b></td><td>至少、至多、最大、最小、保证、排名</td><td>保证 → 最不利 +1；和一定 → 谁最值谁设 x，其余贴边</td><td>90–120 秒</td></tr>
+              <tr><td><b>整除</b></td><td>每、平均、倍、分数、百分数；选项多为整数</td><td>化最简分数锁倍数；多条件取最小公倍数</td><td>30–60 秒</td></tr>
+            </tbody>
+          </table></div>
+          <div class="mm"><div class="ml">◆ 通用四步</div><div class="mn">① 看问题问什么（求量 / 求率 / 求最值）；② 找不变量或等量关系；③ 选最快工具（赋值 / 比例 / 方程 / 代入）；④ 用选项验证，90 秒没有路径就跳。</div></div>
+          <div class="zd-route"><b>注意：</b>下面 7 个模型是“必拿分”而不是“必全做”。考场只挑认得出的题，剩余统一蒙；复盘时再按模型补短板。</div>
+          <div class="zd-route"><b>下一批：</b>行程（相遇追及 / 流水行船）、容斥、年龄、溶液、概率、牛吃草、鸡兔同笼——先把上面 7 个模型练成条件反射，再按模考失分补下一批。</div>
+        </div>
+      </section>
+
+      <section class="kp" id="zd-m1" data-title="1.5.1 工程问题：先赋总量，再算效率">
+        <div class="kp-head"><h3>1.5.1 工程问题：先赋总量，再算效率</h3><div class="chips"><span class="chip b">必拿分 ★★★★★</span><span class="chip k">60–90 秒</span></div></div>
+        <div class="kp-crumb">识别信号：完成一项工程 / 订单 / 任务；单独做、合作、中途停工、效率提升、增开设备</div>
+        <div class="kp-body">
+          <div class="kbox"><div class="kl">◆ 固定四步</div>
+          <ol>
+            <li><b>定总量：</b>给多个完工时间 → 设总量为这些时间的最小公倍数；给效率比 → 直接设效率；给人数 / 机器数 → 每人或每台效率设 1。</li>
+            <li><b>求效率：</b>效率 = 总量 ÷ 时间；合作效率 = 各效率相加。</li>
+            <li><b>分段：</b>中途停工、降效、换人、增开设备，一律先算“已完成量”，再算“剩余量”。</li>
+            <li><b>列式：</b>剩余量 ÷ 新效率和；或抓住“总量相等”列等式。</li>
+          </ol></div>
+          <div class="fx"><b>工程关系式</b><br>W ＝ p × t　　合作：p合 ＝ p₁ ＋ p₂<br>W 一定：p₁ : p₂ ＝ t₂ : t₁（效率与时间成反比）<br>t 一定：W₁ : W₂ ＝ p₁ : p₂</div>
+          <div class="qcard"><div class="qhead">真题拆解 · 26 联考（合作 + 降效）</div>
+            <p>某 AI 训练任务需完成 X 亿次浮点运算。若使用云服务器单独计算，A 型需 12 小时，B 型需 15 小时。实际先由 A 型工作 3 小时后，加入 B 型共同工作。但因任务负载变化，共同工作时效率均下降 20%。问完成全部任务需多少小时？</p>
+            <div class="opt">A．6.25　　B．7.5　　C．9.25　　D．10.5</div>
+            <div class="ansline"><span class="ans-tag">答案</span><b>C</b></div>
+            <div class="expline"><span class="exp-tag">解析</span>设任务总量为 12 和 15 的最小公倍数 60，则 A 效率 5、B 效率 4。A 先做 3 小时完成 15，剩余 45；共同工作时效率为 (5＋4)×80%＝7.2，还需 45÷7.2＝6.25 小时。总用时 3＋6.25＝9.25 小时。选 C。</div>
+            <div class="note">陷阱：题目问的是“完成全部任务”的总时间，不是“合作时间”。如果问合作多久，答案才是 6.25。</div>
+          </div>
+          <div class="zd-2col">
+            <div class="kbox"><div class="kl">◆ 易错点</div><ul>
+              <li>“效率提高 20%”是原效率 ×1.2，不是 +20 个单位。</li>
+              <li>合作时间不是各自时间的平均数；要先求效率和。</li>
+              <li>中途休息 / 换人要分段，不能把总时间直接乘效率。</li>
+              <li>赋值只影响计算过程，不影响最终答案；不要因为设了 60 就以为总量真是 60。</li>
+            </ul></div>
+            <div class="kbox"><div class="kl">◆ 考场止损</div><ul>
+              <li>两个主体、一次合作：优先做，通常 60 秒内可列式。</li>
+              <li>三个以上主体反复换人 / 轮流工作：先标记，90 秒内列不出“已完成 + 剩余”就跳。</li>
+              <li>选项差距大时，赋值后估算即可，不必精确到小数。</li>
+            </ul></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="kp" id="zd-m2" data-title="1.5.2 和差倍比：抓不变量，统一份数">
+        <div class="kp-head"><h3>1.5.2 和差倍比：抓不变量，统一份数</h3><div class="chips"><span class="chip b">必拿分 ★★★★★</span><span class="chip k">60–90 秒</span></div></div>
+        <div class="kp-crumb">识别信号：甲比乙多 / 少百分之几；甲是乙的几倍；A:B＝…；平均、混合、浓度、增长率</div>
+        <div class="kp-body">
+          <div class="kbox"><div class="kl">◆ 固定四步</div>
+          <ol>
+            <li><b>找不变量：</b>总量、差、某个主体、某个比例项，谁在变化中保持不变。</li>
+            <li><b>化最简分数：</b>百分数先化成最简分数（如 65%＝13/20），分母就是份数。</li>
+            <li><b>统一份数：</b>把不同比例中的同一个量统一成相同份数，再按份数加减。</li>
+            <li><b>回推实际值：</b>1 份 = 实际量 ÷ 份数；最后再回答题目问的那个量。</li>
+          </ol></div>
+          <div class="fx"><b>和差倍比关系式</b><br>和差问题：大数 ＝ (和＋差)÷2；小数 ＝ (和－差)÷2<br>比例：A:B＝m:n ⇒ A＝mk，B＝nk（k 为 1 份）<br>正反比：M＝A×B；M 一定时 A 与 B 成反比，A 一定时 M 与 B 成正比</div>
+          <div class="qcard"><div class="qhead">真题拆解 · 26 国考（比例份数）</div>
+            <p>某企业采购了 A、B、C 三个品牌的电脑共 54 台，其中采购 A 品牌电脑的台数比 B 品牌电脑少 35%。问采购的 C 品牌电脑比 B 品牌电脑：</p>
+            <div class="opt">A．少 1 台　　B．少 2 台　　C．多 1 台　　D．多 2 台</div>
+            <div class="ansline"><span class="ans-tag">答案</span><b>C</b></div>
+            <div class="expline"><span class="exp-tag">解析</span>A 比 B 少 35% ⇒ A＝65%B＝13/20·B，所以 B 必须是 20 的倍数。三品牌共 54 台，B 只能取 20（取 40 则 A＝26，C 为负）：A＝13、B＝20、C＝21，C 比 B 多 1 台。选 C。</div>
+            <div class="note">点睛：百分数化最简分数后，分母 20 就是“份数”，直接锁定 B 必须是 20 的倍数，比列方程快。</div>
+          </div>
+          <div class="zd-2col">
+            <div class="kbox"><div class="kl">◆ 易错点</div><ul>
+              <li>“少 35%”是 A＝65%B，不是 A＝35%B。</li>
+              <li>“多 n 倍”＝是原来的 (n＋1) 倍；“是 n 倍”才是 ×n。</li>
+              <li>比例方向别写反：A:B＝3:2，不能写成 B:A＝3:2。</li>
+              <li>总量变化时先找不变量；没有不变量再列方程。</li>
+            </ul></div>
+            <div class="kbox"><div class="kl">◆ 考场止损</div><ul>
+              <li>看到“比例 + 实际总量”：优先用份数，通常 60 秒内出答案。</li>
+              <li>出现三个以上比例、且没有明显不变量：先标记，90 秒没有统一份数就跳。</li>
+              <li>选项是“多 / 少几台”时，先锁定主体倍数，再代选项验证。</li>
+            </ul></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="kp" id="zd-m3" data-title="1.5.3 排列组合：先判有序，再选模型">
+        <div class="kp-head"><h3>1.5.3 排列组合：先判有序，再选模型</h3><div class="chips"><span class="chip b">必拿分 ★★★★</span><span class="chip k">90–120 秒</span></div></div>
+        <div class="kp-crumb">识别信号：选人、排队、分配、比赛、号码；相邻、不相邻、至少、相同元素</div>
+        <div class="kp-body">
+          <div class="kbox"><div class="kl">◆ 三步判题</div>
+          <ol>
+            <li><b>分类还是分步：</b>“或”分类用加法；“且”分步用乘法。</li>
+            <li><b>有序还是无序：</b>换个顺序是否算新方案？算 → 排列 A；不算 → 组合 C。</li>
+            <li><b>特殊要求：</b>相邻 → 捆绑；不相邻 → 插空；至少 / 至多 → 反面；相同元素分配 → 隔板。</li>
+          </ol></div>
+          <div class="fx"><b>排列组合公式</b><br>A(n,m)＝n(n－1)…(n－m＋1)＝n!/(n－m)!　（有序）<br>C(n,m)＝A(n,m)/m!＝n!/[m!(n－m)!]　（无序）<br>捆绑：相邻元素先看作一个整体，再乘内部排列<br>插空：先排其他元素，再把不相邻元素插入空隙<br>隔板：n 个相同元素分给 m 人，每人至少 1 个 → C(n－1,m－1)</div>
+          <div class="qcard"><div class="qhead">真题拆解 · 24 联考（捆绑法）</div>
+            <p>某公司开展迎新春三分球投篮比赛。3 个部门分别派出 2、4、4 个选手共计 10 人参加。规则要求同一个部门的选手顺序相连、全部投完再安排另一个部门的人员，则这 10 人不同的投篮顺序种数的范围是：</p>
+            <div class="opt">A．小于 1000　　B．1000~3000　　C．3001~10000　　D．10000 以上</div>
+            <div class="ansline"><span class="ans-tag">答案</span><b>C</b></div>
+            <div class="expline"><span class="exp-tag">解析</span>每个部门内部先排序，再把三个“部门块”整体排序：3!×2!×4!×4!＝6×2×24×24＝6912，落在 3001~10000。选 C。</div>
+            <div class="note">口诀：先块间，再块内。相邻问题不是只乘一个 2!，每个“块”内部都要排。</div>
+          </div>
+          <div class="zd-2col">
+            <div class="kbox"><div class="kl">◆ 两个高频小模型</div><ul>
+              <li><b>5 人排队，甲乙必须相邻：</b>把甲乙捆成 1 个整体，与其余 3 人共 4 个对象排列：4!×2!＝48。</li>
+              <li><b>5 人排队，甲乙不相邻：</b>先排其余 3 人（3!），形成 4 个空，插入甲乙（A(4,2)）：3!×12＝72。</li>
+            </ul></div>
+            <div class="kbox"><div class="kl">◆ 易错点</div><ul>
+              <li>分组后“组与组没有区别”时要除序，别把重复方案算多次。</li>
+              <li>隔板法默认每人至少 1 个；允许 0 个时先“借 1 个”再隔板。</li>
+              <li>“至少”优先用反面：总数 − 一个都不满足。</li>
+              <li>相同元素用隔板 / 枚举；不同元素不能直接套隔板。</li>
+            </ul></div>
+          </div>
+          <div class="zd-route"><b>考场止损：</b>排列组合题先不要算，先问三句——有序吗？相邻吗？相同吗？三问答完，式子基本就出来了；如果三个问题都模糊，90 秒后跳。</div>
+        </div>
+      </section>
+
+      <section class="kp" id="zd-m4" data-title="1.5.4 几何问题：公式 + 相似比">
+        <div class="kp-head"><h3>1.5.4 几何问题：公式 + 相似比</h3><div class="chips"><span class="chip b">必拿分 ★★★★</span><span class="chip k">60–90 秒</span></div></div>
+        <div class="kp-crumb">识别信号：面积、周长、体积、表面积、相似、截面、容器注水、方位角</div>
+        <div class="kp-body">
+          <div class="kbox"><div class="kl">◆ 必背公式</div>
+          <div class="tbwrap"><table class="tbl">
+            <thead><tr><th style="width:22%">图形</th><th style="width:38%">周长 / 棱长和 / 面积</th><th>体积 / 表面积</th></tr></thead>
+            <tbody>
+              <tr><td>三角形</td><td>C＝a＋b＋c；S＝½ah</td><td>—</td></tr>
+              <tr><td>圆 / 扇形</td><td>C＝2πr；S＝πr²；扇形按 n/360 折算</td><td>—</td></tr>
+              <tr><td>长方体</td><td>棱长和＝4(a＋b＋c)</td><td>V＝abc；S＝2(ab＋bc＋ac)</td></tr>
+              <tr><td>圆柱</td><td>底面周长 2πr</td><td>V＝πr²h；S＝2πr²＋2πrh</td></tr>
+              <tr><td>圆锥</td><td>—</td><td>V＝⅓πr²h</td></tr>
+              <tr><td>球</td><td>—</td><td>V＝4/3πr³；S＝4πr²</td></tr>
+            </tbody>
+          </table></div></div>
+          <div class="kbox"><div class="kl">◆ 三条路</div><ul>
+            <li><b>规则图形：</b>直接套公式，先统一单位，再看问的是周长、面积、体积还是表面积。</li>
+            <li><b>不规则图形：</b>割补、平移、等底等高；同底 / 同高的三角形面积比等于高 / 底之比。</li>
+            <li><b>相似图形：</b>边长比 k ⇒ 周长比 k、面积比 k²、体积比 k³。</li>
+          </ul></div>
+          <div class="qcard"><div class="qhead">真题拆解 · 26 福建事考（相似比平方）</div>
+            <p>若一个正方体的棱长增加原来的 40%，则其表面积比原正方体的表面积增加（　）。</p>
+            <div class="opt">A．40%　　B．96%　　C．160%　　D．196%</div>
+            <div class="ansline"><span class="ans-tag">答案</span><b>B</b></div>
+            <div class="expline"><span class="exp-tag">解析</span>棱长变为原来的 1.4 倍，相似比 1.4；表面积变为 1.4²＝1.96 倍，比原来增加 96%。选 B。</div>
+            <div class="note">易错：196% 是“变为 1.96 倍”，题目问“增加多少”，要再减 1。</div>
+          </div>
+          <div class="zd-2col">
+            <div class="kbox"><div class="kl">◆ 快速结论</div><ul>
+              <li>薄圆盘过矩形口：最大直径取矩形对角线 √(a²＋b²)。</li>
+              <li>正方体棱长 +40%：表面积 +96%，体积变为 1.4³＝2.744 倍。</li>
+              <li>等高三角形：面积比＝底边比；等底三角形：面积比＝高之比。</li>
+              <li>梯形对角线交点：上下两块面积比＝上下底比的平方，左右两块相等。</li>
+            </ul></div>
+            <div class="kbox"><div class="kl">◆ 易错点</div><ul>
+              <li>半径和直径混用；面积单位是平方，体积单位是立方。</li>
+              <li>“表面积”不是“侧面积”；圆柱、圆锥要看清问的是哪一个。</li>
+              <li>相似比平方 / 立方用错；只有相似图形才能直接用。</li>
+              <li>圆锥体积别漏 ⅓。</li>
+            </ul></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="kp" id="zd-m5" data-title="1.5.5 利润问题：成本设 100，利润率盯成本">
+        <div class="kp-head"><h3>1.5.5 利润问题：成本设 100，利润率盯成本</h3><div class="chips"><span class="chip b">必拿分 ★★★★★</span><span class="chip k">60–90 秒</span></div></div>
+        <div class="kp-crumb">识别信号：成本、进价、定价、售价、折扣、利润率、总利润、销量</div>
+        <div class="kp-body">
+          <div class="kbox"><div class="kl">◆ 固定四步</div>
+          <ol>
+            <li><b>设成本：</b>成本设 100（或 c），所有百分数都能直接变成钱。</li>
+            <li><b>算售价：</b>定价＝成本×(1＋期望利润率)；售价＝定价×折扣。</li>
+            <li><b>算利润：</b>单件利润＝售价−成本；总利润＝单件利润×销量。</li>
+            <li><b>抓不变量：</b>活动前后若“总利润 / 利润率 / 营业额”不变，用它列等式。</li>
+          </ol></div>
+          <div class="fx"><b>利润关系式</b><br>利润 ＝ 售价 － 成本　　利润率 ＝ 利润 ÷ 成本<br>售价 ＝ 成本 × (1＋利润率) ＝ 定价 × 打折率<br>总利润 ＝ 单件利润 × 销量<br>降价 10%、销量 +25% ⇒ 营业额变为 0.9×1.25＝1.125 倍</div>
+          <div class="qcard"><div class="qhead">真题拆解 · 26 国考（降价提量 · 利润不变）</div>
+            <p>某种商品若按每件 100 元出售，每天售出 m 件。若降价 10%，日销量将提高 25%，且单日利润与降价前相同。问该商品成本为多少元/件？</p>
+            <div class="opt">A．50　　B．60　　C．70　　D．80</div>
+            <div class="ansline"><span class="ans-tag">答案</span><b>A</b></div>
+            <div class="expline"><span class="exp-tag">解析</span>降价后售价 90 元、销量 1.25m。利润不变：(100－c)m＝(90－c)×1.25m ⇒ 100－c＝112.5－1.25c ⇒ 0.25c＝12.5 ⇒ c＝50。选 A。</div>
+            <div class="note">先把“销量提高 25%”写成 1.25m，再约掉 m；不要一上来就算总利润的具体数值。</div>
+          </div>
+          <div class="zd-2col">
+            <div class="kbox"><div class="kl">◆ 两个秒杀结论</div><ul>
+              <li><b>打 8 折仍赚 20%：</b>成本设 100，售价 120，定价 120÷0.8＝150，按定价卖的利润率 50%。</li>
+              <li><b>买三送一：</b>拿 4 件付 3 件的钱，相当于 3÷4＝75 折。</li>
+            </ul></div>
+            <div class="kbox"><div class="kl">◆ 易错点</div><ul>
+              <li>利润率默认分母是成本；只有题目特别说“销售利润率”才按售价。</li>
+              <li>“打 8 折”是 ×0.8；“降价 8%”是 ×0.92，别混。</li>
+              <li>先涨 10% 再降 10%＝0.99，不是回到原价。</li>
+              <li>总利润题别忘了乘销量；单件利润题别多乘。</li>
+            </ul></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="kp" id="zd-m6" data-title="1.5.6 最值问题：最不利 +1，和定反向贴边">
+        <div class="kp-head"><h3>1.5.6 最值问题：最不利 +1，和定反向贴边</h3><div class="chips"><span class="chip b">必拿分 ★★★★</span><span class="chip k">90–120 秒</span></div></div>
+        <div class="kp-crumb">识别信号：至少、至多、最大、最小、保证、排名、分数、总和一定</div>
+        <div class="kp-body">
+          <div class="kbox"><div class="kl">◆ 三类最值</div>
+          <ol>
+            <li><b>最不利构造：</b>问“至少取几个才能保证……”→ 先想最坏情况，再 +1。</li>
+            <li><b>和定最值：</b>几个量的和一定，求某个量的最值 → 设问题量为 x，其余量贴着它取；求最大向下取整，求最小向上取整。</li>
+            <li><b>容斥极值：</b>求“都满足”的最小值 → 两集合 A＋B−总数；三集合 A＋B＋C−2×总数（结果小于 0 时取 0）。</li>
+          </ol></div>
+          <div class="fx"><b>最值关系式</b><br>保证同色：每种先取“目标数−1”，再 +1<br>和定最值：要谁最大，其余尽量小；要谁最小，其余尽量大<br>整数取整：求最大向下取整，求最小向上取整<br>容斥极值（三者都满足至少）：A＋B＋C−2N</div>
+          <div class="qcard"><div class="qhead">真题拆解 · 24 联考（和定最值）</div>
+            <p>部队射击比赛中，5 名参赛的战士共击中 88 次目标。已知任意 2 人击中的目标数量均互不相同，问射击成绩排前两名的战士至少击中了多少次目标？</p>
+            <div class="opt">A．37　　B．39　　C．58　　D．82</div>
+            <div class="ansline"><span class="ans-tag">答案</span><b>B</b></div>
+            <div class="expline"><span class="exp-tag">解析</span>要让前两名之和最小，就压住第二名、让后三名尽量大（贴着第二名往下取）。若前两名之和为 38，则第二名 ≤18，后三名最多 17、16、15，五人合计最多 38＋48＝86＜88，不可能；和为 39 时，可取 20、19、18、16、15（合计 88），成立。故至少 39 次。选 B。</div>
+            <div class="note">易错：算出不等式后，一定构造一组数代回去，确认“真的能凑出和”。</div>
+          </div>
+          <div class="zd-2col">
+            <div class="kbox"><div class="kl">◆ 秒杀小题</div><ul>
+              <li><b>红黄蓝球各 10 个，至少摸几个保证 5 个同色？</b>最不利每种摸 4 个：4×3＝12，再 +1＝13 个。</li>
+              <li><b>5 人总分 400，第一名至少多少分？</b>设第一 x，后四名最多 x−1：x＋4(x−1)≥400 ⇒ x≥80.8 ⇒ 81 分。</li>
+            </ul></div>
+            <div class="kbox"><div class="kl">◆ 易错点</div><ul>
+              <li>“至少”不等于“保证”；保证题要最不利 +1。</li>
+              <li>题目说“互不相同”时，其余量要依次减 1，不能都取同一个值。</li>
+              <li>取整方向别反：求最大向下、求最小向上。</li>
+              <li>“至少两项”包含三项；“恰好两项”不包含三项。</li>
+            </ul></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="kp" id="zd-m7" data-title="1.5.7 整除问题：先锁倍数，再代选项">
+        <div class="kp-head"><h3>1.5.7 整除问题：先锁倍数，再代选项</h3><div class="chips"><span class="chip b">必拿分 ★★★★★</span><span class="chip k">30–60 秒</span></div></div>
+        <div class="kp-crumb">识别信号：每、平均、倍、整除、分数、百分数、比例；选项多为整数</div>
+        <div class="kp-body">
+          <div class="kbox"><div class="kl">◆ 整除判定表</div>
+          <div class="tbwrap"><table class="tbl">
+            <thead><tr><th style="width:18%">除数</th><th>判定方法</th></tr></thead>
+            <tbody>
+              <tr><td>2 / 5</td><td>看末一位：偶数 / 末位是 0 或 5</td></tr>
+              <tr><td>4 / 25</td><td>看末两位</td></tr>
+              <tr><td>8 / 125</td><td>看末三位</td></tr>
+              <tr><td>3 / 9</td><td>各位数字之和能被 3 / 9 整除</td></tr>
+              <tr><td>11</td><td>奇数位数字和与偶数位数字和之差能被 11 整除</td></tr>
+              <tr><td>7 / 13</td><td>可拆分计算，或直接做除法；考场上优先用选项代入</td></tr>
+            </tbody>
+          </table></div></div>
+          <div class="kbox"><div class="kl">◆ 固定三步</div>
+          <ol>
+            <li><b>化最简分数：</b>百分数 / 分数先约分，分母就是总量的倍数要求（如 68%＝17/25 ⇒ 总量是 25 的倍数）。</li>
+            <li><b>合并条件：</b>多个整除条件同时满足，取最小公倍数（如被 3 和 4 整除 ⇒ 被 12 整除）。</li>
+            <li><b>代选项：</b>问“可能 / 至少 / 共有多少”时，直接用选项验证，通常比列方程快。</li>
+          </ol></div>
+          <div class="qcard"><div class="qhead">真题拆解 · 23 广东（余数 + 最小公倍数）</div>
+            <p>某社区计划组建多支社工团队，为此招募了一批社工。如果每支团队由 3 名社工组成，则剩余 2 名社工；如果每支团队由 4 名社工组成，同样剩余 2 名社工，则该社区可能招募了（　）名社工。</p>
+            <div class="opt">A．32　　B．34　　C．36　　D．38</div>
+            <div class="ansline"><span class="ans-tag">答案</span><b>D</b></div>
+            <div class="expline"><span class="exp-tag">解析</span>人数 N 满足 N－2 同时被 3 和被 4 整除，即 N－2 是 12 的倍数，N＝12k＋2。四个选项中只有 38＝12×3＋2 符合。选 D。</div>
+            <div class="note">同余问题先“减掉相同的余数”，再取最小公倍数；比逐个选项试除更快。</div>
+          </div>
+          <div class="zd-2col">
+            <div class="kbox"><div class="kl">◆ 秒杀小题</div><ul>
+              <li>20–30 岁占总人数 68%＝17/25 ⇒ 总人数是 25 的倍数；若“一百多人”，只可能是 125 / 150 / 175。</li>
+              <li>A 比 B 少 35% ⇒ A＝13/20·B ⇒ B 是 20 的倍数；再结合总量 54 可锁定 B＝20。</li>
+            </ul></div>
+            <div class="kbox"><div class="kl">◆ 易错点</div><ul>
+              <li>整除是“余数为 0”，除尽不一定是整除；0 是任何非零整数的倍数。</li>
+              <li>两个条件取最小公倍数，不是无条件相乘；互质时才等于乘积。</li>
+              <li>百分数没化最简，会把倍数要求放大，排除掉正确选项。</li>
+              <li>题目问“可能”时，优先代选项；问“至少”时，先锁范围再取最小。</li>
+            </ul></div>
+          </div>
+          <div class="zd-route"><b>考场止损：</b>看到“每 / 平均 / 倍”先别列方程，先问“答案必须是几的倍数”；30 秒内锁不住倍数，立刻换代入或跳过。</div>
+        </div>
+      </section>
+    <section class="kp" id="zd-xc-pd" data-title="1.6 判断推理 · 必拿分清单">
+      <div class="kp-head"><h3>1.6 判断推理 · 必拿分清单</h3><div class="chips"><span class="chip b">35 分钟/40 题</span><span class="chip k">规律优先</span></div></div>
+      <div class="kp-crumb">对应板块：行测 · 判断推理 · 图形 / 定义 / 类比 / 逻辑</div>
+      <div class="kp-body">
+        <div class="kbox"><div class="kl">◆ 先拿这些分</div>
+        <ul>
+          <li><b>图形推理：</b>先看对称、曲直、封闭、笔画，再看点线面角素；30 秒没有规律先跳，回头再看。</li>
+          <li><b>定义判断：</b>抓主体、客体、条件、方式、结果五个要素，逐项比对，警惕“偷换主体 / 扩大范围”。</li>
+          <li><b>类比推理：</b>先语义，再逻辑（包含、并列、对应、条件），最后语法（主谓、动宾、偏正）。</li>
+          <li><b>逻辑判断：</b>翻译推理先写“→”；加强削弱先找论点、论据，再看是否搭桥 / 拆桥 / 另有他因。</li>
+        </ul></div>
+        <div class="mm"><div class="ml">◆ 考场动作</div><div class="mn">图形题先扫一眼整体特征，再按“对称 → 曲直 → 封闭 → 笔画 → 点线面角素”顺序试；定义题先圈要素再读选项；逻辑题先找结论句，别被背景信息带走。</div></div>
+        <div class="zd-route"><b>易错：</b>图形题只看一个规律就下结论；定义题忽略“只有……才”“必须”等条件；逻辑题把“支持”做成“重复题干”。</div>
+      </div>
+    </section>
+
+    <section class="kp" id="zd-xc-zl" data-title="1.7 资料分析 · 必拿分清单">
+      <div class="kp-head"><h3>1.7 资料分析 · 必拿分清单</h3><div class="chips"><span class="chip b">25–30 分钟/20 题</span><span class="chip k">先题干后材料</span></div></div>
+      <div class="kp-crumb">对应板块：行测 · 资料分析 · ABRX / 比重 / 平均数 / 倍数</div>
+      <div class="kp-body">
+        <div class="kbox"><div class="kl">◆ 先拿这些分</div>
+        <ul>
+          <li><b>ABRX：</b>基期 A、现期 B、增长量 X、增长率 R；先判断题目问的是哪一个。</li>
+          <li><b>比重 / 平均数 / 倍数：</b>先写“分子 ÷ 分母”，再回材料找两个量；注意时间口径。</li>
+          <li><b>速算：</b>选项差距大用截位直除；增长率接近特殊分数用 415 份数；复杂乘除用假设分配。</li>
+          <li><b>综合分析：</b>放每篇最后做；先看容易验证的选项，遇到“无法判断”先跳过。</li>
+        </ul></div>
+        <div class="mm"><div class="ml">◆ 考场动作</div><div class="mn">先读题干，圈出“时间 + 指标 + 问法”，再回材料定位；能估则估，能排则排。单题 90 秒没有结果，先标记，做完本篇再回来。</div></div>
+        <div class="zd-route"><b>易错：</b>现期 / 基期看反；增长率分母用错；单位（万 / 亿 / %）漏看；比重差与比值增长率混淆。</div>
+      </div>
+    </section>
+  </div>
+
+  <div class="module" id="zd-sn"><div class="mod-banner"><h2>二、申论 · 重点学习</h2><p>申论的重点不是“写得多”，而是“审题准、找点全、加工清、书写稳”。先把五步作答法跑顺，再练大作文框架。</p></div>
+
+    <section class="kp" id="zd-sn-1" data-title="2.1 申论五步作答法">
+      <div class="kp-head"><h3>2.1 申论五步作答法</h3><div class="chips"><span class="chip b">所有小题通用</span><span class="chip k">材料为王</span></div></div>
+      <div class="kp-crumb">对应板块：申论 · 概括 / 分析 / 对策 / 公文 / 大作文</div>
+      <div class="kp-body">
+        <div class="kbox"><div class="kl">◆ 五步</div>
+        <ol>
+          <li><b>审题：</b>圈身份、对象、任务、范围、字数；先判断题型（概括 / 分析 / 对策 / 公文 / 作文）。</li>
+          <li><b>找点：</b>逐段读材料，圈问题、原因、影响、对策、案例、观点；宁多勿漏，先不做精致分类。</li>
+          <li><b>加工：</b>同类合并、按维度分类（主体 / 层面 / 时间 / 流程），去掉重复和口水话。</li>
+          <li><b>书写：</b>总起句 + 分条要点 + 简短落脚；一条一个采分点，关键词前置。</li>
+          <li><b>复盘：</b>对照参考答案找“漏点 / 偏点 / 表述不规范”，把可迁移的表达记下来。</li>
+        </ol></div>
+        <div class="mm"><div class="ml">◆ 题型动作</div><div class="mn">概括题：问什么答什么，分条罗列；分析题：先解释 / 表态，再分析原因、影响、对策；对策题：先找材料里的现成对策，再补可行措施；公文题：先定文种和格式，再组织正文；大作文：先立意，再搭分论点。</div></div>
+        <div class="zd-route"><b>一条底线：</b>所有要点都要能在材料里找到依据；脱离材料写“漂亮话”，采分点往往拿不到。</div>
+      </div>
+    </section>
+
+    <section class="kp" id="zd-sn-2" data-title="2.2 申论大作文框架">
+      <div class="kp-head"><h3>2.2 申论大作文框架</h3><div class="chips"><span class="chip b">五段三分式</span><span class="chip k">观点 + 论证</span></div></div>
+      <div class="kp-crumb">对应板块：申论 · 大作文 · 审题立意 / 结构 / 素材</div>
+      <div class="kp-body">
+        <div class="kbox"><div class="kl">◆ 结构</div>
+        <ul>
+          <li><b>标题：</b>点明主题 + 体现观点；可用“以……推动……”“让……成为……”等句式，避免空泛。</li>
+          <li><b>开头：</b>背景 / 问题 + 简要分析 + 总论点；3–5 句，快速入题。</li>
+          <li><b>分论点：</b>三个分论点从“是什么 / 为什么 / 怎么办”或“主体 / 层面 / 领域”展开；每个分论点按“观点 + 例证 + 理证 + 回扣”写。</li>
+          <li><b>结尾：</b>回扣总论点 + 升华 / 号召；不引入新观点，不堆砌口号。</li>
+        </ul></div>
+        <div class="fx"><b>分论点段落模板</b><br>分论点句（观点）→ 阐释（为什么）→ 事例 / 数据（例证）→ 分析（理证）→ 回扣分论点（所以……）</div>
+        <div class="zd-2col">
+          <div class="kbox"><div class="kl">◆ 立意三步</div><ul>
+            <li>抓题干关键词，明确“主题 + 角度”。</li>
+            <li>回材料找反复出现的矛盾 / 对策 / 价值判断。</li>
+            <li>用一句话写出总论点，再拆成三个分论点。</li>
+          </ul></div>
+          <div class="kbox"><div class="kl">◆ 易错点</div><ul>
+            <li>标题与总论点脱节；分论点重复总论点。</li>
+            <li>例子堆砌，没有分析；例子与观点无关。</li>
+            <li>结尾喊口号，没有回扣材料。</li>
+          </ul></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="kp" id="zd-sn-3" data-title="2.3 申论时间分配与易错点">
+      <div class="kp-head"><h3>2.3 申论时间分配与易错点</h3><div class="chips"><span class="chip b">180 分钟 / 5 题</span><span class="chip k">先小题后作文</span></div></div>
+      <div class="kp-crumb">对应板块：申论 · 五题型 + 范文</div>
+      <div class="kp-body">
+        <div class="tbwrap"><table class="tbl">
+          <thead><tr><th style="width:26%">阶段</th><th style="width:20%">建议用时</th><th>动作</th></tr></thead>
+          <tbody>
+            <tr><td>审题 + 通读材料</td><td>25–30 分钟</td><td>先看五道题，带着问题读材料；标记问题、原因、对策、案例</td></tr>
+            <tr><td>四道小题</td><td>60–70 分钟</td><td>按分值分配；每道题先列提纲再写，关键词前置</td></tr>
+            <tr><td>大作文</td><td>60–70 分钟</td><td>5 分钟立意 + 5 分钟搭框架 + 45–55 分钟写作 + 5 分钟检查</td></tr>
+            <tr><td>检查</td><td>5–10 分钟</td><td>看字数、分条、错别字、标题、总分论点是否一致</td></tr>
+          </tbody>
+        </table></div>
+        <div class="kbox"><div class="kl">◆ 高频失分点</div><ul>
+          <li><b>概括题：</b>漏点、要点交叉重复、没有分条；只抄原句不加工。</li>
+          <li><b>分析题：</b>只表态不分析；分析没有回扣材料；把“启示”写成“对策堆砌”。</li>
+          <li><b>对策题：</b>主体不清、措施不可行、缺少“谁来做 + 怎么做 + 达到什么效果”。</li>
+          <li><b>公文题：</b>文种判断错、格式缺项、正文没有对象感。</li>
+          <li><b>大作文：</b>立意偏、分论点空、论据与观点脱节、字数不足或严重超字。</li>
+        </ul></div>
+        <div class="zd-route"><b>训练建议：</b>每周至少 1 套完整申论，先限时写，再对照评分标准逐题复盘；复盘时间不少于做题时间的一半。</div>
+      </div>
+    </section>
+  </div>
+
+  <div class="warnbox">
+    <b>内容说明：</b>本页方法按站内数量关系 72 道真题、王炎《数量关系大满贯》讲义、公考通用方法体系（赋值 / 比例 / 整除 / 方程 / 代入）与花生十三公开教学体系交叉整理；例题题干与选项取自站内真题库，解析按“识别 → 列式 → 速算 → 选项”重写。后续行测其余部分与申论的“必拿分模型”会继续补进本页对应模块。
+  </div>
+</main>
+</div>
+<button class="backtop" id="backtop" title="回到顶部">↑</button>
+<script src="../assets/%E6%9D%BF%E5%9D%97%E9%A1%B5%E8%84%9A%E6%9C%AC.js?v=0cbebb75"></script>
+</body>
+</html>
