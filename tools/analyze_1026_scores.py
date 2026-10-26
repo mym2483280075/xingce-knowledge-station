@@ -118,7 +118,7 @@ def detect_row_edges(image: np.ndarray) -> list[int]:
     scores = ((above > 15) & (below > 15)).mean(axis=1)
     candidates: list[int] = []
     for y in range(1, len(scores) - 1):
-        if scores[y] >= 0.60 and scores[y] == scores[max(0, y - 5) : y + 6].max():
+        if scores[y] >= 0.50 and scores[y] == scores[max(0, y - 5) : y + 6].max():
             candidates.append(y)
     candidates = [y for y in candidates if y >= 81]
     desired_last = image.shape[0] - 1
@@ -322,9 +322,9 @@ def analyze_records(records: list[dict[str, float | str | None]]) -> dict[str, o
     target = next(
         record
         for record in records
-        if float(record["总分成绩"]) == 120.6
+        if float(record["总分成绩"]) == 121.3
         and float(record["申论成绩"]) == 63.0
-        and float(record["行测成绩"]) == 57.6
+        and float(record["行测成绩"]) == 58.3
     )
     target_total = float(target["总分成绩"])
     target_shenlun = float(target["申论成绩"])
@@ -434,9 +434,9 @@ def validate(rows: list[list[str]]) -> dict[str, object]:
     target_candidates = [
         record
         for record in records
-        if record["_numeric"]["总分成绩"] == 120.6
+        if record["_numeric"]["总分成绩"] == 121.3
         and record["_numeric"]["申论成绩"] == 63.0
-        and record["_numeric"]["行测成绩"] == 57.6
+        and record["_numeric"]["行测成绩"] == 58.3
     ]
 
     return {
