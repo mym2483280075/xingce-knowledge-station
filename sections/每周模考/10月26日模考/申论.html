@@ -44,9 +44,14 @@ details.ansbox{display:block}
 .subhead span{font-size:11.5px;font-weight:600;color:var(--accent-ink);background:var(--xz-surface);border-radius:999px;padding:1px 10px}
 .pintro{margin:2px 0 10px;font-size:12.5px;color:var(--xz-ink-3);background:var(--xz-surface-2);border-radius:8px;padding:6px 12px;line-height:1.75}
 .bannote{margin:0 0 12px;font-size:12.5px;color:var(--xz-warn-ink);background:var(--xz-warn-bg);border:1px dashed var(--xz-warn-line);border-radius:10px;padding:8px 13px;line-height:1.7}
+.ref{border-radius:10px;padding:8px 13px;margin:8px 12px 10px;font-size:13.5px;background:var(--xz-surface);border:1px solid var(--xz-info-bg)}
+.mtag{display:inline-block;font-size:11px;font-weight:700;border-radius:5px;padding:0 8px;margin-right:6px;color:var(--xz-surface);background:var(--primary2)}
+.mtag.ans{background:color-mix(in srgb,var(--primary) 88%,var(--xz-ink))}
+.refbd{margin-top:6px;line-height:1.85}
 .refbd p{margin:5px 0;line-height:1.9}
 .refbd .sh{font-weight:800;color:color-mix(in srgb,var(--primary) 88%,var(--xz-ink));margin:9px 0 3px}
 .refbd .pt{color:var(--xz-danger-ink);font-size:12.5px;font-weight:700;white-space:nowrap}
+.refbd .rk{color:var(--xz-danger-ink)}
 .bdtitle{font-weight:800;color:color-mix(in srgb,var(--primary) 88%,var(--xz-ink));font-size:14.5px;margin:9px 0 4px;padding-left:9px;border-left:4px solid var(--xz-info-line);line-height:1.6}
 .fw{margin-top:4px}
 .fw p{text-indent:2em;margin:8px 0;line-height:1.95;font-size:14px;color:var(--xz-ink-2)}
@@ -68,8 +73,8 @@ details.ansbox{display:block}
 <body>
 <header>
   <h1>提升卷一（10月26日） · 申论</h1>
-  <div class="intro">提升卷一（10月26日）申论题本（共 9 页）：给定资料 5 则与作答要求 5 题已逐页与卷面核对并文字化，可直接检索、复制；参考答案与评分标准尚未到站，本页不生成答案。</div>
-  <div class="meta"><span>材料 5 则</span><span>大题 5 道</span><span>题本已录入</span><span>参考答案待录入</span><span>手写批注未录入</span></div>
+  <div class="intro">提升卷一（10月26日）申论题本（共 9 页）：给定资料 5 则与作答要求 5 题已逐页与卷面核对并文字化；官方评分标准（5 页）已录入每题下方——前四题含分项采分点，第四题附发言材料参考要点，第五题含材料拆解、写作思路与参考文章。</div>
+  <div class="meta"><span>材料 5 则</span><span>大题 5 道</span><span>题本已录入</span><span>含评分标准与采分点</span><span>第五题附参考文章</span></div>
 </header>
 <div class="subnav">
   <a href="../../每周模考.html">← 模考中心</a>
@@ -81,12 +86,13 @@ details.ansbox{display:block}
 <div class="toolbar">
   <input id="q" placeholder="搜索材料或题目关键词，回车定位…">
   <span class="hitcount" id="hitcount"></span>
+  <button class="btn" id="hideans">展开全部答案</button>
 </div>
 <div class="wrap">
 <div class="module" id="cailiao">
   <div class="mod-banner"><h2>给定资料</h2><p>材料一 · 材料二 · 材料三 · 材料四 · 材料五（已文字化）</p><span class="num">5 则</span></div>
   <div class="mod-body">
-<div class="bannote">提示：本页为提升卷一（10月26日）申论题本（共 9 页）的文字化版本：给定资料和作答要求均与卷面逐页核对；卷面上的手写批注、划线和圈画未录入正文。参考答案与评分标准待官方版本到站后补入。</div>
+<div class="bannote">提示：本页为提升卷一（10月26日）申论题本（共 9 页）的文字化版本：给定资料和作答要求均与卷面逐页核对；官方评分标准（5 页）已逐页核对录入，红色【】内为原卷采分点分值。原卷第 2 题印作“失史而新”，与题本材料“向史而新”不一致；第 4 题逐项分值合计为 21 分，与题面 20 分不一致——两处均按原卷照录并加注。卷面上的手写批注、划线和圈画未录入正文。</div>
 <div class="matcard" id="mat-1"><div class="mathead">材料一 <span>给定资料</span></div>
 <p>“没想到不用担保和抵押，只凭政府采购合同就很快拿到了贷款，利率还比普通商业贷款低。”文西科技有限公司陈总感慨。当时，公司通过“政采贷”成功获得了42万元融资，解决了项目启动资金短缺的燃眉之急。</p>
 <p>“政采贷”，即政府采购合同融资，是指中小微企业凭借政府采购合同向指定的金融机构申请融资，并享受更优惠便捷贷款的政策。通过“政采贷”，F省将政府采购合同的信用价值转化为融资凭证，有效破解了中小微企业“钱从哪里来”的难题。</p>
@@ -142,35 +148,104 @@ details.ansbox{display:block}
   </div>
 </div>
 <div class="module" id="timu">
-  <div class="mod-banner"><h2>作答题目</h2><p>5 道大题 · 参考答案待录入</p><span class="num">5 题</span></div>
+  <div class="mod-banner"><h2>作答题目</h2><p>5 道大题 · 官方评分标准与参考要点 · 第五题附参考文章</p><span class="num">5 题</span></div>
   <div class="mod-body"><div class="shen" id="sq1">
   <div class="qh">申论 · 第 1 题</div>
   <p class="stem">第一题：根据“给定资料1”，请你对F省推动“政采贷”政策落实落地的主要措施进行概括。（10分）</p>
   <p class="opt">要求：全面、准确、有条理。不超过250字。</p>
+  <details class="ansbox"><summary><span class="mtag ans">参考答案</span>点击查看参考答案与评分标准</summary><div class="ref"><span class="mtag ans">评分标准</span><div class="refbd">
+    <p><b>1.打造服务云平台/畅通信息传递</b><b class="pt">【1分】</b>。财政部门牵头对接多方需求，汇聚多部门数据，缓解银企信息不对称难题。<b class="pt">【1分】</b></p>
+    <p><b>2.加强规范激励工作</b><b class="pt">【1分】</b>。出台文件不得干预供应商、金融机构的选择；对金融机构按线上政采贷金额适度奖励<b class="pt">【1分】</b>。</p>
+    <p><b>3.优化审批流程</b><b class="pt">【1分】</b>。企业在线申请，银行快速审核审批；金融机构开展业务前须报备，明确规定贷款额度、期限和利率；大数据辅助，减少审批成本<b class="pt">【1分】</b>。</p>
+    <p><b>4.强化技术支撑</b><b class="pt">【1分】</b>。建立交易分析风控模型和预算管理一体化系统，支持贷款自动化审批、线上合同签订和系统锁定回款<b class="pt">【1分】</b>。</p>
+    <p><b>5.做好风险防控</b><b class="pt">【1分】</b>。对供应商和金融机构提出守信要求，违反依规处罚；银行查询履约记录与贷款额度，依公司信息精准匹配推介产品<b class="pt">【1分】</b>。</p>
+    <p>（采分点合计 10 分。）</p>
+  </div></div></details>
   <div class="note">来源：10月26日模考 · 申论 · 第 1 题</div>
 </div>
 <div class="shen" id="sq2">
   <div class="qh">申论 · 第 2 题</div>
   <p class="stem">第二题：请根据“给定资料2”，谈谈章园改造的成功实践为城市更新提供哪些启示。（15分）</p>
   <p class="opt">要求：紧扣资料、分析全面，不超过300字。</p>
+  <details class="ansbox"><summary><span class="mtag ans">参考答案</span>点击查看参考答案与评分标准</summary><div class="ref"><span class="mtag ans">参考要点</span><div class="refbd">
+    <p><b>1.坚持保护优先更新理念</b><b class="pt">【1分】</b>：实施留改拆并举，以保留保护为主，保护性征收改造；并保持失史而新，修旧如故的初心。<b class="pt">【2分】</b></p>
+    <p><b>2.坚持以人为本，凝聚共识</b><b class="pt">【1分】</b>：组建专项工作组，精准采集信息、处理需求；利用座谈会等凝聚共识，赢得居民理解信任。<b class="pt">【2分】</b></p>
+    <p><b>3.坚持精细化修缮治理</b><b class="pt">【1分】</b>：制定针对性保护导则，整体性保护，开展保护技术研究；全覆盖建立“一幢一档”房屋档案，全面详实留存资料。<b class="pt">【2分】</b></p>
+    <p><b>4.借助技术赋能创新</b><b class="pt">【1分】</b>。运用高校技术进行数字建模，推动全生命周期智能化、数字化；利用引位机器人，整体平移开发地下空间，实现土地集约高效利用。<b class="pt">【2分】</b></p>
+    <p><b>5.坚持融合发展带动经济</b><b class="pt">【1分】</b>：融合历史风貌与现代商业，打造特色经济，聚集人气；放大商圈效应，打造城市更新和文化新地标。<b class="pt">【2分】</b></p>
+    <p>（采分点合计 15 分。原卷参考答案印作“失史而新”，题本材料为“向史而新”，此处按原卷照录。）</p>
+  </div></div></details>
   <div class="note">来源：10月26日模考 · 申论 · 第 2 题</div>
 </div>
 <div class="shen" id="sq3">
   <div class="qh">申论 · 第 3 题</div>
   <p class="stem">第三题：调研结束后，调研组拟向领导汇报相关情况。假如你是调研组工作人员，请根据“给定资料3”，拟写调研报告的“存在问题”和“解决建议”部分。（20分）</p>
   <p class="opt">要求：（1）问题梳理全面、准确、有条理；（2）所提建议与问题相对应，针对性强、切实可行；（3）层次分明，有逻辑性；（4）不超过400字。</p>
+  <details class="ansbox"><summary><span class="mtag ans">参考答案</span>点击查看参考答案与评分标准</summary><div class="ref"><span class="mtag ans">评分标准</span><div class="refbd">
+    <div class="sh">存在问题：5 分</div>
+    <p><b>1.用地紧张。</b>小规模企业用地难保障，成长性企业发展受限、被迫外迁<b class="pt">【2分】</b>。</p>
+    <p><b>2.权小责大。</b>经济规模与行政管理权限、资源配置能力、公共服务供给不匹配，资源配套跟不上，发展速度受限<b class="pt">【2分】</b>。</p>
+    <p><b>3.发展困惑。</b>在坚守传统行业和转型新兴产业中纠结<b class="pt">【1分】</b>。</p>
+    <div class="sh">解决建议：15 分</div>
+    <p><b>一、统筹规划，缓解用地压力</b><b class="pt">【1分】</b>。</p>
+    <p>1.盘活存量，及时腾退低效用地，优先保障成长性企业用地需求<b class="pt">【1分】</b>；</p>
+    <p>2.挖掘增量，主动融入区域发展格局，借助市政府规划，用好地理位置优势挖掘土地潜力<b class="pt">【2分】</b>。</p>
+    <p><b>二、强镇扩权，满足需求</b><b class="pt">【1分】</b>。</p>
+    <p>1.做好调研，明确强镇在基层治理、资源配置、公共服务供给等需求，因地制宜精准下放县级行政管理权限<b class="pt">【2分】</b>；</p>
+    <p>2.政策扶持，保障头部镇人力和经费，补齐资源配套短板，匹配发展速度<b class="pt">【2分】</b>。</p>
+    <p><b>三、深耕产业、做优集群</b><b class="pt">【1分】</b>。</p>
+    <p>1.坚持主业，抓住产业生态，不断创新，做大做强，形成核心竞争力<b class="pt">【2分】</b>；</p>
+    <p>2.抓住风口，明确发展方向，优化升级产业链<b class="pt">【1分】</b>；</p>
+    <p>3.打造高能级发展平台，聚集上下游产业链，联动行业协会成立协同创新中心，提升企业配套能力<b class="pt">【2分】</b>。</p>
+    <p>（问题 5 分 + 建议 15 分，采分点合计 20 分。）</p>
+  </div></div></details>
   <div class="note">来源：10月26日模考 · 申论 · 第 3 题</div>
 </div>
 <div class="shen" id="sq4">
   <div class="qh">申论 · 第 4 题</div>
   <p class="stem">第四题：K市将在全省气候适应和城市建设经验交流会上发言，假如你是发言材料起草组成员，请根据“给定资料4”，拟定发言材料。（20分）</p>
   <p class="opt">要求：定位准确、重点突出、语言简洁，不超过500字。</p>
+  <details class="ansbox"><summary><span class="mtag ans">参考答案</span>点击查看参考答案与评分标准</summary><div class="ref"><span class="mtag ans">参考要点</span><div class="refbd"><div class="fw">
+    <p class="fwtitle">锻造气候韧性 建设适应型城市<b class="pt">【1分】</b></p>
+    <p>各位领导、同志们：<b class="pt">【1分】</b></p>
+    <p>气候变化影响生产生活，建设气候适应型城市利于保障城市安全、提高竞争力、可持续发展<b class="pt">【1分】</b>。我市地处内陆，强对流天气多，旱涝并存。作为试点城市，经验有：<b class="pt">【1分】</b></p>
+    <p><b>一、顶层设计，落实试点要求。</b><b class="pt">【1分】</b>出台实施方案，明确重点工作任务，编制应急预案等配套文件。<b class="pt">【1分】</b></p>
+    <p><b>二、监测预警，维护城市秩序。</b><b class="pt">【1分】</b>建监测点和雨量站，捕捉积水变化，上传数据；<b class="pt">【1分】</b>建智能预警系统，多形式推送群众预警信息；<b class="pt">【1分】</b>主管部门坚守一线；应急动员，自动电话“叫应”负责部门人员，及时处置险情、安置群众。<b class="pt">【1分】</b></p>
+    <p><b>三、修复生态，建设绿色城市。</b><b class="pt">【1分】</b>创新湿地+保护修复模式，新建湿地公园，恢复荒野形态；<b class="pt">【1分】</b>聚焦核心截污，持续治理污水，构建景观廊道；<b class="pt">【1分】</b>建小微绿地、口袋公园；开展科普主题活动，普及知识，提升环保意识；<b class="pt">【1分】</b>推广绿色建筑，建光伏电站、创新施工工艺，提升绿色建筑占比。<b class="pt">【1分】</b></p>
+    <p><b>四、多元投入/创新方式，保障金融支持。</b><b class="pt">【1分】</b>引导撬动社会资金，开展投融资试点，<b class="pt">【1分】</b>出台配套政策，设特色金融机构，研发金融创新产品；<b class="pt">【1分】</b>创新绿色保险、特色险种，提供风险保障。<b class="pt">【1分】</b></p>
+    <p>锻造气候韧性，是城市发展的新课题，欢迎大家交流。<b class="pt">【1分】</b></p>
+    <p>（原卷本题逐项采分点合计 21 分，题面为 20 分，此处按原卷照录。）</p>
+  </div></div></div></details>
   <div class="note">来源：10月26日模考 · 申论 · 第 4 题</div>
 </div>
 <div class="shen" id="sq5">
   <div class="qh">申论 · 第 5 题</div>
   <p class="stem">第五题：“给定资料5”中提到“留白就是留出无穷意蕴，留出无限生机”，联系实际，自拟题目，写一篇文章。（35分）</p>
   <p class="opt">要求：<br>（1）观点明确，见解深刻；<br>（2）参考给定资料，但不拘泥于给定资料；<br>（3）思路清晰，语言流畅；<br>（4）限1000-1200字。</p>
+  <details class="ansbox"><summary><span class="mtag ans">参考答案</span>点击查看参考思路与范文</summary><div class="ref"><span class="mtag ans">参考思路</span><div class="refbd">
+    <div class="bdtitle">先分析材料 5</div>
+    <div class="tbwrap"><table>
+      <thead><tr><th>留白对象</th><th>如何留白</th><th>效果如何</th></tr></thead>
+      <tbody>
+        <tr><td>T市银杏广场——银杏、古寺</td><td>规划退界（科学规划）；保留完好（保护优先）——历史思维</td><td>延续城市历史文脉</td></tr>
+        <tr><td>T市龙珠湖公园——绿树成荫、建成公园</td><td>优化账、保护账、幸福账——未来负责（战略思维、综合考虑）</td><td>为城市未来发展负责</td></tr>
+        <tr><td>T市泛会所公共空间</td><td>目的：满足居民多样化需求（为了谁）；主体：鼓励群众多样参与（依靠谁）；形式：依靠群众共商共议（依靠谁）——坚持人民至上</td><td>为未来社区提供弹性；促进良性自治循环——留出了城市治理新活力</td></tr>
+      </tbody>
+    </table></div>
+    <p><b>主题：</b>城市发展。</p>
+    <p><b>含义：</b>留白是什么？城市为可持续发展预留空间。</p>
+    <p><b>分论点：做法 + 效果。</b></p>
+    <p>以历史思维留白，科学规划，保护优先，留住城市历史无穷意蕴。</p>
+    <p>以战略思维留白，敢于取舍，综合考虑，留出城市未来发展生机。</p>
+    <p>以为民思维留白，人民至上，共建共治，留出城市治理无限活力。</p>
+  </div></div><div class="ref"><span class="mtag ans">参考文章</span><div class="refbd"><div class="fw">
+    <p class="fwtitle">以留白之智　绘城市之美</p>
+    <p>城乡大地气象万千，发展浪潮日新月异。高质量发展的宏大画卷之上，留白不是闲置空荒，而是治理的智慧、长远的格局。城市建设善用留白，考验的是眼界、担当与情怀。立足历史思维、战略思维、为民思维做好留白文章，方能在城市现代化征程上，留住文脉根脉、积蓄发展动能、激活治理活水，铺展保护与发展共生、温度与活力兼具的时代图景。</p>
+    <p>以历史思维留白，坚持科学规划、保护优先，留住城市历史无穷意蕴。城市是有记忆的，一砖一瓦、一址一迹，都是不可复刻的文明印记。留白，首先是对历史文脉心存敬畏，在开发建设中守住保护底线，以克制审慎的微介入、轻改造代替大拆大建。不少地方对三线军工遗址、老厂房、工业遗存不盲目商业化开发，依托原有肌理打造记忆展馆、文创空间，让工业荣光得以延续；有的地方为古树古木划定保护边界、退让建设红线，给历史遗存留足生长呼吸的空间。这种留白，是尊重城市来路的科学选择，不把发展的喧嚣覆盖岁月沉淀。守住历史空间、留存城市记忆，才能让文脉可触摸、乡愁可安放，沉淀一座城市独有的底蕴与无穷意蕴。</p>
+    <p>以战略思维留白，坚持敢于取舍、统筹兼顾，留出城市未来发展生机。城市发展贵在谋长远，一时的开发增量不等于长久的发展优势，懂得取舍方显战略定力。留白是着眼长远的布局谋划，在土地开发、产业布局、空间拓展上跳出短期收益的局限，统筹生态承载、产业迭代、城市扩容多重需求。许多城市在开发热土之上主动退让，划定湿地修复空间、预留生态廊道、布局城市绿心，建设湿地公园、口袋公园、城市森林，用生态留白筑牢抵御风险、涵养水土的绿色屏障；在产业落地、片区开发中预留弹性空间，不把土地一次性填满，为未来产业升级、功能迭代预留可能性。有所不为，方能大有可为。以战略眼光主动留白，平衡当下建设需求与长远发展潜力，城市才能摆脱拥挤逼仄的困境，拥有持续生长、生生不息的生机。</p>
+    <p>以为民思维留白，坚持人民至上、共建共治，留出城市治理无限活力。人民城市人民建，人民城市为人民，留白的最终落脚点，是人的美好生活。城市空间的留白，不只是物理空间的空置，更是留给群众参与的机会、留给基层自治的舞台。不少老旧小区改造不再由政府单向定方案，专门预留议事空间，把公共空间怎么用、停车如何安排、设施怎么改造的话语权交给居民；部分社区创新设计架空层公共空间，不固化功能，交由居民协商定义、自主运营。一处处空间空白，变成群众商量事、共管事、齐办事的平台，居民从被动的使用者转变为社区治理的参与者。这种由留白孕育的共建共治氛围，唤醒邻里温情，凝聚群众合力，让城市治理跳出大包大揽的路径依赖，持续迸发源源不断的活力。</p>
+    <p>留白不是停滞不前，而是蓄势赋能；退让不是放弃发展，而是更高质量的前行。秉持历史思维守文脉、战略思维谋长远、为民思维惠民生，让留白贯穿城市规划、建设、治理全过程，我们就能塑造有记忆、有呼吸、有温度的城市，在保护传承、绿色发展、共建共享的交融之中，绘就传统与现代相融、当下与长远兼顾的时代新景。</p>
+  </div></div></div></details>
   <div class="note">来源：10月26日模考 · 申论 · 第 5 题</div>
 </div></div>
 </div>
