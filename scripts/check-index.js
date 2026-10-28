@@ -6,13 +6,14 @@
 //
 // 【为什么要有它】索引最怕「静默漏内容」：新页面用了没登记的卡片类名、
 // 新卡片忘了写 id、说明文字塞进了 JS 模板、忘了重跑构建……页面能打开、搜索却搜不到，
-// 而且不报错。这个脚本把六件事一次查完，任何一项不过就退出码 1（publish.cmd 会拦住不发布）：
+// 而且不报错。这个脚本把七件事一次查完，任何一项不过就退出码 1（publish.cmd 会拦住不发布）：
 //   ① 板块登记：NAV 里每个板块都能找到页面文件
 //   ② 页面覆盖：每页的卡片数、正文覆盖率（索引里的字数 / 页面上可见字数）
 //   ③ 锚点：索引里每条命中的 f + i 在页面上真实存在（否则跳过去落不了位）
 //   ④ 索引文件：该有的都有、没有多余的（防止改名/删页后残留旧切片）
 //   ⑤ 词形用例：search-fixtures.json 里每条查询都必须能搜到（新增内容时把关键词加进去）
-//   ⑥ 缓存版本：CACHE_V 与 assets 的 ?v= 是否是最新内容哈希（不是就提示跑 refresh-site.js）
+//   ⑥ 模考题号：行测与错题集合的题目 / 共用材料严格按起始题号排序
+//   ⑦ 缓存版本：CACHE_V 与 assets 的 ?v= 是否是最新内容哈希（不是就提示跑 refresh-site.js）
 const fs = require('fs');
 const path = require('path');
 const stamp = require('./lib/stamp');
@@ -252,9 +253,64 @@ for (const fx of fixtures) {
   }
 }
 
-/* ---------- ⑥ 缓存版本 ---------- */
+/* ---------- ⑥ 模考题号顺序 ---------- */
+function walkHtml(dir) {
+  return fs.readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
+    const full = path.join(dir, entry.name);
+    if (entry.isDirectory()) { return walkHtml(full); }
+    return entry.isFile() && entry.name.endsWith('.html') ? [full] : [];
+  });
+}
+const mockRoot = path.join(ROOT, 'sections', '每周模考');
+const mockPages = fs.existsSync(mockRoot)
+  ? walkHtml(mockRoot).filter((p) => /行测(?:错题集合)?\.html$/.test(p))
+  : [];
+let orderIssues = 0;
+function orderErr(msg) {
+  orderIssues++;
+  if (orderIssues <= 8) { err(msg); }
+}
+for (const abs of mockPages) {
+  const rel = path.relative(ROOT, abs).replace(/\\/g, '/');
+  const html = pageHtml(rel);
+  if (html === null) { continue; }
+  const events = [];
+  let prevQuestion = 0;
+  for (const m of html.matchAll(/<div\b[^>]*\bclass="(qcard|matcard)"[^>]*>/g)) {
+    const kind = m[1];
+    const id = (m[0].match(/\bid="([^"]+)"/) || [])[1] || '';
+    if (id.includes('cat-bqd')) { continue; } /* 侥幸题按规则单独归档，不参与正文题号序 */
+    let n = NaN;
+    if (kind === 'qcard') {
+      const hit = id.match(/(?:^|-)q(\d{1,3})$/);
+      if (hit) { n = Number(hit[1]); }
+      if (!Number.isFinite(n)) {
+        orderErr('模考题 ' + rel + ' 的 qcard 无法从 id 解析题号：' + (id || '（缺 id）'));
+        continue;
+      }
+      if (n <= prevQuestion) {
+        orderErr('模考题 ' + rel + ' 题号倒序：第 ' + prevQuestion + ' 题后出现第 ' + n + ' 题（' + id + '）');
+      }
+      prevQuestion = n;
+    } else {
+      const hit = id.match(/^mat-(\d{1,3})(?:-\d{1,3})?$/);
+      if (hit) { n = Number(hit[1]); }
+    }
+    if (Number.isFinite(n)) { events.push({ n, id }); }
+  }
+  for (let i = 1; i < events.length; i++) {
+    if (events[i].n < events[i - 1].n) {
+      orderErr('模考题 ' + rel + ' 共用材料位置错误：' + events[i - 1].id + ' 后出现 ' + events[i].id
+        + '（材料应放在其起始题号之前）');
+    }
+  }
+}
+if (orderIssues > 8) { err('……另有 ' + (orderIssues - 8) + ' 处模考题号顺序错误'); }
+say('⑥ 模考题号顺序  ' + mockPages.length + ' 页');
+
+/* ---------- ⑦ 缓存版本 ---------- */
 const dry = stamp.apply(ROOT, { dryRun: true });
-say('⑥ 缓存版本  CACHE_V 应为 ' + dry.cacheV);
+say('⑦ 缓存版本  CACHE_V 应为 ' + dry.cacheV);
 if (dry.changed.length) {
   const inIndex = dry.changed.includes('index.html');
   const msg = '有 ' + dry.changed.length + ' 个文件的缓存版本不是最新内容哈希'
