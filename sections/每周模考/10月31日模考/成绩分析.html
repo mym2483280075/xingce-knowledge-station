@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="mock">
+<head>
+<style id="xz-perf">/* 长页面打开提速：屏幕外的卡片不做排版与绘制 */section.scard{content-visibility:auto;contain-intrinsic-size:auto 520px}</style>
+<meta charset="UTF-8">
+<link rel="icon" href="data:,"><script src="../../../assets/%E4%B8%BB%E9%A2%98.js?v=f38968bc"></script><script src="../../../assets/%E6%BC%94%E7%AE%97%E5%B1%82.js?v=a132b1de"></script><script src="../../../assets/%E5%AE%9A%E4%BD%8D%E5%B1%82.js?v=a3907880"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>提升卷三（10月31日模考） · 成绩分析 · 公考工作站</title><link rel="stylesheet" href="../../../assets/design-tokens.css?v=2604fc33"><link rel="stylesheet" href="../../../assets/%E6%9D%BF%E5%9D%97%E9%A1%B5%E6%A0%B7%E5%BC%8F.css?v=9c24ba23">
+<style>
+/* 本页专属样式：骨架与通用组件来自 assets/板块页样式.css，颜色走设计令牌 */
+:root{--primary:#be185d;--primary2:#e11d48;--accent:#fb7185;--bg:#fbf2f6;--ok:#15803d;--mid:#b45309;--bad:#b91c1c}
+*{box-sizing:border-box}
+.subnav{position:sticky;top:0;z-index:60;background:var(--xz-surface);backdrop-filter:blur(8px);border-bottom:1px solid var(--accent-line);padding:8px 16px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.subnav a{text-decoration:none;font-size:12.5px;border:1px solid var(--accent-line);background:var(--xz-surface);color:var(--accent-ink);border-radius:999px;padding:5px 14px;white-space:nowrap}
+.subnav a:hover{border-color:var(--primary2);color:var(--primary2)}
+.subnav a.on{background:linear-gradient(135deg,var(--primary),var(--primary2));border-color:transparent;color:var(--xz-surface);font-weight:700}
+.jumpbar{display:flex;gap:7px;flex-wrap:wrap;margin:0 0 16px;padding:10px 12px;border:1px solid var(--accent-line);border-radius:12px;background:var(--xz-surface-2)}
+.jumpbar a{text-decoration:none;color:var(--accent-ink);font-size:12.5px;padding:3px 9px;border-radius:8px}
+.jumpbar a:hover{background:var(--accent-soft-2);color:var(--primary)}
+.scard{background:var(--xz-surface);border:1px solid var(--accent-line);border-radius:14px;padding:16px 20px 18px;margin:0 0 16px;scroll-margin-top:72px}
+.scard>h2{margin:0 0 12px;font-size:17px;color:var(--primary);display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.scard>h2 em{font-style:normal;font-size:11.5px;font-weight:600;color:var(--accent-ink);background:var(--xz-warn-bg);border-radius:999px;padding:1px 10px}
+.lead{font-size:13.5px;color:var(--xz-ink-2);background:var(--xz-warn-bg);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;padding:9px 14px;margin:0 0 14px;line-height:1.85}
+.lead b{color:var(--accent-ink-2)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.kpi{border:1px solid var(--accent-line);border-radius:13px;background:linear-gradient(180deg,var(--xz-surface),var(--xz-warn-bg));padding:12px 15px}
+.kpi .k{font-size:11.5px;color:var(--accent-ink);letter-spacing:.03em}
+.kpi .v{font-size:25px;font-weight:800;color:var(--primary);line-height:1.35;margin-top:2px}
+.kpi .v small{font-size:12px;font-weight:600;color:var(--accent-ink);margin-left:4px}
+.kpi .n{font-size:11.5px;color:var(--xz-ink-3);margin-top:2px;line-height:1.55}
+.kpi.good{border-color:var(--xz-good-line);background:linear-gradient(180deg,var(--xz-surface),var(--xz-good-bg))}
+.kpi.good .v{color:var(--xz-good-ink)}
+.kpi.warn{border-color:var(--xz-danger-line);background:linear-gradient(180deg,var(--xz-surface),var(--xz-danger-bg))}
+.kpi.warn .v{color:var(--xz-danger-ink)}
+.tblwrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table.mod{width:100%;border-collapse:collapse;font-size:13px}
+table.mod th{background:var(--xz-warn-bg);color:var(--accent-ink);font-size:12px;font-weight:700;text-align:center;padding:7px 6px;border-bottom:1px solid var(--accent-line);white-space:nowrap}
+table.mod td{padding:7px 6px;border-bottom:1px solid var(--xz-warn-bg);text-align:center;color:var(--xz-ink-2)}
+table.mod td.nm{text-align:left;font-weight:700;color:var(--xz-ink);white-space:nowrap}
+table.mod tr:last-child td{border-bottom:0}
+table.mod tr.hi td{background:var(--xz-warn-bg)}
+table.mod tr.big td{font-weight:700;color:var(--xz-ink)}
+table.mod small{color:var(--xz-ink-3);font-size:11px}
+.bar{position:relative;height:8px;border-radius:999px;background:var(--accent-line);overflow:hidden;min-width:60px;margin-bottom:3px}
+.bar i{position:absolute;left:0;top:0;bottom:0;border-radius:999px;background:linear-gradient(90deg,var(--xz-danger-ink),var(--xz-danger-ink))}
+.bar.ok i{background:linear-gradient(90deg,var(--xz-good-ink),var(--xz-good-ink))}
+.bar.mid i{background:linear-gradient(90deg,var(--xz-warn-line),var(--xz-warn-ink))}
+.rate{font-size:11px;color:var(--xz-ink-3);font-variant-numeric:tabular-nums}
+.tag{display:inline-block;font-size:11px;border-radius:999px;padding:1px 9px;white-space:nowrap}
+.tag.ok{color:var(--ok);background:var(--xz-good-bg);border:1px solid var(--xz-good-line)}
+.tag.mid{color:var(--mid);background:var(--xz-warn-bg);border:1px solid var(--xz-warn-line)}
+.tag.bad{color:var(--bad);background:var(--xz-danger-bg);border:1px solid var(--xz-danger-line)}
+td.num{font-variant-numeric:tabular-nums}
+td.d{font-weight:700}
+td.d.ok{color:var(--ok)}
+td.d.bad{color:var(--bad)}
+.tnote{margin:10px 0 0;font-size:12px;color:var(--xz-ink-3);line-height:1.75}
+.pintro{margin:0 0 12px;font-size:12.5px;color:var(--xz-ink-3);line-height:1.75}
+.diag{display:grid;gap:10px;margin-top:12px}
+.ditem{border:1px solid var(--accent-line);border-radius:12px;padding:11px 14px;background:var(--xz-surface-2)}
+.ditem>b{display:block;font-size:13.5px;color:var(--accent-ink);margin-bottom:3px}
+.ditem p{margin:0;font-size:13px;color:var(--xz-ink-2);line-height:1.8}
+.ditem p b{color:var(--accent-ink-2)}
+.ditem.good{border-color:var(--xz-good-line);background:var(--xz-good-bg)}
+.ditem.good>b{color:var(--xz-good-ink)}
+.ditem.two{border-color:var(--xz-danger-line);background:var(--xz-danger-bg)}
+.ditem.two>b{color:var(--xz-danger-ink)}
+.wrow{display:flex;gap:10px;align-items:flex-start;padding:9px 4px;border-bottom:1px dashed var(--accent-line);font-size:13px}
+.wrow:last-child{border-bottom:0}
+.wrow .wn{flex:none;width:82px;font-weight:800;color:var(--primary)}
+.wrow .wn i{display:block;font-style:normal;font-size:11px;font-weight:600;color:var(--accent-ink)}
+.wrow .wd{color:var(--xz-ink-2);line-height:1.8}
+ol.plan{margin:0;padding-left:22px;font-size:13.5px;color:var(--xz-ink-2)}
+ol.plan li{margin:8px 0;line-height:1.85}
+ol.plan li b{color:var(--accent-ink-2)}
+.goal{margin:14px 0 0;border:1px dashed var(--accent);border-radius:12px;background:var(--xz-warn-bg);padding:10px 14px;font-size:13px;color:var(--xz-danger-ink);line-height:1.85}
+.note{margin:0;padding-left:20px;font-size:13px;color:var(--xz-ink-2);line-height:1.8}
+.note li{margin:5px 0}
+@media(max-width:720px){
+.scard{padding:14px 14px 16px}
+.kpi .v{font-size:22px}
+table.mod{font-size:12.5px}
+.wrow .wn{width:70px}
+}
+@media print{subnav,.backtop,.jumpbar{display:none}}
+</style>
+</head></head>
+<body>
+<header>
+<h1>提升卷三（10月31日模考） · 成绩分析</h1>
+<div class="intro">本卷题本与行测答案已录入，成绩表尚未提供。收到正式成绩或排名表后，将补充总分、模块得分、班内/年级位置与失分去向。</div>
+<div class="meta"><span>题本与答案已录入</span><span>成绩表待补</span><span>排名待补</span><span>复盘待生成</span></div>
+</header>
+<div class="subnav">
+<a href="../../每周模考.html">← 模考中心</a>
+<a href="行测.html">行测</a>
+<a href="申论.html">申论</a>
+<a href="行测错题集合.html">行测错题集合</a>
+<a class="on" href="成绩分析.html">成绩分析</a>
+<a href="../../成绩档案.html">成绩档案 →</a>
+</div>
+<main>
+<section class="scard" id="cj-todo">
+<h2>成绩数据 <em>待录入</em></h2>
+<p class="lead">尚未收到本卷正式成绩表或模块得分，因此不估算分数、不编造排名。</p>
+<div class="tblwrap"><table class="mod"><thead><tr><th>项目</th><th>状态</th><th>说明</th></tr></thead><tbody><tr><td class="nm">行测总分</td><td>待录入</td><td>需要正式成绩或各模块得分</td></tr><tr><td class="nm">模块正确率</td><td>待录入</td><td>六板块分开统计</td></tr><tr><td class="nm">班内 / 年级位置</td><td>待录入</td><td>需要排名表</td></tr><tr><td class="nm">申论成绩</td><td>待录入</td><td>参考答案与评分标准也未提供</td></tr></tbody></table></div>
+<p class="tnote">成绩页只在拿到正式分数后生成；未提供的名次与均分不做推算。</p>
+</section>
+</main>
+<button class="backtop" id="backtop" title="回到顶部">↑</button>
+<script src="../../../assets/%E6%9D%BF%E5%9D%97%E9%A1%B5%E8%84%9A%E6%9C%AC.js?v=0cbebb75"></script>
+</body>
+</html>
