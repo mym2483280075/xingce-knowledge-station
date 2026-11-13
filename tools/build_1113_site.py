@@ -20,6 +20,7 @@ from data_1113 import (
     MAT_126,
     PERIOD,
     Q_OVERRIDES,
+    USER_RESPONSE_RAW,
 )
 
 
@@ -35,9 +36,9 @@ TEMPLATE_SN = MOCK / "10月31日模考" / "申论.html"
 
 MODULES = [
     ("政治理论", "zz", 1, 20, "时政 · 理论 · 党建"),
-    ("常识判断", "cs", 21, 30, "法律 · 科技 · 人文 · 地理"),
-    ("言语理解与表达", "yy", 31, 60, "逻辑填空 · 片段阅读 · 语句表达"),
-    ("数量关系", "sl", 61, 75, "比例 · 行程 · 计数 · 几何"),
+    ("常识判断", "cs", 21, 35, "法律 · 科技 · 人文 · 地理"),
+    ("言语理解与表达", "yy", 36, 65, "逻辑填空 · 片段阅读 · 语句表达"),
+    ("数量关系", "sl", 66, 75, "比例 · 行程 · 计数 · 几何"),
     ("判断推理", "pd", 76, 110, "图形 · 定义 · 类比 · 逻辑"),
     ("资料分析", "zl", 111, 130, "统计材料 · 图表 · 速算"),
 ]
@@ -373,7 +374,7 @@ def build_exam_page(
     )
     intro = (
         "2026年11月13日提升卷四行测整卷，共30页、130题：政治理论20题、常识判断"
-        "10题、言语理解与表达30题、数量关系15题、判断推理35题、资料分析20题。"
+        "15题、言语理解与表达30题、数量关系10题、判断推理35题、资料分析20题。"
         "题干与选项已逐页文字化；图形推理76～85题、第74题坐标图选项、第111题饼图"
         "以及资料分析三组统计图表保留卷面原图。官方答案版27页的130题答案与解析已"
         "全部录入，数量关系及资料分析的分式、比例和速算过程已按页图整理为一行式。"
@@ -552,6 +553,326 @@ def build_shenlun_page(script_tag: str) -> str:
     return body
 
 
+def parse_user_answers(raw: str) -> dict[int, str]:
+    answers: dict[int, str] = {}
+    for part in re.split(r"[,，]", raw):
+        part = part.strip().lower()
+        if not part:
+            continue
+        single = re.fullmatch(r"(\d+)([a-d])", part)
+        if single:
+            numbers = [int(single.group(1))]
+            letter = single.group(2).upper()
+        else:
+            span = re.fullmatch(r"(\d+)到(\d+)均([a-d])", part)
+            if not span:
+                raise ValueError(f"无法识别作答片段：{part}")
+            numbers = list(range(int(span.group(1)), int(span.group(2)) + 1))
+            letter = span.group(3).upper()
+        for number in numbers:
+            if not 1 <= number <= 130:
+                raise ValueError(f"作答题号越界：{number}")
+            if number in answers:
+                raise ValueError(f"作答题号重复：{number}")
+            answers[number] = letter
+    return answers
+
+
+def module_for(number: int) -> tuple[str, str]:
+    for name, slug, start, end, _ in MODULES:
+        if start <= number <= end:
+            return name, slug
+    raise ValueError(f"题号不在模块范围：{number}")
+
+
+def knowledge_point(number: int) -> str:
+    if 36 <= number <= 50:
+        return "言语理解—逻辑填空"
+    if 51 <= number <= 58 or 61 <= number <= 65:
+        return "言语理解—片段阅读"
+    if 59 <= number <= 60:
+        return "言语理解—语句排序"
+    if 66 <= number <= 75:
+        return "数量关系—数学运算"
+    if 76 <= number <= 85:
+        return "判断推理—图形推理"
+    if 86 <= number <= 95:
+        return "判断推理—定义判断"
+    if 96 <= number <= 100:
+        return "判断推理—类比推理"
+    if 101 <= number <= 110:
+        return "判断推理—逻辑判断"
+    if 111 <= number <= 130:
+        return "资料分析—统计材料"
+    name, _ = module_for(number)
+    return name
+
+
+def figure_alt(number: int) -> str:
+    if number == 74:
+        return "第74题题干示意图及A至D四个坐标图选项（保留卷面原图）"
+    if number == 111:
+        return "第111题A至D四张饼图选项（保留卷面原图）"
+    if number in {82, 83}:
+        return f"第{number}题六个图形（保留卷面原图）"
+    if number == 84:
+        return "第84题四个正方体展开图选项（保留卷面原图）"
+    if number == 85:
+        return "第85题立体图形及其四个选项（保留卷面原图）"
+    return f"第{number}题图形及A至D选项（保留卷面原图）"
+
+
+def review_question_card(
+    number: int,
+    mine: str,
+    correct: str,
+    label: str,
+    questions: dict,
+    answers: dict,
+    images: dict,
+    slug_override: str | None = None,
+) -> str:
+    key = str(number)
+    section, slug = module_for(number)
+    if slug_override:
+        slug = slug_override
+    source = questions[key]
+    override = Q_OVERRIDES.get(key, {})
+    stem = override.get("stem", source["stem"])
+    options = override.get("options", source["options"])
+    parts = [
+        f'<div class="qcard" id="cat-{slug}-q{number}">',
+        f'<div class="qhead">{esc(section)} · 第 {number} 题</div>',
+        stem_html(stem),
+    ]
+    if key in FIG_IMAGES:
+        parts.append(img_html(images, FIG_IMAGES[key], figure_alt(number)))
+    parts.append(options_html(options))
+    result_text = "不确定但选对了" if mine == correct else "做错"
+    parts.append(
+        '<div class="mine"><span class="ans-tag">我的答案</span><b>'
+        + esc(mine)
+        + f'</b><span class="todo">（{esc(result_text)}）</span></div>'
+    )
+    parts.append(
+        '<div class="ansline"><span class="ans-tag">正确答案</span><b>'
+        + esc(correct)
+        + "</b></div>"
+    )
+    parts.append(
+        '<div class="rtags"><span class="kp-tag">考点：'
+        + esc(knowledge_point(number))
+        + '</span><span class="rtag">'
+        + ("蒙对：需要回做并写清依据" if mine == correct else "错因：待复盘")
+        + "</span></div>"
+    )
+    analysis = ANSWER_OVERRIDES.get(key, str(answers[key]["explanation"]))
+    parts.append(
+        '<div class="expline"><span class="exp-tag">官方解析</span>'
+        f"<p>{esc(analysis)}</p></div>"
+    )
+    parts.append(
+        f'<div class="note">来源：{esc(DISPLAY)} · 行测 · {esc(section)} · '
+        f"{label} · 第 {number} 题</div></div>"
+    )
+    return "".join(parts)
+
+
+def review_material(prefix: str, group: str, images: dict) -> str:
+    if group == "106":
+        return material_card(
+            f"{prefix}-mat-106-110",
+            "第106～110题共用题干",
+            "办公楼楼层安排",
+            MAT_106,
+        )
+    if group == "111":
+        return material_card(
+            f"{prefix}-mat-111-115",
+            "资料一",
+            "回答111～115题",
+            MAT_111,
+        )
+    if group == "116":
+        return material_card(
+            f"{prefix}-mat-116-120",
+            "资料二",
+            "回答116～120题",
+            MAT_116,
+            img_html(
+                images,
+                "资料分析/mat116-chart.jpg",
+                "2015至2021年一季度中国电子商务交易总额及同比增速",
+                "图　2015-2021年一季度中国电子商务交易总额及同比增速",
+            ),
+        )
+    if group == "121":
+        return material_card(
+            f"{prefix}-mat-121-125",
+            "资料三",
+            "回答121～125题",
+            MAT_121,
+            img_html(
+                images,
+                "资料分析/mat121-table.jpg",
+                "2021年H市全国12315平台接收投诉问题的受理量情况表",
+                "表　2021年H市全国12315平台接收投诉问题的受理量情况",
+            ),
+        )
+    if group == "126":
+        return material_card(
+            f"{prefix}-mat-126-130",
+            "资料四",
+            "回答126～130题",
+            MAT_126,
+            img_html(
+                images,
+                "资料分析/mat126-chart.jpg",
+                "2016年至2022年3月我国苜蓿干草进口量及同比增速",
+                "图　2016-2022年3月我国苜蓿干草进口情况",
+            ),
+        )
+    raise ValueError(f"未知共用材料组：{group}")
+
+
+def build_review_page(
+    questions: dict,
+    answers: dict,
+    images: dict,
+    script_tag: str,
+) -> tuple[str, dict[int, str], list[int], list[int]]:
+    user_answers = parse_user_answers(USER_RESPONSE_RAW)
+    wrong: list[int] = []
+    lucky: list[int] = []
+    for number, mine in sorted(user_answers.items()):
+        if mine == answers[str(number)]["answer"]:
+            lucky.append(number)
+        else:
+            wrong.append(number)
+
+    module_cards: list[str] = []
+    toc: list[str] = []
+    wrong_materials = {
+        107: "106",
+        118: "116",
+        121: "121",
+        126: "126",
+    }
+    for name, slug, start, end, subtitle in MODULES:
+        numbers = [number for number in wrong if start <= number <= end]
+        if not numbers:
+            continue
+        toc.append(
+            f'<a class="t-cat" href="#cat-{slug}"><span class="dot"></span>'
+            f"<b>{esc(name)}</b><i>{len(numbers)} 题</i></a>"
+        )
+        body = []
+        for number in numbers:
+            if number in wrong_materials:
+                body.append(
+                    review_material("wrong", wrong_materials[number], images)
+                )
+            body.append(
+                review_question_card(
+                    number,
+                    user_answers[number],
+                    answers[str(number)]["answer"],
+                    "错题",
+                    questions,
+                    answers,
+                    images,
+                )
+            )
+        module_cards.append(
+            f'<div class="module" id="cat-{slug}"><div class="mod-banner">'
+            f"<h2>{esc(name)}</h2><p>{esc(subtitle)}</p>"
+            f'<span class="num">{len(numbers)} 道错题</span></div>'
+            f'<div class="mod-body">{"".join(body)}</div></div>'
+        )
+
+    if lucky:
+        toc.append(
+            f'<a class="t-cat" href="#cat-bqd"><span class="dot"></span>'
+            f"<b>蒙对题</b><i>{len(lucky)} 题</i></a>"
+        )
+        lucky_materials = {
+            110: "106",
+            113: "111",
+            119: "116",
+            128: "126",
+        }
+        lucky_body = []
+        for number in lucky:
+            if number in lucky_materials:
+                lucky_body.append(
+                    review_material("lucky", lucky_materials[number], images)
+                )
+            lucky_body.append(
+                review_question_card(
+                    number,
+                    user_answers[number],
+                    answers[str(number)]["answer"],
+                    "蒙对题",
+                    questions,
+                    answers,
+                    images,
+                    slug_override="bqd",
+                )
+            )
+        module_cards.append(
+            '<div class="module" id="cat-bqd"><div class="mod-banner">'
+            "<h2>不确定但选对</h2><p>答案命中，但解题依据不稳定，按潜在错题复习</p>"
+            f'<span class="num">{len(lucky)} 题</span></div>'
+            f'<div class="mod-body">{"".join(lucky_body)}</div></div>'
+        )
+
+    head = extract_head(
+        TEMPLATE_XC,
+        f"{DISPLAY} · 行测错题集合 · 公考工作站",
+        "mock1113-ct",
+    )
+    intro = (
+        f"本次作答清单共{len(user_answers)}道：做错{len(wrong)}道，"
+        f"不确定但选对{len(lucky)}道。错题按六大板块分置，蒙对题单列；"
+        "正式成绩、用时和每题耗时尚未提供，不据此推算总分或排名。"
+    )
+    body = "\n".join(
+        [
+            "<!DOCTYPE html>",
+            '<html lang="zh-CN" data-theme="mock">',
+            head,
+            "<body>",
+            "<header>",
+            f"  <h1>{esc(DISPLAY)} · 行测错题集合</h1>",
+            f'  <div class="intro">{esc(intro)}</div>',
+            f'  <div class="meta"><span>{len(user_answers)}条作答</span>'
+            f"<span>{len(wrong)}道错题</span><span>{len(lucky)}道蒙对</span>"
+            "<span>六大板块分置</span><span>正式成绩待补</span></div>",
+            "</header>",
+            subnav("行测错题集合"),
+            '<div class="toolbar">',
+            '  <input id="q" placeholder="搜索错题题号、题干或考点…">',
+            '  <span class="hitcount" id="hitcount"></span>',
+            "</div>",
+            '<div class="layout">',
+            f'  <nav class="toc" id="toc">{"".join(toc)}</nav>',
+            '  <main id="main">',
+            f'<div class="bannote">清单口径：{len(wrong)}道做错、'
+            f"{len(lucky)}道蒙对；“蒙对题”虽然答案正确，仍应遮住答案重做，"
+            "确认不是排除法和选项分布带来的偶然命中。错因与复习记录暂留空，"
+            "不替用户编造。</div>",
+            "".join(module_cards),
+            "  </main>",
+            "</div>",
+            '<button class="backtop" id="backtop" title="回到顶部">↑</button>',
+            script_tag,
+            "</body>",
+            "</html>",
+        ]
+    )
+    return body, user_answers, wrong, lucky
+
+
 def subnav(active: str) -> str:
     links = [
         ("行测", "行测.html"),
@@ -615,69 +936,80 @@ def build_placeholder(
     return content
 
 
-def register_period() -> None:
+def register_period(wrong_count: int, lucky_count: int) -> None:
     hub_path = SITE / "sections" / "每周模考.html"
     index_path = SITE / "index.html"
     hub = read(hub_path)
     index = read(index_path)
-    if "t:'11月13日模考'" in hub:
-        if "判断推理40题" in hub or "判断推理40题" in index:
-            hub = hub.replace("判断推理40题", "判断推理35题")
-            index = index.replace("判断推理40题", "判断推理35题")
-            write(hub_path, hub)
-            write(index_path, index)
-            print("期次登记已存在，已修正判断推理题量")
-        else:
-            print("期次登记已存在，跳过重复插入")
-        return
     description = (
         "2026年11月13日第18期：行测提升卷四，30页、130题，政治理论20题、"
-        "常识判断10题、言语理解与表达30题、数量关系15题、判断推理35题、"
+        "常识判断15题、言语理解与表达30题、数量关系10题、判断推理35题、"
         "资料分析20题；题干、选项与四组资料已文字化，图形推理76～85题、"
         "第74题坐标图选项、第111题饼图及三组资料图表保留卷面原图。"
         "官方答案版27页的130题答案与解析已全部录入，算式已按页图重排。"
         "申论为强化卷三（四川卷），题本10页、材料5则、作答5题，"
         "参考答案4页已分题录入，第三题保留两份工作简报，第五题保留完整范文。"
-        "本次未提供作答清单和正式成绩，相关页面保留待录入状态。"
+        f"用户作答清单已与官方答案逐题核对，得到{wrong_count}道错题和"
+        f"{lucky_count}道不确定但选对，已按六大板块生成错题集合并单列蒙对题。"
+        "本次未提供正式成绩表，不推算总分、模块得分率或排名。"
     )
     hub_item = (
         "  { t:'11月13日模考', name:'提升卷四（11月13日模考）', no:'第 18 期', "
-        "state:'行测130题 + 官方答案解析27页 + 申论10页题本与4页参考答案已录入 · "
-        "错题 / 成绩待补', "
+        "state:'行测130题 + 官方答案解析27页 + "
+        f"{wrong_count}道错题 / {lucky_count}道蒙对 + 申论10页题本与4页参考答案已录入 · "
+        "成绩待补', "
         f"desc:'{description}', "
         "qc:'130题 · 官方答案解析27页 · 已全部录入', "
         "sc:'题本10页 · 材料5则 · 5大题 · 参考答案4页', "
-        "cc:'待作答清单', cj:'待正式成绩表' },\n"
+        f"cc:'{wrong_count} 道错题 + {lucky_count} 道蒙对 · 合并六板块', "
+        "cj:'待正式成绩表' },\n"
     )
-    anchor = "  { t:'10月31日模考'"
-    if hub.count(anchor) != 1:
-        raise ValueError("模考中心期次锚点异常")
-    hub = hub.replace(anchor, hub_item + anchor, 1)
-
-    index_desc = description
     index_item = (
         "{ id:'mk-261113', name:'提升卷四（11月13日模考）', en:'2026-11-13', "
         "file:'sections/每周模考.html', color:'#f43f5e', "
-        "sub:'行测130题 + 官方答案解析27页 · 申论10页题本 + 4页参考答案 · "
-        "错题与成绩待补', cnt:'第 18 期', "
-        f"desc:'{index_desc}', hit:'11月13日模考', "
+        f"sub:'行测130题 + {wrong_count}道错题 + {lucky_count}道蒙对 · "
+        "申论10页题本 + 4页参考答案 · 成绩待补', cnt:'第 18 期', "
+        f"desc:'{description}', hit:'11月13日模考', "
         "keywords:['11月13日','11月13日模考','提升卷四','提升卷四申论',"
         "'强化卷三','四川卷','第十八期','第18期','模考','行测','申论','130题',"
         "'题本','答案','解析','官方答案版','参考答案','评分标准','参考范文',"
         "'政治理论','常识判断','言语理解','数量关系','判断推理','资料分析',"
         "'图形推理','食安小站','沙盒监管','益·峨眉','社区矫正','12315',"
-        "'苜蓿干草','法理情理为经纬'] },\n"
+        f"'苜蓿干草','法理情理为经纬','{wrong_count}道错题','{lucky_count}道蒙对',"
+        "'错题集合','蒙对题'] },\n"
     )
-    anchor = "{ id:'mk-261031'"
-    if index.count(anchor) != 1:
-        raise ValueError("首页期次锚点异常")
-    index = index.replace(anchor, index_item + anchor, 1)
-    if index.count("cnt:'17 期'") != 1:
-        raise ValueError("期次总数锚点异常")
-    index = index.replace("cnt:'17 期'", "cnt:'18 期'", 1)
+
+    hub_pattern = r"(?m)^  \{ t:'11月13日模考'.*? \},\r?$"
+    index_pattern = r"(?m)^\{ id:'mk-261113'.*? \},\r?$"
+    hub_matches = len(re.findall(hub_pattern, hub))
+    index_matches = len(re.findall(index_pattern, index))
+    if hub_matches == 1 and index_matches == 1:
+        hub = re.sub(hub_pattern, lambda _: hub_item.rstrip("\n"), hub, count=1)
+        index = re.sub(
+            index_pattern, lambda _: index_item.rstrip("\n"), index, count=1
+        )
+        action = "updated"
+    elif hub_matches == 0 and index_matches == 0:
+        anchor = "  { t:'10月31日模考'"
+        if hub.count(anchor) != 1:
+            raise ValueError("模考中心期次锚点异常")
+        hub = hub.replace(anchor, hub_item + anchor, 1)
+        anchor = "{ id:'mk-261031'"
+        if index.count(anchor) != 1:
+            raise ValueError("首页期次锚点异常")
+        index = index.replace(anchor, index_item + anchor, 1)
+        action = "inserted"
+    else:
+        raise ValueError(
+            f"期次登记不一致：hub={hub_matches}, index={index_matches}"
+        )
+    if "cnt:'18 期'" not in index:
+        if index.count("cnt:'17 期'") != 1:
+            raise ValueError("期次总数锚点异常")
+        index = index.replace("cnt:'17 期'", "cnt:'18 期'", 1)
     write(hub_path, hub)
     write(index_path, index)
-    print("registered=第 18 期")
+    print(f"registered=第 18 期 ({action}, wrong={wrong_count}, lucky={lucky_count})")
 
 
 def update_search_fixtures() -> None:
@@ -703,6 +1035,11 @@ def update_search_fixtures() -> None:
             "q": "苜蓿干草",
             "expect": {"min": 1, "section": "mk-261113"},
             "why": "第18期行测资料分析材料四",
+        },
+        {
+            "q": "11月13日错题",
+            "expect": {"min": 1, "section": "mk-261113"},
+            "why": "第18期错题集合与蒙对题清单",
         },
     ]
     if not isinstance(payload, dict) or not isinstance(payload.get("queries"), list):
@@ -736,24 +1073,12 @@ def main() -> None:
     )
     write(OUTPUT / "申论.html", build_shenlun_page(script_tag))
 
-    wrong_card = (
-        '<section class="unit" id="todo"><div class="unit-head"><h3>本卷错题（六大板块分置）</h3>'
-        '<span class="chip wait">待录入</span></div><div class="ph"><div class="ph-t">'
-        "作答清单尚未提供</div><p>请提供130题的作答选项；如标记了“不确定但选对”，也请一并保留。</p>"
-        "<p>录入后会按政治理论、常识判断、言语理解、数量关系、判断推理、资料分析六个模块"
-        "自动对照官方答案，生成错题与蒙对题集合。</p></div></section>"
+    review_html, user_answers, wrong, lucky = build_review_page(
+        questions, answers, images, script_tag
     )
     write(
         OUTPUT / "行测错题集合.html",
-        build_placeholder(
-            TEMPLATE_XC,
-            "行测错题集合",
-            "mock1113-ct",
-            "本卷130题官方答案与解析已经入站，但尚未收到作答清单，因此暂不生成错题集合。",
-            ["130题", "官方答案已录入", "作答记录待补", "错题待生成"],
-            wrong_card,
-            final_script(TEMPLATE_XC),
-        ),
+        review_html,
     )
     score_card = (
         '<section class="scard" id="cj-todo"><h2>成绩分析 <em>待正式成绩表</em></h2>'
@@ -766,15 +1091,23 @@ def main() -> None:
             TEMPLATE_SN,
             "成绩分析",
             "mock1113-cj",
-            "本次仅提供题本与官方答案，尚无正式成绩表，成绩分析保留待录入。",
-            ["正式成绩待补", "模块得分待补", "班内/年级排名待补"],
+            "已收到错题和蒙对作答清单，但尚无正式成绩表；成绩分析仍保留待录入。",
+            [
+                f"{len(wrong)}道错题",
+                f"{len(lucky)}道蒙对",
+                "正式成绩待补",
+                "排名待补",
+            ],
             score_card,
             final_script(TEMPLATE_XC),
         ),
     )
-    register_period()
+    register_period(len(wrong), len(lucky))
     update_search_fixtures()
     print(f"built={OUTPUT}")
+    print(
+        f"review listed={len(user_answers)} wrong={len(wrong)} lucky={len(lucky)}"
+    )
 
 
 if __name__ == "__main__":
