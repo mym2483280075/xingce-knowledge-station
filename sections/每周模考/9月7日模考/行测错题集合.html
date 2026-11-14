@@ -1,13 +1,14 @@
 <!DOCTYPE html>
-<html lang="zh-CN" data-theme="mock">
+
+<html data-theme="mock" lang="zh-CN">
 <head><style id="xz-perf">/* 长页面打开提速：屏幕外的知识点块不做排版与绘制 */section.kp,section.unit{content-visibility:auto;contain-intrinsic-size:auto 700px}section.qcard,section.matcard,section.shen,section.slot{content-visibility:auto;contain-intrinsic-size:auto 320px}</style>
-<meta charset="UTF-8">
-<link rel="icon" href="data:,"><script src="../../../assets/%E4%B8%BB%E9%A2%98.js?v=f38968bc"></script><script src="../../../assets/%E6%BC%94%E7%AE%97%E5%B1%82.js?v=a132b1de"></script><script src="../../../assets/%E5%AE%9A%E4%BD%8D%E5%B1%82.js?v=a3907880"></script>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
-<meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0">
-<title>9月7日模考 · 行测错题集合 · 公考工作站</title><link rel="stylesheet" href="../../../assets/design-tokens.css?v=2604fc33"><link rel="stylesheet" href="../../../assets/%E6%9D%BF%E5%9D%97%E9%A1%B5%E6%A0%B7%E5%BC%8F.css?v=9c24ba23">
+<meta charset="utf-8"/>
+<link href="data:," rel="icon"/><script src="../../../assets/%E4%B8%BB%E9%A2%98.js?v=f38968bc"></script><script src="../../../assets/%E6%BC%94%E7%AE%97%E5%B1%82.js?v=a132b1de"></script><script src="../../../assets/%E5%AE%9A%E4%BD%8D%E5%B1%82.js?v=a3907880"></script>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<meta content="no-store, no-cache, must-revalidate" http-equiv="Cache-Control"/>
+<meta content="no-cache" http-equiv="Pragma"/>
+<meta content="0" http-equiv="Expires"/>
+<title>9月7日模考 · 行测错题集合 · 公考工作站</title><link href="../../../assets/design-tokens.css?v=2604fc33" rel="stylesheet"/><link href="../../../assets/%E6%9D%BF%E5%9D%97%E9%A1%B5%E6%A0%B7%E5%BC%8F.css?v=9c24ba23" rel="stylesheet"/>
 <style>
 /* 本页专属样式（骨架与通用组件来自 assets/板块页样式.css，颜色一律走令牌） */
 :root{--primary:#b91c1c; --primary2:#dc2626; --accent:#f87171; --bg:#fbf3f3;}
@@ -43,49 +44,46 @@ details.tmpl pre{margin:8px 0 4px;font-size:11.5px;line-height:1.55;var(--xz-sur
 nav.toc,.toolbar,.subnav,.backtop,details.tmpl{display:none}
 }
 </style>
-
 </head>
 <body>
 <header>
-  <h1>9月7日模考 · 行测错题集合</h1>
-  <div class="intro">9月7日模考行测错题沉淀区：按常识判断、政治理论、言语理解、数量关系、判断推理、资料分析六大板块分类排布，每题以错题卡记录「题干题图 → 我的答案 → 正确答案 → 考点 → 错因 → 复盘」，便于定期回刷巩固。</div>
-  <div class="meta">
-    <span>六分类错题槽就绪</span>
-    <span>错因标签化</span>
-    <span>复盘闭环</span>
-  </div>
+<h1>9月7日模考 · 行测错题集合</h1>
+<div class="intro">9月7日模考行测错题沉淀区：按常识判断、政治理论、言语理解、数量关系、判断推理、资料分析六大板块分类排布，每题以错题卡记录「题干题图 → 我的答案 → 正确答案 → 考点 → 错因 → 复盘」，便于定期回刷巩固。</div>
+<div class="meta">
+<span>六分类错题槽就绪</span>
+<span>错因标签化</span>
+<span>复盘闭环</span>
+</div>
 </header>
 <div class="subnav">
-  <a href="../../每周模考.html">← 模考中心</a>
-  <a href="行测.html">行测</a>
-  <a href="申论.html">申论</a>
-  <a class="on" href="行测错题集合.html">行测错题集合</a>
-  <a href="成绩分析.html">成绩分析</a>
+<a href="../../每周模考.html">← 模考中心</a>
+<a href="行测.html">行测</a>
+<a href="申论.html">申论</a>
+<a class="on" href="行测错题集合.html">行测错题集合</a>
+<a href="成绩分析.html">成绩分析</a>
 </div>
 <div class="toolbar">
-  <input id="q" placeholder="搜索本页六分类错题，回车定位…">
-  <span class="hitcount" id="hitcount"></span>
-  <button class="btn" id="hideans">隐藏正确与复盘</button>
+<input id="q" placeholder="搜索本页六分类错题，回车定位…"/>
+<span class="hitcount" id="hitcount"></span>
+<button class="btn" id="hideans">隐藏正确与复盘</button>
 </div>
 <div class="layout">
-  <nav class="toc" id="toc">
-    
-    <a class="t-cat" href="#cat-zz"><span class="dot"></span><b>政治理论</b><i>0 错</i></a>
-    <a class="t-cat" href="#cat-cs"><span class="dot"></span><b>常识判断</b><i>0 错</i></a>
-    <a class="t-cat" href="#cat-yy"><span class="dot"></span><b>言语理解</b><i>0 错</i></a>
-    <a class="t-cat" href="#cat-sl"><span class="dot"></span><b>数量关系</b><i>0 错</i></a>
-    <a class="t-cat" href="#cat-pd"><span class="dot"></span><b>判断推理</b><i>0 错</i></a>
-    <a class="t-cat" href="#cat-zl"><span class="dot"></span><b>资料分析</b><i>0 错</i></a>
-  </nav>
-  <main id="main">
-
+<nav class="toc" id="toc">
+<a class="t-cat" href="#cat-zz"><span class="dot"></span><b>政治理论</b><i>0 错</i></a>
+<a class="t-cat" href="#cat-cs"><span class="dot"></span><b>常识判断</b><i>0 错</i></a>
+<a class="t-cat" href="#cat-yy"><span class="dot"></span><b>言语理解</b><i>0 错</i></a>
+<a class="t-cat" href="#cat-sl"><span class="dot"></span><b>数量关系</b><i>0 错</i></a>
+<a class="t-cat" href="#cat-pd"><span class="dot"></span><b>判断推理</b><i>0 错</i></a>
+<a class="t-cat" href="#cat-zl"><span class="dot"></span><b>资料分析</b><i>0 错</i></a>
+</nav>
+<main id="main">
 <!-- 错题分类：政治理论 -->
 <div class="module" id="cat-zz">
-  <div class="mod-banner"><h2>政治理论<span class="w">错题</span></h2><p>习思想 · 马克思主义基本原理</p><span class="num">0 题</span></div>
-  <div class="mod-body">
-    <div class="slot"><div class="e-t">本分类暂无错题</div><div class="e-s">9月7日模考 · 政治理论错题将按错题卡录入于此<br>题图素材放入：9月7日模考/行测错题集合_assets/政治理论/</div><div class="chips"><i>题干 / 题图</i><i>我的答案</i><i>正确答案</i><i>考点</i><i>错因</i><i>复盘</i></div></div>
-    <details class="tmpl"><summary>错题卡录入模板（复制以下结构，粘贴到本分类底部后填写）</summary><div class="bd">
-      <pre>&lt;div class="qcard"&gt;
+<div class="mod-banner"><h2>政治理论<span class="w">错题</span></h2><p>习思想 · 马克思主义基本原理</p><span class="num">0 题</span></div>
+<div class="mod-body">
+<div class="slot"><div class="e-t">本分类暂无错题</div><div class="e-s">9月7日模考 · 政治理论错题将按错题卡录入于此<br/>题图素材放入：9月7日模考/行测错题集合_assets/政治理论/</div><div class="chips"><i>题干 / 题图</i><i>我的答案</i><i>正确答案</i><i>考点</i><i>错因</i><i>复盘</i></div></div>
+<details class="tmpl"><summary>错题卡录入模板（复制以下结构，粘贴到本分类底部后填写）</summary><div class="bd">
+<pre>&lt;div class="qcard"&gt;
   &lt;div class="qhead"&gt;政治理论 · #序号&lt;/div&gt;
   &lt;p&gt;题干文字…&lt;/p&gt;
   &lt;figure class="fig"&gt;&lt;img src="行测错题集合_assets/政治理论/题图文件名.png" alt="题干图片" loading="lazy"&gt;&lt;/figure&gt;
@@ -96,17 +94,16 @@ nav.toc,.toolbar,.subnav,.backtop,details.tmpl{display:none}
   &lt;div class="expline"&gt;&lt;span class="exp-tag"&gt;复盘&lt;/span&gt;…&lt;/div&gt;
   &lt;div class="note"&gt;来源：9月7日模考 · 行测 · 政治理论 · 第 x 题&lt;/div&gt;
 &lt;/div&gt;</pre>
-    </div></details>
-  </div>
+</div></details>
 </div>
-
+</div>
 <!-- 错题分类：常识判断 -->
 <div class="module" id="cat-cs">
-  <div class="mod-banner"><h2>常识判断<span class="w">错题</span></h2><p>文史 · 科技 · 经济 · 地理 · 法律</p><span class="num">0 题</span></div>
-  <div class="mod-body">
-    <div class="slot"><div class="e-t">本分类暂无错题</div><div class="e-s">9月7日模考 · 常识判断错题将按错题卡录入于此<br>题图素材放入：9月7日模考/行测错题集合_assets/常识判断/</div><div class="chips"><i>题干 / 题图</i><i>我的答案</i><i>正确答案</i><i>考点</i><i>错因</i><i>复盘</i></div></div>
-    <details class="tmpl"><summary>错题卡录入模板（复制以下结构，粘贴到本分类底部后填写）</summary><div class="bd">
-      <pre>&lt;div class="qcard"&gt;
+<div class="mod-banner"><h2>常识判断<span class="w">错题</span></h2><p>文史 · 科技 · 经济 · 地理 · 法律</p><span class="num">0 题</span></div>
+<div class="mod-body">
+<div class="slot"><div class="e-t">本分类暂无错题</div><div class="e-s">9月7日模考 · 常识判断错题将按错题卡录入于此<br/>题图素材放入：9月7日模考/行测错题集合_assets/常识判断/</div><div class="chips"><i>题干 / 题图</i><i>我的答案</i><i>正确答案</i><i>考点</i><i>错因</i><i>复盘</i></div></div>
+<details class="tmpl"><summary>错题卡录入模板（复制以下结构，粘贴到本分类底部后填写）</summary><div class="bd">
+<pre>&lt;div class="qcard"&gt;
   &lt;div class="qhead"&gt;常识判断 · #序号&lt;/div&gt;
   &lt;p&gt;题干文字…&lt;/p&gt;
   &lt;figure class="fig"&gt;&lt;img src="行测错题集合_assets/常识判断/题图文件名.png" alt="题干图片" loading="lazy"&gt;&lt;/figure&gt;
@@ -117,17 +114,16 @@ nav.toc,.toolbar,.subnav,.backtop,details.tmpl{display:none}
   &lt;div class="expline"&gt;&lt;span class="exp-tag"&gt;复盘&lt;/span&gt;…&lt;/div&gt;
   &lt;div class="note"&gt;来源：9月7日模考 · 行测 · 常识判断 · 第 x 题&lt;/div&gt;
 &lt;/div&gt;</pre>
-    </div></details>
-  </div>
+</div></details>
 </div>
-
+</div>
 <!-- 错题分类：言语理解 -->
 <div class="module" id="cat-yy">
-  <div class="mod-banner"><h2>言语理解<span class="w">错题</span></h2><p>片段阅读 · 逻辑填空</p><span class="num">0 题</span></div>
-  <div class="mod-body">
-    <div class="slot"><div class="e-t">本分类暂无错题</div><div class="e-s">9月7日模考 · 言语理解错题将按错题卡录入于此<br>题图素材放入：9月7日模考/行测错题集合_assets/言语理解/</div><div class="chips"><i>题干 / 题图</i><i>我的答案</i><i>正确答案</i><i>考点</i><i>错因</i><i>复盘</i></div></div>
-    <details class="tmpl"><summary>错题卡录入模板（复制以下结构，粘贴到本分类底部后填写）</summary><div class="bd">
-      <pre>&lt;div class="qcard"&gt;
+<div class="mod-banner"><h2>言语理解<span class="w">错题</span></h2><p>片段阅读 · 逻辑填空</p><span class="num">0 题</span></div>
+<div class="mod-body">
+<div class="slot"><div class="e-t">本分类暂无错题</div><div class="e-s">9月7日模考 · 言语理解错题将按错题卡录入于此<br/>题图素材放入：9月7日模考/行测错题集合_assets/言语理解/</div><div class="chips"><i>题干 / 题图</i><i>我的答案</i><i>正确答案</i><i>考点</i><i>错因</i><i>复盘</i></div></div>
+<details class="tmpl"><summary>错题卡录入模板（复制以下结构，粘贴到本分类底部后填写）</summary><div class="bd">
+<pre>&lt;div class="qcard"&gt;
   &lt;div class="qhead"&gt;言语理解 · #序号&lt;/div&gt;
   &lt;p&gt;题干文字…&lt;/p&gt;
   &lt;figure class="fig"&gt;&lt;img src="行测错题集合_assets/言语理解/题图文件名.png" alt="题干图片" loading="lazy"&gt;&lt;/figure&gt;
@@ -138,17 +134,16 @@ nav.toc,.toolbar,.subnav,.backtop,details.tmpl{display:none}
   &lt;div class="expline"&gt;&lt;span class="exp-tag"&gt;复盘&lt;/span&gt;…&lt;/div&gt;
   &lt;div class="note"&gt;来源：9月7日模考 · 行测 · 言语理解 · 第 x 题&lt;/div&gt;
 &lt;/div&gt;</pre>
-    </div></details>
-  </div>
+</div></details>
 </div>
-
+</div>
 <!-- 错题分类：数量关系 -->
 <div class="module" id="cat-sl">
-  <div class="mod-banner"><h2>数量关系<span class="w">错题</span></h2><p>数学运算 · 速算</p><span class="num">0 题</span></div>
-  <div class="mod-body">
-    <div class="slot"><div class="e-t">本分类暂无错题</div><div class="e-s">9月7日模考 · 数量关系错题将按错题卡录入于此<br>题图素材放入：9月7日模考/行测错题集合_assets/数量关系/</div><div class="chips"><i>题干 / 题图</i><i>我的答案</i><i>正确答案</i><i>考点</i><i>错因</i><i>复盘（含正确算法）</i></div></div>
-    <details class="tmpl"><summary>错题卡录入模板（复制以下结构，粘贴到本分类底部后填写）</summary><div class="bd">
-      <pre>&lt;div class="qcard"&gt;
+<div class="mod-banner"><h2>数量关系<span class="w">错题</span></h2><p>数学运算 · 速算</p><span class="num">0 题</span></div>
+<div class="mod-body">
+<div class="slot"><div class="e-t">本分类暂无错题</div><div class="e-s">9月7日模考 · 数量关系错题将按错题卡录入于此<br/>题图素材放入：9月7日模考/行测错题集合_assets/数量关系/</div><div class="chips"><i>题干 / 题图</i><i>我的答案</i><i>正确答案</i><i>考点</i><i>错因</i><i>复盘（含正确算法）</i></div></div>
+<details class="tmpl"><summary>错题卡录入模板（复制以下结构，粘贴到本分类底部后填写）</summary><div class="bd">
+<pre>&lt;div class="qcard"&gt;
   &lt;div class="qhead"&gt;数量关系 · #序号&lt;/div&gt;
   &lt;p&gt;题干文字…&lt;/p&gt;
   &lt;figure class="fig"&gt;&lt;img src="行测错题集合_assets/数量关系/题图文件名.png" alt="题干图片" loading="lazy"&gt;&lt;/figure&gt;
@@ -159,17 +154,16 @@ nav.toc,.toolbar,.subnav,.backtop,details.tmpl{display:none}
   &lt;div class="expline"&gt;&lt;span class="exp-tag"&gt;复盘&lt;/span&gt;…&lt;/div&gt;
   &lt;div class="note"&gt;来源：9月7日模考 · 行测 · 数量关系 · 第 x 题&lt;/div&gt;
 &lt;/div&gt;</pre>
-    </div></details>
-  </div>
+</div></details>
 </div>
-
+</div>
 <!-- 错题分类：判断推理 -->
 <div class="module" id="cat-pd">
-  <div class="mod-banner"><h2>判断推理<span class="w">错题</span></h2><p>图形 · 定义 · 类比 · 逻辑判断</p><span class="num">0 题</span></div>
-  <div class="mod-body">
-    <div class="slot"><div class="e-t">本分类暂无错题</div><div class="e-s">9月7日模考 · 判断推理错题将按错题卡录入于此<br>题图素材放入：9月7日模考/行测错题集合_assets/判断推理/</div><div class="chips"><i>题干 / 题图</i><i>我的答案</i><i>正确答案</i><i>考点</i><i>错因</i><i>复盘</i></div></div>
-    <details class="tmpl"><summary>错题卡录入模板（复制以下结构，粘贴到本分类底部后填写）</summary><div class="bd">
-      <pre>&lt;div class="qcard"&gt;
+<div class="mod-banner"><h2>判断推理<span class="w">错题</span></h2><p>图形 · 定义 · 类比 · 逻辑判断</p><span class="num">0 题</span></div>
+<div class="mod-body">
+<div class="slot"><div class="e-t">本分类暂无错题</div><div class="e-s">9月7日模考 · 判断推理错题将按错题卡录入于此<br/>题图素材放入：9月7日模考/行测错题集合_assets/判断推理/</div><div class="chips"><i>题干 / 题图</i><i>我的答案</i><i>正确答案</i><i>考点</i><i>错因</i><i>复盘</i></div></div>
+<details class="tmpl"><summary>错题卡录入模板（复制以下结构，粘贴到本分类底部后填写）</summary><div class="bd">
+<pre>&lt;div class="qcard"&gt;
   &lt;div class="qhead"&gt;判断推理 · #序号&lt;/div&gt;
   &lt;p&gt;题干文字…&lt;/p&gt;
   &lt;figure class="fig"&gt;&lt;img src="行测错题集合_assets/判断推理/题图文件名.png" alt="题干图片" loading="lazy"&gt;&lt;/figure&gt;
@@ -180,17 +174,16 @@ nav.toc,.toolbar,.subnav,.backtop,details.tmpl{display:none}
   &lt;div class="expline"&gt;&lt;span class="exp-tag"&gt;复盘&lt;/span&gt;…&lt;/div&gt;
   &lt;div class="note"&gt;来源：9月7日模考 · 行测 · 判断推理 · 第 x 题&lt;/div&gt;
 &lt;/div&gt;</pre>
-    </div></details>
-  </div>
+</div></details>
 </div>
-
+</div>
 <!-- 错题分类：资料分析 -->
 <div class="module" id="cat-zl">
-  <div class="mod-banner"><h2>资料分析<span class="w">错题</span></h2><p>统计材料 · 速算体系</p><span class="num">0 题</span></div>
-  <div class="mod-body">
-    <div class="slot"><div class="e-t">本分类暂无错题</div><div class="e-s">9月7日模考 · 资料分析错题将按错题卡录入于此<br>题图素材（含材料表）放入：9月7日模考/行测错题集合_assets/资料分析/</div><div class="chips"><i>材料 / 题图</i><i>我的答案</i><i>正确答案</i><i>考点</i><i>错因</i><i>复盘</i></div></div>
-    <details class="tmpl"><summary>错题卡录入模板（复制以下结构，粘贴到本分类底部后填写）</summary><div class="bd">
-      <pre>&lt;div class="qcard"&gt;
+<div class="mod-banner"><h2>资料分析<span class="w">错题</span></h2><p>统计材料 · 速算体系</p><span class="num">0 题</span></div>
+<div class="mod-body">
+<div class="slot"><div class="e-t">本分类暂无错题</div><div class="e-s">9月7日模考 · 资料分析错题将按错题卡录入于此<br/>题图素材（含材料表）放入：9月7日模考/行测错题集合_assets/资料分析/</div><div class="chips"><i>材料 / 题图</i><i>我的答案</i><i>正确答案</i><i>考点</i><i>错因</i><i>复盘</i></div></div>
+<details class="tmpl"><summary>错题卡录入模板（复制以下结构，粘贴到本分类底部后填写）</summary><div class="bd">
+<pre>&lt;div class="qcard"&gt;
   &lt;div class="qhead"&gt;资料分析 · #序号&lt;/div&gt;
   &lt;p&gt;材料文字 / 题目…&lt;/p&gt;
   &lt;figure class="fig"&gt;&lt;img src="行测错题集合_assets/资料分析/材料表.png" alt="材料图表" loading="lazy"&gt;&lt;/figure&gt;
@@ -201,13 +194,12 @@ nav.toc,.toolbar,.subnav,.backtop,details.tmpl{display:none}
   &lt;div class="expline"&gt;&lt;span class="exp-tag"&gt;复盘&lt;/span&gt;…&lt;/div&gt;
   &lt;div class="note"&gt;来源：9月7日模考 · 行测 · 资料分析 · 第 x 题&lt;/div&gt;
 &lt;/div&gt;</pre>
-    </div></details>
-  </div>
+</div></details>
 </div>
-  </main>
+</div>
+</main>
 </div>
 <button class="backtop" id="backtop" title="回到顶部">↑</button>
-
 <script src="../../../assets/%E6%9D%BF%E5%9D%97%E9%A1%B5%E8%84%9A%E6%9C%AC.js?v=0cbebb75"></script>
 </body>
 </html>

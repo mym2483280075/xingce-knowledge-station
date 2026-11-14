@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import html
+import importlib.util
 import json
 import os
 import re
@@ -34,6 +35,12 @@ ASSETS = OUTPUT / "行测_assets"
 TEMPLATE_XC = MOCK / "10月31日模考" / "行测.html"
 TEMPLATE_SN = MOCK / "10月31日模考" / "申论.html"
 
+webp_spec = importlib.util.spec_from_file_location("xz_webp", SITE / "scripts" / "to-webp.py")
+if webp_spec is None or webp_spec.loader is None:
+    raise RuntimeError("无法加载 scripts/to-webp.py")
+xz_webp = importlib.util.module_from_spec(webp_spec)
+webp_spec.loader.exec_module(xz_webp)
+
 MODULES = [
     ("政治理论", "zz", 1, 20, "时政 · 理论 · 党建"),
     ("常识判断", "cs", 21, 35, "法律 · 科技 · 人文 · 地理"),
@@ -44,9 +51,9 @@ MODULES = [
 ]
 
 MATERIAL_IMAGES = {
-    "资料分析/mat116-chart.jpg": "2015-2021年一季度中国电子商务交易总额及同比增速柱形折线图",
-    "资料分析/mat121-table.jpg": "2021年H市全国12315平台接收投诉问题的受理量情况表",
-    "资料分析/mat126-chart.jpg": "2016-2022年3月我国苜蓿干草进口情况柱形折线图",
+    "资料分析/mat116-chart.png": "2015-2021年一季度中国电子商务交易总额及同比增速柱形折线图",
+    "资料分析/mat121-table.png": "2021年H市全国12315平台接收投诉问题的受理量情况表",
+    "资料分析/mat126-chart.png": "2016-2022年3月我国苜蓿干草进口情况柱形折线图",
 }
 
 
@@ -104,10 +111,14 @@ def convert_assets() -> dict[str, dict[str, object]]:
             raise FileNotFoundError(source)
         target = ASSETS / Path(relative).with_suffix(".webp")
         target.parent.mkdir(parents=True, exist_ok=True)
-        with Image.open(source) as image:
-            rgb = image.convert("RGB")
-            rgb.save(target, "WEBP", quality=90, method=6)
-            width, height = rgb.size
+        data, _old_size, _new_size, _psnr, _label, _why = xz_webp.encode_best(
+            str(source), force_webp=True
+        )
+        if data is None:
+            raise RuntimeError(f"WebP 编码失败：{source}")
+        target.write_bytes(data)
+        with Image.open(target) as image:
+            width, height = image.size
         images[relative] = {
             "rel": Path(relative).with_suffix(".webp").as_posix(),
             "width": width,
@@ -208,19 +219,7 @@ def question_card(
         stem_html(stem),
     ]
     if key in FIG_IMAGES:
-        if number == 74:
-            alt = "第74题题干示意图及A至D四个坐标图选项（保留卷面原图）"
-        elif number == 111:
-            alt = "第111题A至D四张饼图选项（保留卷面原图）"
-        elif number in {82, 83}:
-            alt = f"第{number}题六个图形（保留卷面原图）"
-        elif number == 84:
-            alt = "第84题四个正方体展开图选项（保留卷面原图）"
-        elif number == 85:
-            alt = "第85题立体图形及其四个选项（保留卷面原图）"
-        else:
-            alt = f"第{number}题图形及A至D选项（保留卷面原图）"
-        parts.append(img_html(images, FIG_IMAGES[key], alt))
+        parts.append(img_html(images, FIG_IMAGES[key], figure_alt(number)))
     parts.append(options_html(options))
     parts.append(answer_html(number, answers))
     parts.append(
@@ -314,7 +313,7 @@ def build_module(
             MAT_116,
             img_html(
                 images,
-                "资料分析/mat116-chart.jpg",
+                "资料分析/mat116-chart.png",
                 "2015至2021年一季度中国电子商务交易总额及同比增速",
                 "图　2015-2021年一季度中国电子商务交易总额及同比增速",
             ),
@@ -327,7 +326,7 @@ def build_module(
             MAT_121,
             img_html(
                 images,
-                "资料分析/mat121-table.jpg",
+                "资料分析/mat121-table.png",
                 "2021年H市全国12315平台接收投诉问题的受理量情况表",
                 "表　2021年H市全国12315平台接收投诉问题的受理量情况",
             ),
@@ -340,7 +339,7 @@ def build_module(
             MAT_126,
             img_html(
                 images,
-                "资料分析/mat126-chart.jpg",
+                "资料分析/mat126-chart.png",
                 "2016年至2022年3月我国苜蓿干草进口量及同比增速",
                 "图　2016-2022年3月我国苜蓿干草进口情况",
             ),
@@ -614,12 +613,12 @@ def figure_alt(number: int) -> str:
     if number == 111:
         return "第111题A至D四张饼图选项（保留卷面原图）"
     if number in {82, 83}:
-        return f"第{number}题六个图形（保留卷面原图）"
+        return f"第{number}题完整题干、六个图形及A至D选项（保留卷面原图）"
     if number == 84:
-        return "第84题四个正方体展开图选项（保留卷面原图）"
+        return "第84题完整题干、四个正方体展开图及A至D选项（保留卷面原图）"
     if number == 85:
-        return "第85题立体图形及其四个选项（保留卷面原图）"
-    return f"第{number}题图形及A至D选项（保留卷面原图）"
+        return "第85题完整题干、立体图形及A至D选项（保留卷面原图）"
+    return f"第{number}题完整题干、图形及A至D选项（保留卷面原图）"
 
 
 def review_question_card(
@@ -630,12 +629,9 @@ def review_question_card(
     questions: dict,
     answers: dict,
     images: dict,
-    slug_override: str | None = None,
 ) -> str:
     key = str(number)
     section, slug = module_for(number)
-    if slug_override:
-        slug = slug_override
     source = questions[key]
     override = Q_OVERRIDES.get(key, {})
     stem = override.get("stem", source["stem"])
@@ -701,7 +697,7 @@ def review_material(prefix: str, group: str, images: dict) -> str:
             MAT_116,
             img_html(
                 images,
-                "资料分析/mat116-chart.jpg",
+                "资料分析/mat116-chart.png",
                 "2015至2021年一季度中国电子商务交易总额及同比增速",
                 "图　2015-2021年一季度中国电子商务交易总额及同比增速",
             ),
@@ -714,7 +710,7 @@ def review_material(prefix: str, group: str, images: dict) -> str:
             MAT_121,
             img_html(
                 images,
-                "资料分析/mat121-table.jpg",
+                "资料分析/mat121-table.png",
                 "2021年H市全国12315平台接收投诉问题的受理量情况表",
                 "表　2021年H市全国12315平台接收投诉问题的受理量情况",
             ),
@@ -727,7 +723,7 @@ def review_material(prefix: str, group: str, images: dict) -> str:
             MAT_126,
             img_html(
                 images,
-                "资料分析/mat126-chart.jpg",
+                "资料分析/mat126-chart.png",
                 "2016年至2022年3月我国苜蓿干草进口量及同比增速",
                 "图　2016-2022年3月我国苜蓿干草进口情况",
             ),
@@ -752,14 +748,23 @@ def build_review_page(
 
     module_cards: list[str] = []
     toc: list[str] = []
-    wrong_materials = {
-        107: "106",
-        118: "116",
-        121: "121",
-        126: "126",
-    }
+    review_numbers = sorted(user_answers)
+    material_ranges = (
+        (106, 110, "106"),
+        (111, 115, "111"),
+        (116, 120, "116"),
+        (121, 125, "121"),
+        (126, 130, "126"),
+    )
+
+    def material_group(number: int) -> str | None:
+        for start, end, group in material_ranges:
+            if start <= number <= end:
+                return group
+        return None
+
     for name, slug, start, end, subtitle in MODULES:
-        numbers = [number for number in wrong if start <= number <= end]
+        numbers = [number for number in review_numbers if start <= number <= end]
         if not numbers:
             continue
         toc.append(
@@ -767,17 +772,21 @@ def build_review_page(
             f"<b>{esc(name)}</b><i>{len(numbers)} 题</i></a>"
         )
         body = []
+        inserted_materials: set[str] = set()
         for number in numbers:
-            if number in wrong_materials:
+            group = material_group(number)
+            if group and group not in inserted_materials:
                 body.append(
-                    review_material("wrong", wrong_materials[number], images)
+                    review_material("review", group, images)
                 )
+                inserted_materials.add(group)
+            result = "蒙对题" if user_answers[number] == answers[str(number)]["answer"] else "错题"
             body.append(
                 review_question_card(
                     number,
                     user_answers[number],
                     answers[str(number)]["answer"],
-                    "错题",
+                    result,
                     questions,
                     answers,
                     images,
@@ -786,44 +795,8 @@ def build_review_page(
         module_cards.append(
             f'<div class="module" id="cat-{slug}"><div class="mod-banner">'
             f"<h2>{esc(name)}</h2><p>{esc(subtitle)}</p>"
-            f'<span class="num">{len(numbers)} 道错题</span></div>'
+            f'<span class="num">{len(numbers)} 道题</span></div>'
             f'<div class="mod-body">{"".join(body)}</div></div>'
-        )
-
-    if lucky:
-        toc.append(
-            f'<a class="t-cat" href="#cat-bqd"><span class="dot"></span>'
-            f"<b>蒙对题</b><i>{len(lucky)} 题</i></a>"
-        )
-        lucky_materials = {
-            110: "106",
-            113: "111",
-            119: "116",
-            128: "126",
-        }
-        lucky_body = []
-        for number in lucky:
-            if number in lucky_materials:
-                lucky_body.append(
-                    review_material("lucky", lucky_materials[number], images)
-                )
-            lucky_body.append(
-                review_question_card(
-                    number,
-                    user_answers[number],
-                    answers[str(number)]["answer"],
-                    "蒙对题",
-                    questions,
-                    answers,
-                    images,
-                    slug_override="bqd",
-                )
-            )
-        module_cards.append(
-            '<div class="module" id="cat-bqd"><div class="mod-banner">'
-            "<h2>不确定但选对</h2><p>答案命中，但解题依据不稳定，按潜在错题复习</p>"
-            f'<span class="num">{len(lucky)} 题</span></div>'
-            f'<div class="mod-body">{"".join(lucky_body)}</div></div>'
         )
 
     head = extract_head(
@@ -833,7 +806,8 @@ def build_review_page(
     )
     intro = (
         f"本次作答清单共{len(user_answers)}道：做错{len(wrong)}道，"
-        f"不确定但选对{len(lucky)}道。错题按六大板块分置，蒙对题单列；"
+        f"不确定但选对{len(lucky)}道。二者统一按六大板块合并，"
+        "每题仍标注“做错”或“蒙对题”；"
         "正式成绩、用时和每题耗时尚未提供，不据此推算总分或排名。"
     )
     body = "\n".join(
@@ -847,20 +821,20 @@ def build_review_page(
             f'  <div class="intro">{esc(intro)}</div>',
             f'  <div class="meta"><span>{len(user_answers)}条作答</span>'
             f"<span>{len(wrong)}道错题</span><span>{len(lucky)}道蒙对</span>"
-            "<span>六大板块分置</span><span>正式成绩待补</span></div>",
+            "<span>六大板块合并</span><span>正式成绩待补</span></div>",
             "</header>",
             subnav("行测错题集合"),
             '<div class="toolbar">',
-            '  <input id="q" placeholder="搜索错题题号、题干或考点…">',
+            '  <input id="q" placeholder="搜索错题或蒙对题题号、题干或考点…">',
             '  <span class="hitcount" id="hitcount"></span>',
             "</div>",
             '<div class="layout">',
             f'  <nav class="toc" id="toc">{"".join(toc)}</nav>',
             '  <main id="main">',
             f'<div class="bannote">清单口径：{len(wrong)}道做错、'
-            f"{len(lucky)}道蒙对；“蒙对题”虽然答案正确，仍应遮住答案重做，"
-            "确认不是排除法和选项分布带来的偶然命中。错因与复习记录暂留空，"
-            "不替用户编造。</div>",
+            f"{len(lucky)}道蒙对；二者按六大板块合并，不另建“蒙对题”分区。"
+            "蒙对题虽然答案正确，仍应遮住答案重做，确认不是排除法和选项分布带来的"
+            "偶然命中。错因与复习记录暂留空，不替用户编造。</div>",
             "".join(module_cards),
             "  </main>",
             "</div>",
@@ -950,18 +924,19 @@ def register_period(wrong_count: int, lucky_count: int) -> None:
         "申论为强化卷三（四川卷），题本10页、材料5则、作答5题，"
         "参考答案4页已分题录入，第三题保留两份工作简报，第五题保留完整范文。"
         f"用户作答清单已与官方答案逐题核对，得到{wrong_count}道错题和"
-        f"{lucky_count}道不确定但选对，已按六大板块生成错题集合并单列蒙对题。"
+        f"{lucky_count}道不确定但选对；二者统一按六大板块合并，"
+        "每题保留“做错/蒙对题”标记。"
         "本次未提供正式成绩表，不推算总分、模块得分率或排名。"
     )
     hub_item = (
         "  { t:'11月13日模考', name:'提升卷四（11月13日模考）', no:'第 18 期', "
         "state:'行测130题 + 官方答案解析27页 + "
-        f"{wrong_count}道错题 / {lucky_count}道蒙对 + 申论10页题本与4页参考答案已录入 · "
+        f"{wrong_count}道错题 + {lucky_count}道蒙对（六大板块合并） + 申论10页题本与4页参考答案已录入 · "
         "成绩待补', "
         f"desc:'{description}', "
         "qc:'130题 · 官方答案解析27页 · 已全部录入', "
         "sc:'题本10页 · 材料5则 · 5大题 · 参考答案4页', "
-        f"cc:'{wrong_count} 道错题 + {lucky_count} 道蒙对 · 合并六板块', "
+        f"cc:'{wrong_count} 道错题 + {lucky_count} 道蒙对 · 六大板块合并', "
         "cj:'待正式成绩表' },\n"
     )
     index_item = (
@@ -976,7 +951,7 @@ def register_period(wrong_count: int, lucky_count: int) -> None:
         "'政治理论','常识判断','言语理解','数量关系','判断推理','资料分析',"
         "'图形推理','食安小站','沙盒监管','益·峨眉','社区矫正','12315',"
         f"'苜蓿干草','法理情理为经纬','{wrong_count}道错题','{lucky_count}道蒙对',"
-        "'错题集合','蒙对题'] },\n"
+        "'错题集合','蒙对题','错题蒙对合流'] },\n"
     )
 
     hub_pattern = r"(?m)^  \{ t:'11月13日模考'.*? \},\r?$"
@@ -1039,7 +1014,7 @@ def update_search_fixtures() -> None:
         {
             "q": "11月13日错题",
             "expect": {"min": 1, "section": "mk-261113"},
-            "why": "第18期错题集合与蒙对题清单",
+            "why": "第18期错题与蒙对题按六大板块合并后的复盘清单",
         },
     ]
     if not isinstance(payload, dict) or not isinstance(payload.get("queries"), list):

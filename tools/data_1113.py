@@ -296,7 +296,7 @@ ANSWER_OVERRIDES = {
 }
 
 FIG_IMAGES = {
-    **{str(number): f"判断推理/q{number:03d}.jpg" for number in range(76, 86)},
-    "74": "数量关系/q074-options.jpg",
-    "111": "资料分析/q111-charts.jpg",
+    **{str(number): f"判断推理/q{number:03d}.png" for number in range(76, 86)},
+    "74": "数量关系/q074-options.png",
+    "111": "资料分析/q111-charts.png",
 }

@@ -279,7 +279,6 @@ for (const abs of mockPages) {
   for (const m of html.matchAll(/<div\b[^>]*\bclass="(qcard|matcard)"[^>]*>/g)) {
     const kind = m[1];
     const id = (m[0].match(/\bid="([^"]+)"/) || [])[1] || '';
-    if (id.includes('cat-bqd')) { continue; } /* 侥幸题按规则单独归档，不参与正文题号序 */
     let n = NaN;
     if (kind === 'qcard') {
       const hit = id.match(/(?:^|-)q(\d{1,3})$/);

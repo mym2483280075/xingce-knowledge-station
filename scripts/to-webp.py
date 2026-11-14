@@ -327,7 +327,7 @@ def main():
         for src in mapping:
             os.remove(src)
             removed += 1
-        print("已删除原图：%d 个（git 历史与线上仓库仍有旧版本，可随时找回）" % removed)
+        print("已删除原图：%d 个（站点不使用本地 Git；请先确认素材区或备份区仍有副本）" % removed)
 
     print("\n下一步：python scripts\\build-index.js 不需要跑（索引只收正文文字，与图片无关）；"
           "发布用 publish.cmd --allow-delete，否则线上旧图不会被清掉。")

@@ -2,9 +2,9 @@
 """
 公考工作站 · 一键发布到 GitHub Pages
 
-为什么不用 git push：
-  本机 github.com:443 不通（api.github.com 可达），git clone/push 会 connection reset。
-  所以这里走 GitHub REST 的 Git Data API：建 blob → 建 tree（base_tree 保留其余文件）→ 建 commit → 更新 main。
+为什么本地不使用 Git：
+  本机 github.com:443 时通时断，项目也不再把本地 Git 历史作为发布状态。
+  所以这里直接走 GitHub REST API：建 blob → 建 tree（base_tree 保留其余文件）→ 建 commit → 更新 main。
 
 一条命令的流程：
   1) 比对差异：把本地每个文件算成 git blob 哈希（自动忽略 CRLF/LF 差异），与线上 main 的 tree 比对
@@ -275,6 +275,8 @@ def main():
                     help="抗干扰层使用的 DNS 服务器，逗号分隔")
     ap.add_argument("--skip-index-check", action="store_true",
                     help="跳过发布前的检索索引自检（默认不跳过：搜不到新内容就不该发布）")
+    ap.add_argument("--skip-site-check", action="store_true",
+                    help="跳过发布前的全站结构自检（默认不跳过）")
     args = ap.parse_args()
 
     NET["tries"] = max(1, args.tries)
@@ -309,6 +311,24 @@ def main():
             sys.exit(2)
         if r is not None:
             print("  ✓ 自检通过")
+
+    if not args.skip_site_check:
+        print("\n[0/4] 全站质量门 …")
+        try:
+            r = subprocess.run(
+                [sys.executable, os.path.join(HERE, "check-site.py")],
+                cwd=LOCAL,
+            )
+        except OSError as exc:
+            print(f"   ! 起不了 Python（{exc}），跳过全站质量门")
+            r = None
+        if r is not None and r.returncode != 0:
+            print("\n✗ 全站质量门未通过，已终止发布。")
+            print("  修法：python scripts/check-site.py")
+            print("  确实要跳过：publish.cmd --skip-site-check")
+            sys.exit(2)
+        if r is not None:
+            print("  ✓ 全站质量门通过")
 
     site_host = SITE.split("//", 1)[1].split("/", 1)[0]
     if args.no_netguard:

@@ -2,10 +2,11 @@
 //
 //   node scripts/refresh-site.js
 //
-// 依次做三件事：
+// 依次做四件事：
 //   ① 重建检索索引（scripts/build-index.js）—— 新增的题目/卡片/说明文字进索引
 //   ② 自动打缓存版本（CACHE_V 与 assets 的 ?v= 都换成内容哈希）—— iPad 才会拿到新页面
 //   ③ 跑索引自检（scripts/check-index.js）—— 搜不到、锚点失效、版本没升都会被拦下
+//   ④ 跑全站质量门（scripts/check-site.py）—— 结构、引用、id、图片、错题合流
 //
 // 参数：
 //   --no-stamp   只重建 + 自检，不改版本号（一般不用）
@@ -30,7 +31,7 @@ function run(script, extra) {
 }
 
 const t0 = Date.now();
-say('[1/3] 重建检索索引 …');
+say('[1/4] 重建检索索引 …');
 let r = run('build-index.js');
 if (r.status !== 0) {
   console.error('✗ 索引构建失败（退出码 ' + r.status + '）');
@@ -41,7 +42,7 @@ if (quiet && r.stdout) {
   for (const l of lines) { console.log('   ' + l.trim()); }
 }
 
-say('[2/3] 打缓存版本 …');
+say('[2/4] 打缓存版本 …');
 if (noStamp) {
   say('   已跳过（--no-stamp）');
 } else {
@@ -54,11 +55,24 @@ if (noStamp) {
   }
 }
 
-say('[3/3] 索引自检 …');
+say('[3/4] 索引自检 …');
 r = run('check-index.js', quiet ? ['--quiet'] : []);
 if (r.status !== 0) {
   console.error('\n✗ 索引自检未通过 —— 先按上面的提示修好（或把词加进 scripts/search-fixtures.json 后再看），再发布。');
   process.exit(r.status || 1);
+}
+
+say('[4/4] 全站质量门 …');
+const python = process.env.PYTHON || 'python';
+r = spawnSync(python, [path.join(__dirname, 'check-site.py'), ...(quiet ? ['--quiet'] : [])], {
+  cwd: ROOT, stdio: quiet ? ['ignore', 'pipe', 'pipe'] : 'inherit', encoding: 'utf8'
+});
+if (r.status !== 0) {
+  console.error('\n✗ 全站质量门未通过 —— 先修复结构、引用、图片或错题合流问题，再发布。');
+  process.exit(r.status || 1);
+}
+if (quiet && r.stdout) {
+  for (const l of r.stdout.split('\n').filter(Boolean)) { console.log('   ' + l.trim()); }
 }
 
 say('\n✓ 全部完成（' + ((Date.now() - t0) / 1000).toFixed(1) + 's）');
