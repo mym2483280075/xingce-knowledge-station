@@ -52,7 +52,7 @@ LOCAL = os.environ.get("XS_LOCAL", os.path.dirname(HERE))
 
 TEXT_EXT = {".html", ".htm", ".css", ".js", ".mjs", ".json", ".md", ".txt", ".svg",
             ".xml", ".yml", ".yaml", ".csv", ".map", ".ts", ".jsx", ".tsx", ".py"}
-VERIFY_EXT = TEXT_EXT | {".cmd", ".bat", ".ps1", ".sh"}
+VERIFY_EXT = TEXT_EXT | {".cmd", ".bat", ".ps1", ".sh", ".webp"}
 SKIP_DIRS = {".git", "__pycache__", "node_modules", ".idea", ".vscode"}
 # 备份/临时文件不进仓库：这类文件一旦落到站点目录里，会被当成「新增文件」发到线上
 SKIP_FILE_SUFFIX = (".bak", ".orig", ".tmp", ".swp", "~", ".save.bak")
