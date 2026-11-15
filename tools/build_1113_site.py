@@ -805,10 +805,10 @@ def build_review_page(
         "mock1113-ct",
     )
     intro = (
-        f"本次作答清单共{len(user_answers)}道：做错{len(wrong)}道，"
-        f"不确定但选对{len(lucky)}道。二者统一按六大板块合并，"
-        "每题仍标注“做错”或“蒙对题”；"
-        "正式成绩、用时和每题耗时尚未提供，不据此推算总分或排名。"
+        f"本次作答清单共{len(user_answers)}道：明确做错{len(wrong)}道，"
+        f"不确定但选对{len(lucky)}道。正式成绩反推应有41道错题，"
+        "差口在图形、定义各1道；当前只标“待定位”，不猜题号。"
+        "二者仍统一按六大板块合并，每题保留“做错/蒙对题”标记。"
     )
     body = "\n".join(
         [
@@ -819,9 +819,9 @@ def build_review_page(
             "<header>",
             f"  <h1>{esc(DISPLAY)} · 行测错题集合</h1>",
             f'  <div class="intro">{esc(intro)}</div>',
-            f'  <div class="meta"><span>{len(user_answers)}条作答</span>'
-            f"<span>{len(wrong)}道错题</span><span>{len(lucky)}道蒙对</span>"
-            "<span>六大板块合并</span><span>正式成绩待补</span></div>",
+            f'  <div class="meta"><span>{len(user_answers)}条标记</span>'
+            f"<span>{len(wrong)}道明确错题</span><span>{len(lucky)}道蒙对</span>"
+            "<span>正式反推41道错题</span><span>2道待定位</span></div>",
             "</header>",
             subnav("行测错题集合"),
             '<div class="toolbar">',
@@ -831,10 +831,10 @@ def build_review_page(
             '<div class="layout">',
             f'  <nav class="toc" id="toc">{"".join(toc)}</nav>',
             '  <main id="main">',
-            f'<div class="bannote">清单口径：{len(wrong)}道做错、'
-            f"{len(lucky)}道蒙对；二者按六大板块合并，不另建“蒙对题”分区。"
-            "蒙对题虽然答案正确，仍应遮住答案重做，确认不是排除法和选项分布带来的"
-            "偶然命中。错因与复习记录暂留空，不替用户编造。</div>",
+            '<div class="bannote">正式成绩：行测67.7、申论62.5、综合130.2。'
+            f"清单明确{len(wrong)}道错题、{len(lucky)}道蒙对；正式模块分反推应共有"
+            "41道错题，差口在图推和定义各1道。两者按六大板块合并，不另建“蒙对题”分区；"
+            "未定位的2题不计入现有卡片，也不凭分数反猜题号。</div>",
             "".join(module_cards),
             "  </main>",
             "</div>",
@@ -911,6 +911,10 @@ def build_placeholder(
 
 
 def register_period(wrong_count: int, lucky_count: int) -> None:
+    score_page = OUTPUT / "成绩分析.html"
+    if score_page.exists() and "正式成绩口径" in read(score_page):
+        print("registered=第 18 期 (kept existing formal score analysis)")
+        return
     hub_path = SITE / "sections" / "每周模考.html"
     index_path = SITE / "index.html"
     hub = read(hub_path)
@@ -1060,23 +1064,25 @@ def main() -> None:
         '<p class="lead">本次未提供行测、申论成绩表或排名数据，不推算分数、模块得分率与排名。</p>'
         "<p>收到正式成绩后，可按模块正确率、班级均分、年级排名和目标分差补做复盘。</p></section>"
     )
-    write(
-        OUTPUT / "成绩分析.html",
-        build_placeholder(
-            TEMPLATE_SN,
-            "成绩分析",
-            "mock1113-cj",
-            "已收到错题和蒙对作答清单，但尚无正式成绩表；成绩分析仍保留待录入。",
-            [
-                f"{len(wrong)}道错题",
-                f"{len(lucky)}道蒙对",
-                "正式成绩待补",
-                "排名待补",
-            ],
-            score_card,
-            final_script(TEMPLATE_XC),
-        ),
-    )
+    score_page = OUTPUT / "成绩分析.html"
+    if not (score_page.exists() and "正式成绩口径" in read(score_page)):
+        write(
+            score_page,
+            build_placeholder(
+                TEMPLATE_SN,
+                "成绩分析",
+                "mock1113-cj",
+                "已收到错题和蒙对作答清单，但尚无正式成绩表；成绩分析仍保留待录入。",
+                [
+                    f"{len(wrong)}道错题",
+                    f"{len(lucky)}道蒙对",
+                    "正式成绩待补",
+                    "排名待补",
+                ],
+                score_card,
+                final_script(TEMPLATE_XC),
+            ),
+        )
     register_period(len(wrong), len(lucky))
     update_search_fixtures()
     print(f"built={OUTPUT}")
