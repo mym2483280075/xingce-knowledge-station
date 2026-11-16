@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="gold">
+<head><style id="xz-perf">/* 长页面打开提速：屏幕外的知识点块不做排版与绘制 */section.kp,section.unit{content-visibility:auto;contain-intrinsic-size:auto 700px}section.qcard,section.matcard,section.shen,section.slot{content-visibility:auto;contain-intrinsic-size:auto 320px}</style>
+<meta charset="UTF-8">
+<link rel="icon" href="data:,"><script src="../assets/%E4%B8%BB%E9%A2%98.js?v=f38968bc"></script><script src="../assets/%E6%BC%94%E7%AE%97%E5%B1%82.js?v=a132b1de"></script><script src="../assets/%E5%AE%9A%E4%BD%8D%E5%B1%82.js?v=a3907880"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>历年真题 · 公考工作站</title>
+<link rel="stylesheet" href="../assets/design-tokens.css?v=2604fc33"><link rel="stylesheet" href="../assets/%E6%9D%BF%E5%9D%97%E9%A1%B5%E6%A0%B7%E5%BC%8F.css?v=9c24ba23">
+<style>
+/* 本页只搭目录与资料位；正式题本、答案和解析均未录入。 */
+:root{--primary:#a16207;--primary2:#ca8a04;--accent:#eab308;--bg:#fbf7ed}
+html[data-theme="gold"]{--primary:#a16207;--primary2:#ca8a04;--accent:#eab308;--bg:#fbf7ed}
+*{box-sizing:border-box}
+.paper-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(24em,100%),1fr));gap:var(--sp-4);align-items:start}
+.paper-card{min-width:0;margin:0;padding:var(--sp-4)}
+.paper-card .tbwrap{min-width:0;max-width:100%;margin:10px 0 0}
+.paper-card .tbwrap table{min-width:0;table-layout:fixed}
+.paper-card th,.paper-card td{padding:7px 8px}
+.paper-card th:nth-child(1),.paper-card td:nth-child(1){width:5.8em}
+.paper-cat{font-weight:750;color:var(--xz-ink)}
+.paper-slots{display:grid;gap:5px}
+.paper-slot{
+  display:flex;align-items:center;justify-content:space-between;gap:5px;min-width:0;
+  border:1px solid var(--xz-warn-line);border-radius:var(--r-xs);
+  background:var(--xz-warn-bg);color:var(--xz-warn-ink);padding:3px 7px;
+  font-size:var(--fs-sm);line-height:1.45;
+}
+.paper-slot b{font-weight:700;color:var(--xz-ink-2)}
+.paper-slot small{flex:none;font-size:var(--fs-xs);font-weight:650;color:var(--xz-warn-ink)}
+.scope{display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-3);margin-top:var(--sp-3)}
+.scope .kbox{margin:0}
+.tbwrap .coverage-table{min-width:0;table-layout:fixed;font-size:var(--fs-sm)}
+.coverage-table th:first-child,.coverage-table td:first-child{width:5.4em}
+.coverage-table th:nth-child(2),.coverage-table th:nth-child(3),.coverage-table th:nth-child(4){width:4.3em}
+.coverage-table th:last-child{white-space:normal}
+.coverage-table td:nth-child(2),.coverage-table td:nth-child(3),.coverage-table td:nth-child(4){white-space:nowrap;font-size:var(--fs-xs)}
+@media(max-width:640px){
+  .paper-grid{grid-template-columns:minmax(0,1fr)}
+  .paper-card{padding:var(--sp-3)}
+  .paper-card th,.paper-card td{padding:6px}
+  .scope{grid-template-columns:1fr}
+  .paper-slot{padding:3px 6px}
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>历年真题</h1>
+  <div class="en">PAST PAPERS</div>
+  <div class="intro">历年正式考试真题的归档中心。本板块先完成目录与资料位：覆盖 2024、2025、2026 国考副省类、地市类、行政执法类，以及 2024、2025、2026 山东省考 A、B、C 类。每个类别预留行测题本、申论题本、行测答案解析、申论答案解析四个位置；暂时只建结构，不录入题目、答案或解析内容。</div>
+  <div class="meta"><span>2024—2026</span><span>国考 3 类</span><span>山东省考 A / B / C</span><span>72 个资料位待录入</span></div>
+</header>
+<div class="toolbar">
+  <input id="q" placeholder="搜索考试、年份、类别或资料位…">
+  <span class="hitcount" id="hitcount"></span>
+  <button class="btn" id="closeall">收起卡片</button>
+</div>
+<div class="layout">
+<nav class="toc" id="toc">
+  <a class="t-item t-lead" href="#overview">★ 历年真题总览</a>
+  <div class="t-pian"><a href="#lszt-gk">一、国考</a></div>
+  <a class="t-item" href="#gk-2026">1.1 2026 国考</a>
+  <a class="t-item" href="#gk-2025">1.2 2025 国考</a>
+  <a class="t-item" href="#gk-2024">1.3 2024 国考</a>
+  <div class="t-pian"><a href="#lszt-sd">二、山东省考</a></div>
+  <a class="t-item" href="#sd-2026">2.1 2026 山东省考</a>
+  <a class="t-item" href="#sd-2025">2.2 2025 山东省考</a>
+  <a class="t-item" href="#sd-2024">2.3 2024 山东省考</a>
+</nav>
+<main id="main">
+  <section class="ov" id="overview">
+    <h2 class="ov-title">覆盖范围 · 先建目录，内容后录</h2>
+    <p>两张考试家族表分别按年度拆分；每一行是一个类别组，行测与申论各自保留「题本」「答案解析」两个资料位。</p>
+    <div class="tbwrap">
+      <table class="tbl coverage-table">
+        <thead>
+          <tr><th scope="col">考试家族</th><th scope="col">2024</th><th scope="col">2025</th><th scope="col">2026</th><th scope="col">类别</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>国考</td><td>已建目录</td><td>已建目录</td><td>已建目录</td><td>副省类 / 地市类 / 行政执法类</td></tr>
+          <tr><td>山东省考</td><td>已建目录</td><td>已建目录</td><td>已建目录</td><td>A 类 / B 类 / C 类</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="scope">
+      <div class="kbox">
+        <div class="kl">◆ 每个类别 4 个固定资料位</div>
+        <ul>
+          <li><b>行测题本</b>：题干、选项、共用材料与题图。</li>
+          <li><b>行测答案解析</b>：答案版与逐题解析。</li>
+          <li><b>申论题本</b>：给定资料与作答要求。</li>
+          <li><b>申论答案解析</b>：参考答案、评分标准或解析。</li>
+        </ul>
+      </div>
+      <div class="kbox">
+        <div class="kl">◆ 当前状态与录入口径</div>
+        <ul>
+          <li>18 个类别组、36 份科目题本、36 份科目答案解析，当前全部为「待录入」。</li>
+          <li>正式录入时按官方卷名与类别核对，不把模拟卷或未核验材料放进本板块。</li>
+          <li>答案和解析缺失时保持空位，不猜测、不补造。</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="module" id="lszt-gk">
+    <div class="mod-banner"><h2>一、国家公务员考试</h2><p>2024—2026 · 副省类、地市类、行政执法类</p></div>
+    <div class="paper-grid">
+      <section class="unit paper-card" id="gk-2026" data-title="2026 国考 · 行测 / 申论">
+        <div class="unit-head"><h3>2026 国考</h3><div class="chips"><span class="chip b">国考</span><span class="chip wait">待录入</span></div></div>
+        <div class="unit-desc">副省类、地市类、行政执法类；每类预留 4 个资料位。</div>
+        <div class="tbwrap"><table class="tbl">
+          <thead><tr><th scope="col">类别</th><th scope="col">行测</th><th scope="col">申论</th></tr></thead>
+          <tbody>
+            <tr><td class="paper-cat">副省类</td><td><div class="paper-slots"><span class="paper-slot"><b>题本</b><small>待录入</small></span><span class="paper-slot"><b>答案解析</b><small>待录入</small></span></div></td><td><div class="paper-slots"><span class="paper-slot"><b>题本</b><small>待录入</small></span><span class="paper-slot"><b>答案解析</b><small>待录入</small></span></div></td></tr>
+            <tr><td class="paper-cat">地市类</td><td><div class="paper-slots"><span class="paper-slot"><b>题本</b><small>待录入</small></span><span class="paper-slot"><b>答案解析</b><small>待录入</small></span></div></td><td><div class="paper-slots"><span class="paper-slot"><b>题本</b><small>待录入</small></span><span class="paper-slot"><b>答案解析</b><small>待录入</small></span></div></td></tr>
+            <tr><td class="paper-cat">行政执法类</td><td><div class="paper-slots"><span class="paper-slot"><b>题本</b><small>待录入</small></span><span class="paper-slot"><b>答案解析</b><small>待录入</small></span></div></td><td><div class="paper-slots"><span class="paper-slot"><b>题本</b><small>待录入</small></span><span class="paper-slot"><b>答案解析</b><small>待录入</small></span></div></td></tr>
+          </tbody>
+        </table></div>
+      </section>
+
+      <section class="unit paper-card" id="gk-2025" data-title="2025 国考 · 行测 / 申论">
+        <div class="unit-head"><h3>2025 国考</h3><div class="chips"><span class="chip b">国考</span><span class="chip wait">待录入</span></div></div>
+        <div class="unit-desc">副省类、地市类、行政执法类；每类预留 4 个资料位。</div>
+        <div class="tbwrap"><table class="tbl">
+          <thead><tr><th scope="col">类别</th><th scope="col">行测</th><th scope="col">申论</th></tr></thead>
+          <tbody>
+            <tr><td class="paper-cat">副省类</td><td><div class="paper-slots"><span class="paper-slot"><b>题本</b><small>待录入</small></span><span class="paper-slot"><b>答案解析</b><small>待录入</small></span></div></td><td><div class="paper-slots"><span class="paper-slot"><b>题本</b><small>待录入</small></span><span class="paper-slot"><b>答案解析</b><small>待录入</small></span></div></td></tr>
+            <tr><td class="paper-cat">地市类</td><td><div class="paper-slots"><span class="paper-slot"><b>题本</b><small>待录入</small></span><span class="paper-slot"><b>答案解析</b><small>待录入</small></span></div></td><td><div class="paper-slots"><span class="paper-slot"><b>题本</b><small>待录入</small></span><span class="paper-slot"><b>答案解析</b><small>待录入</small></span></div></td></tr>
+            <tr><td class="paper-cat">行政执法类</td><td><div class="paper-slots"><span class="paper-slot"><b>题本</b><small>待录入</small></span><span class="paper-slot"><b>答案解析</b><small>待录入</small></span></div></td><td><div class="paper-slots"><span class="paper-slot"><b>题本</b><small>待录入</small></span><span class="paper-slot"><b>答案解析</b><small>待录入</small></span></div></td></tr>
+          </tbody>
+        </table></div>
+      </section>
+
+      <section class="unit paper-card" id="gk-2024" data-title="2024 国考 · 行测 / 申论">
+        <div class="unit-head"><h3>2024 国考</h3><div class="chips"><span class="chip b">国考</span><span class="chip wait">待录入</span></div></div>
+        <div class="unit-desc">副省类、地市类、行政执法类；每类预留 4 个资料位。</div>
+        <div class="tbwrap"><table class="tbl">
+          <thead><tr><th scope="col">类别</th><th scope="col">行测</th><th scope="col">申论</th></tr></thead>
+          <tbody>
+            <tr><td class="paper-cat">副省类</td><td><div class="paper-slots"><span class="paper-slot"><b>题本</b><small>待录入</small></span><span class="paper-slot"><b>答案解析</b><small>待录入</small></span></div></td><td><div class="paper-slots"><span class="paper-slot"><b>题本</b><small>待录入</small></span><span class="paper-slot"><b>答案解析</b><small>待录入</small></span></div></td></tr>
+            <tr><td class="paper-cat">地市类</td><td><div class="paper-slots"><span class="paper-slot"><b>题本</b><small>待录入</small></span><span class="paper-slot"><b>答案解析</b><small>待录入</small></span></div></td><td><div class="paper-slots"><span class="paper-slot"><b>题本</b><small>待录入</small></span><span class="paper-slot"><b>答案解析</b><small>待录入</small></span></div></td></tr>
+            <tr><td class="paper-cat">行政执法类</td><td><div class="paper-slots"><span class="paper-slot"><b>题本</b><small>待录入</small></span><span class="paper-slot"><b>答案解析</b><small>待录入</small></span></div></td><td><div class="paper-slots"><span class="paper-slot"><b>题本</b><small>待录入</small></span><span class="paper-slot"><b>答案解析</b><small>待录入</small></span></div></td></tr>
+          </tbody>
+        </table></div>
+      </section>
+    </div>
+  </div>
+
+  <div class="module" id="lszt-sd">
+    <div class="mod-banner"><h2>二、山东省公务员考试</h2><p>2024—2026 · A 类、B 类、C 类</p></div>
+    <div class="paper-grid">
+      <section class="unit paper-card" id="sd-2026" data-title="2026 山东省考 · 行测 / 申论">
+        <div class="unit-head"><h3>2026 山东省考</h3><div class="chips"><span class="chip b">山东省考</span><span class="chip wait">待录入</span></div></div>
+        <div class="unit-desc">A 类、B 类、C 类；每类预留 4 个资料位。</div>
+        <div class="tbwrap"><table class="tbl">
+          <thead><tr><th scope="col">类别</th><th scope="col">行测</th><th scope="col">申论</th></tr></thead>
+          <tbody>
+            <tr><td class="paper-cat">A 类</td><td><div class="paper-slots"><span class="paper-slot"><b>题本</b><small>待录入</small></span><span class="paper-slot"><b>答案解析</b><small>待录入</small></span></div></td><td><div class="paper-slots"><span class="paper-slot"><b>题本</b><small>待录入</small></span><span class="paper-slot"><b>答案解析</b><small>待录入</small></span></div></td></tr>
+            <tr><td class="paper-cat">B 类</td><td><div class="paper-slots"><span class="paper-slot"><b>题本</b><small>待录入</small></span><span class="paper-slot"><b>答案解析</b><small>待录入</small></span></div></td><td><div class="paper-slots"><span class="paper-slot"><b>题本</b><small>待录入</small></span><span class="paper-slot"><b>答案解析</b><small>待录入</small></span></div></td></tr>
+            <tr><td class="paper-cat">C 类</td><td><div class="paper-slots"><span class="paper-slot"><b>题本</b><small>待录入</small></span><span class="paper-slot"><b>答案解析</b><small>待录入</small></span></div></td><td><div class="paper-slots"><span class="paper-slot"><b>题本</b><small>待录入</small></span><span class="paper-slot"><b>答案解析</b><small>待录入</small></span></div></td></tr>
+          </tbody>
+        </table></div>
+      </section>
+
+      <section class="unit paper-card" id="sd-2025" data-title="2025 山东省考 · 行测 / 申论">
+        <div class="unit-head"><h3>2025 山东省考</h3><div class="chips"><span class="chip b">山东省考</span><span class="chip wait">待录入</span></div></div>
+        <div class="unit-desc">A 类、B 类、C 类；每类预留 4 个资料位。</div>
+        <div class="tbwrap"><table class="tbl">
+          <thead><tr><th scope="col">类别</th><th scope="col">行测</th><th scope="col">申论</th></tr></thead>
+          <tbody>
+            <tr><td class="paper-cat">A 类</td><td><div class="paper-slots"><span class="paper-slot"><b>题本</b><small>待录入</small></span><span class="paper-slot"><b>答案解析</b><small>待录入</small></span></div></td><td><div class="paper-slots"><span class="paper-slot"><b>题本</b><small>待录入</small></span><span class="paper-slot"><b>答案解析</b><small>待录入</small></span></div></td></tr>
+            <tr><td class="paper-cat">B 类</td><td><div class="paper-slots"><span class="paper-slot"><b>题本</b><small>待录入</small></span><span class="paper-slot"><b>答案解析</b><small>待录入</small></span></div></td><td><div class="paper-slots"><span class="paper-slot"><b>题本</b><small>待录入</small></span><span class="paper-slot"><b>答案解析</b><small>待录入</small></span></div></td></tr>
+            <tr><td class="paper-cat">C 类</td><td><div class="paper-slots"><span class="paper-slot"><b>题本</b><small>待录入</small></span><span class="paper-slot"><b>答案解析</b><small>待录入</small></span></div></td><td><div class="paper-slots"><span class="paper-slot"><b>题本</b><small>待录入</small></span><span class="paper-slot"><b>答案解析</b><small>待录入</small></span></div></td></tr>
+          </tbody>
+        </table></div>
+      </section>
+
+      <section class="unit paper-card" id="sd-2024" data-title="2024 山东省考 · 行测 / 申论">
+        <div class="unit-head"><h3>2024 山东省考</h3><div class="chips"><span class="chip b">山东省考</span><span class="chip wait">待录入</span></div></div>
+        <div class="unit-desc">A 类、B 类、C 类；每类预留 4 个资料位。</div>
+        <div class="tbwrap"><table class="tbl">
+          <thead><tr><th scope="col">类别</th><th scope="col">行测</th><th scope="col">申论</th></tr></thead>
+          <tbody>
+            <tr><td class="paper-cat">A 类</td><td><div class="paper-slots"><span class="paper-slot"><b>题本</b><small>待录入</small></span><span class="paper-slot"><b>答案解析</b><small>待录入</small></span></div></td><td><div class="paper-slots"><span class="paper-slot"><b>题本</b><small>待录入</small></span><span class="paper-slot"><b>答案解析</b><small>待录入</small></span></div></td></tr>
+            <tr><td class="paper-cat">B 类</td><td><div class="paper-slots"><span class="paper-slot"><b>题本</b><small>待录入</small></span><span class="paper-slot"><b>答案解析</b><small>待录入</small></span></div></td><td><div class="paper-slots"><span class="paper-slot"><b>题本</b><small>待录入</small></span><span class="paper-slot"><b>答案解析</b><small>待录入</small></span></div></td></tr>
+            <tr><td class="paper-cat">C 类</td><td><div class="paper-slots"><span class="paper-slot"><b>题本</b><small>待录入</small></span><span class="paper-slot"><b>答案解析</b><small>待录入</small></span></div></td><td><div class="paper-slots"><span class="paper-slot"><b>题本</b><small>待录入</small></span><span class="paper-slot"><b>答案解析</b><small>待录入</small></span></div></td></tr>
+          </tbody>
+        </table></div>
+      </section>
+    </div>
+  </div>
+</main>
+</div>
+<button class="backtop" id="backtop" title="回到顶部">↑</button>
+<div class="foot-tip">当前状态：板块结构、考试家族、年份与类别已建，题本、答案和解析均待录入。录入后仍按「一套卷 → 行测 / 申论 → 题本 / 答案解析」归档。</div>
+<script src="../assets/%E6%9D%BF%E5%9D%97%E9%A1%B5%E8%84%9A%E6%9C%AC.js?v=0cbebb75"></script>
+</body>
+</html>
